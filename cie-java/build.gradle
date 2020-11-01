@@ -51,11 +51,6 @@ dependencies {
 	implementation 'org.slf4j:slf4j-api:1.7.30'
 }
 
-compileJava   {
-sourceCompatibility = '1.7'
-targetCompatibility = '1.7'
-}
-
 application {
 	// Define the main class for the application.
 	mainClassName = 'it.ipzs.cieid.MainApplication'
