@@ -122,7 +122,7 @@ public class IntroFrame extends JFrame {
 
         JTextPane textPane_1 = new JTextPane();
         textPane_1.setText(
-                "Munisciti di un lettore di smart card contactless, della tua Carta di Identità Elettronica e del PIN");
+                "Munisciti di un lettore di smart card contactless, della tua Carta di Identità Elettronica e del PIN");
         textPane_1.setEditable(false);
         textPane_1.setBounds(63, 84, 583, 21);
         panel_1.add(textPane_1);

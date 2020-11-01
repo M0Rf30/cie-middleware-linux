@@ -66,6 +66,7 @@ main {
 
 tasks.withType(JavaCompile) {
 	options.compilerArgs += "-Xlint:deprecation"
+	options.encoding = "UTF-8"
 }
 
 buildDir = 'bin'

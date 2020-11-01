@@ -553,7 +553,7 @@ public class MainFrame extends JFrame {
         label_1.setBounds(29, 194, 211, 205);
         panel_2.add(label_1);
 
-        checkBox = new JCheckBox("Non mostrare piÃ¹");
+        checkBox = new JCheckBox("Non mostrare più");
         checkBox.setBackground(Color.WHITE);
         checkBox.setBounds(591, 508, 157, 23);
         panel_2.add(checkBox);
@@ -647,7 +647,7 @@ public class MainFrame extends JFrame {
 
         txtpnCieAbbinataCon = new JTextPane();
         txtpnCieAbbinataCon.setFont(new Font("Dialog", Font.PLAIN, 16));
-        txtpnCieAbbinataCon.setText("Carta di identità elettronica abbinata correttamente");
+        txtpnCieAbbinataCon.setText("Carta di identità  elettronica abbinata correttamente");
         txtpnCieAbbinataCon.setEditable(false);
         txtpnCieAbbinataCon.setBounds(63, 84, 492, 46);
         panel_3.add(txtpnCieAbbinataCon);
@@ -679,7 +679,7 @@ public class MainFrame extends JFrame {
         label_5.setBounds(29, 194, 211, 205);
         panel_4.add(label_5);
 
-        checkBox_2 = new JCheckBox("Non mostrare piÃ¹");
+        checkBox_2 = new JCheckBox("Non mostrare più");
         checkBox_2.setBackground(Color.WHITE);
         checkBox_2.setBounds(591, 508, 157, 23);
         panel_4.add(checkBox_2);
@@ -784,7 +784,7 @@ public class MainFrame extends JFrame {
         label_6.setBounds(29, 194, 211, 205);
         panel_5.add(label_6);
 
-        checkBox_3 = new JCheckBox("Non mostrare piÃ¹");
+        checkBox_3 = new JCheckBox("Non mostrare più");
         checkBox_3.setBackground(Color.WHITE);
         checkBox_3.setBounds(591, 508, 157, 23);
         panel_5.add(checkBox_3);
@@ -825,7 +825,7 @@ public class MainFrame extends JFrame {
         label_7.setBounds(29, 194, 211, 205);
         panel_6.add(label_7);
 
-        checkBox_4 = new JCheckBox("Non mostrare piÃ¹");
+        checkBox_4 = new JCheckBox("Non mostrare più");
         checkBox_4.setBackground(Color.WHITE);
         checkBox_4.setBounds(591, 508, 157, 23);
         panel_6.add(checkBox_4);
@@ -928,7 +928,7 @@ public class MainFrame extends JFrame {
         label_8.setBounds(29, 194, 211, 205);
         panel_7.add(label_8);
 
-        checkBox_5 = new JCheckBox("Non mostrare piÃ¹");
+        checkBox_5 = new JCheckBox("Non mostrare più");
         checkBox_5.setBackground(Color.WHITE);
         checkBox_5.setBounds(591, 508, 157, 23);
         panel_7.add(checkBox_5);
@@ -1649,7 +1649,7 @@ public class MainFrame extends JFrame {
                                             case CKR_PIN_LOCKED:
                                                 JOptionPane.showMessageDialog(
                                                         MainFrame.this.getContentPane(),
-                                                        "PUK bloccato. La tua CIE deve essere sostutuita",
+                                                        "PUK bloccato. La tua CIE deve essere sostituita",
                                                         "Carta bloccata",
                                                         JOptionPane.ERROR_MESSAGE);
                                                 tabbedPane.setSelectedIndex(5);
@@ -1686,7 +1686,7 @@ public class MainFrame extends JFrame {
 
         if (JOptionPane.showConfirmDialog(
                         this.getContentPane(),
-                        "Stai rimuovendo la Carta di Identità di "
+                        "Stai rimuovendo la Carta di Identità di "
                                 + name
                                 + "\n dal sistema, per utilizzarla nuovamente "
                                 + " dovrai ripetere l'abbinamento",

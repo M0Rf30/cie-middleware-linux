@@ -1295,7 +1295,7 @@ public class AESFast {
     //    public static void main(String[] args)
     //    {
     //        String msg = "ciao ciao, sto cercando di farlo funzionare e ora vedremo cosa succede
-    // perch� sembra che il problema � rijndael";
+    //        perchè sembra che il problema è rijndael;
     //        String key = "ugochirico12345";
     //        String iv = "assadfghjkasdasdasdadsasdasdasdasdasfsdgsd";
     //
