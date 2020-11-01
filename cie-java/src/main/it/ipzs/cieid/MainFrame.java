@@ -1194,7 +1194,7 @@ public class MainFrame extends JFrame {
                                                     case CKR_OK:
                                                         JOptionPane.showMessageDialog(
                                                                 MainFrame.this.getContentPane(),
-                                                                "L'abilitazione della CIE è avvennuta con successo",
+                                                                "L'abilitazione della CIE è avvenuta con successo",
                                                                 "CIE abilitata",
                                                                 JOptionPane.INFORMATION_MESSAGE);
 
