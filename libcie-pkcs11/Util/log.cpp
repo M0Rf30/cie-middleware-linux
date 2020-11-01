@@ -51,7 +51,7 @@ void initLog(const char *moduleName, const char *iniFile,const char *version)
     logGlobalVersion=version;
 
     OutputDebugString("File INI:");
-    OutputDebugString(iniFile);
+    OutputDebugString("%s", iniFile);
     OutputDebugString("\n");
 
     UUCProperties settings;
@@ -63,7 +63,7 @@ void initLog(const char *moduleName, const char *iniFile,const char *version)
 //        "2 ;LM_Thread,    // un file per thread\n"
 //        "3 ;LM_Module_Thread    // un file per modulo e per thread\n")).GetValue((char*)iniFile);
 
-    if (LogMode==-1) {
+    if (LogMode == -1) {
         LogMode=LM_Single;
     }
 
@@ -292,7 +292,7 @@ DWORD CLog::write(const char *format,...)
 
             switch(LogMode) {
             case (LM_Single) :
-                fprintf(lf,"%s|%04i|%04li|%02i|", pbtDate, getpid(), dwThreadID, ModuleNum);
+                fprintf(lf,"%s|%04i|%04lu|%02i|", pbtDate, getpid(), dwThreadID, ModuleNum);
                 break;
             case (LM_Module) :
                 fprintf(lf,"%s|%04i|%04lx|", pbtDate, getpid(), dwThreadID);
