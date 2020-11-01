@@ -1,5 +1,8 @@
 // P11Emissione.cpp : Defines the entry point for the DLL application.
 //
+#include <unistd.h>
+#include <sys/types.h>
+#include <pwd.h>
 #include "wintypes.h"
 #include "PKCS11Functions.h"
 #include "InitP11.h"
@@ -113,8 +116,12 @@ name,
 __attribute__((constructor)) void DllMainAttach()
 {
     // code
+    const char *homedir;
+    if ((homedir = getenv("HOME")) == NULL) {
+        homedir = getpwuid(getuid())->pw_dir;
+    }
     bModuleInit=true;
-    std::string configPath = "/usr/lib/ciepki.ini";
+    std::string configPath = std::string(homedir) + "/.CIEPKI/ciepki.ini";
     initLog("CIEPKC11", configPath.c_str(), __DATE__ " " __TIME__);
     p11::InitP11(configPath.c_str());
 }
