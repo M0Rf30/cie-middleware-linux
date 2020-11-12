@@ -135,11 +135,11 @@ static DWORD slotMonitor(SlotMap *pSlotMap)
                 if ((state[i].dwCurrentState & SCARD_STATE_PRESENT) &&
                     ((state[i].dwEventState & SCARD_STATE_EMPTY) ||
                      (state[i].dwEventState & SCARD_STATE_UNAVAILABLE))) {
-                    // una carta � stata estratta!!
+                    // una carta è stata estratta!!
                     // sincronizzo sul mutex principale p11
                     // le funzioni attualmente in esecuzione che vanno sulla
                     // carta falliranno miseramente, ma se levi la carta
-                    // mentre sto firmado mica � colpa mia!
+                    // mentre sto firmado mica è colpa mia!
 
                     std::unique_lock<std::mutex> lock(p11Mutex);
 
@@ -151,7 +151,7 @@ static DWORD slotMonitor(SlotMap *pSlotMap)
                 if (((state[i].dwCurrentState & SCARD_STATE_UNAVAILABLE) ||
                      (state[i].dwCurrentState & SCARD_STATE_EMPTY)) &&
                     (state[i].dwEventState & SCARD_STATE_PRESENT)) {
-                    // una carta � stata inserita!!
+                    // una carta è stata inserita!!
                     std::unique_lock<std::mutex> lock(p11Mutex);
 
                     slot[i]->lastEvent = SE_Inserted;
@@ -227,7 +227,7 @@ void CSlot::DeleteSlotList()
     if (Thread.joinable())
         Thread.join();
 
-    // TODO: verificare se � il caso di usare un thread con join a tempo
+    // TODO: verificare se è il caso di usare un thread con join a tempo
 
     /*while (i<5) {
     	if (Thread.join(1000)==OK)
@@ -250,8 +250,8 @@ void CSlot::DeleteSlotList()
 void CSlot::InitSlotList()
 {
     // la InitSlotList deve aggiornare la liste degli slot;
-    // cio�, deve aggiungere gli slot che non c'erano prima e
-    // cancellare quelli che non ci sono pi�
+    // cioè, deve aggiungere gli slot che non c'erano prima e
+    // cancellare quelli che non ci sono più
     init_func
     bool bMapChanged = false;
     DWORD readersLen = 0;
@@ -278,7 +278,7 @@ void CSlot::InitSlotList()
         if (!bP11Initialized)
             return;
 
-        // vediamo questo slot c'era gi� prima
+        // vediamo questo slot c'era già prima
         Log.write("reader:%s", szReaderName);
         std::shared_ptr<CSlot> pSlot = GetSlotFromReaderName(szReaderName);
         if (pSlot == nullptr) {
@@ -374,7 +374,7 @@ void CSlot::GetInfo(CK_SLOT_INFO_PTR pInfo)
     CryptoPP::memcpy_s(pInfo->slotDescription, 64, szName.c_str(), SDLen);
 
     memset(pInfo->manufacturerID, 0, 32);
-    // non so esattamente perch�, ma nella R1 il manufacturerID sono i primi 32 dello slotDescription
+    // non so esattamente perchè, ma nella R1 il manufacturerID sono i primi 32 dello slotDescription
     size_t MIDLen = min1(32, szName.size());
     CryptoPP::memcpy_s(pInfo->manufacturerID, 32, szName.c_str(), MIDLen);
 
@@ -510,7 +510,7 @@ void CSlot::Final()
                 dwSessionCount--;
             } else it++;
         }
-        // dwSessionCount dovrebbe essere gi� a 0...
+        // dwSessionCount dovrebbe essere già a 0...
         // ma per sicurezza lo setto a manina
 
         User = CKU_NOBODY;

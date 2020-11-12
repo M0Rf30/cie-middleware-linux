@@ -68,7 +68,7 @@ StatusWord CToken::Transmit(ByteArray apdu, ByteDynArray *resp)
     HRESULT res = transmitCallback(transmitCallbackData, apdu.data(), apdu.size(), pbtResp, &dwResp);
     ByteArray scResp(pbtResp, dwResp);
 
-    if (res != SCARD_S_SUCCESS) { // la smart card � stata estratta durante l'operazione
+    if (res != SCARD_S_SUCCESS) { // la smart card è stata estratta durante l'operazione
         printf("sc err %lx", res);
         throw windows_error(res);
     }
@@ -117,7 +117,7 @@ StatusWord CToken::Transmit(APDU &apdu, ByteDynArray *resp)
     HRESULT res = transmitCallback(transmitCallbackData, pbtAPDU, iAPDUSize, pbtResp, &dwResp);
     ByteArray scResp(pbtResp, dwResp);
 
-    if (res != SCARD_S_SUCCESS) // la smart card � stata estratta durante l'operazione
+    if (res != SCARD_S_SUCCESS) // la smart card è stata estratta durante l'operazione
         throw windows_error(res);
 
     if (scResp.size() < 2)

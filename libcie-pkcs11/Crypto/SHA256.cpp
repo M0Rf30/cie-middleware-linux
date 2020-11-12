@@ -44,7 +44,7 @@ ByteDynArray CSHA256::Digest(ByteArray &data)
 void CSHA256::Init()
 {
 //    if (isInit)
-//    throw logged_error("Un'operazione di hash Ë gi‡ in corso");
+//    throw logged_error("Un'operazione di hash è già in corso");
     SHA256_Init(&ctx);
     isInit = true;
 }

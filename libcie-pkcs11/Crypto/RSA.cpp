@@ -3,8 +3,12 @@
 #include <openssl/bn.h>
 #include "../Util/util.h"
 
-
 extern CLog Log;
+#if (CRYPTOPP_VERSION >= 600) && (__cplusplus >= 201103L)
+    using byte = CryptoPP::byte;
+#else
+    typedef unsigned char byte;
+#endif
 
 #ifdef WIN32
 
@@ -81,7 +85,6 @@ using CryptoPP::SHA512;
 using CryptoPP::SecByteBlock;
 using CryptoPP::PSS;
 using CryptoPP::DecodingResult;
-using CryptoPP::byte;
 
 DWORD CRSA::GenerateKey(DWORD size, ByteDynArray &module, ByteDynArray &pubexp, ByteDynArray &privexp)
 {

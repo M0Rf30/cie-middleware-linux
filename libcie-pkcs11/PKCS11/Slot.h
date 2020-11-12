@@ -53,8 +53,8 @@ public:
 
     std::string szName; // nome del lettore associato
 
-    bool bUpdated;	// flag: la mappa degli oggetti Ë aggiornata alla carta
-    // che attualmente Ë nel lettore?
+    bool bUpdated;	// flag: la mappa degli oggetti √® aggiornata alla carta
+    // che attualmente √® nel lettore?
 
     ByteDynArray baSerial;
     std::shared_ptr<CCardTemplate> pSerialTemplate;
@@ -67,7 +67,7 @@ public:
     ObjHandleMap ObjP11Map;		// gli ID oggetti specifici per uno slot
     // una per tradurre gli ID passati dall'applicazione,
     // un'altra per sapere se un oggetto restituito
-    // ha gi‡ un ID o meno
+    // ha gi√† un ID o meno
 
     CK_OBJECT_HANDLE GetNewObjectID();
     CK_OBJECT_HANDLE GetIDFromObject(const std::shared_ptr<CP11Object>& pObject);

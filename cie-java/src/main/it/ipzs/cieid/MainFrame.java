@@ -647,7 +647,7 @@ public class MainFrame extends JFrame {
 
         txtpnCieAbbinataCon = new JTextPane();
         txtpnCieAbbinataCon.setFont(new Font("Dialog", Font.PLAIN, 16));
-        txtpnCieAbbinataCon.setText("Carta di identità  elettronica abbinata correttamente");
+        txtpnCieAbbinataCon.setText("Carta di identità elettronica abbinata correttamente");
         txtpnCieAbbinataCon.setEditable(false);
         txtpnCieAbbinataCon.setBounds(63, 84, 492, 46);
         panel_3.add(txtpnCieAbbinataCon);

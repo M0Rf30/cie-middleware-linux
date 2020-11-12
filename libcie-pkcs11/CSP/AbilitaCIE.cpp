@@ -19,6 +19,7 @@
 #include <string>
 #include "AbilitaCIE.h"
 #include <string>
+#include <math.h>
 #include <cryptopp/misc.h>
 
 #include "../Crypto/ASNParser.h"
