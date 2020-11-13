@@ -45,7 +45,7 @@ Fare riferimento al package manager della propria distribuzione:
 Da terminale, spostarsi nella root del presente repo e digitare:
 ```
 gradle -b cie-java/build.gradle standalone
-cd libcie-pkcs11/Release && make
+cd libcie-pkcs11/build && cmake .. && make
 
 ```
 alla fine della build saranno presenti i file:
