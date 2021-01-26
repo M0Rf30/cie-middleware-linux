@@ -5,7 +5,7 @@ targets=(
     "ubuntu"
 )
 pkgname="cie-middleware"
-pkgver="1.3.1"
+pkgver="1.3.2"
 pkgrel="1"
 pkgdesc="Middleware della CIE (Carta di Identità Elettronica) per Linux"
 pkgdesclong=("Middleware della CIE (Carta di Identità Elettronica) per Linux")
