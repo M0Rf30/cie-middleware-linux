@@ -69,7 +69,7 @@ public class PINNoticeDialog extends JDialog {
 
         JTextPane txtpnSarNecessarioPer = new JTextPane();
         txtpnSarNecessarioPer.setText(
-                "sarà necessario per le prossime richieste di autenticazione.");
+                "sarà necessario per le prossime richieste di autenticazione.");
         txtpnSarNecessarioPer.setFont(new Font("Dialog", Font.PLAIN, 14));
         txtpnSarNecessarioPer.setEditable(false);
         txtpnSarNecessarioPer.setBounds(12, 53, 380, 46);

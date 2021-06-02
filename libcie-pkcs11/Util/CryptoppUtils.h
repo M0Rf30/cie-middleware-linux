@@ -30,9 +30,9 @@
 
 #include <string>
 
-#include <cryptopp/eccrypto.h>
-#include <cryptopp/rsa.h>
-#include <cryptopp/secblock.h>
+#include "../Cryptopp/eccrypto.h"
+#include "../Cryptopp/rsa.h"
+#include "../Cryptopp/secblock.h"
 #include "../PKCS11/wintypes.h"
 
 #define Buffer std::vector<unsigned char>
@@ -41,42 +41,42 @@ using namespace CryptoPP;
 
 namespace lcp
 {
-class CryptoppUtils
-{
-public:
-    static void Base64ToSecBlock(const std::string & base64, SecByteBlock & result);
-    static Buffer Base64ToVector(const std::string & base64);
-    static std::string RawToHex(const Buffer & key);
-    static Buffer HexToRaw(const std::string & hex);
-    static std::string GenerateUuid();
-
-    class Cert
+    class CryptoppUtils
     {
     public:
-        static std::string IntegerToString(const Integer & integer);
-        static void SkipNextSequence(BERSequenceDecoder & parentSequence);
+        static void Base64ToSecBlock(const std::string & base64, SecByteBlock & result);
+        static Buffer Base64ToVector(const std::string & base64);
+        static std::string RawToHex(const Buffer & key);
+        static Buffer HexToRaw(const std::string & hex);
+        static std::string GenerateUuid();
 
-        static std::string ReadIntegerAsString(BERSequenceDecoder & sequence);
-        static word32 ReadVersion(BERSequenceDecoder & toBeSignedCertificate, word32 defaultVersion);
-        static void ReadOID(BERSequenceDecoder & certificate, OID & algorithmId);
+        class Cert
+        {
+        public:
+            static std::string IntegerToString(const Integer & integer);
+            static void SkipNextSequence(BERSequenceDecoder & parentSequence);
 
-        static void ReadSubjectPublicKeyRSA(BERSequenceDecoder & toBeSignedCertificate, CryptoPP::RSA::PublicKey & result);
-        static void ReadSubjectPublicKeyECDSA(BERSequenceDecoder & toBeSignedCertificate, CryptoPP::ECDSA<CryptoPP::ECP, CryptoPP::SHA256>::PublicKey & result);
+            static std::string ReadIntegerAsString(BERSequenceDecoder & sequence);
+            static word32 ReadVersion(BERSequenceDecoder & toBeSignedCertificate, word32 defaultVersion);
+            static void ReadOID(BERSequenceDecoder & certificate, OID & algorithmId);
 
-        static void ReadDateTimeSequence(
-            BERSequenceDecoder & toBeSignedCertificate,
-            std::string & notBefore,
-            std::string & notAfter
-        );
-        static void BERDecodeTime(CryptoPP::BufferedTransformation& bt, std::string& time);
+            static void ReadSubjectPublicKeyRSA(BERSequenceDecoder & toBeSignedCertificate, CryptoPP::RSA::PublicKey & result);
+            static void ReadSubjectPublicKeyECDSA(BERSequenceDecoder & toBeSignedCertificate, CryptoPP::ECDSA<CryptoPP::ECP, CryptoPP::SHA256>::PublicKey & result);
 
-        static void PullToBeSignedData(const SecByteBlock & rawCertificate, SecByteBlock & result);
+            static void ReadDateTimeSequence(
+                BERSequenceDecoder & toBeSignedCertificate,
+                std::string & notBefore,
+                std::string & notAfter
+                );
+            static void BERDecodeTime(CryptoPP::BufferedTransformation& bt, std::string& time);
 
-        static const BYTE ContextSpecificTagZero  = 0xa0;
-        static const BYTE ContextSpecificTagThree = 0xa3;
-        static const BYTE ContextSpecificTagSixIA5String = 0x86;
+            static void PullToBeSignedData(const SecByteBlock & rawCertificate, SecByteBlock & result);
+
+            static const BYTE ContextSpecificTagZero  = 0xa0;
+            static const BYTE ContextSpecificTagThree = 0xa3;
+            static const BYTE ContextSpecificTagSixIA5String = 0x86;
+        };
     };
-};
 }
 
 #endif //__CERTIFICATE_UTILS_H__

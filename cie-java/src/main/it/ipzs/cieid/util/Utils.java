@@ -58,7 +58,7 @@ public class Utils {
             fins.close();
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
-            System.out.println("cieid.props file not present");
+            e.printStackTrace();
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -78,7 +78,7 @@ public class Utils {
             fins.close();
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
-            System.out.println("cieid.props file not present");
+            e.printStackTrace();
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -92,7 +92,7 @@ public class Utils {
             fouts.close();
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
-            System.out.println("cieid.props file not present");
+            e.printStackTrace();
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

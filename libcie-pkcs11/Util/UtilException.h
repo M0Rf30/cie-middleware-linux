@@ -11,23 +11,20 @@
 //#define UTILEX_SCARD		4
 
 
-class logged_error : public std::runtime_error
-{
+class logged_error : public std::runtime_error {
 public:
     logged_error(std::string message);
-    logged_error(const char *message);
+	logged_error(const char *message);
 };
 
-class scard_error : public logged_error
-{
+class scard_error : public logged_error {
 public:
-    scard_error(StatusWord sw);
+	scard_error(StatusWord sw);
 };
 
-class windows_error : logged_error
-{
+class windows_error : logged_error {
 public:
-    windows_error(long  ris);
+	windows_error(long  ris);
 };
 
 /*

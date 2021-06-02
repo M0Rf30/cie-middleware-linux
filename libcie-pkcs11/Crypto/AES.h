@@ -9,7 +9,7 @@
 #else
 #include <openssl/aes.h>
 //#include <OpenSSL-Static/aes.h>
-//#include <cryptopp/aes.h>
+//#include "../Cryptopp/aes.h"
 #endif
 #include "../Util/util.h"
 #include "../Util/UtilException.h"
@@ -19,22 +19,22 @@
 class CAES
 {
 #ifdef WIN32
-    BCRYPT_KEY_HANDLE key;
+	BCRYPT_KEY_HANDLE key;
 #else
-    ByteDynArray key;
+	ByteDynArray key;
 #endif
 
-    ByteDynArray AES(const ByteArray &data, int encOp);
-    ByteDynArray iv;
+	ByteDynArray AES(const ByteArray &data, int encOp);
+	ByteDynArray iv;
 
 public:
-    CAES();
-    CAES(const ByteArray &key, const ByteArray &iv);
-    ~CAES(void);
+	CAES();
+	CAES(const ByteArray &key, const ByteArray &iv);
+	~CAES(void);
 
-    void Init(const ByteArray &key, const ByteArray &iv);
-    ByteDynArray Encode(const ByteArray &data);
-    ByteDynArray Decode(const ByteArray &data);
-    ByteDynArray RawEncode(const ByteArray &data);
-    ByteDynArray RawDecode(const ByteArray &data);
+	void Init(const ByteArray &key, const ByteArray &iv);
+	ByteDynArray Encode(const ByteArray &data);
+	ByteDynArray Decode(const ByteArray &data);
+	ByteDynArray RawEncode(const ByteArray &data);
+	ByteDynArray RawDecode(const ByteArray &data);
 };

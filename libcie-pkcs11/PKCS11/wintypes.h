@@ -39,7 +39,7 @@
 //typedef LPCSTR const char*;
 //#endif
 
-#ifndef BYTE
+#ifndef BYTE 
 #define BYTE unsigned char
 #endif
 
@@ -66,7 +66,7 @@
 
 #ifndef LOWORD
 #define LOWORD(l) l & 0xFFFF
-#define HIWORD(l) (l >> 16) & 0xFFFF
+#define HIWORD(l) (l >> 16) & 0xFFFF 
 #endif
 
 #ifndef LOBYTE

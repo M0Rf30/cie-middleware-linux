@@ -32,13 +32,12 @@
 //#else
 
 logged_error::logged_error(std::string message)
-    : std::runtime_error(message.c_str())
+: std::runtime_error(message.c_str())
 {
     logged_error(message.c_str());
 }
 
-logged_error::logged_error(const char *message) : std::runtime_error(message)
-{
+logged_error::logged_error(const char *message) : std::runtime_error(message) {
     OutputDebugString(what());
 //    CFuncCallInfoList *ptr = callQueue.get();
 //    while (ptr != nullptr) {

@@ -28,13 +28,13 @@
 //////////////////////////////////////////////////////////////////////
 
 UUCStringTable::UUCStringTable(int initialCapacity, float loadFactor)
-    : UUCHashtable<char*, char*>(initialCapacity, loadFactor)
+: UUCHashtable<char*, char*>(initialCapacity, loadFactor)
 {
 
 }
 
 UUCStringTable::UUCStringTable(int initialCapacity)
-    : UUCHashtable<char*, char*>(initialCapacity)
+: UUCHashtable<char*, char*>(initialCapacity)
 {
 
 }
@@ -47,79 +47,88 @@ UUCStringTable::UUCStringTable()
 
 UUCStringTable::~UUCStringTable()
 {
-    removeAll();
+	removeAll();
 }
 
 void UUCStringTable::put(char* const& szKey, char* const& szValue)
 {
-    char* szOldValue = NULL;
-    char* szOldKey = szKey;
+	char* szOldValue = NULL;
+	char* szOldKey = szKey;
 
-    if(containsKey(szKey)) {
-        get(szOldKey, szOldValue);
-    } else {
-        szOldKey = NULL;
-    }
-
+	if(containsKey(szKey))
+	{
+		get(szOldKey, szOldValue);
+	}
+	else
+	{
+		szOldKey = NULL;
+	}
+	
     std::string sNewValue(szValue);
     std::string sNewKey(szKey);
+    
+	UUCHashtable<char*, char*>::put((char*)sNewKey.c_str(), (char*)sNewValue.c_str());
 
-    UUCHashtable<char*, char*>::put((char*)sNewKey.c_str(), (char*)sNewValue.c_str());
-
-    if(szOldKey)
-        delete szOldKey;
-    if(szOldValue)
-        delete szOldValue;
+	if(szOldKey)
+		delete szOldKey;
+	if(szOldValue)
+		delete szOldValue;
 }
 
 unsigned long UUCStringTable::getHashValue(char* const& szKey) const
 {
-    return UUCStringTable::getHash((const char*)szKey);
+	return UUCStringTable::getHash((const char*)szKey); 
 }
 
 unsigned long UUCStringTable::getHash(const char* szKey)
 {
-    int h = 0;
-    int off = 0;
-    char* val = (char*)szKey;
+	int h = 0;
+	int off = 0;
+	char* val = (char*)szKey;
     std::string sKey(szKey);
-    size_t len = sKey.size();
+	size_t len = sKey.size();
 
-    if (len < 16) {
-        for (unsigned long i = len ; i > 0; i--) {
-            h = (h * 37) + val[off++];
-        }
-    } else {
-        // only sample some characters
-        unsigned long skip = len / 8;
-        for (unsigned long i = len ; i > 0; i -= skip, off += skip) {
-            h = (h * 39) + val[off];
-        }
-    }
+	if (len < 16) 
+	{
+ 	    for (unsigned long i = len ; i > 0; i--) 
+		{
+ 			h = (h * 37) + val[off++];
+ 	    }
+ 	}
+	else 
+	{
+ 	    // only sample some characters
+ 	    unsigned long skip = len / 8;
+ 	    for (int i = len ; i > 0; i -= skip, off += skip)
+		{
+ 			h = (h * 39) + val[off];
+ 	    }
+ 	}
 
-    return h;
+	return h;	
 }
 
 bool UUCStringTable::equal(char* const& szKey1, char* const& szKey2) const
-{
-    return strcmp(szKey1,szKey2) == 0;
+{		
+	return strcmp(szKey1,szKey2) == 0;
 }
 
 bool UUCStringTable::remove(char* const& szKey)
 {
-    char* szNewValue;
+	char* szNewValue;
 
-    char* szNewKey = szKey;;
+	char* szNewKey = szKey;;
 
-    if(containsKey(szKey)) {
-        get(szNewKey, szNewValue);
+	if(containsKey(szKey))
+	{
+		get(szNewKey, szNewValue);
+		
+		UUCHashtable<char*, char*>::remove(szNewKey);
 
-        UUCHashtable<char*, char*>::remove(szNewKey);
+		delete szNewKey;
+		delete szNewValue;
+		return true;
+	}	
 
-        delete szNewKey;
-        delete szNewValue;
-        return true;
-    }
-
-    return false;
+	return false;
 }

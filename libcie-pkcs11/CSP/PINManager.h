@@ -13,13 +13,13 @@
 #include "AbilitaCIE.h"
 
 typedef CK_RV (*CambioPINfn)(const char*  szCurrentPIN,
-                             const char*  szNewPIN,
-                             int* attempts,
-                             PROGRESS_CALLBACK progressCallBack);
+                            const char*  szNewPIN,
+                            int* attempts,
+                            PROGRESS_CALLBACK progressCallBack);
 
 typedef CK_RV (*SbloccoPINfn)(const char*  szPUK,
-                              const char*  szNewPIN,
-                              int* attempts,
-                              PROGRESS_CALLBACK progressCallBack);
+                            const char*  szNewPIN,
+                            int* attempts,
+                            PROGRESS_CALLBACK progressCallBack);
 
 #endif /* PINManager_h */

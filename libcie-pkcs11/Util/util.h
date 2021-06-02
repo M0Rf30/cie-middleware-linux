@@ -244,42 +244,34 @@ long ByteArrayToInt(ByteArray &ba);
 ByteDynArray ISOPad(const ByteArray& data);
 ByteDynArray ISOPad16(const ByteArray &data);
 
-std::string WinErr(HRESULT ris);
-const char * CardErr(DWORD dwSW);
-char * SystemErr(DWORD dwExcept);
+ std::string WinErr(HRESULT ris);
+ char * CardErr(DWORD dwSW);
+ char * SystemErr(DWORD dwExcept);
+ 
+ void Debug(ByteArray ba);
+ ByteDynArray ASN1Tag(DWORD tag,ByteArray& content);
 
-void Debug(ByteArray ba);
-ByteDynArray ASN1Tag(DWORD tag,ByteArray& content);
-
-std::string stdPrintf(const char *format, ...);
+ std::string stdPrintf(const char *format, ...);
 
 
-template< typename t >
-class scopeExitClass
-{
-    t o;
-    bool toDelete = true;
-public:
-    scopeExitClass(t in_o) : o(std::move(in_o)) {}
+ template< typename t >
+ class scopeExitClass {
+	 t o;
+	 bool toDelete = true;
+ public:
+	 scopeExitClass(t in_o) : o(std::move(in_o)) {}
 
-    scopeExitClass(scopeExitClass &&se) : o(se.o)
-    {
-        se.toDelete = false;
-    };
-    scopeExitClass(scopeExitClass const &) = delete;
+	 scopeExitClass(scopeExitClass &&se) : o(se.o) { se.toDelete = false; };
+	 scopeExitClass(scopeExitClass const &) = delete;
 
-    ~scopeExitClass() noexcept
-    {
-        static_assert(noexcept(o()), "lambda as noexcept.");
-        if (toDelete)
-            o();
-    }
-};
+	 ~scopeExitClass() noexcept {
+		 static_assert(noexcept(o()), "lambda as noexcept.");
+		 if (toDelete)
+			 o();
+	 }
+ };
 
-template< typename t >
-scopeExitClass< t > scopeExit(t o)
-{
-    return { std::move(o) };
-}
+ template< typename t >
+ scopeExitClass< t > scopeExit(t o) { return { std::move(o) }; }
 
 
