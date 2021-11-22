@@ -1,0 +1,16 @@
+*.VC.db
+*.VC.opendb
+/cie-java/.gradle
+/cie-java/bin
+*.o
+*.d
+*.so
+CMakeCache.txt
+CMakeFiles/
+Makefile
+cmake_install.cmake
+meson-info/
+meson-logs/
+meson-private/
+gradle/
+.idea/

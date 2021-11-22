@@ -1,0 +1,80 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main ]
+    tags:        
+      - 1.*
+  pull_request:
+    branches: [ main ]
+    tags:        
+      - 1.*
+ 
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Runs a set of commands using the runners shell
+      - name: Build
+        run: |
+          cd $GITHUB_WORKSPACE/pacur
+          docker run -v $(pwd):/pacur m0rf30/pacur-ubuntu-groovy:0.6
+          for i in $(ls); do sha256sum $i >> SHA256SUMS; done
+
+      - name: version
+        run: echo "::set-output name=version::$(cat pacur/PKGBUILD | grep pkgver | cut -d\" -f2)"
+        id: version      
+
+      # - name: release
+      #   uses: actions/create-release@v1
+      #   id: create_release
+      #   with:
+      #     draft: false
+      #     prerelease: false
+      #     release_name: ${{ steps.version.outputs.version }}
+      #     tag_name: ${{ github.ref }}
+      #   env:
+      #     GITHUB_TOKEN: ${{ github.token }}
+      # - name: upload deb artifact
+      #   uses: actions/upload-release-asset@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ github.token }}
+      #   with:
+      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
+      #     asset_path: pacur/*.deb
+      #     asset_name: cie-middleware_1.4.2-0ubuntu1_amd64.deb
+      #     asset_content_type: application/vnd.debian.binary-package
+      # - name: upload SHA
+      #   uses: actions/upload-release-asset@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ github.token }}
+      #   with:
+      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
+      #     asset_path: pacur/SHA256SUMS
+      #     asset_name: SHA256SUMS
+      #     asset_content_type: application/text
+
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: dist
+          path: |
+            pacur/*.deb
+            pacur/*.rpm
+            pacur/*.zst
+            pacur/SHA256SUMS
