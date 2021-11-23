@@ -1,7 +1,7 @@
 project('libcie-pkcs11', 'cpp',
   version : '1.4.1',
   license : 'MIT')
-add_project_arguments('-UWIN32 -U_WIN64 -fPIC', language : 'cpp')
+add_project_arguments('-fPIC', language : 'cpp')
 crypto_dep = dependency('libcrypto')
 cryptop_dep = dependency('libcrypto++', required : false)
 cryptopp_dep = dependency('libcryptopp', required : false)
