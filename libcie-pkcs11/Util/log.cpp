@@ -49,9 +49,9 @@ void initLog(const char *moduleName, const char *iniFile,const char *version) {
 
     logGlobalVersion=version;
 
-    OutputDebugString("File INI:");
-    OutputDebugString(iniFile);
-    OutputDebugString("\n");
+    OutputDebugString("%s", "File INI:");
+    OutputDebugString("%s", iniFile);
+    OutputDebugString("%s", "\n");
 
     UUCProperties settings;
     //settings.load(iniFile);
@@ -305,7 +305,7 @@ DWORD CLog::write(const char *format,...) {
     sprintf_s(pbtDate + dtLen, 2048 - dtLen, "|thread:%08x|%s|", GetCurrentThreadId(), logName.c_str());
     dtLen = (int)strnlen(pbtDate, sizeof(pbtDate));
     sprintf_s(pbtDate+ dtLen, 2048 - dtLen, "\n");
-    OutputDebugString(pbtDate);
+    OutputDebugString("%s", pbtDate);
 #else
     puts(pbtDate);
 #endif
@@ -404,7 +404,7 @@ void CLog::writePure(const char *format,...) {
     vsprintf_s(pbtDate+dtLen,2048-dtLen, format, params);
     dtLen = (int)strnlen(pbtDate, sizeof(pbtDate));
     sprintf_s(pbtDate + dtLen, 2048 - dtLen, "\n");
-    OutputDebugString(pbtDate);
+    OutputDebugString("%s", pbtDate);
 #else
     puts(pbtDate);
 #endif

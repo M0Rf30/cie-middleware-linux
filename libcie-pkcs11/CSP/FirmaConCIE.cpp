@@ -44,10 +44,10 @@ CK_RV CK_ENTRY firmaConCIE(const char* inFilePath, const char* type, const char*
         if (nRet != SCARD_S_SUCCESS)
             return CKR_DEVICE_ERROR;
 
-        OutputDebugString("Establish Context ok\n");
+        OutputDebugString("%s", "Establish Context ok\n");
 
         if (SCardListReaders(hSC, nullptr, NULL, &len) != SCARD_S_SUCCESS) {
-            OutputDebugString("List readers ko\n");
+            OutputDebugString("%s", "List readers ko\n");
             return CKR_TOKEN_NOT_PRESENT;
         }
 
@@ -74,7 +74,7 @@ CK_RV CK_ENTRY firmaConCIE(const char* inFilePath, const char* type, const char*
             res = SCardGetAttrib(conn.hCard, SCARD_ATTR_ATR_STRING, (uint8_t*)ATR, &atrLen);
             if (res != SCARD_S_SUCCESS) {
                 free(readers);
-                OutputDebugString("GetAttrib ko 1, %d\n", res);
+                OutputDebugString("%s", "GetAttrib ko 1, %d\n", res);
                 return CKR_DEVICE_ERROR;
             }
 
@@ -138,7 +138,7 @@ CK_RV CK_ENTRY firmaConCIE(const char* inFilePath, const char* type, const char*
 
             progressCallBack(100, "");
 
-            OutputDebugString("CieSign ret: %d", ret);
+            OutputDebugString("%s", "CieSign ret: %d", ret);
 
             free(ias);
             free(cieSign);
@@ -153,14 +153,14 @@ CK_RV CK_ENTRY firmaConCIE(const char* inFilePath, const char* type, const char*
 
         }
     } catch (std::exception &ex) {
-        OutputDebugString(ex.what());
+        OutputDebugString("%s", ex.what());
         if (ATR)
             free(ATR);
-        OutputDebugString("Eccezione: %s", ex.what());
+        OutputDebugString("%s", "Eccezione: %s", ex.what());
         if (readers)
             free(readers);
 
-        OutputDebugString("General error\n");
+        OutputDebugString("%s", "General error\n");
         return CKR_GENERAL_ERROR;
     }
 

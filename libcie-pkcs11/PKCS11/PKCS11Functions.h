@@ -30,15 +30,15 @@
 
 #define exit_p11_func } \
 	catch (p11_error &p11Err) { \
-		OutputDebugString("EXCLOG->"); \
-		OutputDebugString(p11Err.what()); \
-		OutputDebugString("<-EXCLOG");\
+		OutputDebugString("%s", "EXCLOG->"); \
+		OutputDebugString("%s", p11Err.what()); \
+		OutputDebugString("%s", "<-EXCLOG");\
 		return p11Err.getP11ErrorCode(); \
 	} \
 	catch (std::exception &err) { \
-		OutputDebugString("EXCLOG->"); \
-		OutputDebugString(err.what()); \
-		OutputDebugString("<-EXCLOG");\
+		OutputDebugString("%s", "EXCLOG->"); \
+		OutputDebugString("%s", err.what()); \
+		OutputDebugString("%s", "<-EXCLOG");\
 		return CKR_GENERAL_ERROR; \
 	} \
 catch (...) { return CKR_GENERAL_ERROR; }
@@ -52,17 +52,17 @@ catch (...) { return CKR_GENERAL_ERROR; }
 #define exit_p11_func } \
 catch (p11_error &p11Err) { \
 Log.write(p11Err.what()); \
-OutputDebugString("EXCLOG->"); \
+OutputDebugString("%s", "EXCLOG->"); \
 OutputDebugString("EXC: %s", p11Err.what()); \
-OutputDebugString("<-EXCLOG");\
+OutputDebugString("%s", "<-EXCLOG");\
 Log.writePure("P11Error: %x", p11Err.getP11ErrorCode()); \
 return p11Err.getP11ErrorCode(); \
 } \
 catch (std::exception &err) { \
 Log.write(err.what()); \
-OutputDebugString("EXCLOG->"); \
+OutputDebugString("%s", "EXCLOG->"); \
 OutputDebugString("EXC: %s", err.what()); \
-OutputDebugString("<-EXCLOG");\
+OutputDebugString("%s", "<-EXCLOG");\
 return CKR_GENERAL_ERROR; \
 } \
 catch (...) { Log.writePure("%s, CKR_GENERAL_ERROR", __FUNCTION__); return CKR_GENERAL_ERROR; }

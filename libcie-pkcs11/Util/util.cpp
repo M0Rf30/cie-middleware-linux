@@ -168,8 +168,8 @@ std::string dumpHexData(ByteArray data) {
 void Debug(ByteArray ba) {
     std::string out;
     dumpHexData(ba,out);
-    OutputDebugString(out.c_str());
-    OutputDebugString("\n");
+    OutputDebugString("%s", out.c_str());
+    OutputDebugString("%s", "\n");
 }
 
 std::string dumpHexDataLowerCase(ByteArray data, std::string& dump) {

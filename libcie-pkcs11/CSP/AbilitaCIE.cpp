@@ -336,7 +336,7 @@ CK_RV CK_ENTRY AbilitaCIE(const char*  szPAN, const char*  szPIN, int* attempts,
         }
 
     } catch (std::exception &ex) {
-        OutputDebugString(ex.what());
+        OutputDebugString("%s", ex.what());
         if(ATR)
             free(ATR);
 
@@ -455,7 +455,7 @@ int TokenTransmitCallback(safeConnection *conn, BYTE *apdu, DWORD apduSize, BYTE
             return SCARD_S_SUCCESS;
         } else if (code == 0xfffe) {
             DWORD protocol = 0;
-            ODS("UNPOWER CARD");
+            ODS("%s", "UNPOWER CARD");
             auto ris = SCardReconnect(conn->hCard, SCARD_SHARE_SHARED, SCARD_PROTOCOL_Tx, SCARD_UNPOWER_CARD, &protocol);
 
 
@@ -475,28 +475,28 @@ int TokenTransmitCallback(safeConnection *conn, BYTE *apdu, DWORD apduSize, BYTE
                 resp[0] = 0x90;
                 resp[1] = 0x00;
             }
-            ODS("RESET CARD");
+            ODS("%s", "RESET CARD");
             return ris;
         }
     }
-    //ODS(String().printf("APDU: %s\n", dumpHexData(ByteArray(apdu, apduSize), String()).lock()).lock());
+    //ODS("%s", String().printf("APDU: %s\n", dumpHexData(ByteArray(apdu, apduSize), String()).lock()).lock());
     auto ris = SCardTransmit(conn->hCard, SCARD_PCI_T1, apdu, apduSize, NULL, resp, respSize);
     if(ris == SCARD_W_RESET_CARD || ris == SCARD_W_UNPOWERED_CARD) {
-        ODS("card resetted");
+        ODS("%s", "card resetted");
         DWORD protocol = 0;
         ris = SCardReconnect(conn->hCard, SCARD_SHARE_SHARED, SCARD_PROTOCOL_Tx, SCARD_LEAVE_CARD, &protocol);
         if (ris != SCARD_S_SUCCESS)
-            ODS("Errore reconnect");
+            ODS("%s", "Errore reconnect");
         else
             ris = SCardTransmit(conn->hCard, SCARD_PCI_T1, apdu, apduSize, NULL, resp, respSize);
     }
 
     if (ris != SCARD_S_SUCCESS) {
-        ODS("Errore trasmissione APDU");
+        ODS("%s", "Errore trasmissione APDU");
     }
 
     //else
-    //ODS(String().printf("RESP: %s\n", dumpHexData(ByteArray(resp, *respSize), String()).lock()).lock());
+    //ODS("%s", String().printf("RESP: %s\n", dumpHexData(ByteArray(resp, *respSize), String()).lock()).lock());
 
     return ris;
 }

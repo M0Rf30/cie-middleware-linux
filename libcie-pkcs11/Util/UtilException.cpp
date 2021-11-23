@@ -17,10 +17,10 @@
 //}
 //
 //logged_error::logged_error(const char *message) : std::runtime_error(message) {
-//    OutputDebugString(what());
+//    OutputDebugString("%s", what());
 //    CFuncCallInfoList *ptr = callQueue.get();
 //    while (ptr != nullptr) {
-//        OutputDebugString(ptr->info->FunctionName());
+//        OutputDebugString("%s", ptr->info->FunctionName());
 //        ptr = ptr->next.get();
 //    }
 //}
@@ -37,10 +37,10 @@ logged_error::logged_error(std::string message)
 }
 
 logged_error::logged_error(const char *message) : std::runtime_error(message) {
-    OutputDebugString(what());
+    OutputDebugString("%s", what());
 //    CFuncCallInfoList *ptr = callQueue.get();
 //    while (ptr != nullptr) {
-//        OutputDebugString(ptr->info->FunctionName());
+//        OutputDebugString("%s", ptr->info->FunctionName());
 //        ptr = ptr->next.get();
 //    }
 }

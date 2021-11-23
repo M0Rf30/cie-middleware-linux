@@ -596,11 +596,11 @@ ByteDynArray IAS::SM(ByteArray &keyEnc, ByteArray &keySig, ByteArray &apdu, Byte
     init_func
 
     std::string dmp;
-    ODS(dumpHexData(seq, dmp).c_str());
+    ODS("%s", dumpHexData(seq, dmp).c_str());
 
     increment(seq);
 
-    ODS(dumpHexData(seq, dmp).c_str());
+    ODS("%s", dumpHexData(seq, dmp).c_str());
 
     ByteDynArray smHead;
     smHead = apdu.left(4);
@@ -849,19 +849,19 @@ StatusWord IAS::SendAPDU_SM(ByteArray head, ByteArray data, ByteDynArray &resp, 
         smApdu.set(&head, (uint8_t)data.size(), &data, (le == nullptr) ? &emptyBa : &leBa);
 
 
-        ODS(std::string().append("\nClear APDU:").append(dumpHexData(smApdu, str)).append("\n").c_str());
+        ODS("%s", std::string().append("\nClear APDU:").append(dumpHexData(smApdu, str)).append("\n").c_str());
         smApdu = SM(sessENC, sessMAC, smApdu, sessSSC);
 
-//        ODS(std::string().append("\nAPDU:").append(dumpHexData(smApdu)).append("\n").c_str());
+//        ODS("%s", std::string().append("\nAPDU:").append(dumpHexData(smApdu)).append("\n").c_str());
 
         sw = token.Transmit(smApdu, &curresp);
 
-//        ODS(std::string().append("RESP:").append(dumpHexData(curresp)).append("\n").c_str());
+//        ODS("%s", std::string().append("RESP:").append(dumpHexData(curresp)).append("\n").c_str());
 
         sw = getResp_SM(curresp, sw, resp);
 
 
-        ODS(std::string().append("Clear RESP:").append(dumpHexData(resp, str)).append(HexByte(sw >> 8)).append(HexByte(sw & 0xff)).append("\n").c_str());
+        ODS("%s", std::string().append("Clear RESP:").append(dumpHexData(resp, str)).append(HexByte(sw >> 8)).append(HexByte(sw & 0xff)).append("\n").c_str());
         return sw;
     } else {
         // attenzione:
@@ -885,18 +885,18 @@ StatusWord IAS::SendAPDU_SM(ByteArray head, ByteArray data, ByteDynArray &resp, 
             else
                 smApdu.set(&head, (le == nullptr || i < data.size()) ? &emptyBa : &leBa);
 
-            ODS(std::string("Clear APDU:").append(dumpHexData(smApdu, str)).append("\n").c_str());
+            ODS("%s", std::string("Clear APDU:").append(dumpHexData(smApdu, str)).append("\n").c_str());
             smApdu = SM(sessENC, sessMAC, smApdu, sessSSC);
 
-//            ODS(std::string().append("\nAPDU:").append(dumpHexData(smApdu)).append("\n").c_str());
+//            ODS("%s", std::string().append("\nAPDU:").append(dumpHexData(smApdu)).append("\n").c_str());
 
             sw = token.Transmit(smApdu, &curresp);
 
-//            ODS(std::string().append("\nRESP:").append(dumpHexData(curresp)).append("\n").c_str());
+//            ODS("%s", std::string().append("\nRESP:").append(dumpHexData(curresp)).append("\n").c_str());
 
             sw = getResp_SM(curresp, sw, resp);
 
-            ODS(std::string("Clear RESP:").append(dumpHexData(resp, str)).append(HexByte(sw >> 8)).append(HexByte(sw & 0xff)).append("\n").c_str());
+            ODS("%s", std::string("Clear RESP:").append(dumpHexData(resp, str)).append(HexByte(sw >> 8)).append(HexByte(sw & 0xff)).append("\n").c_str());
             if (i == data.size())
                 return sw;
         }
@@ -942,11 +942,11 @@ StatusWord IAS::SendAPDU(ByteArray head, ByteArray data, ByteDynArray &resp, uin
         else
             apdu.set(&head, le == nullptr ? &emptyBa : &leBa);
 
-//        ODS(std::string().append("\nAPDU:").append(dumpHexData(apdu)).append("\n").c_str());
+//        ODS("%s", std::string().append("\nAPDU:").append(dumpHexData(apdu)).append("\n").c_str());
 
         StatusWord sw = token.Transmit(apdu, &curresp);
 
-//        ODS(std::string().append("RESP:").append(dumpHexData(curresp)).append("\n").c_str());
+//        ODS("%s", std::string().append("RESP:").append(dumpHexData(curresp)).append("\n").c_str());
 
         sw=getResp(curresp, sw, resp);
 

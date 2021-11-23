@@ -11,7 +11,7 @@ char szEmpty[]= {'\0'};
 
 CFuncCallInfo::CFuncCallInfo(const char *name, CLog &logInfo) : log(logInfo) {
     fName = name;
-    //OutputDebugString(fName);
+    //OutputDebugString("%s", fName);
     if (FunctionLog) {
         if (tlsCallDepth < GlobalDepth) {
             LogNum = logInfo.write("%*sIN -> %s", (DWORD)tlsCallDepth, szEmpty, fName);
@@ -28,7 +28,7 @@ CFuncCallInfo::CFuncCallInfo(const char *name, CLog &logInfo) : log(logInfo) {
 }
 
 CFuncCallInfo::~CFuncCallInfo() {
-    //OutputDebugString(stdPrintf("OUT %s", fName).c_str());
+    //OutputDebugString("%s", stdPrintf("OUT %s", fName).c_str());
     //fName = NULL;
     tlsCallDepth=tlsCallDepth-1;
     if (fName)
@@ -40,7 +40,7 @@ CFuncCallInfo::~CFuncCallInfo() {
 //	}
 //	else {
 //		callQueue = nullptr;
-//		OutputDebugString("Errore nella sequenza delle funzioni");
+//		OutputDebugString("%s", "Errore nella sequenza delle funzioni");
 //	}
 }
 
