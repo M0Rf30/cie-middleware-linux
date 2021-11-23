@@ -71,7 +71,8 @@ CSession::CSession() {
 CK_SLOT_ID CSession::GetNewSessionID() {
     init_func
     dwSessionCnt++;
-    //return InterlockedIncrement(&dwSessionCnt);
+	__sync_fetch_and_add(&dwSessionCnt, 1);
+	return dwSessionCnt;
 }
 
 CK_SESSION_HANDLE CSession::AddSession(std::unique_ptr<CSession> pSession) {
@@ -125,7 +126,6 @@ void CSession::Login(CK_USER_TYPE userType, CK_CHAR_PTR pPin, CK_ULONG ulPinLen)
         throw p11_error(CKR_USER_ANOTHER_ALREADY_LOGGED_IN);
     if (pSlot->User == CKU_SO && userType == CKU_USER)
         throw p11_error(CKR_USER_ANOTHER_ALREADY_LOGGED_IN);
-    bool bExistsRO = false;
     if (userType == CKU_SO) {
         if (ExistsRO())
             throw p11_error(CKR_SESSION_READ_ONLY_EXISTS);

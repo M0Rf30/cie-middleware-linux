@@ -142,7 +142,9 @@ class ByteDynArray : public ByteArray {
         ByteArray buffer(*this);
         buffer = buffer.mid(internalSet(&buffer, std::forward<Arg0>(arg0)));
         int dummy2[] = { 0, ((void)(buffer = buffer.mid(internalSet(&buffer, std::forward<Args>(args)))), 0) ... };
-
+        
+        (void)dummy;
+        (void)dummy2;
         return *this;
     }
 

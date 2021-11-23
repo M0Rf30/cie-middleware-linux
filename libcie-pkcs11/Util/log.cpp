@@ -275,7 +275,7 @@ DWORD CLog::write(const char *format,...) {
 
             switch(LogMode) {
             case (LM_Single) :
-                fprintf(lf,"%s|%04i|%04i|%02i|", pbtDate, getpid(), dwThreadID, ModuleNum);
+                fprintf(lf,"%s|%04i|%04lx|%02i|", pbtDate, getpid(), dwThreadID, ModuleNum);
                 break;
             case (LM_Module) :
                 fprintf(lf,"%s|%04i|%04lx|", pbtDate, getpid(), dwThreadID);

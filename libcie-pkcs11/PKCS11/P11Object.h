@@ -30,7 +30,7 @@ class CP11Object {
     virtual CK_ULONG GetAttributeValue(CK_ATTRIBUTE_PTR pTemplate, CK_ULONG ulCount);
     virtual void SetAttributes(CK_ATTRIBUTE_PTR pTemplate, CK_ULONG ulCount);
     virtual CK_ULONG GetObjectSize();
-
+    virtual ~CP11Object() = default;
     bool IsPrivate();
 };
 
