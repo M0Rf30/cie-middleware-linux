@@ -103,14 +103,6 @@ void IniSettingsB64::GetValue(const char* fileName, ByteDynArray &value) {
 
 IniSettingsB64::~IniSettingsB64() {}
 
-#ifdef _WIN64
-#pragma comment(linker, "/export:GetNumIniSettings")
-#pragma comment(linker, "/export:GetIniSettings")
-#else
-#pragma comment(linker, "/export:GetNumIniSettings=_GetNumIniSettings")
-#pragma comment(linker, "/export:GetIniSettings=_GetIniSettings")
-#endif
-
 extern "C" {
     int	GetNumIniSettings() {
         return (int)_iniSettings.size();
