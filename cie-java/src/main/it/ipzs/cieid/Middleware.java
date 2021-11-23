@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface Middleware extends Library {
-    Middleware INSTANCE = (Middleware) Native.load("cie-pkcs11", Middleware.class);
-    public static final int MAX_LEN = 256;
-    public static final int MAX_INFO = 20;
+    Middleware INSTANCE = Native.load("cie-pkcs11", Middleware.class);
+    int MAX_LEN = 256;
+    int MAX_INFO = 20;
 
     interface ProgressCallBack extends Callback {
         void invoke(int progress, String message);
@@ -24,9 +24,8 @@ public interface Middleware extends Library {
         void invoke(int retValue);
     }
 
-    public static class verifyInfo extends Structure {
+    class verifyInfo extends Structure {
         public static class ByReference extends verifyInfo implements Structure.ByReference {}
-        ;
 
         public byte[] name = new byte[Middleware.MAX_LEN * 2];
         public byte[] surname = new byte[Middleware.MAX_LEN * 2];
@@ -92,16 +91,16 @@ public interface Middleware extends Library {
         }
     }
 
-    public int AbilitaCIE(
+    int AbilitaCIE(
             String szPAN,
             String szPIN,
             int[] attempts,
             ProgressCallBack progressCallBack,
             CompletedCallBack completedCallBack);
 
-    public int VerificaCIEAbilitata(String szPAN);
+    int VerificaCIEAbilitata(String szPAN);
 
-    public int firmaConCIE(
+    int firmaConCIE(
             String inFilePath,
             String type,
             String pin,
@@ -116,20 +115,20 @@ public interface Middleware extends Library {
             ProgressCallBack progressCallBack,
             SignCompletedCallBack completedCallBack);
 
-    public int DisabilitaCIE(String szPAN);
+    int DisabilitaCIE(String szPAN);
 
-    public int CambioPIN(
+    int CambioPIN(
             String currentPIN, String nuovoPIN, int[] attempts, ProgressCallBack progressCallBack);
 
-    public int SbloccoPIN(
+    int SbloccoPIN(
             String puk, String nuovoPIN, int[] attempts, ProgressCallBack progressCallBack);
 
-    public int verificaConCIE(
+    int verificaConCIE(
             String inFilePath, String proxyAddress, int proxyPort, String usrPass);
 
-    public int getNumberOfSign();
+    int getNumberOfSign();
 
-    public int getVerifyInfo(int index, verifyInfo vInfo);
+    int getVerifyInfo(int index, verifyInfo vInfo);
 
-    public int estraiP7m(String inFilePath, String outFilePath);
+    int estraiP7m(String inFilePath, String outFilePath);
 }

@@ -24,7 +24,7 @@ libcie_pkcs11 = shared_library(
 pkg_mod = import('pkgconfig')
 pkg_mod.generate(
   libraries : libcie_pkcs11,
-  version : '1.0',
+  version : '1.4.1',
   name : 'libcie-pkcs11',
   filebase : 'cie-pkcs11',
   description : 'A library to enable CIE authentication.'

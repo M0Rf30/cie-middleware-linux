@@ -25,9 +25,9 @@ import javax.swing.text.StyledDocument;
 
 public class IntroFrame extends JFrame {
 
-    private JPanel contentPane;
-    private CardLayout cardLayout;
-    private JTabbedPane tabbedPane;
+    private final JPanel contentPane;
+    private final CardLayout cardLayout;
+    private final JTabbedPane tabbedPane;
 
     /** Launch the application. */
     public static void main(String[] args) {

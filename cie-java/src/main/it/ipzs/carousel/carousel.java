@@ -15,11 +15,11 @@ import javax.swing.JRadioButton;
 public class carousel extends JPanel {
 
     private int index;
-    private JButton btnRight;
-    private JButton btnLeft;
-    private List<JRadioButton> radioList;
+    private final JButton btnRight;
+    private final JButton btnLeft;
+    private final List<JRadioButton> radioList;
     private List<Cie> cieList;
-    private JPanel radioButtonPanel;
+    private final JPanel radioButtonPanel;
     private Map<String, Cie> cieDictionary;
     public CieCard cieLeft;
     public CieCard cieCenter;

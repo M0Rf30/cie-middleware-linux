@@ -54,7 +54,7 @@ public class FileDrop {
     private static Boolean supportsDnD;
 
     // Default border color
-    private static java.awt.Color defaultBorderColor = new java.awt.Color(0f, 0f, 1f, 0.25f);
+    private static final java.awt.Color defaultBorderColor = new java.awt.Color(0f, 0f, 1f, 0.25f);
 
     /**
      * Constructs a {@link FileDrop} with a default light-blue border and, if <var>c</var> is a
@@ -404,7 +404,7 @@ public class FileDrop {
     } // end supportsDnD
 
     // BEGIN 2007-09-12 Nathan Blomquist -- Linux (KDE/Gnome) support added.
-    private static String ZERO_CHAR_STRING = "" + (char) 0;
+    private static final String ZERO_CHAR_STRING = "" + (char) 0;
 
     private static File[] createFileArray(BufferedReader bReader, PrintStream out) {
         try {
@@ -565,7 +565,7 @@ public class FileDrop {
      *
      * @since 1.1
      */
-    public static interface Listener {
+    public interface Listener {
 
         /**
          * This method is called when files have been successfully dropped.
@@ -573,7 +573,7 @@ public class FileDrop {
          * @param files An array of <tt>File</tt>s that were dropped.
          * @since 1.0
          */
-        public abstract void filesDropped(java.io.File[] files);
+        void filesDropped(java.io.File[] files);
     } // end inner-interface Listener
 
     /* ********  I N N E R   C L A S S  ******** */
@@ -591,7 +591,7 @@ public class FileDrop {
      */
     public static class Event extends java.util.EventObject {
 
-        private java.io.File[] files;
+        private final java.io.File[] files;
 
         /**
          * Constructs an {@link Event} with the array of files that were dropped and the {@link
@@ -795,10 +795,9 @@ public class FileDrop {
             if (flavor.equals(DATA_FLAVOR)) return true;
 
             // String
-            if (flavor.equals(java.awt.datatransfer.DataFlavor.stringFlavor)) return true;
+            return flavor.equals(DataFlavor.stringFlavor);
 
             // We can't do anything else
-            return false;
         } // end isDataFlavorSupported
 
         /* ********  I N N E R   I N T E R F A C E   F E T C H E R  ******** */
@@ -815,14 +814,14 @@ public class FileDrop {
          * @version 1.1
          * @since 1.1
          */
-        public static interface Fetcher {
+        public interface Fetcher {
             /**
              * Return the object being encapsulated in the {@link TransferableObject}.
              *
              * @return The dropped object
              * @since 1.1
              */
-            public abstract Object getObject();
+            Object getObject();
         } // end inner interface Fetcher
     } // end class TransferableObject
 } // end class FileDrop

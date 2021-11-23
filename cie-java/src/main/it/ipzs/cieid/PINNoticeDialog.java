@@ -30,7 +30,7 @@ public class PINNoticeDialog extends JDialog {
 
     Timer timer;
     int timerCountdown = 5;
-    private JButton btnOk;
+    private final JButton btnOk;
 
     /** Launch the application. */
     public static void main(String[] args) {

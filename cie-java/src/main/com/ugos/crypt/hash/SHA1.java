@@ -9,7 +9,7 @@ public final class SHA1 {
     private static final int DATA_LENGTH = 64;
 
     //  The buffer used to store the last incomplete block.
-    private byte[] buffer;
+    private final byte[] buffer;
 
     //  The number of bytes currently stored in buffer[].
     private int buffered;
@@ -17,10 +17,10 @@ public final class SHA1 {
     //  The number of bytes that have been input to the digest.
     private long count;
 
-    private int[] digest;
-    private int[] data;
-    private int[] z;
-    private byte[] tmp;
+    private final int[] digest;
+    private final int[] data;
+    private final int[] z;
+    private final byte[] tmp;
 
     /** Constructs a SHA-1 message digest. */
     public SHA1() {
@@ -164,7 +164,7 @@ public final class SHA1 {
 
         transform(data);
 
-        byte buf[] = new byte[HASH_LENGTH];
+        byte[] buf = new byte[HASH_LENGTH];
 
         // Big endian
         int off = 0;
@@ -224,7 +224,7 @@ public final class SHA1 {
         int D = digest[3];
         int E = digest[4];
 
-        int W[] = z;
+        int[] W = z;
         for (int i = 0; i < 16; i++) W[i] = X[i];
 
         for (int i = 16; i < 80; i++) {

@@ -16,16 +16,16 @@ import org.ghost4j.renderer.RendererException;
 import org.ghost4j.renderer.SimpleRenderer;
 
 public class PdfPreview {
-    private JPanel prPanel;
-    private String filePath;
-    private String signImagePath;
+    private final JPanel prPanel;
+    private final String filePath;
+    private final String signImagePath;
     private int pdfPageIndex;
     private int pdfNumPages;
     private List<Image> images;
-    private JLabel imgLabel;
-    private ImageIcon imgIcon;
-    private MoveablePicture signImage;
-    private JPanel imgPanel;
+    private final JLabel imgLabel;
+    private final ImageIcon imgIcon;
+    private final MoveablePicture signImage;
+    private final JPanel imgPanel;
 
     public PdfPreview(JPanel panelPdfPreview, String pdfFilePath, String signImagePath) {
         this.prPanel = panelPdfPreview;
@@ -82,18 +82,18 @@ public class PdfPreview {
         int imgWidth = width;
 
         if (tmpImgWidth > tmpImgHeight) {
-            imgHeigth = (int) (width * tmpImgHeight) / tmpImgWidth;
+            imgHeigth = (width * tmpImgHeight) / tmpImgWidth;
 
             if (imgHeigth > height) {
-                imgWidth = (int) (height * tmpImgWidth) / tmpImgHeight;
-                imgHeigth = (int) (imgWidth * tmpImgHeight) / tmpImgWidth;
+                imgWidth = (height * tmpImgWidth) / tmpImgHeight;
+                imgHeigth = (imgWidth * tmpImgHeight) / tmpImgWidth;
             }
         } else {
-            imgWidth = (int) (height * tmpImgWidth) / tmpImgHeight;
+            imgWidth = (height * tmpImgWidth) / tmpImgHeight;
 
             if (imgWidth > width) {
-                imgHeigth = (int) (width * imgHeigth) / tmpImgWidth;
-                imgWidth = (int) (imgHeigth * tmpImgWidth) / imgHeigth;
+                imgHeigth = (width * imgHeigth) / tmpImgWidth;
+                imgWidth = (imgHeigth * tmpImgWidth) / imgHeigth;
             }
         }
 
@@ -134,7 +134,7 @@ public class PdfPreview {
     }
 
     public float[] signImageInfos() {
-        float infos[] = new float[4];
+        float[] infos = new float[4];
 
         float x = ((float) signImage.getX() / (float) imgPanel.getWidth());
         float y =

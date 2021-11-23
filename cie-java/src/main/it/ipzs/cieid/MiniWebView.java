@@ -13,7 +13,7 @@ import javax.swing.text.html.HTMLFrameHyperlinkEvent;
 
 public class MiniWebView extends JPanel implements HyperlinkListener {
 
-    private JEditorPane displayEditorPane = new JEditorPane();
+    private final JEditorPane displayEditorPane = new JEditorPane();
 
     public MiniWebView() {
         setLayout(new BorderLayout());

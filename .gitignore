@@ -14,3 +14,5 @@ meson-logs/
 meson-private/
 gradle/
 .idea/
+gradlew
+gradlew.bat

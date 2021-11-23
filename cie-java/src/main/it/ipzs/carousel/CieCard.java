@@ -22,7 +22,7 @@ public class CieCard extends JPanel {
     private ImageIcon imageIcon1;
     private JLabel lblCieImage;
     private Cie cie;
-    private Size s;
+    private final Size s;
 
     public enum Size {
         CarouselSizeRegular,

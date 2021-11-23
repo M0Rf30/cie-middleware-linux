@@ -135,7 +135,6 @@ public class VerifyTable {
                     public boolean isCellEditable(int row, int column) {
                         return false;
                     }
-                    ;
                 };
 
         updateTable(scrollPane);
@@ -219,7 +218,6 @@ public class VerifyTable {
                     public boolean isCellEditable(int row, int column) {
                         return false;
                     }
-                    ;
                 };
 
         updateTable(verificaScrollPane);
