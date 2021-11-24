@@ -5,11 +5,8 @@
 #define AES_ENCRYPT 0
 #define AES_DECRYPT 1
 #define AES_BLOCK_SIZE 16
-
 #else
 #include <openssl/aes.h>
-//#include <OpenSSL-Static/aes.h>
-//#include <cryptopp/aes.h>
 #endif
 #include "../Util/util.h"
 #include "../Util/UtilException.h"
