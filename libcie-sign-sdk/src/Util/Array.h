@@ -1,18 +1,20 @@
 #pragma once
-#include "defines.h"
-#include "UtilException.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdarg.h>
 #include <ctype.h>
-#include <type_traits>
+#include <stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include <cstdint>
 #include <stdexcept>
 #include <string>
-#include <cstdint>
+#include <type_traits>
+
+#include "UtilException.h"
+#include "defines.h"
 
 #ifndef min1
-#define min1(a,b) ((a) < (b)) ? (a) : (b)
+#define min1(a, b) ((a) < (b)) ? (a) : (b)
 #endif
 
 class ByteArray;
@@ -28,36 +30,40 @@ class ByteArray {
   protected:
     size_t _size;
     uint8_t *_data;
-  public:
 
+  public:
     ByteArray();
-    ByteArray(uint8_t* data, size_t size);
-    ByteArray(const ByteArray& ba, size_t start,size_t size);
-    ByteArray(const ByteArray& ba, size_t start);
+    ByteArray(uint8_t *data, size_t size);
+    ByteArray(const ByteArray &ba, size_t start, size_t size);
+    ByteArray(const ByteArray &ba, size_t start);
     ByteArray(const ByteArray &src);
     bool operator==(const ByteArray &src) const;
     bool operator<(const ByteArray &src) const;
     bool operator>(const ByteArray &src) const;
     bool operator!=(const ByteArray &src) const;
     bool isEmpty() const {
-        return(_size == 0);
+        return (_size == 0);
     }
 
     inline bool isNull() const {
-        return(_data == nullptr);
+        return (_data == nullptr);
     }
 
     inline uint8_t *data() const {
         return _data;
     }
 
-    inline uint8_t & operator[] (size_t pos) const {
-        if (pos >= _size) throw logged_error(stdPrintf("Accesso all'array alla posizione %i non consentito; dimensione massima %i", pos, _size));
+    inline uint8_t &operator[](size_t pos) const {
+        if (pos >= _size)
+            throw logged_error(
+                stdPrintf("Accesso all'array alla posizione %i non consentito; "
+                          "dimensione massima %i",
+                          pos, _size));
         return _data[pos];
     }
 
     inline size_t size() const {
-        return(_size);
+        return (_size);
     }
 
     void copy(const ByteArray &src, size_t start = 0);
@@ -104,55 +110,59 @@ class ByteDynArray : public ByteArray {
     void clear();
     ByteDynArray &append(const ByteArray &src);
     ByteDynArray &push(const uint8_t data);
-    uint8_t* detach();
+    uint8_t *detach();
 
   private:
-    size_t internalSet(ByteArray* ba, uint8_t data) {
-        if (ba != nullptr)
-            (*ba)[0] = data;
+    size_t internalSet(ByteArray *ba, uint8_t data) {
+        if (ba != nullptr) (*ba)[0] = data;
         return 1;
     }
 
-    size_t internalSet(ByteArray* ba, const ByteArray *data) {
-        if (ba != nullptr)
-            ba->copy(*data);
+    size_t internalSet(ByteArray *ba, const ByteArray *data) {
+        if (ba != nullptr) ba->copy(*data);
         return data->size();
     }
 
-    size_t internalSet(ByteArray* ba, const std::string &data) {
-        if (ba != nullptr)
-            return setHexData(data, ba->data());
+    size_t internalSet(ByteArray *ba, const std::string &data) {
+        if (ba != nullptr) return setHexData(data, ba->data());
         return countHexData(data);
     }
 
-    size_t internalSet(ByteArray* ba) {
+    size_t internalSet(ByteArray *ba) {
         return 0;
     }
 
   public:
-    template<typename Arg0, typename ... Args>
-    ByteDynArray& set(Arg0 &&arg0, Args &&... args) {
-        size_t totSize = internalSet((ByteArray*)nullptr, std::forward<Arg0>(arg0));
+    template <typename Arg0, typename... Args>
+    ByteDynArray &set(Arg0 &&arg0, Args &&...args) {
+        size_t totSize =
+            internalSet((ByteArray *)nullptr, std::forward<Arg0>(arg0));
 
         size_t totSize2 = 0;
-        int dummy[] = { 0, ((void)(totSize2 += internalSet((ByteArray*)nullptr, std::forward<Args>(args))), 0) ... };
+        int dummy[] = {
+            0, ((void)(totSize2 +=
+                       internalSet((ByteArray *)nullptr, std::forward<Args>(args))),
+                0)...
+        };
 
         resize(totSize + totSize2);
 
         ByteArray buffer(*this);
         buffer = buffer.mid(internalSet(&buffer, std::forward<Arg0>(arg0)));
-        int dummy2[] = { 0, ((void)(buffer = buffer.mid(internalSet(&buffer, std::forward<Args>(args)))), 0) ... };
+        int dummy2[] = {0, ((void)(buffer = buffer.mid(internalSet(
+                                                &buffer, std::forward<Args>(args)))),
+                            0)...
+                       };
 
         (void)dummy;
         (void)dummy2;
         return *this;
     }
 
-    ByteDynArray &setASN1Tag(unsigned int tag, ByteArray& content);
+    ByteDynArray &setASN1Tag(unsigned int tag, ByteArray &content);
     void load(const char *fname);
 };
 
-#define VarToByteArray(a) (ByteArray((uint8_t*)&(a),sizeof(a)))
+#define VarToByteArray(a) (ByteArray((uint8_t *)&(a), sizeof(a)))
 #define VarToByteDynArray(a) (ByteDynArray(VarToByteArray(a)))
-#define ByteArrayToVar(a,b) (*(b*)(a).data())
-
+#define ByteArrayToVar(a, b) (*(b *)(a).data())
