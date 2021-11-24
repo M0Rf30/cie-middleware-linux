@@ -28,34 +28,33 @@
 #include "UUCStringTable.h"
 #include <stdio.h>
 
-class UUCProperties  
-{
-public:	
-	UUCProperties();
-	UUCProperties(const UUCProperties& defaults);
-	
-	virtual ~UUCProperties();
+class UUCProperties {
+  public:
+    UUCProperties();
+    UUCProperties(const UUCProperties& defaults);
 
-	long load(const char* szFilePath);
-	long load(const UUCByteArray& props);
-	void putProperty(const char* szName, const char* szValue);
-	//void putProperty(char* szName, char* szValue);
-	const char* getProperty(const char* szName, const char* szDefaultValue = NULL) const;
+    virtual ~UUCProperties();
+
+    long load(const char* szFilePath);
+    long load(const UUCByteArray& props);
+    void putProperty(const char* szName, const char* szValue);
+    //void putProperty(char* szName, char* szValue);
+    const char* getProperty(const char* szName, const char* szDefaultValue = NULL) const;
     int getIntProperty(const char* szName, int nDefaultValue = 0) const;
 
     void remove(const char* szName);
-	void removeAll();
+    void removeAll();
 
-	UUCStringTable* getPropertyTable() const;
+    UUCStringTable* getPropertyTable() const;
 
-	bool contains(const char* szName) const;
+    bool contains(const char* szName) const;
 
-	int size() const;
+    int size() const;
 
-protected:
-	UUCStringTable* m_pStringTable;	
+  protected:
+    UUCStringTable* m_pStringTable;
 
-	bool m_bAllocated;
+    bool m_bAllocated;
 };
 
 #endif // !defined(AFX_UUCPROPERTIES_H__715BAE3B_069E_4D31_9FBF_54EA38AAEFEC__INCLUDED_)

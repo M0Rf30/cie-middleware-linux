@@ -12,20 +12,20 @@
 
 
 class logged_error : public std::runtime_error {
-public:
+  public:
     logged_error(std::string message);
-	logged_error(const char *message);
+    logged_error(const char *message);
 };
 
 class scard_error : public logged_error {
-public:
-	StatusWord sw;
-	scard_error(StatusWord sw);
+  public:
+    StatusWord sw;
+    scard_error(StatusWord sw);
 };
 
 class windows_error : logged_error {
-public:
-	windows_error(long  ris);
+  public:
+    windows_error(long  ris);
 };
 
 /*

@@ -2,23 +2,20 @@
 #include "ModuleInfo.h"
 #include "UtilException.h"
 
-CModuleInfo::CModuleInfo()
-{
+CModuleInfo::CModuleInfo() {
 }
 
-HANDLE CModuleInfo::getApplicationModule()
-{
+HANDLE CModuleInfo::getApplicationModule() {
     return 0;
-	//return (HANDLE)GetModuleHandle(NULL);
+    //return (HANDLE)GetModuleHandle(NULL);
 }
 
 HANDLE CModuleInfo::getModule() {
-	return module;
+    return module;
 }
 
-void CModuleInfo::init(HANDLE module)
-{
-	this->module = module;
+void CModuleInfo::init(HANDLE module) {
+    this->module = module;
 //    char path[MAX_PATH];
 //    if (GetModuleFileName((HMODULE)module,path,MAX_PATH)==0)
 //        throw windows_error(GetLastError());
@@ -33,6 +30,5 @@ void CModuleInfo::init(HANDLE module)
 //    szModulePath = moddir;
 }
 
-CModuleInfo::~CModuleInfo(void)
-{
+CModuleInfo::~CModuleInfo(void) {
 }

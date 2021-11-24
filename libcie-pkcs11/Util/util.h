@@ -253,7 +253,6 @@ ByteDynArray ASN1Tag(DWORD tag,ByteArray& content);
 
 std::string stdPrintf(const char *format, ...);
 
-
 template< typename t >
 class scopeExitClass {
     t o;

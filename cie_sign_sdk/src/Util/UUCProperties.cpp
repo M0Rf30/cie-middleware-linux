@@ -38,108 +38,91 @@
 
 #define MAX_ALLOC_SIZE  512
 
-UUCProperties::UUCProperties()
-{
-	m_pStringTable = new UUCStringTable();
-	m_bAllocated = true;
+UUCProperties::UUCProperties() {
+    m_pStringTable = new UUCStringTable();
+    m_bAllocated = true;
 }
 
 UUCProperties::UUCProperties(const UUCProperties& defaults)
-: m_pStringTable(defaults.m_pStringTable)
-{
-	m_bAllocated = false;
+    : m_pStringTable(defaults.m_pStringTable) {
+    m_bAllocated = false;
 }
 
-UUCProperties::~UUCProperties()
-{	
-	if(m_bAllocated)
-		SAFEDELETE(m_pStringTable);
+UUCProperties::~UUCProperties() {
+    if(m_bAllocated)
+        SAFEDELETE(m_pStringTable);
 
-	m_pStringTable = NULL;
+    m_pStringTable = NULL;
 }
 
-long UUCProperties::load(const char* szFilePath)
-{
-	try
-	{
-		UUCTextFileReader textFileReader(szFilePath);
+long UUCProperties::load(const char* szFilePath) {
+    try {
+        UUCTextFileReader textFileReader(szFilePath);
 
-		char* szName;
-		char* szValue;
-		
-		long nEOF = -1;
+        char* szName;
+        char* szValue;
 
-		UUCByteArray line;
-		long nRes = textFileReader.readLine(line);
+        long nEOF = -1;
 
-		char* szLine	= (char*)line.getContent();
+        UUCByteArray line;
+        long nRes = textFileReader.readLine(line);
+
+        char* szLine	= (char*)line.getContent();
         char* szSavePtr;
 
-		while(nRes != nEOF)
-		{
-			if(szLine[0] != '#' && szLine[0] != '[')  // salta i commenti
-			{
-				szName  = strtok_r(szLine, "=", &szSavePtr);
-				szValue = strtok_r(NULL, "\n", &szSavePtr);
-				putProperty(szName, szValue);			
-			}
+        while(nRes != nEOF) {
+            if(szLine[0] != '#' && szLine[0] != '[') { // salta i commenti
+                szName  = strtok_r(szLine, "=", &szSavePtr);
+                szValue = strtok_r(NULL, "\n", &szSavePtr);
+                putProperty(szName, szValue);
+            }
 
-			line.removeAll();
-			nRes	  = textFileReader.readLine(line);
-			szLine	  = (char*)line.getContent();
-		}
-	}
-	catch(long nErr)
-	{
-		return nErr;
-	}
-	catch(...)
-	{
+            line.removeAll();
+            nRes	  = textFileReader.readLine(line);
+            szLine	  = (char*)line.getContent();
+        }
+    } catch(long nErr) {
+        return nErr;
+    } catch(...) {
 #ifdef WIN32
-		return GetLastError();
+        return GetLastError();
 #else
-		return -1;
+        return -1;
 #endif
-	}
+    }
 
-	return 0;
+    return 0;
 }
 
-long UUCProperties::load(const UUCByteArray& props)
-{
-	char* szName;
-	char* szValue;
-	char* szEqual;
+long UUCProperties::load(const UUCByteArray& props) {
+    char* szName;
+    char* szValue;
+    char* szEqual;
     char* szSavePtr;
-	char* szProps = (char*)props.getContent();
-	char* szLine	= strtok_r(szProps, "\r\n", &szSavePtr);
-	
-	while(szLine)
-	{
-		if(szLine[0] != '#' && szLine[0] != '[')  // salta i commenti
-		{
-			szEqual = strstr(szLine, "=");
-			szEqual[0] = 0;
-			szName  = szLine;			
-			szValue = szEqual + 1;
-			putProperty(szName, szValue);
-			szLine = strtok_r(NULL, "\r\n", &szSavePtr);
-		}
-		else
-		{
-			szLine = strtok_r(NULL, "\r\n", &szSavePtr);//strlen(szLine) + 1;
-			//szProps += strlen(szLine) + 1;
-		}
-	}
+    char* szProps = (char*)props.getContent();
+    char* szLine	= strtok_r(szProps, "\r\n", &szSavePtr);
 
-	return 0;
+    while(szLine) {
+        if(szLine[0] != '#' && szLine[0] != '[') { // salta i commenti
+            szEqual = strstr(szLine, "=");
+            szEqual[0] = 0;
+            szName  = szLine;
+            szValue = szEqual + 1;
+            putProperty(szName, szValue);
+            szLine = strtok_r(NULL, "\r\n", &szSavePtr);
+        } else {
+            szLine = strtok_r(NULL, "\r\n", &szSavePtr);//strlen(szLine) + 1;
+            //szProps += strlen(szLine) + 1;
+        }
+    }
+
+    return 0;
 }
-	
 
 
-int UUCProperties::getIntProperty(const char* szName, int nDefaultValue /*= NULL*/) const
-{
-    
+
+int UUCProperties::getIntProperty(const char* szName, int nDefaultValue /*= NULL*/) const {
+
     const char* szVal = getProperty(szName, NULL);
     if(szVal)
         return strtol(szVal, NULL, 10);
@@ -147,49 +130,39 @@ int UUCProperties::getIntProperty(const char* szName, int nDefaultValue /*= NULL
         return nDefaultValue;
 }
 
-const char* UUCProperties::getProperty(const char* szName, const char* szDefaultValue /*= NULL*/) const
-{
-	char* szValue;
-	char* szName1 = (char*)szName;
-	if(m_pStringTable->containsKey(szName1))
-	{
-		m_pStringTable->get(szName1, szValue);
-		return szValue;
-	}
-	else
-	{
-		return szDefaultValue;
-	}
-}
-	
-void UUCProperties::putProperty(const char* szName, const char* szValue)
-{	
-	m_pStringTable->put((char*)szName, (char*)szValue);	
+const char* UUCProperties::getProperty(const char* szName, const char* szDefaultValue /*= NULL*/) const {
+    char* szValue;
+    char* szName1 = (char*)szName;
+    if(m_pStringTable->containsKey(szName1)) {
+        m_pStringTable->get(szName1, szValue);
+        return szValue;
+    } else {
+        return szDefaultValue;
+    }
 }
 
-UUCStringTable* UUCProperties::getPropertyTable() const
-{
-	return m_pStringTable;
+void UUCProperties::putProperty(const char* szName, const char* szValue) {
+    m_pStringTable->put((char*)szName, (char*)szValue);
 }
 
-bool UUCProperties::contains(const char* szName) const
-{
-	return m_pStringTable->containsKey((char*)szName);
+UUCStringTable* UUCProperties::getPropertyTable() const {
+    return m_pStringTable;
+}
+
+bool UUCProperties::contains(const char* szName) const {
+    return m_pStringTable->containsKey((char*)szName);
 }
 
 
 
-void UUCProperties::remove(const char *szName)
-{
-	m_pStringTable->remove((char*)szName);
+void UUCProperties::remove(const char *szName) {
+    m_pStringTable->remove((char*)szName);
 }
 
-void UUCProperties::removeAll()
-{
-	m_pStringTable->removeAll();
+void UUCProperties::removeAll() {
+    m_pStringTable->removeAll();
 }
 
-int UUCProperties::size() const
-{
-	return m_pStringTable->size();
+int UUCProperties::size() const {
+    return m_pStringTable->size();
 }

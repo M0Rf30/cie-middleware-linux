@@ -1,9 +1,6 @@
-#ifdef WIN32
-#include <winscard.h>
-#else
+#ifndef PCSC_H
+#define PCSC_H
 #include <PCSC/winscard.h>
-#include "wintypes.h"
-#endif
 #include "../Util/Array.h"
 #include <vector>
 #include <thread>
@@ -13,33 +10,34 @@
 #endif
 
 class safeConnection {
-public:
-	SCARDCONTEXT hContext;
-	SCARDHANDLE hCard;
-	safeConnection(SCARDCONTEXT hContext, LPCSTR szReader, DWORD dwShareMode);
-	safeConnection(SCARDHANDLE hCard);
-	~safeConnection();
-	operator SCARDHANDLE();
+  public:
+    SCARDCONTEXT hContext;
+    SCARDHANDLE hCard;
+    safeConnection(SCARDCONTEXT hContext, LPCSTR szReader, DWORD dwShareMode);
+    safeConnection(SCARDHANDLE hCard);
+    ~safeConnection();
+    operator SCARDHANDLE();
 };
 
-class safeTransaction{
-	SCARDHANDLE hCard;
-	bool locked;
-	DWORD dwDisposition;
-public:
-	safeTransaction(safeConnection &conn, DWORD dwDisposition);
-	void unlock();
-	bool isLocked();
-	~safeTransaction();
+class safeTransaction {
+    SCARDHANDLE hCard;
+    bool locked;
+    DWORD dwDisposition;
+  public:
+    safeTransaction(safeConnection &conn, DWORD dwDisposition);
+    void unlock();
+    bool isLocked();
+    ~safeTransaction();
 };
 
 class readerMonitor {
-	SCARDCONTEXT hContext;
-	std::thread Thread;
-	void *appData;
-	void(*readerEvent)(std::string &reader, bool insert,void *appData);
-	bool stopMonitor;
-public:
-	readerMonitor(void(*readerEvent)(std::string &reader, bool insert, void* appData), void* appData);
-	~readerMonitor();
+    SCARDCONTEXT hContext;
+    std::thread Thread;
+    void *appData;
+    void(*readerEvent)(std::string &reader, bool insert,void *appData);
+    bool stopMonitor;
+  public:
+    readerMonitor(void(*readerEvent)(std::string &reader, bool insert, void* appData), void* appData);
+    ~readerMonitor();
 };
+#endif //PCSC_H

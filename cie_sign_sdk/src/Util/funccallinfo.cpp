@@ -7,19 +7,19 @@ thread_local std::unique_ptr<CFuncCallInfoList> callQueue = nullptr;
 extern bool FunctionLog;
 extern unsigned int GlobalDepth;
 extern bool GlobalParam;
-char szEmpty[]={'\0'};
+char szEmpty[]= {'\0'};
 
 CFuncCallInfo::CFuncCallInfo(const char *name, CLog &logInfo) : log(logInfo) {
-	fName = name;
-	//OutputDebugString(fName);
-	if (FunctionLog) {
-		if (tlsCallDepth < GlobalDepth) {
-			LogNum = logInfo.write("%*sIN -> %s", (DWORD)tlsCallDepth, szEmpty, fName);
-		}
-	}
+    fName = name;
+    //OutputDebugString("%s", fName);
+    if (FunctionLog) {
+        if (tlsCallDepth < GlobalDepth) {
+            LogNum = logInfo.write("%*sIN -> %s", (DWORD)tlsCallDepth, szEmpty, fName);
+        }
+    }
 
-	//fName = name;
-	tlsCallDepth = tlsCallDepth + 1;
+    //fName = name;
+    tlsCallDepth = tlsCallDepth + 1;
 
 
 //	auto head = callQueue.release();
@@ -28,11 +28,11 @@ CFuncCallInfo::CFuncCallInfo(const char *name, CLog &logInfo) : log(logInfo) {
 }
 
 CFuncCallInfo::~CFuncCallInfo() {
-	//OutputDebugString(stdPrintf("OUT %s", fName).c_str());
-	//fName = NULL;
-	tlsCallDepth=tlsCallDepth-1;
-	if (fName)
-		log.write("%*sOUT -> %s (%u)",(DWORD)tlsCallDepth,szEmpty,fName,LogNum-1);
+    //OutputDebugString("%s", stdPrintf("OUT %s", fName).c_str());
+    //fName = NULL;
+    tlsCallDepth=tlsCallDepth-1;
+    if (fName)
+        log.write("%*sOUT -> %s (%u)",(DWORD)tlsCallDepth,szEmpty,fName,LogNum-1);
 
 //	if (callQueue!=nullptr && callQueue->info == this) {
 //		//auto head = callQueue->next.release();
@@ -40,10 +40,10 @@ CFuncCallInfo::~CFuncCallInfo() {
 //	}
 //	else {
 //		callQueue = nullptr;
-//		OutputDebugString("Errore nella sequenza delle funzioni");
+//		OutputDebugString("%s", "Errore nella sequenza delle funzioni");
 //	}
 }
 
 const char *CFuncCallInfo::FunctionName() {
-	return fName;
+    return fName;
 }

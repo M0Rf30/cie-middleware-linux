@@ -27,7 +27,6 @@ set(SRC_LIST
     ${SOURCE_DIR}/SignatureGenerator.cpp
     ${SOURCE_DIR}/LdapCrl.cpp
     ${SOURCE_DIR}/M7MParser.cpp
-    ${SOURCE_DIR}/PdfSignatureGenerator.cpp
     ${SOURCE_DIR}/PdfVerifier.cpp
     ${SOURCE_DIR}/SignedDataGeneratorEx.cpp
     ${SOURCE_DIR}/SignedDocument.cpp
@@ -123,6 +122,7 @@ add_library(${PROJECT_NAME} STATIC ${SRC_LIST})
 
 set(INCLUDE_LIST 
     /usr/include/PCSC
+    /usr/include/libxml2
     /usr/include
     ${INCLUDE_DIR}
     ${SOURCE_DIR}/ASN1
