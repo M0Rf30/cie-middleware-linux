@@ -29,9 +29,9 @@ hashsums:archlinux=(
     "skip"
 )
 depends:apt=(
-    "libcrypto++"
-    "libpcsclite"
-    "libssl"
+    "cryptopp"
+    "libpcsclite1"
+    "libssl1.1"
     "openjdk-11-jre-headless"
     "pcscd"
 )
@@ -39,10 +39,10 @@ makedepends:apt=(
     "g++"  
     "libpcsclite-dev"
     "openjdk-11-jre-headless"
-    "libcrypto++-dev"
     "libssl-dev"
-    "meson"
     "pkg-config"
+    "python3-pip"
+    "unzip"
 )
 
 depends:pacman=(
@@ -125,6 +125,7 @@ build:opensuse() {
 
 build:ubuntu() {
     export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+    pip3 install ninja meson
     cd "${srcdir}/${pkgname}-linux-main"
     ../gradle-7.3/bin/gradle -b cie-java/build.gradle standalone
     cd libcie-pkcs11

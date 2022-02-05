@@ -1,0 +1,44 @@
+targets=(
+  "centos"
+  "ubuntu"
+)
+pkgname="cryptopp"
+pkgver="8.6.0"
+pkgrel="1"
+pkgdesc="A free C++ class library of cryptographic schemes"
+pkgdesclong=(
+  "A free C++ class library of cryptographic schemes"
+)
+arch="amd64"
+maintainer="M0Rf30"
+url="https://www.cryptopp.com/"
+depends:apt=(
+  "libc6"
+)
+makedepends:apt=(
+  "libc6-dev"
+)
+section="libs"
+priority="important"
+sources=(
+  "https://github.com/weidai11/cryptopp/archive/69bf6b53052b59ccb57ce068ce741988ae087317.tar.gz"
+)
+hashsums=(
+  "SKIP"
+)
+
+build:apt() {
+  cd "${srcdir}"
+  export CXXFLAGS="$CXXFLAGS -DNDEBUG -fPIC"
+  make PREFIX=/usr -C cryptopp-69bf6b53052b59ccb57ce068ce741988ae087317 dynamic cryptest.exe libcryptopp.pc
+}
+
+package() {
+  cd "${srcdir}"
+  make DESTDIR="${pkgdir}" PREFIX=/usr -C cryptopp-69bf6b53052b59ccb57ce068ce741988ae087317 install
+  install -Dm 644 cryptopp-69bf6b53052b59ccb57ce068ce741988ae087317/License.txt -t \
+    "${pkgdir}"/usr/share/licenses/crypto++/
+  # Remove cryptest.exe and test files, only needed for check() and bloats the package
+  # because cryptest.exe is linked statically.
+  rm -rf "${pkgdir}"/usr/{bin,share/cryptopp}
+}

@@ -6,7 +6,8 @@ name: CI
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [ main ]
+    branches: 
+      - "*"
     tags:        
       - 1.*
   pull_request:
@@ -32,12 +33,12 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Build
         run: |
-          cd $GITHUB_WORKSPACE/pacur
-          docker run -v $(pwd):/pacur m0rf30/pacur-ubuntu-groovy:0.6
-          for i in $(ls); do sha256sum $i >> SHA256SUMS; done
+          cd packages
+          docker run -v $(pwd):/project packagefoundation/yap-ubuntu-bionic:latest build ubuntu-bionic .
+          for i in $(ls artifacts/); do sha256sum artifacts/$i >> SHA256SUMS; done
 
       - name: version
-        run: echo "::set-output name=version::$(cat pacur/PKGBUILD | grep pkgver | cut -d\" -f2)"
+        run: echo "::set-output name=version::$(cat packages/cie-middleware/PKGBUILD | grep pkgver | cut -d\" -f2)"
         id: version      
 
       # - name: release
@@ -56,7 +57,7 @@ jobs:
       #     GITHUB_TOKEN: ${{ github.token }}
       #   with:
       #     upload_url: ${{ steps.create_release.outputs.upload_url }}
-      #     asset_path: pacur/*.deb
+      #     asset_path: packages/artifacts
       #     asset_name: cie-middleware_1.4.2-0ubuntu1_amd64.deb
       #     asset_content_type: application/vnd.debian.binary-package
       # - name: upload SHA
@@ -65,7 +66,7 @@ jobs:
       #     GITHUB_TOKEN: ${{ github.token }}
       #   with:
       #     upload_url: ${{ steps.create_release.outputs.upload_url }}
-      #     asset_path: pacur/SHA256SUMS
+      #     asset_path: packages/SHA256SUMS
       #     asset_name: SHA256SUMS
       #     asset_content_type: application/text
 
@@ -74,7 +75,7 @@ jobs:
         with:
           name: dist
           path: |
-            pacur/*.deb
-            pacur/*.rpm
-            pacur/*.zst
-            pacur/SHA256SUMS
+            packages/artifacts/*.deb
+            packages/artifacts/*.rpm
+            packages/artifacts/*.zst
+            packages/SHA256SUMS
