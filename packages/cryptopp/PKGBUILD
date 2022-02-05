@@ -12,12 +12,6 @@ pkgdesclong=(
 arch="amd64"
 maintainer="M0Rf30"
 url="https://www.cryptopp.com/"
-depends:apt=(
-  "libc6"
-)
-makedepends:apt=(
-  "libc6-dev"
-)
 section="libs"
 priority="important"
 sources=(
