@@ -126,6 +126,7 @@ void CSession::Login(CK_USER_TYPE userType, CK_CHAR_PTR pPin, CK_ULONG ulPinLen)
         throw p11_error(CKR_USER_ANOTHER_ALREADY_LOGGED_IN);
     if (pSlot->User == CKU_SO && userType == CKU_USER)
         throw p11_error(CKR_USER_ANOTHER_ALREADY_LOGGED_IN);
+    bool bExistsRO = false;
     if (userType == CKU_SO) {
         if (ExistsRO())
             throw p11_error(CKR_SESSION_READ_ONLY_EXISTS);
@@ -200,10 +201,10 @@ void CSession::FindObjectsInit(CK_ATTRIBUTE_PTR pTemplate, CK_ULONG ulCount) {
                 /*if (Log.LogParam) {
                 	ByteArray *Label = NULL;
                 	pSlot->P11Objects[i]->getAttribute(CKA_LABEL, Label);
-                	Log.writePure("Object found %i:", i);
-                	Log.writePure("Class: %x", pSlot->P11Objects[i]->ObjClass);
+                	//Log.writePure("Object found %i:", i);
+                	//Log.writePure("Class: %x", pSlot->P11Objects[i]->ObjClass);
                 	if (Label) {
-                		Log.writePure("Label:");
+                		//Log.writePure("Label:");
                 		info.logParameter(Label->data(), Label->size());
                 	}
                 }*/

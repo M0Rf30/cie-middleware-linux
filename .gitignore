@@ -2,6 +2,7 @@
 *.VC.opendb
 /cie-java/.gradle
 /cie-java/bin
+*.a
 *.o
 *.d
 *.so
@@ -16,3 +17,6 @@ gradle/
 .idea/
 gradlew
 gradlew.bat
+.trunk
+build/
+builddir/

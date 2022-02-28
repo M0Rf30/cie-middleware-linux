@@ -8,6 +8,9 @@
 #include "../Util/SyncroEvent.h"
 #include <mutex>
 #include <cryptopp/misc.h>
+#include "../LOGGER/Logger.h"
+
+using namespace CieIDLogger;
 
 extern CLog Log;
 
@@ -80,7 +83,7 @@ static DWORD slotMonitor(SlotMap *pSlotMap) {
                 slot[i] = it->second;
                 if ((ris = SCardGetStatusChange(Context, 0, &state[i], 1)) != S_OK) {
                     if (ris != SCARD_E_TIMEOUT) {
-                        Log.write("Errore nella SCardGetStatusChange - %08X", ris);
+                        LOG_ERROR("slotMonitor - SCardGetStatusChange error: %08X", ris);
                         // non uso la ExitThread!!!
                         // altrimenti non chiamo i distruttori, e mi rimane tutto appeso
                         // SOPRATTUTTO il p11Mutex
@@ -97,32 +100,32 @@ static DWORD slotMonitor(SlotMap *pSlotMap) {
             ris = SCardGetStatusChange(Context, 1000, state.data(), (DWORD)dwSlotNum);
             if (ris != S_OK) {
                 if (CSlot::bMonitorUpdate || ris == SCARD_E_SYSTEM_CANCELLED || ris == SCARD_E_SERVICE_STOPPED || ris == SCARD_E_INVALID_HANDLE || ris == ERROR_INVALID_HANDLE) {
-                    Log.write("Monitor Update");
+                    LOG_DEBUG("slotMonitor - Monitor Update");
                     break;
                 }
                 if (ris == SCARD_E_CANCELLED || bP11Terminate || !bP11Initialized) {
-                    Log.write("Terminate");
+                    LOG_DEBUG("slotMonitor - Terminate");
                     p11slotEvent.set();
                     CSlot::ThreadContext = NULL;
                     // no exitThread, vedi sopra;
                     return 0;
                 }
                 if (ris != SCARD_E_TIMEOUT && ris != SCARD_E_NO_READERS_AVAILABLE) {
-                    Log.write("Errore nella SCardGetStatusChange - %08X", ris);
+                    LOG_ERROR("slotMonitor - SCardGetStatusChange error: %08X", ris);
                     p11slotEvent.set();
                     CSlot::ThreadContext = NULL;
                     // no exitThread, vedi sopra;
                     return 1;
                 }
                 if (ris == SCARD_E_NO_READERS_AVAILABLE) {
-                    Log.write("Nessun lettore connesso - %08X", ris);
+                    LOG_INFO("slotMonitor - No smart card reader connected: %08X", ris);
                     CSlot::ThreadContext = NULL;
                     // no exitThread, vedi sopra;
                     return 1;
                 }
             }
             if (bP11Terminate || !bP11Initialized) {
-                Log.write("Terminate");
+                LOG_INFO("slotMonitor - Terminate");
                 p11slotEvent.set();
                 CSlot::ThreadContext = NULL;
                 // no exitThread, vedi sopra;
@@ -271,12 +274,11 @@ void CSlot::InitSlotList() {
             return;
 
         // vediamo questo slot c'era già prima
-        Log.write("reader:%s", szReaderName);
+        LOG_INFO("InitSlotList - reader:%s", szReaderName);
         std::shared_ptr<CSlot> pSlot = GetSlotFromReaderName(szReaderName);
         if (pSlot == nullptr) {
             auto pSlot = std::make_shared<CSlot>(szReaderName);
-//				CK_SLOT_ID hSlotID =
-            AddSlot(pSlot);
+            CK_SLOT_ID hSlotID = AddSlot(pSlot);
             bMapChanged = true;
         }
         szReaderName = szReaderName + strnlen(szReaderName, readersLen) + 1;
@@ -286,7 +288,7 @@ void CSlot::InitSlotList() {
         if (!bP11Initialized)
             return;
 
-        Log.write("%s", it->second->szName.c_str());
+        LOG_DEBUG("InitSlotList - %s", it->second->szName.c_str());
         const char *name = it->second->szName.c_str();
 
         const char *szReaderName = readers.c_str();
@@ -314,7 +316,6 @@ void CSlot::InitSlotList() {
     if (!Thread.joinable())
         Thread = std::thread(slotMonitor, &g_mSlots);
 
-    Log.write("InitSlotList ok");
 }
 
 bool CSlot::IsTokenPresent() {
@@ -385,7 +386,7 @@ void CSlot::GetTokenInfo(CK_TOKEN_INFO_PTR pInfo) {
         throw p11_error(CKR_TOKEN_NOT_RECOGNIZED);
 
     memset(pInfo->label, 0, sizeof(pInfo->label));
-    CryptoPP::memcpy_s((char*)pInfo->label, 32, pTemplate->szName.c_str(), std::min(pTemplate->szName.length(), sizeof(pInfo->label)));
+    CryptoPP::memcpy_s((char*)pInfo->label, 32, pTemplate->szName.c_str(), min1(pTemplate->szName.length(), sizeof(pInfo->label)));
     memset(pInfo->manufacturerID, ' ', sizeof(pInfo->manufacturerID));
 
     std::string manifacturer;
@@ -660,10 +661,11 @@ ByteDynArray CSlot::GetATR() {
     char ATR[40];
     long ret = SCardGetAttrib(this->hCard, SCARD_ATTR_ATR_STRING, (uint8_t*)ATR, &atrLen);
     if(ret == SCARD_S_SUCCESS) {
-        Log.writeBinData((BYTE*)ATR, atrLen);
+        LOG_INFO("CSlot::GetATR() - ATR:");
+        LOG_BUFFER((BYTE*)ATR, atrLen);
         return ByteArray((BYTE*)ATR, atrLen);
     } else {
-        Log.write("ATR Letto: -nessuna carta inserita-");
+        LOG_INFO("CSlot::GetATR() - no card inserted");
         return ByteArray();
     }
 //readCIEType

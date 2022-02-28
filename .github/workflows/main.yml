@@ -6,76 +6,47 @@ name: CI
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: 
-      - "*"
-    tags:        
-      - 1.*
   pull_request:
-    branches: [ main ]
-    tags:        
-      - 1.*
- 
+
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+  gradle:
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-
-      # Runs a set of commands using the runners shell
-      - name: Build
-        run: |
-          cd packages
-          docker run -v $(pwd):/project packagefoundation/yap-ubuntu-bionic:latest build ubuntu-bionic .
-          for i in $(ls artifacts/); do sha256sum artifacts/$i >> SHA256SUMS; done
-
-      - name: version
-        run: echo "::set-output name=version::$(cat packages/cie-middleware/PKGBUILD | grep pkgver | cut -d\" -f2)"
-        id: version      
-
-      # - name: release
-      #   uses: actions/create-release@v1
-      #   id: create_release
-      #   with:
-      #     draft: false
-      #     prerelease: false
-      #     release_name: ${{ steps.version.outputs.version }}
-      #     tag_name: ${{ github.ref }}
-      #   env:
-      #     GITHUB_TOKEN: ${{ github.token }}
-      # - name: upload deb artifact
-      #   uses: actions/upload-release-asset@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ github.token }}
-      #   with:
-      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
-      #     asset_path: packages/artifacts
-      #     asset_name: cie-middleware_1.4.2-0ubuntu1_amd64.deb
-      #     asset_content_type: application/vnd.debian.binary-package
-      # - name: upload SHA
-      #   uses: actions/upload-release-asset@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ github.token }}
-      #   with:
-      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
-      #     asset_path: packages/SHA256SUMS
-      #     asset_name: SHA256SUMS
-      #     asset_content_type: application/text
-
-      - name: Archive production artifacts
-        uses: actions/upload-artifact@v2
+      - uses: actions/setup-java@v2
         with:
-          name: dist
-          path: |
-            packages/artifacts/*.deb
-            packages/artifacts/*.rpm
-            packages/artifacts/*.zst
-            packages/SHA256SUMS
+          distribution: temurin
+          java-version: 11
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+
+      - name: Execute Gradle build
+        run: |
+          gradle -b cie-java/build.gradle standalone
+      
+      - name: Install Dependencies
+        run: sudo apt install -y g++ libpcsclite-dev openjdk-11-jre-headless libssl-dev pkg-config python3-pip unzip libcrypto++-dev libcrypto++6 libpcsclite1 libssl1.1 pcscd
+
+      - uses: actions/setup-python@v1
+        with:
+          python-version: '3.x'
+      - run: pip install meson ninja
+        env:
+          CC: gcc
+      - run: meson builddir libcie-pkcs11
+      - run: meson configure -Dprefix=/usr builddir
+      - run: meson compile -C builddir
+      - uses: actions/upload-artifact@v1
+        if: failure()
+        with:
+          name: Linux_Meson_Testlog
+          path: builddir/meson-logs/testlog.txt

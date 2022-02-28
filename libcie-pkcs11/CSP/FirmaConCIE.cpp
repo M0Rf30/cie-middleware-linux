@@ -1,8 +1,6 @@
 //
 //  FirmaConCIE.cpp
 //  cie-pkcs11
-//
-//  Created by Pierluigi De Gregorio on 18/02/21.
 //  Copyright © 2021 IPZS. All rights reserved.
 //
 
@@ -16,6 +14,9 @@
 #include "../Crypto/ASNParser.h"
 #include "../Sign/CIESign.h"
 #include "AbilitaCIE.h"
+#include "../LOGGER/Logger.h"
+
+using namespace CieIDLogger;
 
 
 #define CARD_PAN_MISMATCH            (int)(0x000000F1)
@@ -27,7 +28,8 @@ extern "C" {
 
 CK_RV CK_ENTRY firmaConCIE(const char* inFilePath, const char* type, const char* pin, const char* pan, int page, float x, float y, float w, float h, const char* imagePathFile, const char* outFilePath, PROGRESS_CALLBACK progressCallBack, SIGN_COMPLETED_CALLBACK completedCallBack) {
 
-    printf("page: %d, x: %f, y: %f, w: %f, h: %f", page, x, y, w, h);
+    LOG_INFO("****** Starting firmaConCIE ******");
+    LOG_DEBUG("firmaConCIE - page: %d, x: %f, y: %f, w: %f, h: %f", page, x, y, w, h);
 
     char* readers = NULL;
     char* ATR = NULL;
@@ -41,13 +43,15 @@ CK_RV CK_ENTRY firmaConCIE(const char* inFilePath, const char* type, const char*
         SCARDCONTEXT hSC;
 
         long nRet = SCardEstablishContext(SCARD_SCOPE_USER, nullptr, nullptr, &hSC);
-        if (nRet != SCARD_S_SUCCESS)
+        if (nRet != SCARD_S_SUCCESS) {
+            LOG_ERROR("firmaConCIE - List readers error: %d\n", nRet);
             return CKR_DEVICE_ERROR;
+        }
+        LOG_INFO("firmaConCIE - Establish Context ok\n");
 
-        OutputDebugString("%s", "Establish Context ok\n");
-
-        if (SCardListReaders(hSC, nullptr, NULL, &len) != SCARD_S_SUCCESS) {
-            OutputDebugString("%s", "List readers ko\n");
+        nRet = SCardListReaders(hSC, nullptr, NULL, &len);
+        if ( nRet!= SCARD_S_SUCCESS) {
+            LOG_ERROR("firmaConCIE - List readers error: %d\n", nRet);
             return CKR_TOKEN_NOT_PRESENT;
         }
 
@@ -68,20 +72,15 @@ CK_RV CK_ENTRY firmaConCIE(const char* inFilePath, const char* type, const char*
             if (!conn.hCard)
                 continue;
 
-            LONG res = 0;
-
             DWORD atrLen = 40;
-            res = SCardGetAttrib(conn.hCard, SCARD_ATTR_ATR_STRING, (uint8_t*)ATR, &atrLen);
-            if (res != SCARD_S_SUCCESS) {
+            if(SCardGetAttrib(conn.hCard, SCARD_ATTR_ATR_STRING, (uint8_t*)ATR, &atrLen) != SCARD_S_SUCCESS) {
                 free(readers);
-                OutputDebugString("%s", "GetAttrib ko 1, %d\n", res);
                 return CKR_DEVICE_ERROR;
             }
 
-
             ATR = (char*)malloc(atrLen);
 
-            if (SCardGetAttrib(conn.hCard, SCARD_ATTR_ATR_STRING, (uint8_t*)ATR, &atrLen) != SCARD_S_SUCCESS) {
+            if(SCardGetAttrib(conn.hCard, SCARD_ATTR_ATR_STRING, (uint8_t*)ATR, &atrLen) != SCARD_S_SUCCESS) {
                 free(readers);
                 free(ATR);
                 return CKR_DEVICE_ERROR;
@@ -138,7 +137,7 @@ CK_RV CK_ENTRY firmaConCIE(const char* inFilePath, const char* type, const char*
 
             progressCallBack(100, "");
 
-            OutputDebugString("%s", "CieSign ret: %d", ret);
+            LOG_INFO("firmaConCIE - completed, res: %d", ret);
 
             free(ias);
             free(cieSign);
@@ -153,14 +152,14 @@ CK_RV CK_ENTRY firmaConCIE(const char* inFilePath, const char* type, const char*
 
         }
     } catch (std::exception &ex) {
-        OutputDebugString("%s", ex.what());
+        LOG_ERROR(ex.what());
         if (ATR)
             free(ATR);
-        OutputDebugString("%s", "Eccezione: %s", ex.what());
+        LOG_ERROR("firmaConCIE - Eccezione: %s", ex.what());
         if (readers)
             free(readers);
 
-        OutputDebugString("%s", "General error\n");
+        LOG_ERROR("firmaConCIE - General error\n");
         return CKR_GENERAL_ERROR;
     }
 

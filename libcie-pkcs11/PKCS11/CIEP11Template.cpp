@@ -9,11 +9,13 @@
 #include <cryptopp/asn.h>
 #include "../Util/CryptoppUtils.h"
 #include <stdio.h>
-
 extern CLog Log;
+
+#include "../LOGGER/Logger.h"
 
 using namespace CryptoPP;
 using namespace lcp;
+using namespace CieIDLogger;
 
 void notifyPINLocked();
 void notifyPINWrong(int trials);
@@ -40,7 +42,7 @@ int TokenTransmitCallback(CSlot *data, BYTE *apdu, DWORD apduSize, BYTE *resp, D
             return SCARD_S_SUCCESS;
         } else if (code == 0xfffe) {
             DWORD protocol = 0;
-            ODS("%s", "UNPOWER CARD");
+            ODS("UNPOWER CARD");
             auto ris = SCardReconnect(data->hCard, SCARD_SHARE_SHARED, SCARD_PROTOCOL_Tx, SCARD_UNPOWER_CARD, &protocol);
 
 
@@ -60,33 +62,31 @@ int TokenTransmitCallback(CSlot *data, BYTE *apdu, DWORD apduSize, BYTE *resp, D
                 resp[0] = 0x90;
                 resp[1] = 0x00;
             }
-            ODS("%s", "RESET CARD");
+            ODS("RESET CARD");
             return ris;
         }
     }
 
-    Log.writePure("APDU: %s", dumpHexData(ByteArray(apdu, apduSize)).c_str());
+    //Log.writePure("APDU: %s", dumpHexData(ByteArray(apdu, apduSize)).c_str());
 
-    //ODS("%s", String().printf("APDU: %s\n", dumpHexData(ByteArray(apdu, apduSize), String()).lock()).lock());
+    //ODS(String().printf("APDU: %s\n", dumpHexData(ByteArray(apdu, apduSize), String()).lock()).lock());
     auto ris = SCardTransmit(data->hCard, SCARD_PCI_T1, apdu, apduSize, NULL, resp, respSize);
     if(ris == SCARD_W_RESET_CARD || ris == SCARD_W_UNPOWERED_CARD) {
-        Log.writePure("Errore card reset: %x", ris);
-        ODS("%s", "card resetted");
+        LOG_ERROR("TokenTransmitCallback - Card reset error: %x", ris);
+
         DWORD protocol = 0;
         ris = SCardReconnect(data->hCard, SCARD_SHARE_SHARED, SCARD_PROTOCOL_Tx, SCARD_LEAVE_CARD, &protocol);
         if (ris != SCARD_S_SUCCESS) {
-            ODS("%s", "Errore reconnect");
-            Log.writePure("Errore reconnect: %x", ris);
+            LOG_ERROR("TokenTransmitCallback - Errore reconnect %d", ris);
         } else
             ris = SCardTransmit(data->hCard, SCARD_PCI_T1, apdu, apduSize, NULL, resp, respSize);
     }
 
     if (ris != SCARD_S_SUCCESS) {
-        Log.writePure("Errore trasmissione APDU: %x", ris);
-        ODS("%s", "Errore trasmissione APDU");
+        LOG_ERROR("TokenTransmitCallback - APDU transmission error: %x", ris);
     }
     //else
-    //ODS("%s", String().printf("RESP: %s\n", dumpHexData(ByteArray(resp, *respSize), String()).lock()).lock());
+    //ODS(String().printf("RESP: %s\n", dumpHexData(ByteArray(resp, *respSize), String()).lock()).lock());
 
     return ris;
 }
@@ -189,7 +189,7 @@ void CIEtemplateInitSession(void *pTemplateData) {
         CK_CERTIFICATE_TYPE certx509 = CKC_X_509;
         cie->cert->addAttribute(CKA_CERTIFICATE_TYPE, VarToByteArray(certx509));
 
-        Log.write(dumpHexData(certRaw).c_str());
+        //LOG_DEBUG("CIEtemplateInitSession - certRaw: %s", dumpHexData(certRaw).c_str());
 
 #ifdef WIN32
         PCCERT_CONTEXT certDS = CertCreateCertificateContext(X509_ASN_ENCODING | PKCS_7_ASN_ENCODING, certRaw.data(), (DWORD)certRaw.size());

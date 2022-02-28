@@ -5,10 +5,10 @@ targets=(
     "ubuntu"
 )
 pkgname="cie-middleware"
-pkgver="1.4.1"
+pkgver="1.4.2"
 pkgrel="1"
-pkgdesc="Middleware della CIE (Carta di Identità Elettronica) per Linux"
-pkgdesclong=("Middleware della CIE (Carta di Identità Elettronica) per Linux")
+pkgdesc="A fork of Middleware della CIE (Carta di Identità Elettronica) per Linux"
+pkgdesclong=("A fork of Middleware della CIE (Carta di Identità Elettronica) per Linux")
 maintainer="boiano.gianluca@gmail.com"
 url="https://github.com/italia/cie-middleware-linux"
 arch="amd64"
@@ -97,8 +97,7 @@ build:archlinux() {
     export JAVA_HOME=/usr/lib/jvm/default/
     cd "${srcdir}/${pkgname}-linux-main"
     gradle -b cie-java/build.gradle standalone
-    cd libcie-pkcs11
-    meson builddir
+    meson builddir libcie-pkcs11
     meson configure -Dprefix=/usr builddir
     meson compile -C builddir
 }
@@ -107,8 +106,7 @@ build:fedora() {
     export JAVA_HOME=/usr/lib/jvm/java-11-openjdk/
     cd "${srcdir}/${pkgname}-linux-main"
     ../gradle-7.3/bin/gradle -b cie-java/build.gradle standalone
-    cd libcie-pkcs11
-    meson builddir
+    meson builddir libcie-pkcs11
     meson configure -Dprefix=/usr builddir
     meson compile -C builddir
 }
@@ -117,8 +115,7 @@ build:opensuse() {
     export JAVA_HOME=/usr/lib64/jvm/java-11-openjdk/
     cd "${srcdir}/${pkgname}-linux-main"
     ../gradle-7.3/bin/gradle -b cie-java/build.gradle standalone
-    cd libcie-pkcs11
-    meson builddir
+    meson builddir libcie-pkcs11
     meson configure -Dprefix=/usr builddir
     meson compile -C builddir
 }
@@ -128,8 +125,7 @@ build:ubuntu() {
     pip3 install ninja meson
     cd "${srcdir}/${pkgname}-linux-main"
     ../gradle-7.3/bin/gradle -b cie-java/build.gradle standalone
-    cd libcie-pkcs11
-    meson builddir
+    meson builddir libcie-pkcs11
     meson configure -Dprefix=/usr builddir
     meson compile -C builddir
 }
@@ -150,6 +146,5 @@ package() {
     "${pkgdir}/usr/share/licenses/cieid/LICENSE"
 
     # Lib
-    cd libcie-pkcs11
-    DESTDIR="${pkgdir}" meson install -C builddir 
+    DESTDIR="${pkgdir}" meson install -C builddir
 }

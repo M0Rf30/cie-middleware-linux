@@ -1,6 +1,10 @@
 #include "CIESign.h"
 #include "disigonsdk.h"
 #include <string.h>
+#include "../LOGGER/Logger.h"
+
+using namespace CieIDLogger;
+
 
 
 CIESign::CIESign(IAS *ias) {
@@ -118,7 +122,7 @@ uint16_t CIESign::sign(const char* inFilePath, const char* type, const char* pin
             throw ret;
         }
     } catch (long err) {
-        OutputDebugString("%s", "CIESign::sign error %d", err);
+        LOG_ERROR("CIESign::sign error %d", err);
     }
 
     if (ctx)

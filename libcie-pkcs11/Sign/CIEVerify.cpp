@@ -1,6 +1,7 @@
 #include "CIEVerify.h"
-#include "../Util/util.h"
-extern CLog log;
+#include "../LOGGER/Logger.h"
+
+using namespace CieIDLogger;
 
 CIEVerify::CIEVerify() {
 
@@ -15,7 +16,7 @@ long CIEVerify::verify(const char* input_file, VERIFY_RESULT* verifyResult, cons
         long ret;
         ctx = disigon_verify_init();
 
-#if 0
+#if 1
 
         ret = disigon_set(DISIGON_OPT_LOG_LEVEL, (void*)LOG_TYPE_DEBUG);
 #endif
@@ -47,7 +48,7 @@ long CIEVerify::verify(const char* input_file, VERIFY_RESULT* verifyResult, cons
             }
 
             if (proxy_port == 0) {
-                OutputDebugString("%s", "CIEVerify::invalid proxy port");
+                LOG_ERROR("CIEVerify::invalid proxy port");
                 return DISIGON_ERROR_INVALID_SIGOPT;
             } else {
                 ret = disigon_verify_set(ctx, DISIGON_OPT_PROXY_PORT, (void*)proxy_port);
@@ -80,7 +81,7 @@ long CIEVerify::verify(const char* input_file, VERIFY_RESULT* verifyResult, cons
         return ret;
 
     } catch (long err) {
-        OutputDebugString("%s", "CIEVerify::verify error: %lx", err);
+        LOG_ERROR("CIEVerify::verify error: %lx", err);
     }
 }
 
@@ -119,7 +120,7 @@ long CIEVerify::get_file_from_p7m(const char* input_file, const char* output_fil
 
         return ret;
     } catch (long err) {
-        OutputDebugString("%s", "CIEVerify::verify error: %lx", err);
+        LOG_ERROR("CIEVerify::verify error: %lx", err);
         return err;
     }
 

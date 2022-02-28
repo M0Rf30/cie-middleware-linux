@@ -1,6 +1,6 @@
 project('libcie-pkcs11',
   'cpp',
-  version : '1.4.1',
+  version : '1.4.2',
   license : 'MIT')
 
 add_project_arguments('-fPIC', language : 'cpp')
@@ -16,6 +16,7 @@ inc = include_directories('/usr/include/PCSC',
                           '.',
                           'Crypto',
                           'CSP',
+                          'LOGGER',
                           'PCSC',
                           'PKCS11',
                           'UI',
@@ -40,6 +41,7 @@ cie_pkcs11_sources = ['Util/UUCByteArray.cpp',
                       'CSP/PINManager.cpp',
                       'CSP/AbilitaCIE.cpp',
                       'CSP/IAS.cpp',
+					  'LOGGER/Logger.cpp',
                       'PCSC/Token.cpp',
                       'PCSC/PCSC.cpp',
                       'PCSC/APDU.cpp',
@@ -75,7 +77,7 @@ libcie_pkcs11 = library(
 pkg_mod = import('pkgconfig')
 pkg_mod.generate(
   libraries : libcie_pkcs11,
-  version : '1.4.1',
+  version : '1.4.2',
   name : 'libcie-pkcs11',
   filebase : 'cie-pkcs11',
   description : 'A library to enable CIE authentication.'

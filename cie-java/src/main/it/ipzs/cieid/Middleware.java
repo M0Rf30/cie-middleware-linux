@@ -120,11 +120,9 @@ public interface Middleware extends Library {
     int CambioPIN(
             String currentPIN, String nuovoPIN, int[] attempts, ProgressCallBack progressCallBack);
 
-    int SbloccoPIN(
-            String puk, String nuovoPIN, int[] attempts, ProgressCallBack progressCallBack);
+    int SbloccoPIN(String puk, String nuovoPIN, int[] attempts, ProgressCallBack progressCallBack);
 
-    int verificaConCIE(
-            String inFilePath, String proxyAddress, int proxyPort, String usrPass);
+    int verificaConCIE(String inFilePath, String proxyAddress, int proxyPort, String usrPass);
 
     int getNumberOfSign();
 

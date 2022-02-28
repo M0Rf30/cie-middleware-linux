@@ -7,10 +7,12 @@ import it.ipzs.carousel.*;
 import it.ipzs.cieid.Firma.FileDrop;
 import it.ipzs.cieid.Firma.PdfPreview;
 import it.ipzs.cieid.Firma.VerifyTable;
+import it.ipzs.cieid.Logger.LogLevel;
 import it.ipzs.cieid.Middleware.verifyInfo;
 import it.ipzs.cieid.util.Utils;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -39,6 +41,7 @@ import java.net.URL;
 import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,6 +49,9 @@ import java.util.List;
 import java.util.Map;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -56,6 +62,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JProgressBar;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
@@ -63,6 +70,7 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
@@ -71,6 +79,10 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
 public class MainFrame extends JFrame {
+    private final Logger logger;
+    private final LogLevelConfig logConfig;
+    private static final String LOG_CONFIG_PREFIX_APP = "APP_LOG_LEVEL";
+    private static final String LOG_CONFIG_PREFIX_LIB = "LIB_LOG_LEVEL";
 
     public static final int CKR_OK = 0x00000000;
     public static final int CKR_CANCEL = 0x00000001;
@@ -282,10 +294,10 @@ public class MainFrame extends JFrame {
     private final JButton btnProseguiOp;
     private final JButton btnCreaFirma;
     private final JPanel Impostazioni;
-    private final JLabel lblConfigProxy;
-    private final JPanel panel_33;
+    private final JLabel lblConfigProxyTitle;
+    private final JPanel configProxyBodyPanel;
     private final JButton btnSalva;
-    private final JLabel lblNewLabel_14;
+    private final JLabel lblConfigProxyCaption;
     private final JTextField txtProxyAddr;
     private final JTextField txtUsername;
     private final JPasswordField txtPassword;
@@ -294,11 +306,48 @@ public class MainFrame extends JFrame {
     private final JButton btnModificaProxy;
     private final JCheckBox chckbxMostraPassword;
     private final JButton btnEstrai;
+    private final JPanel configButtonsPanel;
+    private final Component verticalGlue;
+    private final Component verticalGlue_1;
+    private final Component verticalGlue_2;
+    private final Component verticalGlue_3;
+    private final Component verticalGlue_4;
+    private final Component verticalGlue_5;
+    private final Component verticalGlue_6;
+    private final Component verticalGlue_7;
+    private final Component verticalGlue_8;
+    private final Component verticalGlue_9;
+    private final JPanel panelConfigLoggingApp;
+    private final JPanel panelConfigLoggingLib;
+    private final JRadioButton rdbtnLoggingAppNone;
+    private final JRadioButton rdbtnLoggingAppError;
+    private final JRadioButton rdbtnLoggingAppInfo;
+    private final JRadioButton rdbtnLoggingAppDebug;
+    private final JRadioButton rdbtnLoggingLibError;
+    private final JRadioButton rdbtnLoggingLibInfo;
+    private final JRadioButton rdbtnLoggingLibDebug;
+    private final JRadioButton rdbtnLoggingLibNone;
+    private final ButtonGroup buttonGroupLoggingApp = new ButtonGroup();
+    private final ButtonGroup buttonGroupLoggingLib = new ButtonGroup();
 
     private enum SignOp {
         OP_NONE,
         PADES,
         CADES
+    }
+
+    public class LogLevelConfig {
+        private LogLevel app;
+        private LogLevel lib;
+
+        public LogLevelConfig() {
+            this(Logger.defaultLogLevel, Logger.defaultLogLevel);
+        }
+
+        public LogLevelConfig(LogLevel appLevel, LogLevel libLevel) {
+            this.app = appLevel;
+            this.lib = libLevel;
+        }
     }
 
     /** Launch the application. */
@@ -318,6 +367,11 @@ public class MainFrame extends JFrame {
 
     /** Create the frame. */
     public MainFrame(String[] args) {
+        logger = Logger.getInstance();
+        logConfig = new LogLevelConfig();
+        LoadLogConfigFromFile();
+        logger.Info("Inizializza frame principale");
+
         signOperation = SignOp.OP_NONE;
         setResizable(false);
         setBackground(Color.WHITE);
@@ -357,6 +411,7 @@ public class MainFrame extends JFrame {
         btnHome.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
+                        logger.Info("Inizia  'Home'");
                         selectButton(btnHome);
                         selectHome();
                     }
@@ -374,6 +429,7 @@ public class MainFrame extends JFrame {
         btnCambiaPin.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
+                        logger.Info("Inizia  'Cambia PIN'");
                         selectButton(btnCambiaPin);
                         oldpin.setText("");
                         newpin1.setText("");
@@ -393,6 +449,7 @@ public class MainFrame extends JFrame {
         btnSbloccaCarta.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
+                        logger.Info("Inizia  'Sblocca Carta'");
                         selectButton(btnSbloccaCarta);
                         pin01.setText("");
                         pin02.setText("");
@@ -412,6 +469,7 @@ public class MainFrame extends JFrame {
         btnTutorial.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
+                        logger.Info("Inizia  'Tutorial'");
                         selectButton(btnTutorial);
                         tabbedPane.setSelectedIndex(7);
                     }
@@ -428,6 +486,7 @@ public class MainFrame extends JFrame {
         btnAiuto.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
+                        logger.Info("Inizia  'Aiuto'");
                         selectButton(btnAiuto);
                         tabbedPane.setSelectedIndex(8);
                     }
@@ -444,6 +503,7 @@ public class MainFrame extends JFrame {
         btnInformazioni.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
+                        logger.Info("Inizia  'Informazioni'");
                         selectButton(btnInformazioni);
                         tabbedPane.setSelectedIndex(9);
                     }
@@ -460,6 +520,7 @@ public class MainFrame extends JFrame {
         btnFirma.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
+                        logger.Info("Inizia  'Firma Elettronica'");
 
                         selectButton(btnFirma);
 
@@ -520,22 +581,11 @@ public class MainFrame extends JFrame {
         btnImpostazioni.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent arg0) {
-
-                        btnModificaProxy.setEnabled(false);
-
-                        if (Utils.getProperty("proxyURL", "").equals("")) {
-                            txtProxyAddr.setEnabled(true);
-                            txtUsername.setEnabled(true);
-                            txtPassword.setEnabled(true);
-                            txtPorta.setEnabled(true);
-                            chckbxMostraPassword.setEnabled(true);
-                            chckbxMostraPassword.setSelected(false);
-                            btnSalva.setEnabled(true);
-                            btnModificaProxy.setEnabled(false);
-
-                            selectButton(btnImpostazioni);
-                            tabbedPane.setSelectedIndex(17);
-                        } else {
+                        logger.Info("Inizia  'Impostazioni'");
+                        LoadLogConfigFromFile();
+                        disableConfigurationPaneControls();
+                        if (!Utils.getProperty("proxyURL", "").equals("")) {
+                            logger.Debug("  Impostazione proxy presente");
                             if (Utils.getProperty("credentials", "").equals("")) {
                                 txtPassword.setText("");
                                 txtUsername.setText("");
@@ -553,19 +603,20 @@ public class MainFrame extends JFrame {
 
                             txtProxyAddr.setText(Utils.getProperty("proxyURL", ""));
                             txtPorta.setText(Utils.getProperty("proxyPort", ""));
-
-                            txtProxyAddr.setEnabled(false);
-                            txtUsername.setEnabled(false);
-                            txtPassword.setEnabled(false);
-                            txtPorta.setEnabled(false);
-                            chckbxMostraPassword.setEnabled(false);
-                            chckbxMostraPassword.setSelected(false);
-                            btnSalva.setEnabled(false);
-                            btnModificaProxy.setEnabled(true);
-
-                            selectButton(btnImpostazioni);
-                            tabbedPane.setSelectedIndex(17);
                         }
+
+                        rdbtnLoggingAppNone.setSelected(logConfig.app.equals(LogLevel.NONE));
+                        rdbtnLoggingAppDebug.setSelected(logConfig.app.equals(LogLevel.DEBUG));
+                        rdbtnLoggingAppInfo.setSelected(logConfig.app.equals(LogLevel.INFO));
+                        rdbtnLoggingAppError.setSelected(logConfig.app.equals(LogLevel.ERROR));
+
+                        rdbtnLoggingLibNone.setSelected(logConfig.lib.equals(LogLevel.NONE));
+                        rdbtnLoggingLibDebug.setSelected(logConfig.lib.equals(LogLevel.DEBUG));
+                        rdbtnLoggingLibInfo.setSelected(logConfig.lib.equals(LogLevel.INFO));
+                        rdbtnLoggingLibError.setSelected(logConfig.lib.equals(LogLevel.ERROR));
+
+                        selectButton(btnImpostazioni);
+                        tabbedPane.setSelectedIndex(17);
                     }
                 });
         btnImpostazioni.setIcon(
@@ -613,6 +664,7 @@ public class MainFrame extends JFrame {
         btnAbbina.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
+                        logger.Info("Inizia  'Abbina'");
 
                         abbinaCIE();
                     }
@@ -782,10 +834,10 @@ public class MainFrame extends JFrame {
         buttonsPanel.setBounds(133, 500, 384, 36);
 
         btnAnnulla = new JButton("Annulla");
-
         btnAnnulla.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
+                        logger.Info("Annulla abbinamento carta");
                         selectHome();
                     }
                 });
@@ -869,65 +921,67 @@ public class MainFrame extends JFrame {
         btnPanel.setBackground(Color.WHITE);
 
         btnRemoveAll = new JButton("Rimuovi tutte");
-        btnRemoveAll.setForeground(Color.WHITE);
-        btnRemoveAll.setBackground(new Color(30, 144, 255));
         btnRemoveAll.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
+                        logger.Info("Inizia  Rimozione tutte le carte abbinate");
 
                         List<Cie> cieList = new ArrayList<Cie>(cieDictionary.values());
 
                         disabilitaAllCIE(cieList);
                     }
                 });
+        btnRemoveAll.setForeground(Color.WHITE);
+        btnRemoveAll.setBackground(new Color(30, 144, 255));
         btnPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 5));
 
         btnPanel.add(btnRemoveAll);
 
         btnRemoveSelected = new JButton("Rimuovi carta selezionata");
-        btnRemoveSelected.setForeground(Color.WHITE);
-        btnRemoveSelected.setBackground(new Color(30, 144, 255));
         btnRemoveSelected.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
+                        logger.Info("Inizia  'Rimuovi carta selezionata'");
                         Cie cieToDelete = cieCarousel.getCardAtIndex();
                         disabilitaCIE(cieToDelete.getPan(), cieToDelete.getName());
                     }
                 });
+        btnRemoveSelected.setForeground(Color.WHITE);
+        btnRemoveSelected.setBackground(new Color(30, 144, 255));
 
         btnPanel.add(btnRemoveSelected);
 
         btnNewButton = new JButton("Aggiungi carta");
-        btnNewButton.setForeground(Color.WHITE);
-        btnNewButton.setBackground(new Color(30, 144, 255));
         btnNewButton.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
+                        logger.Info("Inizia  'Aggiungi carta'");
                         tabbedPane.setSelectedIndex(0);
                         // abbinaCIE();
                     }
                 });
+        btnNewButton.setForeground(Color.WHITE);
+        btnNewButton.setBackground(new Color(30, 144, 255));
         btnPanel.add(btnNewButton);
 
         panel_3.add(btnPanel);
 
         btnSelezionaCIE = new JButton("Seleziona");
-        btnSelezionaCIE.setForeground(Color.WHITE);
-        btnSelezionaCIE.setBackground(new Color(30, 144, 255));
-        btnSelezionaCIE.setVisible(false);
-
         btnSelezionaCIE.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
+                        logger.Info("Inizia  'Seleziona'");
                         CieCard selectedCIE = getSelectedCIE();
 
                         if (selectedCIE.getCard().getIsCustomSign()) {
+                            logger.Debug("Firma personalizzata presente");
                             lblPersonalizza.setText("Aggiorna");
                             lblHint.setText(
                                     "Un tua firma personalizzata è già stata caricata. Vuoi aggiornarla?");
                             lblFPOK.setVisible(true);
                             lblSFP.setVisible(false);
                         } else {
+                            logger.Debug("Firma personalizzata assente - crea firma default");
                             lblPersonalizza.setText("Personalizza");
                             lblHint.setText(
                                     "Abbiamo creato per te una firma grafica, ma se preferisci puo personalizzarla. "
@@ -939,6 +993,9 @@ public class MainFrame extends JFrame {
                         tabbedPane.setSelectedIndex(10);
                     }
                 });
+        btnSelezionaCIE.setForeground(Color.WHITE);
+        btnSelezionaCIE.setBackground(new Color(30, 144, 255));
+        btnSelezionaCIE.setVisible(false);
         btnPanel.add(btnSelezionaCIE);
 
         lblCieId = new JLabel("CIE ID");
@@ -990,6 +1047,7 @@ public class MainFrame extends JFrame {
         btnDoCambiaPin.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
+                        logger.Info("Inizia  'Cambia PIN'");
                         cambiaPIN();
                     }
                 });
@@ -1136,6 +1194,7 @@ public class MainFrame extends JFrame {
         btnSblocca.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
+                        logger.Info("Inizia  'Sblocca'");
                         sbloccaPIN();
                     }
                 });
@@ -1386,6 +1445,7 @@ public class MainFrame extends JFrame {
         btnSelezionaUnDocumento.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
+                        logger.Info("Inizia  'Seleziona un documento'");
                         JFileChooser fileChooser = new JFileChooser();
                         int returnValue = fileChooser.showOpenDialog(null);
                         if (returnValue == JFileChooser.APPROVE_OPTION) {
@@ -1600,6 +1660,7 @@ public class MainFrame extends JFrame {
                                         if (ret == 0) {
                                             int nSign = Middleware.INSTANCE.getNumberOfSign();
                                             if (nSign == 0) {
+                                                logger.Info("Verifica completata");
                                                 JOptionPane.showMessageDialog(
                                                         MainFrame.this.getContentPane(),
                                                         "Il file selezionato non contiene firme",
@@ -1622,13 +1683,14 @@ public class MainFrame extends JFrame {
 
                                                 verificaScrollPane.repaint();
 
-                                                btnEstrai.setEnabled(
-                                                        FilenameUtils.getExtension(filePath)
-                                                                .equals("p7m"));
+                                                btnEstrai.setEnabled(FilenameUtils.getExtension(filePath)
+                                                        .equals("p7m"));
 
                                                 tabbedPane.setSelectedIndex(16);
                                             }
                                         } else if (ret == (long) INVALID_FILE_TYPE) {
+                                            logger.Error(
+                                                    "Il file selezionato non è un file valido");
                                             JOptionPane.showMessageDialog(
                                                     MainFrame.this.getContentPane(),
                                                     "Il file selezionato non è un file valido. E' possibile verificare solo file con estensione .p7m o .pdf",
@@ -1636,6 +1698,7 @@ public class MainFrame extends JFrame {
                                                     JOptionPane.ERROR_MESSAGE);
                                             tabbedPane.setSelectedIndex(10);
                                         } else {
+                                            logger.Error("Errore generico durante la verifica");
                                             JOptionPane.showMessageDialog(
                                                     MainFrame.this.getContentPane(),
                                                     "Si è verificato un errore durante la verifica",
@@ -1705,11 +1768,10 @@ public class MainFrame extends JFrame {
                                 "/it/ipzs/cieid/res/Firma/Coppia file firma.png")));
 
         btnAnnullaOp = new JButton("Annulla");
-        btnAnnullaOp.setBounds(147, 392, 136, 23);
-        panel_16.add(btnAnnullaOp);
         btnAnnullaOp.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
+                        logger.Info("Inizia  'Annulla'");
                         imgP7m.setIcon(
                                 new ImageIcon(
                                         MainFrame.class.getResource(
@@ -1730,6 +1792,8 @@ public class MainFrame extends JFrame {
                         tabbedPane.setSelectedIndex(10);
                     }
                 });
+        btnAnnullaOp.setBounds(147, 392, 136, 23);
+        panel_16.add(btnAnnullaOp);
         btnAnnullaOp.setForeground(Color.WHITE);
         btnAnnullaOp.setBackground(new Color(30, 144, 255));
 
@@ -1925,6 +1989,7 @@ public class MainFrame extends JFrame {
         btnAnnullaOp_1.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
+                        logger.Info("Inizia  'Annulla'");
                         imgP7m.setIcon(
                                 new ImageIcon(
                                         MainFrame.class.getResource(
@@ -1953,6 +2018,7 @@ public class MainFrame extends JFrame {
         btnProseguiOp.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
+                        logger.Info("Inizia  'PROSEGUI'");
                         for (int i = 0; i < passwordSignFields.length; i++) {
                             JPasswordField field = passwordSignFields[i];
                             field.setText("");
@@ -2264,6 +2330,7 @@ public class MainFrame extends JFrame {
         btnConcludiFirma.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent arg0) {
+                        logger.Info("Inizia  'Concludi'");
 
                         progressFirmaPin.setVisible(false);
                         lblProgressFirmaPin.setText("Inserisci le ultime 4 cifre del pin");
@@ -2442,10 +2509,10 @@ public class MainFrame extends JFrame {
         panel_30.add(panel_31);
         panel_31.setLayout(null);
         JButton btnSelectImg = new JButton("Seleziona un file");
-        btnSelectImg.setFont(new Font("Dialog", Font.BOLD, 11));
         btnSelectImg.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
+                        logger.Info("Inizia  'Seleziona un file'");
                         JFileChooser fileChooser = new JFileChooser();
                         FileNameExtensionFilter filter =
                                 new FileNameExtensionFilter("Png file", "png", "PNG");
@@ -2491,6 +2558,7 @@ public class MainFrame extends JFrame {
                                 btnCreaFirma.setEnabled(true);
 
                             } catch (IOException er) {
+                                logger.Error("Errore nel caricamento della firma personalizzata");
                                 er.printStackTrace();
                                 lblFirmaPersonalizzata.setText(
                                         "Errore nel caricamento della firma personalizzata");
@@ -2498,6 +2566,7 @@ public class MainFrame extends JFrame {
                         }
                     }
                 });
+        btnSelectImg.setFont(new Font("Dialog", Font.BOLD, 11));
         btnSelectImg.setBounds(149, 0, 151, 23);
         panel_31.add(btnSelectImg);
         btnSelectImg.setForeground(Color.WHITE);
@@ -2507,6 +2576,7 @@ public class MainFrame extends JFrame {
         btnAnnullaOp_6.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent arg0) {
+                        logger.Info("Inizia  'Indietro'");
                         tabbedPane.setSelectedIndex(10);
                     }
                 });
@@ -2519,6 +2589,7 @@ public class MainFrame extends JFrame {
         btnCreaFirma.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent arg0) {
+                        logger.Info("Inizia  'Crea firma'");
 
                         CieCard selectedCie = getSelectedCIE();
 
@@ -2655,8 +2726,8 @@ public class MainFrame extends JFrame {
         btnConcludiVerifica = new JButton("Concludi");
         btnConcludiVerifica.addActionListener(
                 new ActionListener() {
-
                     public void actionPerformed(ActionEvent arg0) {
+                        logger.Info("Inizia  'Concludi'");
                         tabbedPane.setSelectedIndex(10);
                     }
                 });
@@ -2669,6 +2740,7 @@ public class MainFrame extends JFrame {
         btnEstrai.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent arg0) {
+                        logger.Info("Inizia  'Estrai'");
                         String outfilePath = null;
                         JFrame frame = new JFrame();
                         frame.setAlwaysOnTop(true);
@@ -2708,7 +2780,7 @@ public class MainFrame extends JFrame {
                             long ret = Middleware.INSTANCE.estraiP7m(filePath, outfilePath);
 
                             if (ret != 0) {
-
+                                logger.Error("Impossibile estrarre il file");
                                 JOptionPane.showMessageDialog(
                                         btnEstrai.getParent(),
                                         "Impossibile estrarre il file",
@@ -2716,6 +2788,7 @@ public class MainFrame extends JFrame {
                                         JOptionPane.ERROR_MESSAGE);
                                 return;
                             } else {
+                                logger.Info("Estrazione completata");
                                 JOptionPane.showMessageDialog(
                                         btnEstrai.getParent(),
                                         "File estratto correttamente",
@@ -2737,26 +2810,266 @@ public class MainFrame extends JFrame {
         verifica.add(lblNewLabel_13);
 
         Impostazioni = new JPanel();
-        Impostazioni.setLayout(null);
         Impostazioni.setBackground(Color.WHITE);
         tabbedPane.addTab("New tab", null, Impostazioni, null);
+        Impostazioni.setLayout(null);
 
-        lblConfigProxy = new JLabel("Configurazione server Proxy");
-        lblConfigProxy.setHorizontalAlignment(SwingConstants.CENTER);
-        lblConfigProxy.setFont(new Font("Dialog", Font.BOLD, 28));
-        lblConfigProxy.setBounds(65, 45, 471, 39);
-        Impostazioni.add(lblConfigProxy);
+        JTabbedPane configTabbedPane = new JTabbedPane(JTabbedPane.TOP);
+        configTabbedPane.setBackground(Color.WHITE);
+        configTabbedPane.setBounds(12, 12, 571, 500);
+        Impostazioni.add(configTabbedPane);
 
-        panel_33 = new JPanel();
-        panel_33.setLayout(null);
-        panel_33.setBackground(Color.WHITE);
-        panel_33.setBounds(76, 132, 449, 415);
-        Impostazioni.add(panel_33);
+        JPanel configProxyPanel = new JPanel();
+        configProxyPanel.setBackground(Color.WHITE);
+        configTabbedPane.addTab("Proxy", null, configProxyPanel, null);
+        configProxyPanel.setLayout(null);
+
+        lblConfigProxyTitle = new JLabel("Configurazione server Proxy");
+        lblConfigProxyTitle.setBounds(67, 5, 450, 33);
+        configProxyPanel.add(lblConfigProxyTitle);
+        lblConfigProxyTitle.setHorizontalAlignment(SwingConstants.CENTER);
+        lblConfigProxyTitle.setFont(new Font("Dialog", Font.BOLD, 28));
+
+        lblConfigProxyCaption =
+                new JLabel("Inserisci l'indirizzo del server proxy ed eventuali credenziali");
+        lblConfigProxyCaption.setBounds(53, 43, 484, 18);
+        configProxyPanel.add(lblConfigProxyCaption);
+        lblConfigProxyCaption.setFont(new Font("Dialog", Font.BOLD, 15));
+
+        configProxyBodyPanel = new JPanel();
+        configProxyBodyPanel.setBounds(37, 109, 500, 331);
+        configProxyPanel.add(configProxyBodyPanel);
+        configProxyBodyPanel.setLayout(null);
+        configProxyBodyPanel.setBackground(Color.WHITE);
+
+        JLabel lblProxyAddr = new JLabel("Indirizzo (URL o indirizzo IP)");
+        lblProxyAddr.setHorizontalAlignment(SwingConstants.LEFT);
+        lblProxyAddr.setFont(new Font("Dialog", Font.PLAIN, 14));
+        lblProxyAddr.setBounds(62, 95, 215, 23);
+        configProxyBodyPanel.add(lblProxyAddr);
+
+        txtProxyAddr = new JTextField();
+        txtProxyAddr.setBounds(62, 124, 234, 25);
+        configProxyBodyPanel.add(txtProxyAddr);
+
+        JLabel lblUsername = new JLabel("Username");
+        lblUsername.setHorizontalAlignment(SwingConstants.LEFT);
+        lblUsername.setFont(new Font("Dialog", Font.PLAIN, 14));
+        lblUsername.setBounds(62, 160, 299, 36);
+        configProxyBodyPanel.add(lblUsername);
+
+        txtUsername = new JTextField();
+        txtUsername.setBounds(62, 189, 234, 25);
+        configProxyBodyPanel.add(txtUsername);
+
+        JLabel lblPassword = new JLabel("Password");
+        lblPassword.setHorizontalAlignment(SwingConstants.LEFT);
+        lblPassword.setFont(new Font("Dialog", Font.PLAIN, 14));
+        lblPassword.setBounds(62, 226, 299, 36);
+        configProxyBodyPanel.add(lblPassword);
+
+        txtPassword = new JPasswordField();
+        txtPassword.setBounds(62, 255, 234, 25);
+        configProxyBodyPanel.add(txtPassword);
+
+        txtPorta = new JTextField();
+
+        txtPorta.addKeyListener(
+                new KeyAdapter() {
+                    public void keyTyped(KeyEvent evt) {
+                        if (!Character.isDigit(evt.getKeyChar())) {
+                            evt.consume();
+                        }
+                    }
+                });
+
+        txtPorta.setBounds(340, 124, 49, 25);
+        configProxyBodyPanel.add(txtPorta);
+
+        JLabel lblPorta = new JLabel("Porta");
+        lblPorta.setHorizontalAlignment(SwingConstants.LEFT);
+        lblPorta.setFont(new Font("Dialog", Font.PLAIN, 14));
+        lblPorta.setBounds(340, 95, 58, 23);
+        configProxyBodyPanel.add(lblPorta);
+
+        chckbxMostraPassword = new JCheckBox("Mostra password");
+        chckbxMostraPassword.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        logger.Info("Inizia  'Mostra password'");
+                        if (chckbxMostraPassword.isSelected()) {
+                            txtPassword.setEchoChar((char) 0);
+                        } else {
+                            txtPassword.setEchoChar('*');
+                        }
+                    }
+                });
+        chckbxMostraPassword.setFont(new Font("Dialog", Font.BOLD, 10));
+        chckbxMostraPassword.setBackground(Color.WHITE);
+        chckbxMostraPassword.setBounds(304, 256, 129, 23);
+        configProxyBodyPanel.add(chckbxMostraPassword);
+
+        JPanel configLoggingPanel = new JPanel();
+        configLoggingPanel.setBackground(Color.WHITE);
+        configTabbedPane.addTab("Log", null, configLoggingPanel, null);
+        configLoggingPanel.setLayout(null);
+
+        JLabel lblConfigLoggingTitle = new JLabel("Configurazione livello di log");
+        lblConfigLoggingTitle.setBounds(73, 5, 444, 33);
+        lblConfigLoggingTitle.setHorizontalAlignment(SwingConstants.CENTER);
+        lblConfigLoggingTitle.setFont(new Font("Dialog", Font.BOLD, 28));
+        configLoggingPanel.add(lblConfigLoggingTitle);
+
+        JLabel lblConfigLoggingCaption =
+                new JLabel("Seleziona il livello desiderato per applicazione e libreria");
+        lblConfigLoggingCaption.setBounds(69, 43, 446, 18);
+        lblConfigLoggingCaption.setFont(new Font("Dialog", Font.BOLD, 15));
+        configLoggingPanel.add(lblConfigLoggingCaption);
+
+        JPanel configLoggingBodyPanel = new JPanel();
+        configLoggingBodyPanel.setBounds(37, 109, 500, 331);
+        configLoggingBodyPanel.setLayout(null);
+        configLoggingBodyPanel.setBackground(Color.WHITE);
+        configLoggingPanel.add(configLoggingBodyPanel);
+
+        panelConfigLoggingApp = new JPanel();
+        panelConfigLoggingApp.setBackground(Color.WHITE);
+        panelConfigLoggingApp.setBorder(
+                new TitledBorder(
+                        null,
+                        "Applicazione desktop",
+                        TitledBorder.LEADING,
+                        TitledBorder.TOP,
+                        null,
+                        null));
+        panelConfigLoggingApp.setBounds(12, 12, 238, 307);
+        configLoggingBodyPanel.add(panelConfigLoggingApp);
+        panelConfigLoggingApp.setLayout(new BoxLayout(panelConfigLoggingApp, BoxLayout.Y_AXIS));
+
+        verticalGlue_5 = Box.createVerticalGlue();
+        panelConfigLoggingApp.add(verticalGlue_5);
+
+        rdbtnLoggingAppNone = new JRadioButton("None");
+        buttonGroupLoggingApp.add(rdbtnLoggingAppNone);
+        rdbtnLoggingAppNone.setBackground(Color.WHITE);
+        rdbtnLoggingAppNone.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panelConfigLoggingApp.add(rdbtnLoggingAppNone);
+
+        verticalGlue_6 = Box.createVerticalGlue();
+        panelConfigLoggingApp.add(verticalGlue_6);
+
+        rdbtnLoggingAppDebug = new JRadioButton("Debug");
+        buttonGroupLoggingApp.add(rdbtnLoggingAppDebug);
+        rdbtnLoggingAppDebug.setBackground(Color.WHITE);
+        rdbtnLoggingAppDebug.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panelConfigLoggingApp.add(rdbtnLoggingAppDebug);
+
+        verticalGlue_7 = Box.createVerticalGlue();
+        panelConfigLoggingApp.add(verticalGlue_7);
+
+        rdbtnLoggingAppInfo = new JRadioButton("Info");
+        buttonGroupLoggingApp.add(rdbtnLoggingAppInfo);
+        rdbtnLoggingAppInfo.setBackground(Color.WHITE);
+        rdbtnLoggingAppInfo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panelConfigLoggingApp.add(rdbtnLoggingAppInfo);
+
+        verticalGlue_8 = Box.createVerticalGlue();
+        panelConfigLoggingApp.add(verticalGlue_8);
+
+        rdbtnLoggingAppError = new JRadioButton("Error");
+        buttonGroupLoggingApp.add(rdbtnLoggingAppError);
+        rdbtnLoggingAppError.setBackground(Color.WHITE);
+        rdbtnLoggingAppError.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panelConfigLoggingApp.add(rdbtnLoggingAppError);
+
+        verticalGlue_9 = Box.createVerticalGlue();
+        panelConfigLoggingApp.add(verticalGlue_9);
+
+        panelConfigLoggingLib = new JPanel();
+        panelConfigLoggingLib.setBackground(Color.WHITE);
+        panelConfigLoggingLib.setBorder(
+                new TitledBorder(
+                        null, "Libreria", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+        panelConfigLoggingLib.setBounds(252, 12, 238, 307);
+        configLoggingBodyPanel.add(panelConfigLoggingLib);
+        panelConfigLoggingLib.setLayout(new BoxLayout(panelConfigLoggingLib, BoxLayout.Y_AXIS));
+
+        verticalGlue = Box.createVerticalGlue();
+        panelConfigLoggingLib.add(verticalGlue);
+
+        rdbtnLoggingLibNone = new JRadioButton("None");
+        buttonGroupLoggingLib.add(rdbtnLoggingLibNone);
+        rdbtnLoggingLibNone.setBackground(Color.WHITE);
+        rdbtnLoggingLibNone.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panelConfigLoggingLib.add(rdbtnLoggingLibNone);
+
+        verticalGlue_1 = Box.createVerticalGlue();
+        panelConfigLoggingLib.add(verticalGlue_1);
+
+        rdbtnLoggingLibDebug = new JRadioButton("Debug");
+        buttonGroupLoggingLib.add(rdbtnLoggingLibDebug);
+        rdbtnLoggingLibDebug.setBackground(Color.WHITE);
+        rdbtnLoggingLibDebug.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panelConfigLoggingLib.add(rdbtnLoggingLibDebug);
+
+        verticalGlue_2 = Box.createVerticalGlue();
+        panelConfigLoggingLib.add(verticalGlue_2);
+
+        rdbtnLoggingLibInfo = new JRadioButton("Info");
+        buttonGroupLoggingLib.add(rdbtnLoggingLibInfo);
+        rdbtnLoggingLibInfo.setBackground(Color.WHITE);
+        rdbtnLoggingLibInfo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panelConfigLoggingLib.add(rdbtnLoggingLibInfo);
+
+        verticalGlue_3 = Box.createVerticalGlue();
+        panelConfigLoggingLib.add(verticalGlue_3);
+
+        rdbtnLoggingLibError = new JRadioButton("Error");
+        buttonGroupLoggingLib.add(rdbtnLoggingLibError);
+        rdbtnLoggingLibError.setBackground(Color.WHITE);
+        rdbtnLoggingLibError.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panelConfigLoggingLib.add(rdbtnLoggingLibError);
+
+        verticalGlue_4 = Box.createVerticalGlue();
+        panelConfigLoggingLib.add(verticalGlue_4);
+
+        configButtonsPanel = new JPanel();
+        configButtonsPanel.setBackground(Color.WHITE);
+        configButtonsPanel.setBounds(0, 524, 595, 47);
+        Impostazioni.add(configButtonsPanel);
 
         btnSalva = new JButton("Salva");
         btnSalva.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent arg0) {
+                        logger.Info("Inizia  'Salva'");
+                        LogLevel logLevelAppValue = Logger.defaultLogLevel;
+
+                        if (rdbtnLoggingAppNone.isSelected()) {
+                            logConfig.app = LogLevel.NONE;
+                            logger.setLevel(LogLevel.NONE);
+                        } else if (rdbtnLoggingAppDebug.isSelected()) {
+                            logConfig.app = LogLevel.DEBUG;
+                            logger.setLevel(LogLevel.DEBUG);
+                        } else if (rdbtnLoggingAppInfo.isSelected()) {
+                            logConfig.app = LogLevel.INFO;
+                            logger.setLevel(LogLevel.INFO);
+                        } else if (rdbtnLoggingAppError.isSelected()) {
+                            logConfig.app = LogLevel.ERROR;
+                            logger.setLevel(LogLevel.ERROR);
+                        }
+
+                        if (rdbtnLoggingLibNone.isSelected()) {
+                            logConfig.lib = LogLevel.NONE;
+                        } else if (rdbtnLoggingLibDebug.isSelected()) {
+                            logConfig.lib = LogLevel.DEBUG;
+                        } else if (rdbtnLoggingLibInfo.isSelected()) {
+                            logConfig.lib = LogLevel.INFO;
+                        } else if (rdbtnLoggingLibError.isSelected()) {
+                            logConfig.lib = LogLevel.ERROR;
+                        }
+
+                        SaveLogConfigToFile();
 
                         if ((txtUsername.getText().equals("") && !txtPassword.getText().equals(""))
                                 || (!txtUsername.getText().equals("")
@@ -2799,119 +3112,63 @@ public class MainFrame extends JFrame {
                         } else {
                             Utils.setProperty("proxyPort", txtPorta.getText());
                         }
-
-                        txtProxyAddr.setEnabled(false);
-                        txtUsername.setEnabled(false);
-                        txtPassword.setEnabled(false);
-                        txtPorta.setEnabled(false);
-                        chckbxMostraPassword.setEnabled(false);
-                        chckbxMostraPassword.setSelected(false);
-                        btnSalva.setEnabled(false);
-                        btnModificaProxy.setEnabled(true);
+                        disableConfigurationPaneControls();
                     }
                 });
-
         btnSalva.setForeground(Color.WHITE);
         btnSalva.setBackground(new Color(30, 144, 255));
-        btnSalva.setBounds(45, 392, 136, 23);
-        panel_33.add(btnSalva);
+        configButtonsPanel.add(btnSalva);
 
         btnModificaProxy = new JButton("Modifica");
         btnModificaProxy.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent arg0) {
-                        txtProxyAddr.setEnabled(true);
-                        txtUsername.setEnabled(true);
-                        txtPassword.setEnabled(true);
-                        txtPorta.setEnabled(true);
-                        chckbxMostraPassword.setEnabled(true);
-                        chckbxMostraPassword.setSelected(false);
-                        btnSalva.setEnabled(true);
-                        btnModificaProxy.setEnabled(false);
+                        logger.Info("Inizia  'Modifica'");
+                        enableConfigurationPaneControls();
                     }
                 });
         btnModificaProxy.setForeground(Color.WHITE);
         btnModificaProxy.setBackground(new Color(30, 144, 255));
-        btnModificaProxy.setBounds(271, 391, 136, 23);
-        panel_33.add(btnModificaProxy);
-
-        JLabel lblProxyAddr = new JLabel("Indirizzo (URL o indirizzo IP)");
-        lblProxyAddr.setHorizontalAlignment(SwingConstants.LEFT);
-        lblProxyAddr.setFont(new Font("Dialog", Font.PLAIN, 14));
-        lblProxyAddr.setBounds(62, 95, 215, 23);
-        panel_33.add(lblProxyAddr);
-
-        txtProxyAddr = new JTextField();
-        txtProxyAddr.setBounds(62, 124, 234, 25);
-        panel_33.add(txtProxyAddr);
-
-        JLabel lblUsername = new JLabel("Username");
-        lblUsername.setHorizontalAlignment(SwingConstants.LEFT);
-        lblUsername.setFont(new Font("Dialog", Font.PLAIN, 14));
-        lblUsername.setBounds(62, 160, 299, 36);
-        panel_33.add(lblUsername);
-
-        txtUsername = new JTextField();
-        txtUsername.setBounds(62, 189, 234, 25);
-        panel_33.add(txtUsername);
-
-        JLabel lblPassword = new JLabel("Password");
-        lblPassword.setHorizontalAlignment(SwingConstants.LEFT);
-        lblPassword.setFont(new Font("Dialog", Font.PLAIN, 14));
-        lblPassword.setBounds(62, 226, 299, 36);
-        panel_33.add(lblPassword);
-
-        txtPassword = new JPasswordField();
-        txtPassword.setBounds(62, 255, 234, 25);
-        panel_33.add(txtPassword);
-
-        txtPorta = new JTextField();
-
-        txtPorta.addKeyListener(
-                new KeyAdapter() {
-                    public void keyTyped(KeyEvent evt) {
-                        if (!Character.isDigit(evt.getKeyChar())) {
-                            evt.consume();
-                        }
-                    }
-                });
-
-        txtPorta.setBounds(340, 124, 49, 25);
-        panel_33.add(txtPorta);
-
-        JLabel lblPorta = new JLabel("Porta");
-        lblPorta.setHorizontalAlignment(SwingConstants.LEFT);
-        lblPorta.setFont(new Font("Dialog", Font.PLAIN, 14));
-        lblPorta.setBounds(340, 95, 58, 23);
-        panel_33.add(lblPorta);
-
-        chckbxMostraPassword = new JCheckBox("Mostra password");
-        chckbxMostraPassword.addActionListener(
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        if (chckbxMostraPassword.isSelected()) {
-                            txtPassword.setEchoChar((char) 0);
-                        } else {
-                            txtPassword.setEchoChar('*');
-                        }
-                    }
-                });
-        chckbxMostraPassword.setFont(new Font("Dialog", Font.BOLD, 10));
-        chckbxMostraPassword.setBackground(Color.WHITE);
-        chckbxMostraPassword.setBounds(304, 256, 129, 23);
-        panel_33.add(chckbxMostraPassword);
-
-        lblNewLabel_14 =
-                new JLabel("Inserisci l'indirizzo del server proxy ed eventuali credenziali");
-        lblNewLabel_14.setFont(new Font("Dialog", Font.BOLD, 15));
-        lblNewLabel_14.setBounds(70, 82, 493, 15);
-        Impostazioni.add(lblNewLabel_14);
+        configButtonsPanel.add(btnModificaProxy);
 
         if (args.length > 0 && args[0].equals("unlock")) {
             selectUnlock();
         } else {
             selectHome();
         }
+    }
+
+    private void enableConfigurationPaneControls() {
+        logger.Info("Inizia - enableConfigurationPaneControls()");
+        setConfigurationPaneControlsState(true);
+    }
+
+    private void disableConfigurationPaneControls() {
+        logger.Info("Inizia - disableConfigurationPaneControls()");
+        setConfigurationPaneControlsState(false);
+    }
+
+    private void setConfigurationPaneControlsState(boolean value) {
+        txtProxyAddr.setEnabled(value);
+        txtUsername.setEnabled(value);
+        txtPassword.setEnabled(value);
+        txtPorta.setEnabled(value);
+        chckbxMostraPassword.setEnabled(value);
+        chckbxMostraPassword.setSelected(false);
+        btnSalva.setEnabled(value);
+        btnModificaProxy.setEnabled(!value);
+
+        panelConfigLoggingApp.setEnabled(value);
+        rdbtnLoggingAppNone.setEnabled(value);
+        rdbtnLoggingAppDebug.setEnabled(value);
+        rdbtnLoggingAppInfo.setEnabled(value);
+        rdbtnLoggingAppError.setEnabled(value);
+
+        panelConfigLoggingLib.setEnabled(value);
+        rdbtnLoggingLibNone.setEnabled(value);
+        rdbtnLoggingLibDebug.setEnabled(value);
+        rdbtnLoggingLibInfo.setEnabled(value);
+        rdbtnLoggingLibError.setEnabled(value);
     }
 
     private void selectButton(JButton button) {
@@ -2956,11 +3213,11 @@ public class MainFrame extends JFrame {
             text = toFirstCharUpperAll(toTitleCase(text).toLowerCase());
 
             /*
-               System.out.println(MainFrame.class.getResource("/it/ipzs/cieid/res/Allura-Regular.ttf").toExternalForm());
+            System.out.println(MainFrame.class.getResource("/it/ipzs/cieid/res/Allura-Regular.ttf").toExternalForm());
             File file = new File(MainFrame.class.getResource("/it/ipzs/cieid/res/Allura-Regular.ttf").toExternalForm());
-               //File file = new File("/usr/share/CIEID/cieid.jar/it/ipzs/cieid/res/Allura-Regular.ttf");
+            //File file = new File("/usr/share/CIEID/cieid.jar/it/ipzs/cieid/res/Allura-Regular.ttf");
             InputStream is = new FileInputStream(file);
-                */
+             */
 
             File file = null;
             String resource = "/it/ipzs/cieid/res/Allura-Regular.ttf";
@@ -2987,6 +3244,7 @@ public class MainFrame extends JFrame {
             }
 
             if (file != null && !file.exists()) {
+                logger.Error(String.format("File '%s' non trovato", file));
                 throw new RuntimeException("Error: File " + file + " not found!");
             }
 
@@ -3021,6 +3279,7 @@ public class MainFrame extends JFrame {
     }
 
     private void firma(String outFilePath) {
+        logger.Info("Inizia - firma()");
 
         String pin = "";
 
@@ -3032,6 +3291,7 @@ public class MainFrame extends JFrame {
         }
 
         if (pin.length() != 4) {
+            logger.Error("Il PIN deve essere composto dalle ultime 4 cifre - PIN non corretto");
             JOptionPane.showMessageDialog(
                     this.getContentPane(),
                     "Il PIN deve essere composto dalle ultime 4 cifre",
@@ -3048,6 +3308,7 @@ public class MainFrame extends JFrame {
         }
 
         if (i < pin.length() || !(c >= '0' && c <= '9')) {
+            logger.Error("Il PIN deve essere composto dalle ultime 4 cifre - PIN non corretto");
             JOptionPane.showMessageDialog(
                     this.getContentPane(),
                     "Il PIN deve essere composto dalle ultime 4 cifre",
@@ -3106,7 +3367,9 @@ public class MainFrame extends JFrame {
                                             // TODO Auto-generated method stub
 
                                             System.out.println("Sign Completed!!");
+                                            logger.Info("Firma completata");
                                             if (retValue == 0) {
+                                                logger.Info("File firmato con successo");
                                                 lblEsitoFirma.setText("File firmato con successo");
                                                 imgEsitoFirma.setIcon(
                                                         new ImageIcon(
@@ -3114,6 +3377,8 @@ public class MainFrame extends JFrame {
                                                                         "/it/ipzs/cieid/res/Firma/check.png")));
 
                                             } else {
+                                                logger.Error(
+                                                        "Si è verificato un errore durante la firma");
                                                 lblEsitoFirma.setText(
                                                         "Si è verificato un errore durante la firma");
                                                 imgEsitoFirma.setIcon(
@@ -3202,6 +3467,8 @@ public class MainFrame extends JFrame {
 
                                                 switch (ret) {
                                                     case CKR_TOKEN_NOT_RECOGNIZED:
+                                                        logger.Error(
+                                                                "Abilitazione CIE - CIE non presente sul lettore");
                                                         JOptionPane.showMessageDialog(
                                                                 MainFrame.this.getContentPane(),
                                                                 "CIE non presente sul lettore",
@@ -3211,6 +3478,8 @@ public class MainFrame extends JFrame {
                                                         break;
 
                                                     case CKR_TOKEN_NOT_PRESENT:
+                                                        logger.Error(
+                                                                "Abilitazione CIE - CIE non presente sul lettore");
                                                         JOptionPane.showMessageDialog(
                                                                 MainFrame.this.getContentPane(),
                                                                 "CIE non presente sul lettore",
@@ -3220,6 +3489,10 @@ public class MainFrame extends JFrame {
                                                         break;
 
                                                     case CKR_PIN_INCORRECT:
+                                                        logger.Error(
+                                                                String.format(
+                                                                        "Il PIN digitato è errato. rimangono %d tentativi",
+                                                                        attempts[0]));
                                                         JOptionPane.showMessageDialog(
                                                                 MainFrame.this.getContentPane(),
                                                                 String.format(
@@ -3231,6 +3504,7 @@ public class MainFrame extends JFrame {
                                                         break;
 
                                                     case CKR_PIN_LOCKED:
+                                                        logger.Error("Carta bloccata");
                                                         JOptionPane.showMessageDialog(
                                                                 MainFrame.this.getContentPane(),
                                                                 "Munisciti del codice PUK e utilizza la funzione di sblocco carta per abilitarla",
@@ -3240,6 +3514,8 @@ public class MainFrame extends JFrame {
                                                         break;
 
                                                     case CKR_GENERAL_ERROR:
+                                                        logger.Error(
+                                                                "Errore inaspettato durante la comunicazione con la smart card");
                                                         JOptionPane.showMessageDialog(
                                                                 MainFrame.this.getContentPane(),
                                                                 "Errore inaspettato durante la comunicazione con la smart card",
@@ -3249,6 +3525,8 @@ public class MainFrame extends JFrame {
                                                         break;
 
                                                     case CARD_PAN_MISMATCH:
+                                                        logger.Error(
+                                                                "CIE selezionata diversa da quella presente sul lettore");
                                                         JOptionPane.showMessageDialog(
                                                                 MainFrame.this.getContentPane(),
                                                                 "CIE selezionata diversa da quella presente sul lettore",
@@ -3271,6 +3549,7 @@ public class MainFrame extends JFrame {
     }
 
     private void showFirmaPin() {
+        logger.Info("Inizia - showFirmaPin()");
         progressFirmaPin.setVisible(false);
         lblProgressFirmaPin.setText("Inserisci le ultime 4 cifre del pin");
 
@@ -3282,6 +3561,7 @@ public class MainFrame extends JFrame {
     }
 
     private void abbinaCIE() {
+        logger.Info("Inizia - abbinaCIE()");
         String pin = "";
 
         int i;
@@ -3292,6 +3572,7 @@ public class MainFrame extends JFrame {
         }
 
         if (pin.length() != 8) {
+            logger.Error("PIN non corretto");
             JOptionPane.showMessageDialog(
                     this.getContentPane(),
                     "Il PIN deve essere composto da 8 numeri",
@@ -3308,6 +3589,7 @@ public class MainFrame extends JFrame {
         }
 
         if (i < pin.length() || !(c >= '0' && c <= '9')) {
+            logger.Error("PIN non corretto");
             JOptionPane.showMessageDialog(
                     this.getContentPane(),
                     "Il PIN deve essere composto da 8 numeri",
@@ -3397,6 +3679,8 @@ public class MainFrame extends JFrame {
 
                                                 switch (ret) {
                                                     case CKR_TOKEN_NOT_RECOGNIZED:
+                                                        logger.Error(
+                                                                "CIE non presente sul lettore");
                                                         JOptionPane.showMessageDialog(
                                                                 MainFrame.this.getContentPane(),
                                                                 "CIE non presente sul lettore",
@@ -3407,6 +3691,8 @@ public class MainFrame extends JFrame {
                                                         break;
 
                                                     case CKR_TOKEN_NOT_PRESENT:
+                                                        logger.Error(
+                                                                "CIE non presente sul lettore");
                                                         JOptionPane.showMessageDialog(
                                                                 MainFrame.this.getContentPane(),
                                                                 "CIE non presente sul lettore",
@@ -3416,6 +3702,7 @@ public class MainFrame extends JFrame {
                                                         break;
 
                                                     case CKR_PIN_INCORRECT:
+                                                        logger.Error("PIN non corretto");
                                                         JOptionPane.showMessageDialog(
                                                                 MainFrame.this.getContentPane(),
                                                                 String.format(
@@ -3426,6 +3713,7 @@ public class MainFrame extends JFrame {
                                                         break;
 
                                                     case CKR_PIN_LOCKED:
+                                                        logger.Error("Carta bloccata");
                                                         JOptionPane.showMessageDialog(
                                                                 MainFrame.this.getContentPane(),
                                                                 "Munisciti del codice PUK e utilizza la funzione di sblocco carta per abilitarla",
@@ -3435,6 +3723,8 @@ public class MainFrame extends JFrame {
                                                         break;
 
                                                     case CKR_GENERAL_ERROR:
+                                                        logger.Error(
+                                                                "Errore inaspettato durante la comunicazione con la smart card");
                                                         JOptionPane.showMessageDialog(
                                                                 MainFrame.this.getContentPane(),
                                                                 "Errore inaspettato durante la comunicazione con la smart card",
@@ -3444,6 +3734,7 @@ public class MainFrame extends JFrame {
                                                         break;
 
                                                     case CKR_OK:
+                                                        logger.Info("CIE abilitata con successo");
                                                         JOptionPane.showMessageDialog(
                                                                 MainFrame.this.getContentPane(),
                                                                 "L'abilitazione della CIE è avvennuta con successo",
@@ -3461,6 +3752,8 @@ public class MainFrame extends JFrame {
                                                         selectCardholder();
                                                         break;
                                                     case CARD_ALREADY_ENABLED:
+                                                        logger.Error(
+                                                                "Carta già abilitata, abbinamento impossibile");
                                                         JOptionPane.showMessageDialog(
                                                                 MainFrame.this.getContentPane(),
                                                                 "Carta già abilitata",
@@ -3483,6 +3776,7 @@ public class MainFrame extends JFrame {
     }
 
     private void cambiaPIN() {
+        logger.Info("Inizia - cambiaPIN()");
         final String pin = oldpin.getText();
         final String pin1 = newpin1.getText();
         final String pin2 = newpin2.getText();
@@ -3490,6 +3784,7 @@ public class MainFrame extends JFrame {
         int i;
 
         if (pin.length() != 8) {
+            logger.Error("PIN non corretto");
             JOptionPane.showMessageDialog(
                     MainFrame.this.getContentPane(),
                     "Il PIN deve essere composto da 8 numeri",
@@ -3499,6 +3794,7 @@ public class MainFrame extends JFrame {
         }
 
         if (pin1.length() != 8) {
+            logger.Error("PIN non corretto");
             JOptionPane.showMessageDialog(
                     MainFrame.this.getContentPane(),
                     "Il PIN deve essere composto da 8 numeri",
@@ -3515,6 +3811,7 @@ public class MainFrame extends JFrame {
         }
 
         if (i < pin.length() || !(c >= '0' && c <= '9')) {
+            logger.Error("PIN non corretto");
             JOptionPane.showMessageDialog(
                     MainFrame.this.getContentPane(),
                     "Il PIN deve essere composto da 8 numeri",
@@ -3531,6 +3828,7 @@ public class MainFrame extends JFrame {
         }
 
         if (i < pin1.length() || !(c >= '0' && c <= '9')) {
+            logger.Error("PIN non corretto");
             JOptionPane.showMessageDialog(
                     MainFrame.this.getContentPane(),
                     "Il PIN deve essere composto da 8 numeri",
@@ -3540,6 +3838,7 @@ public class MainFrame extends JFrame {
         }
 
         if (!pin1.equals(pin2)) {
+            logger.Error("PIN non corrispondenti");
             JOptionPane.showMessageDialog(
                     MainFrame.this.getContentPane(),
                     "I PIN non corrispondono",
@@ -3557,6 +3856,7 @@ public class MainFrame extends JFrame {
         }
 
         if (c == lastchar) {
+            logger.Error("PIN non valido - cifre tutte uguali");
             JOptionPane.showMessageDialog(
                     MainFrame.this.getContentPane(),
                     "Il nuovo PIN non deve essere composto da cifre uguali",
@@ -3574,6 +3874,7 @@ public class MainFrame extends JFrame {
         }
 
         if (c == lastchar + 1) {
+            logger.Error("PIN non corretto - cifre consecutive");
             JOptionPane.showMessageDialog(
                     MainFrame.this.getContentPane(),
                     "Il nuovo PIN non deve essere composto da cifre consecutive",
@@ -3591,6 +3892,7 @@ public class MainFrame extends JFrame {
         }
 
         if (c == lastchar - 1) {
+            logger.Error("PIN non corretto - cifre consecutive");
             JOptionPane.showMessageDialog(
                     MainFrame.this.getContentPane(),
                     "Il nuovo PIN non deve essere composto da cifre consecutive",
@@ -3644,6 +3946,7 @@ public class MainFrame extends JFrame {
 
                                         switch (ret) {
                                             case CKR_TOKEN_NOT_RECOGNIZED:
+                                                logger.Error("CIE non presente sul lettore");
                                                 JOptionPane.showMessageDialog(
                                                         MainFrame.this.getContentPane(),
                                                         "CIE non presente sul lettore",
@@ -3653,6 +3956,7 @@ public class MainFrame extends JFrame {
                                                 break;
 
                                             case CKR_TOKEN_NOT_PRESENT:
+                                                logger.Error("CIE non presente sul lettore");
                                                 JOptionPane.showMessageDialog(
                                                         MainFrame.this.getContentPane(),
                                                         "CIE non presente sul lettore",
@@ -3662,6 +3966,10 @@ public class MainFrame extends JFrame {
                                                 break;
 
                                             case CKR_PIN_INCORRECT:
+                                                logger.Error(
+                                                        String.format(
+                                                                "Il PIN digitato è errato. rimangono %d tentativi",
+                                                                attempts[0]));
                                                 JOptionPane.showMessageDialog(
                                                         MainFrame.this.getContentPane(),
                                                         String.format(
@@ -3673,6 +3981,7 @@ public class MainFrame extends JFrame {
                                                 break;
 
                                             case CKR_PIN_LOCKED:
+                                                logger.Error("Carta bloccata");
                                                 JOptionPane.showMessageDialog(
                                                         MainFrame.this.getContentPane(),
                                                         "Munisciti del codice PUK e utilizza la funzione di sblocco carta per abilitarla",
@@ -3682,6 +3991,8 @@ public class MainFrame extends JFrame {
                                                 break;
 
                                             case CKR_GENERAL_ERROR:
+                                                logger.Error(
+                                                        "Errore inaspettato durante la comunicazione con la smart card");
                                                 JOptionPane.showMessageDialog(
                                                         MainFrame.this.getContentPane(),
                                                         "Errore inaspettato durante la comunicazione con la smart card",
@@ -3691,6 +4002,8 @@ public class MainFrame extends JFrame {
                                                 break;
 
                                             case CKR_OK:
+                                                logger.Info(
+                                                        "Il PIN è stato modificato con successo");
                                                 JOptionPane.showMessageDialog(
                                                         MainFrame.this.getContentPane(),
                                                         "Il PIN è stato modificato con successo",
@@ -3709,6 +4022,7 @@ public class MainFrame extends JFrame {
     }
 
     private void sbloccaPIN() {
+        logger.Info("Inizia - sbloccaPIN()");
         final String puk = puk01.getText();
         final String pin1 = pin01.getText();
         final String pin2 = pin02.getText();
@@ -3716,6 +4030,7 @@ public class MainFrame extends JFrame {
         int i;
 
         if (puk.length() != 8) {
+            logger.Error("PUK non corretto - deve essere composto da 8 numeri");
             JOptionPane.showMessageDialog(
                     MainFrame.this.getContentPane(),
                     "Il PUK deve essere composto da 8 numeri",
@@ -3725,6 +4040,7 @@ public class MainFrame extends JFrame {
         }
 
         if (pin1.length() != 8) {
+            logger.Error("PIN non corretto - deve essere composto da 8 numeri");
             JOptionPane.showMessageDialog(
                     MainFrame.this.getContentPane(),
                     "Il PIN deve essere composto da 8 numeri",
@@ -3741,6 +4057,7 @@ public class MainFrame extends JFrame {
         }
 
         if (i < puk.length() || !(c >= '0' && c <= '9')) {
+            logger.Error("PUK non corretto - deve essere composto da 8 numeri");
             JOptionPane.showMessageDialog(
                     MainFrame.this.getContentPane(),
                     "Il PUK deve essere composto da 8 numeri",
@@ -3757,6 +4074,7 @@ public class MainFrame extends JFrame {
         }
 
         if (i < pin1.length() || !(c >= '0' && c <= '9')) {
+            logger.Error("PIN non corretto - deve essere composto da 8 numeri");
             JOptionPane.showMessageDialog(
                     MainFrame.this.getContentPane(),
                     "Il PIN deve essere composto da 8 numeri",
@@ -3766,6 +4084,7 @@ public class MainFrame extends JFrame {
         }
 
         if (!pin1.equals(pin2)) {
+            logger.Error("PIN non corrispondenti");
             JOptionPane.showMessageDialog(
                     MainFrame.this.getContentPane(),
                     "I PIN non corrispondono",
@@ -3783,6 +4102,7 @@ public class MainFrame extends JFrame {
         }
 
         if (c == lastchar) {
+            logger.Error("PIN non valido - cifre tutte uguali");
             JOptionPane.showMessageDialog(
                     MainFrame.this.getContentPane(),
                     "Il nuovo PIN non deve essere composto da cifre uguali",
@@ -3800,6 +4120,7 @@ public class MainFrame extends JFrame {
         }
 
         if (c == lastchar + 1) {
+            logger.Error("PIN non valido - cifre consecutive");
             JOptionPane.showMessageDialog(
                     MainFrame.this.getContentPane(),
                     "Il nuovo PIN non deve essere composto da cifre consecutive",
@@ -3817,6 +4138,7 @@ public class MainFrame extends JFrame {
         }
 
         if (c == lastchar - 1) {
+            logger.Error("PIN non valido - cifre consecutive");
             JOptionPane.showMessageDialog(
                     MainFrame.this.getContentPane(),
                     "Il nuovo PIN non deve essere composto da cifre consecutive",
@@ -3870,6 +4192,7 @@ public class MainFrame extends JFrame {
 
                                         switch (ret) {
                                             case CKR_TOKEN_NOT_RECOGNIZED:
+                                                logger.Error("CIE non presente sul lettore");
                                                 JOptionPane.showMessageDialog(
                                                         MainFrame.this.getContentPane(),
                                                         "CIE non presente sul lettore",
@@ -3879,6 +4202,7 @@ public class MainFrame extends JFrame {
                                                 break;
 
                                             case CKR_TOKEN_NOT_PRESENT:
+                                                logger.Error("CIE non presente sul lettore");
                                                 JOptionPane.showMessageDialog(
                                                         MainFrame.this.getContentPane(),
                                                         "CIE non presente sul lettore",
@@ -3888,6 +4212,10 @@ public class MainFrame extends JFrame {
                                                 break;
 
                                             case CKR_PIN_INCORRECT:
+                                                logger.Error(
+                                                        String.format(
+                                                                "Il PUK digitato è errato. rimangono %d tentativi",
+                                                                attempts[0]));
                                                 JOptionPane.showMessageDialog(
                                                         MainFrame.this.getContentPane(),
                                                         String.format(
@@ -3899,15 +4227,19 @@ public class MainFrame extends JFrame {
                                                 break;
 
                                             case CKR_PIN_LOCKED:
+                                                logger.Error(
+                                                        "PUK bloccato - la CIE deve essere sostituita");
                                                 JOptionPane.showMessageDialog(
                                                         MainFrame.this.getContentPane(),
-                                                        "PUK bloccato. La tua CIE deve essere sostutuita",
+                                                        "PUK bloccato. La tua CIE deve essere sostituita",
                                                         "Carta bloccata",
                                                         JOptionPane.ERROR_MESSAGE);
                                                 tabbedPane.setSelectedIndex(5);
                                                 break;
 
                                             case CKR_GENERAL_ERROR:
+                                                logger.Error(
+                                                        "Errore inaspettato durante la comunicazione con la smart card");
                                                 JOptionPane.showMessageDialog(
                                                         MainFrame.this.getContentPane(),
                                                         "Errore inaspettato durante la comunicazione con la smart card",
@@ -3917,6 +4249,7 @@ public class MainFrame extends JFrame {
                                                 break;
 
                                             case CKR_OK:
+                                                logger.Info("CIE sbloccata con successo");
                                                 JOptionPane.showMessageDialog(
                                                         MainFrame.this.getContentPane(),
                                                         "La CIE è stata sbloccata con successo",
@@ -3935,6 +4268,7 @@ public class MainFrame extends JFrame {
     }
 
     private void disabilitaCIE(String pan, String name) {
+        logger.Info("Inizia - disabilitaCIE()");
 
         if (JOptionPane.showConfirmDialog(
                         this.getContentPane(),
@@ -3950,6 +4284,7 @@ public class MainFrame extends JFrame {
 
         switch (ret) {
             case CKR_OK:
+                logger.Info("CIE disabilitata con successo");
                 JOptionPane.showMessageDialog(
                         MainFrame.this.getContentPane(),
                         "CIE disabilitata con successo",
@@ -3960,14 +4295,21 @@ public class MainFrame extends JFrame {
 
                 String signPath = getSignImagePath(cie.getSerialNumber());
                 try {
+                    logger.Info(String.format("Cancello '%s'", signPath));
                     Files.deleteIfExists(Paths.get(signPath));
                 } catch (NoSuchFileException x) {
-                    System.err.format("%s: no such" + " file or directory%n", signPath);
+                    String msg = String.format("%s: no such file or directory", signPath);
+                    logger.Error(msg);
+                    System.err.println(msg);
                 } catch (DirectoryNotEmptyException x) {
-                    System.err.format("%s not empty%n", signPath);
+                    String msg = String.format("%s not empty", signPath);
+                    logger.Error(msg);
+                    System.err.println(msg);
                 } catch (IOException x) {
                     // File permission problems are caught here.
-                    System.err.println(x);
+                    String msg = x.toString();
+                    logger.Error(msg);
+                    System.err.println(msg);
                 }
 
                 cieDictionary.remove(pan);
@@ -3979,6 +4321,7 @@ public class MainFrame extends JFrame {
                 selectHome();
                 break;
             default:
+                logger.Error("Impossibile disabilitare la CIE");
                 JOptionPane.showMessageDialog(
                         MainFrame.this.getContentPane(),
                         "Impossibile disabilitare la CIE di " + name,
@@ -3989,6 +4332,7 @@ public class MainFrame extends JFrame {
     }
 
     private void disabilitaAllCIE(List<Cie> cieList) {
+        logger.Info("Inizia - disabilitaAllCIE()");
 
         if (JOptionPane.showConfirmDialog(
                         this.getContentPane(),
@@ -4007,14 +4351,21 @@ public class MainFrame extends JFrame {
 
                     String signPath = getSignImagePath(cieList.get(i).getSerialNumber());
                     try {
+                        logger.Info(String.format("Cancello '%s'", signPath));
                         Files.deleteIfExists(Paths.get(signPath));
                     } catch (NoSuchFileException x) {
-                        System.err.format("%s: no such" + " file or directory%n", signPath);
+                        String msg = String.format("%s: no such" + " file or directory", signPath);
+                        logger.Error(msg);
+                        System.err.println(msg);
                     } catch (DirectoryNotEmptyException x) {
-                        System.err.format("%s not empty%n", signPath);
+                        String msg = String.format("%s not empty", signPath);
+                        logger.Error(msg);
+                        System.err.println(msg);
                     } catch (IOException x) {
                         // File permission problems are caught here.
-                        System.err.println(x);
+                        String msg = x.toString();
+                        logger.Error(msg);
+                        System.err.println(msg);
                     }
 
                     Gson gson = new Gson();
@@ -4023,6 +4374,8 @@ public class MainFrame extends JFrame {
 
                     break;
                 default:
+                    logger.Error(
+                            "Impossibile disabilitare la CIE " + cieList.get(i).getSerialNumber());
                     JOptionPane.showMessageDialog(
                             MainFrame.this.getContentPane(),
                             "Impossibile disabilitare la CIE numero "
@@ -4043,6 +4396,7 @@ public class MainFrame extends JFrame {
     }
 
     private void configureHomeButtons(Map<String, Cie> cieDictionary) {
+        logger.Info("Inizia - configureHomeButtons()");
         btnSelezionaCIE.setVisible(false);
         btnNewButton.setVisible(true);
         btnRemoveSelected.setVisible(true);
@@ -4059,6 +4413,7 @@ public class MainFrame extends JFrame {
     }
 
     private void selectHome() {
+        logger.Info("Inizia - selectHome()");
         /*
         if(Utils.getProperty("ef_seriale", "").equals("") && !Utils.getProperty("cardholder", "").equals("") )
         {
@@ -4087,12 +4442,12 @@ public class MainFrame extends JFrame {
         {
         	tabbedPane.setSelectedIndex(0);
         	EventQueue.invokeLater(new Runnable()
-               {
+            {
         		public void run()
         		{
         			passwordField.requestFocus();
         		}
-               });
+            });
         }*/
 
         // Utils.setProperty("cieDictionary", "");
@@ -4190,6 +4545,7 @@ public class MainFrame extends JFrame {
     }
 
     private void selectCardholder() {
+        logger.Info("Inizia - selectCardholder()");
         // tabbedPane.setSelectedIndex(2);
         selectHome();
         configureHomeButtons(cieDictionary);
@@ -4197,7 +4553,84 @@ public class MainFrame extends JFrame {
     }
 
     private void selectUnlock() {
+        logger.Info("Inizia - selectUnlock()");
         tabbedPane.setSelectedIndex(5);
         selectButton(btnSbloccaCarta);
+    }
+
+    /** Logger */
+    public void LoadLogConfigFromFile() {
+        boolean writeLogConfigFile = false;
+        Path configFilePath = Paths.get(System.getProperty("user.home"), ".CIEPKI", "config");
+        try {
+            List<String> configFileLines = Files.readAllLines(configFilePath);
+            for (String line : configFileLines) {
+                boolean isAppConfigLine = line.contains(LOG_CONFIG_PREFIX_APP);
+                boolean isLibConfigLine = line.contains(LOG_CONFIG_PREFIX_LIB);
+                if ((isAppConfigLine || isLibConfigLine) && (isAppConfigLine != isLibConfigLine)) {
+                    String value = line.split("=")[1];
+                    try {
+                        Integer intValue = new Integer(value);
+                        try {
+                            LogLevel valueLevel = LogLevel.getLevelFromInteger(intValue);
+                            if (valueLevel.compareTo(LogLevel.NONE) >= 0
+                                    && valueLevel.compareTo(LogLevel.ERROR) <= 0) {
+                                if (isAppConfigLine) {
+                                    logConfig.app = valueLevel;
+                                } else {
+                                    logConfig.lib = valueLevel;
+                                }
+                            }
+                        } catch (IllegalArgumentException exception) {
+                            if (isAppConfigLine) {
+                                System.out.println(
+                                        String.format(
+                                                "valore '%s' del livello di log applicazione fuori intervallo - uso default",
+                                                intValue));
+
+                            } else {
+                                System.out.println(
+                                        String.format(
+                                                "valore '%s' del livello di log libreria fuori intervallo - uso default",
+                                                intValue));
+                            }
+                            writeLogConfigFile = true;
+                        }
+                    } catch (Exception exception) {
+                        System.out.println(
+                                String.format(
+                                        "valore '%s' del livello di log libreria non valido - uso default",
+                                        value));
+                        writeLogConfigFile = true;
+                    }
+                } else {
+                    System.out.println(
+                            String.format("Riga di configurazione log non valida: %s", line));
+                }
+            }
+        } catch (Exception exception) {
+            System.out.println(
+                    "File configurazione log non trovato, lo creo con valori di default");
+            writeLogConfigFile = true;
+        }
+
+        if (writeLogConfigFile) {
+            SaveLogConfigToFile();
+        }
+        logger.setLevel(logConfig.app);
+    }
+
+    private void SaveLogConfigToFile() {
+        logger.Info("Inizia - SaveLogConfigToFile()");
+        Path configFilePath = Paths.get(System.getProperty("user.home"), ".CIEPKI", "config");
+        List<String> configList = new ArrayList<String>();
+        configList.add(String.format("%s=%s", LOG_CONFIG_PREFIX_LIB, logConfig.lib.ordinal()));
+        configList.add(String.format("%s=%s", LOG_CONFIG_PREFIX_APP, logConfig.app.ordinal()));
+        try {
+            Files.write(configFilePath, configList);
+        } catch (Exception exception) {
+            System.out.println("Impossibile salvare il file di configurazione");
+            System.out.println(exception);
+        }
     }
 }

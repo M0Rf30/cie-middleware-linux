@@ -49,9 +49,8 @@ void initLog(const char *moduleName, const char *iniFile,const char *version) {
 
     logGlobalVersion=version;
 
-    OutputDebugString("%s", "File INI:");
-    OutputDebugString("%s", iniFile);
-    OutputDebugString("%s", "\n");
+    OutputDebugString("File INI:");
+    OutputDebugString("\n");
 
     UUCProperties settings;
     //settings.load(iniFile);
@@ -242,7 +241,7 @@ DWORD CLog::write(const char *format,...) {
             fclose(lf);
         }
 #else
-        lf = fopen(logPath.c_str(), "a+t");
+        //lf = fopen(logPath.c_str(), "a+t");
         if (lf) {
 
             struct stat	lstat_buf;
@@ -307,7 +306,7 @@ DWORD CLog::write(const char *format,...) {
     sprintf_s(pbtDate + dtLen, 2048 - dtLen, "|thread:%08x|%s|", GetCurrentThreadId(), logName.c_str());
     dtLen = (int)strnlen(pbtDate, sizeof(pbtDate));
     sprintf_s(pbtDate+ dtLen, 2048 - dtLen, "\n");
-    OutputDebugString("%s", pbtDate);
+    OutputDebugString(pbtDate);
 #else
     puts(pbtDate);
 #endif
@@ -334,12 +333,14 @@ void CLog::writePure(const char *format,...) {
     if (Enabled && Initialized && mainEnable) {
         if (!firstGlobal && LogMode==LM_Single) {
             firstGlobal =true;
-            write("Inizio Sessione - versione: %s",logGlobalVersion);
+            //write("Inizio Sessione - versione: %s",logGlobalVersion);
+            printf("Inizio Sessione - versione: %s",logGlobalVersion);
             writeModuleInfo();
         }
         if (!FirstLog && (LogMode==LM_Module || LogMode==LM_Module_Thread)) {
             FirstLog=true;
-            write("%s - Inizio Sessione - versione file: %s",logName.c_str(), logVersion.c_str());
+            //write("%s - Inizio Sessione - versione file: %s",logName.c_str(), logVersion.c_str());
+            printf("%s - Inizio Sessione - versione file: %s",logName.c_str(), logVersion.c_str());
             writeModuleInfo();
         }
 
@@ -358,7 +359,8 @@ void CLog::writePure(const char *format,...) {
 #ifdef WIN32
         fopen_s(&lf,logPath.c_str(), "a+t");
 #else
-        lf = fopen(logPath.c_str(), "a+t");
+        //lf = fopen(logPath.c_str(), "a+t");
+        lf = 0;
 #endif
         if (lf) {
 
@@ -406,7 +408,7 @@ void CLog::writePure(const char *format,...) {
     vsprintf_s(pbtDate+dtLen,2048-dtLen, format, params);
     dtLen = (int)strnlen(pbtDate, sizeof(pbtDate));
     sprintf_s(pbtDate + dtLen, 2048 - dtLen, "\n");
-    OutputDebugString("%s", pbtDate);
+    OutputDebugString(pbtDate);
 #else
     puts(pbtDate);
 #endif

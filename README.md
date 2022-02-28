@@ -60,8 +60,8 @@ distro GNU/Linux:
 
 ### Prerequisiti
 
-Fare riferimento al file [pacur/PKGBUILD](pacur/PKGBUILD) per ottenere le
-dipendenze di build-time and run-time per la propria distribuzione.
+Fare riferimento al file [PKGBUILD](packages/cie-middleware/PKGBUILD) per
+ottenere le dipendenze di build-time and run-time per la propria distribuzione.
 
 È inoltre possibile trovare le istruzioni complete per costruire gli artefatti
 necessari e specifici per la propria distro.
@@ -72,8 +72,8 @@ Da terminale, spostarsi nella root del presente repo e digitare:
 
 ```sh
 gradle -b cie-java/build.gradle standalone
-cd libcie-pkcs11/ 
-meson builddir 
+ 
+meson builddir libcie-pkcs11/
 meson configure -Dprefix=/usr builddir
 meson compile -C builddir
 ```

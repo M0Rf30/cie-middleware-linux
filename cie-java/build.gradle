@@ -4,7 +4,7 @@ plugins {
 
 // Apply the application plugin to add support for building a CLI application.
 	id 'application'
-	id "com.diffplug.spotless" version "6.0.0"
+	id "com.diffplug.spotless" version "6.3.0"
 }
 
 repositories {
@@ -23,7 +23,7 @@ spotless {
 	}
 	java {
 		// apply a specific flavor of google-java-format
-		googleJavaFormat('1.8').aosp()
+		googleJavaFormat('1.14.0').aosp()
 	}
 }
 
@@ -36,13 +36,13 @@ dependencies {
 	implementation 'com.dorkbox:ShellExecutor:1.1'
 	implementation 'com.dorkbox:SystemTray:4.1'
 	implementation 'com.dorkbox:TweenEngine:8.3'
-	implementation 'com.google.code.gson:gson:2.8.9'
+	implementation 'com.google.code.gson:gson:2.9.0'
 	implementation 'com.jgoodies:jgoodies-forms:1.9.0'
 	implementation 'net.java.dev.jna:jna:5.9.0'
 	implementation 'net.java.dev.jna:jna-platform:5.9.0'
 	implementation 'org.ghost4j:ghost4j:1.0.1'
 	implementation 'org.javassist:javassist:3.28.0-GA'
-	implementation 'org.slf4j:slf4j-api:1.7.32'
+	implementation 'org.slf4j:slf4j-api:1.7.36'
 }
 
 application {

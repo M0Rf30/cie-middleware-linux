@@ -1,6 +1,8 @@
 package com.ugos.crypt.hash;
 
-/** @author Ugo Chirico <ugo.chirico@ugosweb.com> Customized and ported on J2ME */
+/**
+ * @author Ugo Chirico <ugo.chirico@ugosweb.com> Customized and ported on J2ME
+ */
 public final class SHA1 {
     //  Length of the final hash (in bytes).
     private static final int HASH_LENGTH = 20;
