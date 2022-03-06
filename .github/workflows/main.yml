@@ -15,10 +15,7 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   gradle:
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-java@v2
@@ -32,17 +29,24 @@ jobs:
       - name: Execute Gradle build
         run: |
           gradle -b cie-java/build.gradle standalone
-      
+
       - name: Install Dependencies
-        run: sudo apt install -y g++ libpcsclite-dev openjdk-11-jre-headless libssl-dev pkg-config python3-pip unzip libcrypto++-dev libcrypto++6 libpcsclite1 libssl1.1 pcscd
+        run: >
+          sudo apt install -y g++ libcrypto++-dev
+          libcrypto++6 libcurl4-openssl-dev libfontconfig1-dev
+          libfreetype6-dev libpcsclite-dev libpcsclite1 libpng-dev
+          libssl-dev libssl1.1 libxml2 libxml2-dev openjdk-11-jre-headless
+          pcscd pkg-config python3-pip unzip;
+          curl -sL "https://github.com/M0Rf30/cie-middleware-linux/releases/download/podofo-1.4.2/libpodofo-1.4.2.tar.gz" -o libpodofo.tar.gz;
+          tar xf libpodofo.tar.gz --directory=libs/lib
 
       - uses: actions/setup-python@v1
         with:
-          python-version: '3.x'
+          python-version: "3.x"
       - run: pip install meson ninja
         env:
           CC: gcc
-      - run: meson builddir libcie-pkcs11
+      - run: meson builddir libs
       - run: meson configure -Dprefix=/usr builddir
       - run: meson compile -C builddir
       - uses: actions/upload-artifact@v1
