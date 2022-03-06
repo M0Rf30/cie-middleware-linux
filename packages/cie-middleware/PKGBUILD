@@ -17,115 +17,135 @@ section="utils"
 priority="optional"
 sources=(
     "https://github.com/M0Rf30/cie-middleware-linux/archive/main.tar.gz"
+    "https://github.com/M0Rf30/cie-middleware-linux/releases/download/podofo-1.4.2/libpodofo-1.4.2.tar.gz"
     "https://downloads.gradle-dn.com/distributions/gradle-7.3-bin.zip"
 )
-sources:archlinux=("https://github.com/M0Rf30/cie-middleware-linux/archive/main.tar.gz")
+sources:archlinux=(
+    "https://github.com/M0Rf30/cie-middleware-linux/archive/main.tar.gz"
+    "https://github.com/M0Rf30/cie-middleware-linux/releases/download/podofo-1.4.2/libpodofo-1.4.2.tar.gz"
+)
 
 hashsums=(
     "skip"
+    "ef81e439b12aa2ff309b353399c033bd62b027e7bd4cbf649c025226f1de5287"
     "skip"
 )
 hashsums:archlinux=(
     "skip"
+    "ef81e439b12aa2ff309b353399c033bd62b027e7bd4cbf649c025226f1de5287"
 )
 depends:apt=(
     "cryptopp"
+    "libcurl4"
+    "libfreetype6"
+    "libfontconfig1"
     "libpcsclite1"
+    "libpng16-16"
     "libssl1.1"
+    "libxml2"
     "openjdk-11-jre-headless"
     "pcscd"
 )
 makedepends:apt=(
     "g++"  
+    "libcurl4-openssl-dev"
+    "libfontconfig1-dev"
+    "libfreetype6-dev"
     "libpcsclite-dev"
-    "openjdk-11-jre-headless"
+    "libpng-dev"
     "libssl-dev"
+    "libxml2-dev"
+    "openjdk-11-jre-headless"
     "pkg-config"
     "python3-pip"
     "unzip"
 )
 
 depends:pacman=(
-    "java-runtime"
     "crypto++"
+    "curl"
+    "fontconfig"
+    "freetype2"
+    "java-runtime"
+    "libpng"
+    "libxml2"
     "openssl"
     "pcsclite"
 )
 makedepends:pacman=(
     "crypto++"
+    "curl"
+    "fontconfig"
+    "freetype2"
     "gradle"
+    "libpng"
+    "libxml2"
     "meson"
+    "openssl"
     "pcsclite"
     "pkgconf"
-    "openssl"
     "unzip"
 )
 
 depends:yum=(
-    "java-11-openjdk-headless"
     "cryptopp"
+    "fontconfig"
+    "freetype"
+    "java-11-openjdk-headless"
+    "libpng"
+    "libxml2"
     "openssl"
     "pcsc-lite"
 )
 makedepends:yum=(
     "cryptopp-devel"
+    "fontconfig-devel"
+    "freetype-devel"
     "gcc-c++"
     "java-11-openjdk-devel"
+    "libpng-devel"
+    "libxml2-devel"
     "meson"
     "openssl-devel"
     "pcsc-lite-devel"
     "pkgconf-pkg-config"
 )
 
-depends:zypper=(
-    "java-11-openjdk-headless"
-    "libcryptopp8_2_0"
-    "libopenssl"
-    "pcsc-lite"
-)
-makedepends:zypper=(
-    "libcryptopp-devel" 
-    "gcc-c++"
-    "java-11-openjdk-devel"
-    "libopenssl-devel"
-    "meson"
-    "pcsc-lite-devel"
-    "pkgconf-pkg"
-)
-
 build:archlinux() {
     export JAVA_HOME=/usr/lib/jvm/default/
+    pip3 install ninja==1.10.2.3 meson==0.61.1
+    cp "${srcdir}/libpodofo.a" \
+      "${srcdir}/${pkgname}-linux-main/libs/lib"
+
     cd "${srcdir}/${pkgname}-linux-main"
     gradle -b cie-java/build.gradle standalone
-    meson builddir libcie-pkcs11
+    meson builddir libs
     meson configure -Dprefix=/usr builddir
     meson compile -C builddir
 }
 
 build:fedora() {
     export JAVA_HOME=/usr/lib/jvm/java-11-openjdk/
-    cd "${srcdir}/${pkgname}-linux-main"
-    ../gradle-7.3/bin/gradle -b cie-java/build.gradle standalone
-    meson builddir libcie-pkcs11
-    meson configure -Dprefix=/usr builddir
-    meson compile -C builddir
-}
+    cp "${srcdir}/libpodofo.a" \
+      "${srcdir}/${pkgname}-linux-main/libs/lib"
 
-build:opensuse() {
-    export JAVA_HOME=/usr/lib64/jvm/java-11-openjdk/
     cd "${srcdir}/${pkgname}-linux-main"
     ../gradle-7.3/bin/gradle -b cie-java/build.gradle standalone
-    meson builddir libcie-pkcs11
+    meson builddir libs
     meson configure -Dprefix=/usr builddir
     meson compile -C builddir
 }
 
 build:ubuntu() {
     export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-    pip3 install ninja meson
+    pip3 install ninja==1.10.2.3 meson==0.61.1
+    cp "${srcdir}/libpodofo.a" \
+      "${srcdir}/${pkgname}-linux-main/libs/lib"
+
     cd "${srcdir}/${pkgname}-linux-main"
     ../gradle-7.3/bin/gradle -b cie-java/build.gradle standalone
-    meson builddir libcie-pkcs11
+
+    meson builddir libs
     meson configure -Dprefix=/usr builddir
     meson compile -C builddir
 }
