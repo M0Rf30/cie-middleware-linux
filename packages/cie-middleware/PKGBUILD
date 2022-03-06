@@ -47,6 +47,7 @@ depends:apt=(
     "pcscd"
 )
 makedepends:apt=(
+    "ccache"
     "g++"  
     "libcurl4-openssl-dev"
     "libfontconfig1-dev"
@@ -73,6 +74,7 @@ depends:pacman=(
     "pcsclite"
 )
 makedepends:pacman=(
+    "ccache"
     "crypto++"
     "curl"
     "fontconfig"
@@ -98,6 +100,7 @@ depends:yum=(
     "pcsc-lite"
 )
 makedepends:yum=(
+    "ccache"
     "cryptopp-devel"
     "fontconfig-devel"
     "freetype-devel"
