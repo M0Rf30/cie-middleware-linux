@@ -32,10 +32,11 @@ jobs:
 
       - name: Install Dependencies
         run: >
+          sudo apt update;
           sudo apt install -y g++ libcrypto++-dev
           libcrypto++6 libcurl4-openssl-dev libfontconfig1-dev
           libfreetype6-dev libpcsclite-dev libpcsclite1 libpng-dev
-          libssl-dev libssl1.1 libxml2 libxml2-dev openjdk-11-jre-headless
+          libssl-dev libssl1.1 libxml2 libxml2-dev
           pcscd pkg-config python3-pip unzip;
           curl -sL "https://github.com/M0Rf30/cie-middleware-linux/releases/download/podofo-1.4.2/libpodofo-1.4.2.tar.gz" -o libpodofo.tar.gz;
           tar xf libpodofo.tar.gz --directory=libs/lib
