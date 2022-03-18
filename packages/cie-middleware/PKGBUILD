@@ -5,7 +5,7 @@ targets=(
     "ubuntu"
 )
 pkgname="cie-middleware"
-pkgver="1.4.2"
+pkgver="1.4.3"
 pkgrel="1"
 pkgdesc="A fork of Middleware della CIE (Carta di Identità Elettronica) per Linux"
 pkgdesclong=("A fork of Middleware della CIE (Carta di Identità Elettronica) per Linux")
@@ -17,22 +17,18 @@ section="utils"
 priority="optional"
 sources=(
     "https://github.com/M0Rf30/cie-middleware-linux/archive/main.tar.gz"
-    "https://github.com/M0Rf30/cie-middleware-linux/releases/download/podofo-1.4.2/libpodofo-1.4.2.tar.gz"
     "https://downloads.gradle-dn.com/distributions/gradle-7.3-bin.zip"
 )
 sources:archlinux=(
     "https://github.com/M0Rf30/cie-middleware-linux/archive/main.tar.gz"
-    "https://github.com/M0Rf30/cie-middleware-linux/releases/download/podofo-1.4.2/libpodofo-1.4.2.tar.gz"
 )
 
 hashsums=(
     "skip"
-    "ef81e439b12aa2ff309b353399c033bd62b027e7bd4cbf649c025226f1de5287"
     "skip"
 )
 hashsums:archlinux=(
     "skip"
-    "ef81e439b12aa2ff309b353399c033bd62b027e7bd4cbf649c025226f1de5287"
 )
 depends:apt=(
     "cryptopp"
@@ -40,6 +36,7 @@ depends:apt=(
     "libfreetype6"
     "libfontconfig1"
     "libpcsclite1"
+    "libpodofo"
     "libpng16-16"
     "libssl1.1"
     "libxml2"
@@ -54,6 +51,7 @@ makedepends:apt=(
     "libfreetype6-dev"
     "libpcsclite-dev"
     "libpng-dev"
+    "libpodofo-dev"
     "libssl-dev"
     "libxml2-dev"
     "openjdk-11-jre-headless"
@@ -72,6 +70,7 @@ depends:pacman=(
     "libxml2"
     "openssl"
     "pcsclite"
+    "podofo"
 )
 makedepends:pacman=(
     "ccache"
@@ -86,6 +85,7 @@ makedepends:pacman=(
     "openssl"
     "pcsclite"
     "pkgconf"
+    "podofo"
     "unzip"
 )
 
@@ -98,6 +98,7 @@ depends:yum=(
     "libxml2"
     "openssl"
     "pcsc-lite"
+    "podofo-libs"
 )
 makedepends:yum=(
     "ccache"
@@ -112,13 +113,12 @@ makedepends:yum=(
     "openssl-devel"
     "pcsc-lite-devel"
     "pkgconf-pkg-config"
+    "podofo-devel"
 )
 
 build:archlinux() {
     export JAVA_HOME=/usr/lib/jvm/default/
     pip3 install ninja==1.10.2.3 meson==0.61.1
-    cp "${srcdir}/libpodofo.a" \
-      "${srcdir}/${pkgname}-linux-main/libs/lib"
 
     cd "${srcdir}/${pkgname}-linux-main"
     gradle -b cie-java/build.gradle standalone
@@ -129,8 +129,6 @@ build:archlinux() {
 
 build:fedora() {
     export JAVA_HOME=/usr/lib/jvm/java-11-openjdk/
-    cp "${srcdir}/libpodofo.a" \
-      "${srcdir}/${pkgname}-linux-main/libs/lib"
 
     cd "${srcdir}/${pkgname}-linux-main"
     ../gradle-7.3/bin/gradle -b cie-java/build.gradle standalone
@@ -142,8 +140,6 @@ build:fedora() {
 build:ubuntu() {
     export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
     pip3 install ninja==1.10.2.3 meson==0.61.1
-    cp "${srcdir}/libpodofo.a" \
-      "${srcdir}/${pkgname}-linux-main/libs/lib"
 
     cd "${srcdir}/${pkgname}-linux-main"
     ../gradle-7.3/bin/gradle -b cie-java/build.gradle standalone

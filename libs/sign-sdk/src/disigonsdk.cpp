@@ -22,7 +22,7 @@
 #include "CIESigner.h"
 #include <libxml/xmlmemory.h>
 #include <libxml/tree.h>
-#include "podofo/podofo.h"
+#include <podofo/podofo.h>
 #include <string.h>
 
 #ifdef WIN32

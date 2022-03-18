@@ -8,7 +8,6 @@ add_project_arguments('-fPIC', language : 'cpp')
 
 cpp = meson.get_compiler('cpp')
 libdir = meson.current_source_dir() + '/lib'
-podofo_dep = cpp.find_library('libpodofo', dirs : libdir)
 
 crypto_dep = dependency('libcrypto')
 cryptop_dep = dependency('libcrypto++', required : false)
@@ -20,6 +19,7 @@ curl_dep = dependency('libcurl')
 fontconfig_dep = dependency('fontconfig')
 freetype_dep = dependency('freetype2')
 png_dep = dependency('libpng')
+podofo_dep = dependency('libpodofo')
 libxml2_dep = dependency('libxml-2.0', required : false)
 xml2_dep = dependency('xml2', required : false)
 
@@ -36,9 +36,6 @@ inc_so = include_directories('/usr/include/PCSC',
                           'pkcs11/src/Util')
 
 inc_a = include_directories('sign-sdk/include',
-                          'sign-sdk/include/podofo',
-                          'sign-sdk/include/podofo/include',
-                          'sign-sdk/include/podofo/include/podofo',
                           'sign-sdk/src',
                           'sign-sdk/src/RSA',
                           'sign-sdk/src/ASN1',

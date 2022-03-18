@@ -74,10 +74,6 @@ Da terminale, spostarsi nella root del presente repo e digitare:
 ```sh
 gradle -b cie-java/build.gradle standalone
 
-curl -sL "https://github.com/M0Rf30/cie-middleware-linux/releases/download/podofo-1.4.2/libpodofo-1.4.2.tar.gz" -o libpodofo.tar.gz
-
-tar xf libpodofo.tar.gz --directory=libs/lib
-
 meson builddir libs
 meson configure -Dprefix=/usr builddir
 meson compile -C builddir
