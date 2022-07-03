@@ -3,7 +3,7 @@
 
 #include "../PCSC/Token.h"
 
-#define DirCIE "CIE"
+#include "../CSP/ATR.h"
 
 #define EfDH "EF.DH"
 #define EfSerial "EF.Serial"
@@ -19,18 +19,17 @@ extern bool switchDesktop;
 extern BOOL CheckOneInstance(char *nome);
 extern ByteArray baExtAuth_PrivExp;
 
-enum CIE_Type {
-    CIE_Unknown,
-    CIE_Gemalto,
-    CIE_NXP,
-    CIE_STM,
-    CIE_STM2,
-    CIE_STM3
+enum CIE_DF {
+    DF_Root,
+    DF_IAS,
+    DF_CIE
 };
 
-enum CIE_DF { DF_Root, DF_IAS, DF_CIE };
-
-enum CIE_RequestedSM { CIE_SM, CIE_NoSM, CIE_AnySM };
+enum CIE_RequestedSM {
+    CIE_SM,
+    CIE_NoSM,
+    CIE_AnySM
+};
 
 class IAS {
     CIE_Type type = CIE_Type::CIE_Unknown;
@@ -43,10 +42,8 @@ class IAS {
     ByteDynArray ATR;
     ByteDynArray Certificate;
     ByteDynArray CardEncKey, CardEncIv;
-    StatusWord SendAPDU(ByteArray head, ByteArray data, ByteDynArray &resp,
-                        uint8_t *le = NULL);
-    StatusWord SendAPDU_SM(ByteArray head, ByteArray data, ByteDynArray &resp,
-                           uint8_t *le = NULL);
+    StatusWord SendAPDU(ByteArray head, ByteArray data, ByteDynArray &resp, uint8_t *le = NULL);
+    StatusWord SendAPDU_SM(ByteArray head, ByteArray data, ByteDynArray &resp, uint8_t *le = NULL);
     StatusWord getResp(ByteDynArray &Cardresp, StatusWord sw, ByteDynArray &resp);
     StatusWord getResp_SM(ByteArray &Cardresp, StatusWord sw, ByteDynArray &resp);
 
