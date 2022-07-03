@@ -45,7 +45,7 @@ depends:apt=(
 )
 makedepends:apt=(
     "ccache"
-    "g++"  
+    "g++"
     "libcurl4-openssl-dev"
     "libfontconfig1-dev"
     "libfreetype6-dev"
@@ -151,14 +151,14 @@ build:ubuntu() {
 
 package() {
     cd "${srcdir}/${pkgname}-linux-main"
-    
+
     # Java Application
     install -Dm755 cie-java/build/libs/CIEID-standalone.jar \
     "${pkgdir}/usr/share/cieid/cieid.jar"
     install -Dm644 "data/cieid.desktop" \
     "${pkgdir}/usr/share/applications/cieid.desktop"
     install -Dm755 data/logo.png \
-    "${pkgdir}/usr/share/pixmaps/cieid.png"    
+    "${pkgdir}/usr/share/pixmaps/cieid.png"
     install -Dm755 "data/cieid.sh" \
     "${pkgdir}/usr/bin/cieid"
     install -Dm644 LICENSE \
