@@ -5,7 +5,7 @@ targets=(
     "ubuntu"
 )
 pkgname="cie-middleware"
-pkgver="1.4.3"
+pkgver="1.4.3.1"
 pkgrel="1"
 pkgdesc="A fork of Middleware della CIE (Carta di Identità Elettronica) per Linux"
 pkgdesclong=("A fork of Middleware della CIE (Carta di Identità Elettronica) per Linux")
@@ -17,7 +17,7 @@ section="utils"
 priority="optional"
 sources=(
     "https://github.com/M0Rf30/cie-middleware-linux/archive/main.tar.gz"
-    "https://downloads.gradle-dn.com/distributions/gradle-7.3-bin.zip"
+    "https://downloads.gradle-dn.com/distributions/gradle-7.4.2-bin.zip"
 )
 sources:archlinux=(
     "https://github.com/M0Rf30/cie-middleware-linux/archive/main.tar.gz"
@@ -82,6 +82,7 @@ makedepends:pacman=(
     "libpng"
     "libxml2"
     "meson"
+    "ninja"
     "openssl"
     "pcsclite"
     "pkgconf"
@@ -118,7 +119,6 @@ makedepends:yum=(
 
 build:archlinux() {
     export JAVA_HOME=/usr/lib/jvm/default/
-    pip3 install ninja==1.10.2.3 meson==0.61.1
 
     cd "${srcdir}/${pkgname}-linux-main"
     gradle -b cie-java/build.gradle standalone
@@ -131,7 +131,7 @@ build:fedora() {
     export JAVA_HOME=/usr/lib/jvm/java-11-openjdk/
 
     cd "${srcdir}/${pkgname}-linux-main"
-    ../gradle-7.3/bin/gradle -b cie-java/build.gradle standalone
+    ../gradle-7.4.2/bin/gradle -b cie-java/build.gradle standalone
     meson builddir libs
     meson configure -Dprefix=/usr builddir
     meson compile -C builddir
@@ -139,10 +139,10 @@ build:fedora() {
 
 build:ubuntu() {
     export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-    pip3 install ninja==1.10.2.3 meson==0.61.1
+    pip3 install ninja==1.11.0 meson==0.62.2
 
     cd "${srcdir}/${pkgname}-linux-main"
-    ../gradle-7.3/bin/gradle -b cie-java/build.gradle standalone
+    ../gradle-7.4.2/bin/gradle -b cie-java/build.gradle standalone
 
     meson builddir libs
     meson configure -Dprefix=/usr builddir
@@ -153,7 +153,7 @@ package() {
     cd "${srcdir}/${pkgname}-linux-main"
     
     # Java Application
-    install -Dm755 cie-java/bin/libs/CIEID-standalone.jar \
+    install -Dm755 cie-java/build/libs/CIEID-standalone.jar \
     "${pkgdir}/usr/share/cieid/cieid.jar"
     install -Dm644 "data/cieid.desktop" \
     "${pkgdir}/usr/share/applications/cieid.desktop"
