@@ -329,11 +329,13 @@ public class MainFrame extends JFrame {
     private final JRadioButton rdbtnLoggingLibNone;
     private final ButtonGroup buttonGroupLoggingApp = new ButtonGroup();
     private final ButtonGroup buttonGroupLoggingLib = new ButtonGroup();
+    private final JButton btnVerifica;
 
     private enum SignOp {
         OP_NONE,
         PADES,
-        CADES
+        CADES,
+        VERIFY
     }
 
     public class LogLevelConfig {
@@ -442,7 +444,7 @@ public class MainFrame extends JFrame {
         btnCambiaPin.setHorizontalAlignment(SwingConstants.LEFT);
         btnCambiaPin.setBorderPainted(false);
         btnCambiaPin.setBackground(SystemColor.control);
-        btnCambiaPin.setBounds(0, 221, 200, 45);
+        btnCambiaPin.setBounds(0, 265, 200, 45);
         leftPanel.add(btnCambiaPin);
 
         btnSbloccaCarta = new JButton("   Sblocca Carta");
@@ -462,7 +464,7 @@ public class MainFrame extends JFrame {
         btnSbloccaCarta.setHorizontalAlignment(SwingConstants.LEFT);
         btnSbloccaCarta.setBorderPainted(false);
         btnSbloccaCarta.setBackground(SystemColor.control);
-        btnSbloccaCarta.setBounds(0, 267, 200, 45);
+        btnSbloccaCarta.setBounds(0, 310, 200, 45);
         leftPanel.add(btnSbloccaCarta);
 
         btnTutorial = new JButton("   Tutorial");
@@ -479,7 +481,7 @@ public class MainFrame extends JFrame {
         btnTutorial.setHorizontalAlignment(SwingConstants.LEFT);
         btnTutorial.setBorderPainted(false);
         btnTutorial.setBackground(SystemColor.window);
-        btnTutorial.setBounds(0, 313, 200, 45);
+        btnTutorial.setBounds(0, 355, 200, 45);
         leftPanel.add(btnTutorial);
 
         btnAiuto = new JButton("   Aiuto");
@@ -496,7 +498,7 @@ public class MainFrame extends JFrame {
         btnAiuto.setHorizontalAlignment(SwingConstants.LEFT);
         btnAiuto.setBorderPainted(false);
         btnAiuto.setBackground(SystemColor.control);
-        btnAiuto.setBounds(0, 359, 200, 45);
+        btnAiuto.setBounds(0, 400, 200, 45);
         leftPanel.add(btnAiuto);
 
         btnInformazioni = new JButton("   Informazioni");
@@ -513,7 +515,7 @@ public class MainFrame extends JFrame {
         btnInformazioni.setHorizontalAlignment(SwingConstants.LEFT);
         btnInformazioni.setBorderPainted(false);
         btnInformazioni.setBackground(SystemColor.control);
-        btnInformazioni.setBounds(0, 405, 200, 45);
+        btnInformazioni.setBounds(0, 445, 200, 45);
         leftPanel.add(btnInformazioni);
 
         btnFirma = new JButton("   Firma Elettronica");
@@ -563,7 +565,10 @@ public class MainFrame extends JFrame {
                         btnRemoveAll.setVisible(false);
                         btnRemoveSelected.setVisible(false);
                         btnNewButton.setVisible(false);
-
+                        lblFirmaElettronica.setText("Firma Elettronica");
+                        lblSFP.setVisible(true);
+                        lblNewLabel_2.setVisible(true);
+                        lblPersonalizza.setVisible(true);
                         tabbedPane.setSelectedIndex(2);
                     }
                 });
@@ -573,10 +578,32 @@ public class MainFrame extends JFrame {
                         MainFrame.class.getResource("/it/ipzs/cieid/res/Firma/firma_gray.png")));
         btnFirma.setHorizontalAlignment(SwingConstants.LEFT);
         btnFirma.setBorderPainted(false);
-        btnFirma.setBackground(SystemColor.menu);
-        btnFirma.setBounds(0, 176, 200, 45);
+        btnFirma.setBackground(SystemColor.control);
+        btnFirma.setBounds(0, 175, 200, 45);
         leftPanel.add(btnFirma);
-
+        btnVerifica = new JButton("   Verifica firma");
+        btnVerifica.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        logger.Info("Inizia  'Verifica Firma'");
+                        selectButton(btnVerifica);
+                        signOperation = SignOp.VERIFY;
+                        lblFirmaElettronica.setText("Verifica firma");
+                        lblSFP.setVisible(false);
+                        lblFPOK.setVisible(false);
+                        lblNewLabel_2.setVisible(false);
+                        lblPersonalizza.setVisible(false);
+                        tabbedPane.setSelectedIndex(10);
+                    }
+                });
+        btnVerifica.setIcon(
+                new ImageIcon(
+                        MainFrame.class.getResource("/it/ipzs/cieid/res/Firma/firma_gray.png")));
+        btnVerifica.setHorizontalAlignment(SwingConstants.LEFT);
+        btnVerifica.setBorderPainted(false);
+        btnVerifica.setBackground(SystemColor.control);
+        btnVerifica.setBounds(0, 220, 200, 45);
+        leftPanel.add(btnVerifica);
         btnImpostazioni = new JButton("   Impostazioni");
         btnImpostazioni.addActionListener(
                 new ActionListener() {
@@ -624,24 +651,20 @@ public class MainFrame extends JFrame {
         btnImpostazioni.setHorizontalAlignment(SwingConstants.LEFT);
         btnImpostazioni.setBorderPainted(false);
         btnImpostazioni.setBackground(SystemColor.window);
-        btnImpostazioni.setBounds(0, 451, 200, 45);
+        btnImpostazioni.setBounds(0, 490, 200, 45);
         leftPanel.add(btnImpostazioni);
-
         tabbedPane = new JTabbedPane(JTabbedPane.TOP);
         tabbedPane.setBounds(200, -65, 600, 635);
         contentPane.add(tabbedPane);
-
         JPanel panel_1 = new JPanel();
         tabbedPane.addTab("New tab", null, panel_1, null);
         panel_1.setLayout(null);
         panel_1.setBackground(Color.WHITE);
-
         JLabel lblAbbinaLaTua = new JLabel("Abbina la tua CIE");
         lblAbbinaLaTua.setHorizontalAlignment(SwingConstants.CENTER);
         lblAbbinaLaTua.setFont(new Font("Dialog", Font.BOLD, 30));
         lblAbbinaLaTua.setBounds(147, 36, 299, 36);
         panel_1.add(lblAbbinaLaTua);
-
         JTextPane txtpnDopoAverCollegato = new JTextPane();
         txtpnDopoAverCollegato.setFont(new Font("Dialog", Font.PLAIN, 16));
         txtpnDopoAverCollegato.setText(
@@ -649,32 +672,26 @@ public class MainFrame extends JFrame {
         txtpnDopoAverCollegato.setEditable(false);
         txtpnDopoAverCollegato.setBounds(63, 84, 492, 46);
         panel_1.add(txtpnDopoAverCollegato);
-
         JLabel lblNewLabel1 = new JLabel("");
         lblNewLabel1.setHorizontalAlignment(SwingConstants.CENTER);
         lblNewLabel1.setIcon(
                 new ImageIcon(
                         MainFrame.class.getResource(
                                 "/it/ipzs/cieid/res/icona_lettore_card_white.png")));
-
         lblNewLabel1.setBounds(29, 194, 211, 205);
         panel_1.add(lblNewLabel1);
-
         btnAbbina = new JButton("Abbina");
         btnAbbina.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         logger.Info("Inizia  'Abbina'");
-
                         abbinaCIE();
                     }
                 });
-
         btnAbbina.setForeground(Color.WHITE);
         btnAbbina.setBackground(new Color(30, 144, 255));
         btnAbbina.setBounds(258, 524, 114, 25);
         // panel_1.add(btnAbbina);
-
         passwordFields[0] = passwordField = new JPasswordField();
         passwordField.setHorizontalAlignment(SwingConstants.CENTER);
         passwordField.setFont(new Font("Dialog", Font.BOLD, 25));
@@ -699,7 +716,6 @@ public class MainFrame extends JFrame {
                 new KeyAdapter() {
                     @Override
                     public void keyTyped(KeyEvent e) {
-
                         if (e.getKeyChar() == '\b') {
                             passwordField.setText("");
                             passwordField.requestFocus();
@@ -708,7 +724,6 @@ public class MainFrame extends JFrame {
                         } else passwordField_2.requestFocus();
                     }
                 });
-
         passwordFields[2] = passwordField_2 = new JPasswordField();
         passwordField_2.setBounds(332, 321, 25, 25);
         passwordField_2.setHorizontalAlignment(SwingConstants.CENTER);
@@ -744,7 +759,6 @@ public class MainFrame extends JFrame {
                         } else passwordField_4.requestFocus();
                     }
                 });
-
         passwordFields[4] = passwordField_4 = new JPasswordField();
         passwordField_4.setBounds(407, 321, 25, 25);
         passwordField_4.setHorizontalAlignment(SwingConstants.CENTER);
@@ -762,7 +776,6 @@ public class MainFrame extends JFrame {
                         } else passwordField_5.requestFocus();
                     }
                 });
-
         passwordFields[5] = passwordField_5 = new JPasswordField();
         passwordField_5.setBounds(444, 321, 25, 25);
         passwordField_5.setHorizontalAlignment(SwingConstants.CENTER);
@@ -1404,9 +1417,9 @@ public class MainFrame extends JFrame {
                 new FileDrop.Listener() {
                     public void filesDropped(java.io.File[] files) {
                         // handle file drop
+                        logger.Info("Inizia  'filesDropped'");
                         filePath = files[0].getAbsolutePath();
-                        lblPathOp.setText(filePath);
-                        tabbedPane.setSelectedIndex(11);
+                        chooseSignOrVerifyFileOperation(filePath);
                     } // end filesDropped
                 });
 
@@ -1451,9 +1464,7 @@ public class MainFrame extends JFrame {
                         if (returnValue == JFileChooser.APPROVE_OPTION) {
                             File selectedFile = fileChooser.getSelectedFile();
                             filePath = selectedFile.getAbsolutePath();
-
-                            lblPathOp.setText(filePath);
-                            tabbedPane.setSelectedIndex(11);
+                            chooseSignOrVerifyFileOperation(filePath);
                         }
                     }
                 });
@@ -1516,8 +1527,11 @@ public class MainFrame extends JFrame {
                             lblFirmaPersonalizzata.setIcon(imageIcon);
                             tabbedPane.setSelectedIndex(15);
 
-                            btnCreaFirma.setEnabled(selectedCie.getCard().getIsCustomSign());
-
+                            if (selectedCie.getCard().getIsCustomSign()) {
+                                btnCreaFirma.setEnabled(true);
+                            } else {
+                                btnCreaFirma.setEnabled(false);
+                            }
                         } catch (IOException e1) {
                             System.out.println(e1);
                             lblFirmaPersonalizzata.setText(
@@ -1640,7 +1654,8 @@ public class MainFrame extends JFrame {
                                                 String credentials =
                                                         proxyInfoManager.decrypt(
                                                                 encryptedCredentials);
-                                                if (credentials.startsWith("cred=")) {
+
+                                                if (credentials.substring(0, 5).equals("cred=")) {
                                                     proxyCredentials = credentials.substring(5);
                                                 }
                                             }
@@ -1683,8 +1698,12 @@ public class MainFrame extends JFrame {
 
                                                 verificaScrollPane.repaint();
 
-                                                btnEstrai.setEnabled(FilenameUtils.getExtension(filePath)
-                                                        .equals("p7m"));
+                                                if (FilenameUtils.getExtension(filePath)
+                                                        .equals("p7m")) {
+                                                    btnEstrai.setEnabled(true);
+                                                } else {
+                                                    btnEstrai.setEnabled(false);
+                                                }
 
                                                 tabbedPane.setSelectedIndex(16);
                                             }
@@ -1745,7 +1764,12 @@ public class MainFrame extends JFrame {
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         lblPathSignOp.setText(filePath);
-                        cbGraphicSig.setEnabled(getFileExtension(filePath).equals(".pdf"));
+
+                        if (getFileExtension(filePath).equals(".pdf")) {
+                            cbGraphicSig.setEnabled(true);
+                        } else {
+                            cbGraphicSig.setEnabled(false);
+                        }
 
                         tabbedPane.setSelectedIndex(12);
                     }
@@ -2294,7 +2318,8 @@ public class MainFrame extends JFrame {
                             fileChooser.setDialogTitle(
                                     "Seleziona il percorso in cui salvare il file");
                             FileNameExtensionFilter filter;
-                            if (signOperation == SignOp.PADES) {
+
+                            if (signOperation == signOperation.PADES) {
                                 fileName = FilenameUtils.getBaseName(filePath) + "_signed.pdf";
                                 filter = new FileNameExtensionFilter("File pdf", ".pdf");
                             } else {
@@ -2312,8 +2337,10 @@ public class MainFrame extends JFrame {
                             if (returnVal == JFileChooser.APPROVE_OPTION) {
                                 outfilePath = fileChooser.getSelectedFile().getPath();
                                 String fileExtension = filter.getExtensions()[0];
-                                if (!outfilePath.endsWith(fileExtension))
+
+                                if (!outfilePath.endsWith(fileExtension)) {
                                     outfilePath += fileExtension;
+                                }
 
                                 firma(outfilePath);
                             }
@@ -3138,6 +3165,22 @@ public class MainFrame extends JFrame {
         }
     }
 
+    private void chooseSignOrVerifyFileOperation(String filePath) {
+        logger.Info("Inizia  'filesDropped'");
+        logger.Info(String.format("file path: %s", filePath));
+        lblPathOp.setText(filePath);
+        MouseEvent event =
+                new MouseEvent(panel_12, MouseEvent.MOUSE_CLICKED, 0, 0, 100, 100, 1, false);
+
+        if (signOperation == SignOp.VERIFY) {
+            logger.Info("Switch to verify operation");
+            panel_14.getMouseListeners()[0].mouseClicked(event);
+        } else {
+            logger.Info("Switch to sign operation");
+            panel_13.getMouseListeners()[0].mouseClicked(event);
+        }
+    }
+
     private void enableConfigurationPaneControls() {
         logger.Info("Inizia - enableConfigurationPaneControls()");
         setConfigurationPaneControlsState(true);
@@ -3179,6 +3222,7 @@ public class MainFrame extends JFrame {
         btnSbloccaCarta.setBackground(SystemColor.control);
         btnTutorial.setBackground(SystemColor.control);
         btnFirma.setBackground(SystemColor.control);
+        btnVerifica.setBackground(SystemColor.control);
         btnImpostazioni.setBackground(SystemColor.control);
 
         button.setBackground(SystemColor.LIGHT_GRAY);
@@ -3280,13 +3324,11 @@ public class MainFrame extends JFrame {
 
     private void firma(String outFilePath) {
         logger.Info("Inizia - firma()");
-
         String pin = "";
-
         int i;
+
         for (i = 0; i < passwordSignFields.length; i++) {
             JPasswordField field = passwordSignFields[i];
-
             pin += field.getText();
         }
 
@@ -3301,8 +3343,8 @@ public class MainFrame extends JFrame {
         }
 
         char c = pin.charAt(0);
-
         i = 1;
+
         for (i = 1; i < pin.length() && (c >= '0' && c <= '9'); i++) {
             c = pin.charAt(i);
         }
@@ -3401,7 +3443,7 @@ public class MainFrame extends JFrame {
                             final int ret;
                             if (signOperation == SignOp.PADES) {
                                 if (cbGraphicSig.isSelected()) {
-                                    float[] infos = preview.signImageInfos();
+                                    float infos[] = preview.signImageInfos();
                                     String signImagePath =
                                             getSignImagePath(
                                                     selectedCie.getCard().getSerialNumber());
@@ -3563,11 +3605,9 @@ public class MainFrame extends JFrame {
     private void abbinaCIE() {
         logger.Info("Inizia - abbinaCIE()");
         String pin = "";
-
         int i;
         for (i = 0; i < passwordFields.length; i++) {
             JPasswordField field = passwordFields[i];
-
             pin += field.getText();
         }
 
@@ -3582,8 +3622,8 @@ public class MainFrame extends JFrame {
         }
 
         char c = pin.charAt(0);
-
         i = 1;
+
         for (i = 1; i < pin.length() && (c >= '0' && c <= '9'); i++) {
             c = pin.charAt(i);
         }
@@ -4050,8 +4090,8 @@ public class MainFrame extends JFrame {
         }
 
         char c = puk.charAt(0);
-
         i = 1;
+
         for (i = 1; i < puk.length() && (c >= '0' && c <= '9'); i++) {
             c = puk.charAt(i);
         }
@@ -4067,8 +4107,8 @@ public class MainFrame extends JFrame {
         }
 
         c = pin1.charAt(0);
-
         i = 1;
+
         for (i = 1; i < pin1.length() && (c >= '0' && c <= '9'); i++) {
             c = pin1.charAt(i);
         }
@@ -4150,15 +4190,11 @@ public class MainFrame extends JFrame {
         oldpin.setText("");
         newpin1.setText("");
         newpin2.setText("");
-
         btnDoCambiaPin.setEnabled(false);
         tabbedPane.setSelectedIndex(6);
-
         final int[] attempts = new int[1];
-
         final Middleware.ProgressCallBack progressCallBack =
                 new Middleware.ProgressCallBack() {
-
                     @Override
                     public void invoke(final int progress, final String message) {
                         EventQueue.invokeLater(
@@ -4174,17 +4210,13 @@ public class MainFrame extends JFrame {
                                 });
                     }
                 };
-
         Runner.run(
                 new Runnable() {
-
                     @Override
                     public void run() {
-
                         final int ret =
                                 Middleware.INSTANCE.SbloccoPIN(
                                         puk, pin1, attempts, progressCallBack);
-
                         EventQueue.invokeLater(
                                 new Runnable() {
                                     public void run() {
@@ -4278,7 +4310,9 @@ public class MainFrame extends JFrame {
                                 + " dovrai ripetere l'abbinamento",
                         "Vuoi rimuovere la carta?",
                         JOptionPane.OK_CANCEL_OPTION)
-                != JOptionPane.YES_OPTION) return;
+                != JOptionPane.YES_OPTION) {
+            return;
+        }
 
         int ret = Middleware.INSTANCE.DisabilitaCIE(pan);
 
@@ -4290,10 +4324,9 @@ public class MainFrame extends JFrame {
                         "CIE disabilitata con successo",
                         "CIE disabilitata",
                         JOptionPane.INFORMATION_MESSAGE);
-
                 Cie cie = cieDictionary.get(pan);
-
                 String signPath = getSignImagePath(cie.getSerialNumber());
+
                 try {
                     logger.Info(String.format("Cancello '%s'", signPath));
                     Files.deleteIfExists(Paths.get(signPath));
@@ -4348,8 +4381,8 @@ public class MainFrame extends JFrame {
             switch (ret) {
                 case CKR_OK:
                     cieDictionary.remove(cieList.get(i).getPan());
-
                     String signPath = getSignImagePath(cieList.get(i).getSerialNumber());
+
                     try {
                         logger.Info(String.format("Cancello '%s'", signPath));
                         Files.deleteIfExists(Paths.get(signPath));
@@ -4371,8 +4404,8 @@ public class MainFrame extends JFrame {
                     Gson gson = new Gson();
                     String stringDictionary = gson.toJson(cieDictionary);
                     Utils.setProperty("cieDictionary", stringDictionary);
-
                     break;
+
                 default:
                     logger.Error(
                             "Impossibile disabilitare la CIE " + cieList.get(i).getSerialNumber());
@@ -4391,7 +4424,6 @@ public class MainFrame extends JFrame {
                 "CIE disabilitata con successo",
                 "CIE disabilitata",
                 JOptionPane.INFORMATION_MESSAGE);
-
         selectHome();
     }
 
@@ -4409,7 +4441,11 @@ public class MainFrame extends JFrame {
             btnRemoveAll.setVisible(false);
         }
 
-        btnAnnulla.setVisible(cieDictionary.size() != 0);
+        if (cieDictionary.size() == 0) {
+            btnAnnulla.setVisible(false);
+        } else {
+            btnAnnulla.setVisible(true);
+        }
     }
 
     private void selectHome() {
@@ -4538,9 +4574,12 @@ public class MainFrame extends JFrame {
 
     private String toFirstCharUpperAll(String string) {
         StringBuffer sb = new StringBuffer(string);
+
         for (int i = 0; i < sb.length(); i++)
-            if (i == 0 || sb.charAt(i - 1) == ' ') // first letter to uppercase by default
-            sb.setCharAt(i, Character.toUpperCase(sb.charAt(i)));
+            if (i == 0 || sb.charAt(i - 1) == ' ') { // first letter to uppercase by default
+                sb.setCharAt(i, Character.toUpperCase(sb.charAt(i)));
+            }
+
         return sb.toString();
     }
 
@@ -4570,7 +4609,7 @@ public class MainFrame extends JFrame {
                 if ((isAppConfigLine || isLibConfigLine) && (isAppConfigLine != isLibConfigLine)) {
                     String value = line.split("=")[1];
                     try {
-                        Integer intValue = new Integer(value);
+                        Integer intValue = Integer.valueOf(value);
                         try {
                             LogLevel valueLevel = LogLevel.getLevelFromInteger(intValue);
                             if (valueLevel.compareTo(LogLevel.NONE) >= 0
