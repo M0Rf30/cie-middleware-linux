@@ -109,4 +109,3 @@ long UUCTextFileReader::readLine(char* szLine, unsigned long nLen) { // throw (l
         return -1;
     }
 }
-

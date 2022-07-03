@@ -126,4 +126,3 @@ CASN1OctetString CTimeStampData::getTimeStampDataContent() {
 
     return timeStampData.elementAt(size - 2);
 }
-

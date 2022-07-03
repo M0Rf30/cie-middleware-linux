@@ -94,5 +94,3 @@ int RSA_meth_set_finish(RSA_METHOD *meth, int (*finish)(RSA *rsa))
 }
 
 #endif
-
-

@@ -768,5 +768,3 @@ void GetCertInfo(CryptoPP::BufferedTransformation & certin,
     toBeSignedCert.SkipAll();
     cert.SkipAll();
 }
-
-

@@ -24,5 +24,3 @@ CAlgorithmIdentifier CDigestInfo::getDigestAlgorithm() {
 CASN1OctetString CDigestInfo::getDigest() {
     return elementAt(1);
 }
-
-

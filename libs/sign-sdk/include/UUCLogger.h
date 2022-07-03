@@ -11,27 +11,27 @@
 #define LOG_TYPE_DEBUG			4
 
 
-#define DECLARE_LOG 
-#define USE_LOG 
-#define SET_LOG_FILE(file) 
-#define SET_LOG_LEVEL(level) 
+#define DECLARE_LOG
+#define USE_LOG
+#define SET_LOG_FILE(file)
+#define SET_LOG_LEVEL(level)
 
-#define LOG_MSG(params) 
-#define LOG_ERR(params) 
-#define LOG_WAR(params) 
-#define LOG_DBG(params) 
+#define LOG_MSG(params)
+#define LOG_ERR(params)
+#define LOG_WAR(params)
+#define LOG_DBG(params)
 
 //- ------------- DA VERIFICARE, CONTIENTE MOLTI BUG
 
 
-// macro 
+// macro
 #if 0
 #define DECLARE_LOG UUCLogger g_log
 #define USE_LOG extern UUCLogger g_log
 #define SET_LOG_FILE(file) g_log.setLogFile(file)
 #define SET_LOG_LEVEL(level) g_log.setLogLevel(level)
 
-#define LOG_MSG(params) g_log.logMessage params 
+#define LOG_MSG(params) g_log.logMessage params
 #define LOG_ERR(params) g_log.logError params
 #define LOG_WAR(params) g_log.logWarning params
 #define LOG_DBG(params) g_log.logDebug params

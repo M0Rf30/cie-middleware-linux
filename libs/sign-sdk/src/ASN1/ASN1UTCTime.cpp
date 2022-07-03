@@ -35,6 +35,3 @@ void CASN1UTCTime::getUTCTime(char* szTime) {
     strncpy(szTime, (char*)m_value.getContent(), m_value.getLength());
     szTime[m_value.getLength()] = 0;
 }
-
-
-

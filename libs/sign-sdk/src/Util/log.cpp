@@ -495,4 +495,3 @@ void CLog::writeModuleInfo() {
     module.init(mainModule);
     write("Applicazione chiamante: %s",module.szModuleName.c_str());
 }
-

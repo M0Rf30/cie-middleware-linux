@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include "ASN1/UUCByteArray.h"
 
-class UUCTextFileWriter  
+class UUCTextFileWriter
 {
 public:
 	UUCTextFileWriter(const char* szFilePath, bool bAppend = false);

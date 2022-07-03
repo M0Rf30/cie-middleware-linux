@@ -50,4 +50,3 @@ long UUCTextFileWriter::writeLine(const UUCByteArray& byteArray) {
 
     return 0;
 }
-

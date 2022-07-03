@@ -80,4 +80,3 @@ CASN1Sequence CCertificateInfo::getExtensions() {
     int count = size();
     return elementAt(count - 1);//).elementAt(1);
 }
-

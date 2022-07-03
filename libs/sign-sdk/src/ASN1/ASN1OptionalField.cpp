@@ -53,4 +53,3 @@ BOOL CASN1OptionalField::isOptionaField(const BYTE& btClass, CBufferedReader& re
 	return false;
 }
 */
-

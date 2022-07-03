@@ -19,13 +19,13 @@ class M7MParser
 {
 public:
 	M7MParser();
-	
+
 	int Load(const char* m7m, int m7mlen);
-	
+
 	int GetP7M(UUCByteArray& p7m);
-	
+
 	int GetTSR(UUCByteArray& tsr);
-	
+
 private:
 	UUCByteArray m_p7m;
 	UUCByteArray m_tsr;

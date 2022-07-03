@@ -30,7 +30,7 @@ typedef struct RefDataFile_st {
 typedef struct SignatureInfo_st {
   char* szId;			// signature id
   int nDocs;			// number of separate documents signed
-//  DocInfo** pDocs;	// info for each signed document	
+//  DocInfo** pDocs;	// info for each signed document
   char* szTimeStamp;	// signature timestamp in format "YYYY-MM-DDTHH:MM:SSZ"
   UUCByteArray sigPropDigest;
   UUCByteArray sigPropRealDigest;
@@ -60,7 +60,7 @@ public:
 
 	long Load(BYTE* buf, int len);
 	long Load(char *szFilename);
-	
+
 	CCertificate* GetCertificate(int index);
 	CASN1ObjectIdentifier GetDigestAlgorithm(int index);
 

@@ -35,5 +35,3 @@ typedef CK_RV (*VerificaCIEAbilitatafn)();
 typedef CK_RV (*DisabilitaCIEfn)();
 
 int TokenTransmitCallback(safeConnection *data, uint8_t *apdu, DWORD apduSize, uint8_t *resp, DWORD *respSize);
-
-

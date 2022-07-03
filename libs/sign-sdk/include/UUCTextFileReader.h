@@ -12,7 +12,7 @@
 #include <stdio.h>
 #include "ASN1/UUCByteArray.h"
 
-class UUCTextFileReader 
+class UUCTextFileReader
 {
 public:
 	UUCTextFileReader(const char* szFilePath);

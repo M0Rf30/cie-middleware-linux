@@ -165,5 +165,3 @@ void UUCLogger::logDebug(const unsigned int nID, const char *szModuleName, const
     va_end(args);
 
 }
-
-

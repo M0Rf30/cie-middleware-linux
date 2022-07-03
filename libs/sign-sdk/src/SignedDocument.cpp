@@ -292,6 +292,3 @@ int CSignedDocument::get452009Range(char* szDateTime) {
 
     return flag452009;
 }
-
-
-

@@ -48,7 +48,3 @@ BOOL CContentType::equals(const CContentType& type) const
 	return CASN1ObjectIdentifier::equals(type);
 }
  */
-
-
-
-

@@ -34,7 +34,7 @@
 #include "rsa.h"
 #include "nn.h"
 
-	
+
 static int rsapublicfunc PROTO_LIST((unsigned char *, unsigned int *, unsigned char *, unsigned int, R_RSA_PUBLIC_KEY *));
 static int rsaprivatefunc PROTO_LIST((unsigned char *, unsigned int *, unsigned char *, unsigned int, R_RSA_PRIVATE_KEY *));
 

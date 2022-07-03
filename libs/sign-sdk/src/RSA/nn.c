@@ -57,7 +57,7 @@ void NN_Decode (NN_DIGIT *a, unsigned int digits, unsigned char *b, unsigned int
   NN_DIGIT t;
   unsigned int i, u;
   int j;
-  
+
             /* @##$ unsigned/signed bug fix added JSAK - Fri  31/05/96 18:09:11 */
   for (i = 0, j = len - 1; i < digits && j >= 0; i++) {
     t = 0;
@@ -65,7 +65,7 @@ void NN_Decode (NN_DIGIT *a, unsigned int digits, unsigned char *b, unsigned int
 			t |= ((NN_DIGIT)b[j]) << u;
 		a[i] = t;
   }
-  
+
   for (; i < digits; i++)
     a[i] = 0;
 }
@@ -350,7 +350,7 @@ void NN_Div (NN_DIGIT *a, NN_DIGIT *b, NN_DIGIT *c, unsigned int cDigits, NN_DIG
 void NN_Mod (NN_DIGIT *a, NN_DIGIT *b, unsigned int bDigits, NN_DIGIT *c, unsigned int cDigits)
 {
     NN_DIGIT t[2 * MAX_NN_DIGITS];
-  
+
 	NN_Div (t, a, b, bDigits, c, cDigits);
 }
 
@@ -383,7 +383,7 @@ void NN_ModExp (NN_DIGIT *a, NN_DIGIT *b, NN_DIGIT *c, unsigned int cDigits, NN_
 	NN_Assign (bPower[0], b, dDigits);
 	NN_ModMult (bPower[1], bPower[0], b, d, dDigits);
     NN_ModMult (bPower[2], bPower[1], b, d, dDigits);
-  
+
     NN_ASSIGN_DIGIT (t, 1, dDigits);
 
 	cDigits = NN_Digits (c, cDigits);
@@ -408,12 +408,12 @@ void NN_ModExp (NN_DIGIT *a, NN_DIGIT *b, NN_DIGIT *c, unsigned int cDigits, NN_
             NN_ModMult (t, t, bPower[s-1], d, dDigits);
         }
     }
-  
+
 	NN_Assign (a, t, dDigits);
 }
 
 /* Compute a = 1/b mod c, assuming inverse exists.
-   
+
    Lengths: a[digits], b[digits], c[digits].
 	 Assumes gcd (b, c) = 1, digits < MAX_NN_DIGITS.
  */
@@ -618,7 +618,7 @@ static unsigned int NN_DigitBits (NN_DIGIT a)
 }
 
 /* Computes a * b, result stored in high and low. */
- 
+
 static void dmult( NN_DIGIT a, NN_DIGIT b, NN_DIGIT *high, NN_DIGIT *low)
 {
 	NN_HALF_DIGIT al, ah, bl, bh;
@@ -649,4 +649,3 @@ static void dmult( NN_DIGIT a, NN_DIGIT b, NN_DIGIT *high, NN_DIGIT *low)
 
 	*high += carry + mh;
 }
-

@@ -53,6 +53,3 @@ CASN1SetOf CTimeStampToken::getCertificates() {
 
     return signedData.getCertificates();
 }
-
-
-

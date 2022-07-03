@@ -106,4 +106,3 @@ CASN1Integer CRSAPrivateKey::getPublicExponent() {
 CASN1Integer CRSAPrivateKey::getPrivateExponent() {
     return CASN1Integer(elementAt(3));
 }
-

@@ -420,4 +420,3 @@ void BigInteger::operator --() {
 void BigInteger::operator --(int) {
     operator --();
 }
-

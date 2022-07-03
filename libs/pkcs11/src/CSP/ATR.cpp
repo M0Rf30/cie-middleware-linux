@@ -40,7 +40,7 @@ string get_manufacturer(vector<uint8_t> atr) {
 }
 
 CIE_Type get_type(vector<uint8_t> atr) {
-	
+
 
 	for (cie_atr el : atr_list) {
 		if (IsSubset(atr, el.atr)) {

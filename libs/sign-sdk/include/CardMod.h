@@ -490,7 +490,7 @@ __in    PIN_ID      PinId);
 //              BLOBHEADER
 //              RSAPUBKEY
 //              modulus
-//         
+//
 //          In the case of ECC public keys, the pbSigPublicKey will contain
 //          the ECDSA key and pbKeyExPublicKey will contain the ECDH key if
 //          they exist. ECC key structure -
@@ -1278,7 +1278,7 @@ typedef struct _CARD_IMPORT_KEYPAIR
 	DWORD   dwKeySpec;
 	DWORD   dwKeySize;
 	DWORD   cbInput;
-#ifdef WIN32   
+#ifdef WIN32
 	BYTE    pbInput[0];
 	//#else
 	//    BYTE   pbInput;
@@ -1295,9 +1295,9 @@ typedef struct _CARD_CHANGE_AUTHENTICATOR
 	PIN_ID  dwTargetPinId;
 	DWORD   cbTargetData;
 	DWORD   cRetryCount;
-#ifdef WIN32   
+#ifdef WIN32
 	BYTE    pbData[0];
-#endif   
+#endif
 	/* pbAuthenticatingPinData = pbData */
 	/* pbTargetData = pbData + cbAuthenticatingPinData */
 } CARD_CHANGE_AUTHENTICATOR, *PCARD_CHANGE_AUTHENTICATOR;
@@ -1316,9 +1316,9 @@ typedef struct _CARD_AUTHENTICATE
 	DWORD   dwFlags;
 	PIN_ID  PinId;
 	DWORD   cbPinData;
-#ifdef WIN32   
+#ifdef WIN32
 	BYTE    pbPinData[0];
-#endif   
+#endif
 } CARD_AUTHENTICATE, *PCARD_AUTHENTICATE;
 #define     CARD_AUTHENTICATE_RESPONSE_VERSION_SEVEN   7
 #define     CARD_AUTHENTICATE_RESPONSE_CURRENT_VERSION CARD_AUTHENTICATE_RESPONSE_VERSION_SEVEN
@@ -1327,7 +1327,7 @@ typedef struct _CARD_AUTHENTICATE_RESPONSE
 	DWORD   dwVersion;
 	DWORD   cbSessionPin;
 	DWORD   cAttemptsRemaining;
-#ifdef WIN32   
+#ifdef WIN32
 	BYTE    pbSessionPin[0];
 #endif
 } CARD_AUTHENTICATE_RESPONSE, *PCARD_AUTHENTICATE_RESPONSE;
