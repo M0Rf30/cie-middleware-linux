@@ -4,7 +4,7 @@ plugins {
 
 // Apply the application plugin to add support for building a CLI application.
 	id 'application'
-	id "com.diffplug.spotless" version "6.3.0"
+	id "com.diffplug.spotless" version "6.8.0"
 }
 
 repositories {
@@ -31,24 +31,21 @@ dependencies {
 	// This dependency is used by the application.
 	implementation fileTree(dir: 'lib', include: ['*.jar'])
 	implementation 'commons-io:commons-io:2.11.0'
-	implementation 'com.dorkbox:ObjectPool:3.4'
+	implementation 'com.dorkbox:ObjectPool:3.5'
 	implementation 'com.dorkbox:Notify:3.7'
 	implementation 'com.dorkbox:ShellExecutor:1.1'
 	implementation 'com.dorkbox:SystemTray:4.1'
 	implementation 'com.dorkbox:TweenEngine:8.3'
 	implementation 'com.google.code.gson:gson:2.9.0'
 	implementation 'com.jgoodies:jgoodies-forms:1.9.0'
-	implementation 'net.java.dev.jna:jna:5.9.0'
-	implementation 'net.java.dev.jna:jna-platform:5.9.0'
+	implementation 'net.java.dev.jna:jna:5.11.0'
+	implementation 'net.java.dev.jna:jna-platform:5.11.0'
 	implementation 'org.ghost4j:ghost4j:1.0.1'
-	implementation 'org.javassist:javassist:3.28.0-GA'
+	implementation 'org.javassist:javassist:3.29.0-GA'
 	implementation 'org.slf4j:slf4j-api:1.7.36'
 }
 
-application {
-	// Define the main class for the application.
-	mainClassName = 'it.ipzs.cieid.MainApplication'
-}
+mainClassName = 'it.ipzs.cieid.MainApplicationn'
 
 sourceSets {
 	main {
@@ -63,13 +60,11 @@ tasks.withType(JavaCompile) {
 	options.encoding = "UTF-8"
 }
 
-buildDir = 'bin'
-
 task standalone(type: Jar) {
 	dependsOn configurations.runtimeClasspath
 	archiveClassifier = 'standalone'
 	from sourceSets.main.output
-	duplicatesStrategy = DuplicatesStrategy.INCLUDE
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 	from(configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }) {
 		exclude "META-INF/*.SF"
 		exclude "META-INF/*.DSA"
