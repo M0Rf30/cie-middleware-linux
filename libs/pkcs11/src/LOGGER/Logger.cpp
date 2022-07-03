@@ -11,6 +11,8 @@
 #include <iomanip>
 #include <iostream>
 #include <regex>
+#include <cstring>
+
 using namespace std;
 using namespace CieIDLogger;
 
