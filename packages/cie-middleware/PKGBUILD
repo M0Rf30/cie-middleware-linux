@@ -5,7 +5,7 @@ targets=(
     "ubuntu"
 )
 pkgname="cie-middleware"
-pkgver="1.4.2"
+pkgver="1.4.3.1"
 pkgrel="1"
 pkgdesc="A fork of Middleware della CIE (Carta di Identità Elettronica) per Linux"
 pkgdesclong=("A fork of Middleware della CIE (Carta di Identità Elettronica) per Linux")
@@ -18,7 +18,7 @@ priority="optional"
 sources=(
     "https://github.com/M0Rf30/cie-middleware-linux/archive/main.tar.gz"
     "https://github.com/M0Rf30/cie-middleware-linux/releases/download/podofo-1.4.2/libpodofo-1.4.2.tar.gz"
-    "https://downloads.gradle-dn.com/distributions/gradle-7.3-bin.zip"
+    "https://downloads.gradle-dn.com/distributions/gradle-7.4.2-bin.zip"
 )
 sources:archlinux=(
     "https://github.com/M0Rf30/cie-middleware-linux/archive/main.tar.gz"
@@ -48,7 +48,7 @@ depends:apt=(
 )
 makedepends:apt=(
     "ccache"
-    "g++"  
+    "g++"
     "libcurl4-openssl-dev"
     "libfontconfig1-dev"
     "libfreetype6-dev"
@@ -83,6 +83,7 @@ makedepends:pacman=(
     "libpng"
     "libxml2"
     "meson"
+    "ninja"
     "openssl"
     "pcsclite"
     "pkgconf"
@@ -116,7 +117,6 @@ makedepends:yum=(
 
 build:archlinux() {
     export JAVA_HOME=/usr/lib/jvm/default/
-    pip3 install ninja==1.10.2.3 meson==0.61.1
     cp "${srcdir}/libpodofo.a" \
       "${srcdir}/${pkgname}-linux-main/libs/lib"
 
@@ -133,7 +133,7 @@ build:fedora() {
       "${srcdir}/${pkgname}-linux-main/libs/lib"
 
     cd "${srcdir}/${pkgname}-linux-main"
-    ../gradle-7.3/bin/gradle -b cie-java/build.gradle standalone
+    ../gradle-7.4.2/bin/gradle -b cie-java/build.gradle standalone
     meson builddir libs
     meson configure -Dprefix=/usr builddir
     meson compile -C builddir
@@ -141,12 +141,12 @@ build:fedora() {
 
 build:ubuntu() {
     export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-    pip3 install ninja==1.10.2.3 meson==0.61.1
+    pip3 install ninja==1.11.0 meson==0.62.2
     cp "${srcdir}/libpodofo.a" \
       "${srcdir}/${pkgname}-linux-main/libs/lib"
 
     cd "${srcdir}/${pkgname}-linux-main"
-    ../gradle-7.3/bin/gradle -b cie-java/build.gradle standalone
+    ../gradle-7.4.2/bin/gradle -b cie-java/build.gradle standalone
 
     meson builddir libs
     meson configure -Dprefix=/usr builddir
@@ -155,14 +155,14 @@ build:ubuntu() {
 
 package() {
     cd "${srcdir}/${pkgname}-linux-main"
-    
+
     # Java Application
-    install -Dm755 cie-java/bin/libs/CIEID-standalone.jar \
+    install -Dm755 cie-java/build/libs/CIEID-standalone.jar \
     "${pkgdir}/usr/share/cieid/cieid.jar"
     install -Dm644 "data/cieid.desktop" \
     "${pkgdir}/usr/share/applications/cieid.desktop"
     install -Dm755 data/logo.png \
-    "${pkgdir}/usr/share/pixmaps/cieid.png"    
+    "${pkgdir}/usr/share/pixmaps/cieid.png"
     install -Dm755 "data/cieid.sh" \
     "${pkgdir}/usr/bin/cieid"
     install -Dm644 LICENSE \
