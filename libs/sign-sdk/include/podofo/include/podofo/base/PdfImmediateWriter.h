@@ -31,8 +31,8 @@ class PdfEncrypt;
 class PdfOutputDevice;
 class PdfXRef;
 
-class PODOFO_API PdfImmediateWriter : private PdfWriter, 
-    private PdfVecObjects::Observer, 
+class PODOFO_API PdfImmediateWriter : private PdfWriter,
+    private PdfVecObjects::Observer,
     private PdfVecObjects::StreamFactory {
 
  public:
@@ -53,7 +53,7 @@ class PODOFO_API PdfImmediateWriter : private PdfWriter,
      *                  created document.
      *  @param eWriteMode additional options for writing the pdf
      */
-    PdfImmediateWriter( PdfOutputDevice* pDevice, PdfVecObjects* pVecObjects, const PdfObject* pTrailer, 
+    PdfImmediateWriter( PdfOutputDevice* pDevice, PdfVecObjects* pVecObjects, const PdfObject* pTrailer,
                         EPdfVersion eVersion = ePdfVersion_1_5, PdfEncrypt* pEncrypt = NULL,
                         EPdfWriteMode eWriteMode = ePdfWriteMode_Default );
 
@@ -88,7 +88,7 @@ class PODOFO_API PdfImmediateWriter : private PdfWriter,
      *  \param pStream the stream object the user currently writes to.
      */
     void BeginAppendStream( const PdfStream* pStream );
-    
+
     /** Called whenever appending to a stream has ended.
      *  \param pStream the stream object the user currently writes to.
      */
@@ -98,7 +98,7 @@ class PODOFO_API PdfImmediateWriter : private PdfWriter,
      *
      *  \param pParent parent object
      *
-     *  \returns a new stream object 
+     *  \returns a new stream object
      */
     PdfStream* CreateStream( PdfObject* pParent );
 
@@ -121,7 +121,7 @@ class PODOFO_API PdfImmediateWriter : private PdfWriter,
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline EPdfWriteMode PdfImmediateWriter::GetWriteMode() const
 {
@@ -129,7 +129,7 @@ inline EPdfWriteMode PdfImmediateWriter::GetWriteMode() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline EPdfVersion PdfImmediateWriter::GetPdfVersion() const
 {
@@ -139,4 +139,3 @@ inline EPdfVersion PdfImmediateWriter::GetPdfVersion() const
 };
 
 #endif /* _PDF_IMMEDIATE_WRITER_H_ */
-

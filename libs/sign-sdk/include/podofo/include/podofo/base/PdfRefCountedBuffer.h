@@ -25,7 +25,7 @@
 
 namespace PoDoFo {
 
-/** 
+/**
  * A reference counted buffer object
  * which is deleted as soon as the last
  * object having access to it is delteted.
@@ -49,7 +49,7 @@ class PODOFO_API PdfRefCountedBuffer {
      */
     PdfRefCountedBuffer( char* pBuffer, size_t lSize );
 
-    /** Create a new PdfRefCountedBuffer. 
+    /** Create a new PdfRefCountedBuffer.
      *  \param lSize buffer size
      */
     inline PdfRefCountedBuffer( size_t lSize );
@@ -64,9 +64,9 @@ class PODOFO_API PdfRefCountedBuffer {
      *  if this is the last owner
      */
     inline ~PdfRefCountedBuffer();
-    
+
     /* !Non-Doxygen comment because constructor is disabled!
-     *  Append to the current buffers contents. 
+     *  Append to the current buffers contents.
      *  If the buffer is referenced by another PdfRefCountedBuffer
      *  this object detaches from this buffer and allocates an own
      *  buffer. Otherwise the internal buffer is used and resized if
@@ -75,7 +75,7 @@ class PODOFO_API PdfRefCountedBuffer {
      *  \param pszString a buffer
      *  \param lLen length of the buffer
      */
-    //void Append( const char* pszString, long lLen ); 
+    //void Append( const char* pszString, long lLen );
 
     /** Get access to the buffer
      *  \returns the buffer
@@ -92,7 +92,7 @@ class PODOFO_API PdfRefCountedBuffer {
      *  lSize bytes.
      *
      *  \param lSize the size of bytes the buffer can at least hold
-     *         
+     *
      *  If the buffer is larger no operation is performed.
      */
     inline void Resize( size_t lSize );
@@ -112,7 +112,7 @@ class PODOFO_API PdfRefCountedBuffer {
      */
     inline void SetTakePossesion( bool bTakePossession );
 
-    /** 
+    /**
      * \returns true if the buffer is owned by the PdfRefCountedBuffer
      *               and is deleted along with it.
      */
@@ -149,7 +149,7 @@ class PODOFO_API PdfRefCountedBuffer {
      */
     void FreeBuffer();
 
-    /** Detach from a shared buffer or do nothing if we are the only 
+    /** Detach from a shared buffer or do nothing if we are the only
      *  one referencing the buffer.
      *
      *  Call this function before any operation modifiying the buffer!
@@ -175,7 +175,7 @@ class PODOFO_API PdfRefCountedBuffer {
     struct TRefCountedBuffer {
         enum { INTERNAL_BUFSIZE = 32 };
         // Convenience inline for buffer switching
-        PODOFO_NOTHROW inline char * GetRealBuffer() { 
+        PODOFO_NOTHROW inline char * GetRealBuffer() {
             return m_bOnHeap? m_pHeapBuffer : &(m_sInternalBuffer[0]);
         }
         // size in bytes of the buffer. If and only if this is strictly >INTERNAL_BUFSIZE,
@@ -198,7 +198,7 @@ class PODOFO_API PdfRefCountedBuffer {
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 PdfRefCountedBuffer::PdfRefCountedBuffer()
     : m_pBuffer( NULL )
@@ -206,7 +206,7 @@ PdfRefCountedBuffer::PdfRefCountedBuffer()
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 PdfRefCountedBuffer::PdfRefCountedBuffer( size_t lSize )
     : m_pBuffer( NULL )
@@ -215,7 +215,7 @@ PdfRefCountedBuffer::PdfRefCountedBuffer( size_t lSize )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 // We define the copy ctor separately to the assignment
 // operator since it's a *LOT* faster this way.
@@ -227,7 +227,7 @@ PdfRefCountedBuffer::PdfRefCountedBuffer( const PdfRefCountedBuffer & rhs )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 PdfRefCountedBuffer::~PdfRefCountedBuffer()
 {
@@ -235,7 +235,7 @@ PdfRefCountedBuffer::~PdfRefCountedBuffer()
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline char* PdfRefCountedBuffer::GetBuffer() const
 {
@@ -244,7 +244,7 @@ inline char* PdfRefCountedBuffer::GetBuffer() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline size_t PdfRefCountedBuffer::GetSize() const
 {
@@ -252,7 +252,7 @@ inline size_t PdfRefCountedBuffer::GetSize() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfRefCountedBuffer::SetTakePossesion( bool bTakePossession )
 {
@@ -261,7 +261,7 @@ inline void PdfRefCountedBuffer::SetTakePossesion( bool bTakePossession )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline bool PdfRefCountedBuffer::TakePossesion() const
 {
@@ -269,7 +269,7 @@ inline bool PdfRefCountedBuffer::TakePossesion() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfRefCountedBuffer::Detach( size_t lExtraLen )
 {
@@ -278,7 +278,7 @@ inline void PdfRefCountedBuffer::Detach( size_t lExtraLen )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfRefCountedBuffer::Resize( size_t lSize )
 {
@@ -296,7 +296,7 @@ inline void PdfRefCountedBuffer::Resize( size_t lSize )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfRefCountedBuffer::DerefBuffer()
 {
@@ -310,4 +310,3 @@ inline void PdfRefCountedBuffer::DerefBuffer()
 };
 
 #endif // _PDF_REF_COUNTED_BUFFER_H_
-

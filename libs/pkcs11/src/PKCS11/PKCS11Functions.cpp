@@ -2185,6 +2185,3 @@ char *getAttributeName(unsigned long dwId) {
     }
     return("UNKNOWN");
 }
-
-
-

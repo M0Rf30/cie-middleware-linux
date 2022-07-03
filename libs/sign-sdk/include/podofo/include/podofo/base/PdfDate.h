@@ -31,7 +31,7 @@
 
 namespace PoDoFo {
 
-/** This class is a date datatype as specified in the PDF 
+/** This class is a date datatype as specified in the PDF
  *  reference. You can easily convert from Unix time_t to
  *  the PDF time representation and back. Dates like these
  *  are used for example in the PDF info dictionary for the
@@ -41,9 +41,9 @@ namespace PoDoFo {
  *
  *  From the PDF reference:
  *
- *  PDF defines a standard date format, which closely follows 
+ *  PDF defines a standard date format, which closely follows
  *  that of the international standard ASN.1 (Abstract Syntax
- *  Notation One), defined in ISO/IEC 8824 (see the Bibliography). 
+ *  Notation One), defined in ISO/IEC 8824 (see the Bibliography).
  *  A date is a string of the form
  *  (D:YYYYMMDDHHmmSSOHH'mm')
  */
@@ -55,8 +55,8 @@ class PODOFO_API PdfDate {
 
     /** Create a PdfDate with a specified date and time
      *  \param t the date and time of this object
-     *  
-     *  Use IsValid to check wether the time_t could be 
+     *
+     *  Use IsValid to check wether the time_t could be
      *  converted to a valid PdfDate object.
      *
      *  \see IsValid()
@@ -65,12 +65,12 @@ class PODOFO_API PdfDate {
 
     /*  !Non-Doxygen comment because constructor is disabled!
      *  Create a PdfDate with a specified date and time
-     *  \param zDate the date and time of this object 
-     *         in PDF format. It has to be a string of 
+     *  \param zDate the date and time of this object
+     *         in PDF format. It has to be a string of
      *         the format  (D:YYYYMMDDHHmmSSOHH'mm').
      *         Otherwise IsValid will return false.
-     *  
-     *  Use IsValid to check wether the string could be 
+     *
+     *  Use IsValid to check wether the string could be
      *  converted to a valid PdfDate object.
      *
      *  \see IsValid()
@@ -89,16 +89,16 @@ class PODOFO_API PdfDate {
      */
     inline bool IsValid() const;
 
-    /** \returns the date and time of this PdfDate in 
+    /** \returns the date and time of this PdfDate in
      *  seconds since epoch.
      */
     inline const time_t & GetTime() const;
 
     /** The value returned by this function can be used in any PdfObject
      *  where a date is needed.
-     * 
+     *
      *  \param rsString write the date to a PdfString
-     */         
+     */
     inline void ToString( PdfString & rsString ) const;
 
  private:

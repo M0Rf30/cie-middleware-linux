@@ -32,4 +32,3 @@ CASN1Integer CRSAPublicKey::getModulus() {
 CASN1Integer CRSAPublicKey::getExponent() {
     return CASN1Integer(elementAt(1));
 }
-

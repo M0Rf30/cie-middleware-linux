@@ -32,7 +32,7 @@
 namespace PoDoFo {
 namespace Util {
 
-/** 
+/**
  * A platform independent reentrant mutex, win32 implementation.
  */
 class PdfMutexImpl {
@@ -49,7 +49,7 @@ class PdfMutexImpl {
     inline void Lock();
 
     /**
-     * Try locking the mutex. 
+     * Try locking the mutex.
      *
      * \returns true if the mutex was locked
      * \returns false if the mutex is already locked

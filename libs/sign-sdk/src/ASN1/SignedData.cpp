@@ -557,4 +557,3 @@ void CSignedData::addCertificate(CCertificate& cert)
 	setElementAt(certs, 3);
 }
  */
-

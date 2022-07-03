@@ -132,4 +132,3 @@ CMAC::CMAC() {
 CMAC::CMAC(const ByteArray &key, const ByteArray &iv) {
     Init(key,iv);
 }
-

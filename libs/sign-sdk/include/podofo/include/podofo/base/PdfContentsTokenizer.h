@@ -117,4 +117,3 @@ public:
 };
 
 #endif // _PDF_CONTENTS_TOKENIZER_H_
-

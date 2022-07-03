@@ -37,23 +37,23 @@
 #include "podofo/base/PdfDefines.h"
 
 namespace PoDoFo {
-    
+
     /** PdfExtension is a simple class that describes a vendor-specific extension to
      *  the official specifications.
      */
     class PODOFO_DOC_API PdfExtension {
-        
+
     public:
-        
+
         PdfExtension(const char* ns, EPdfVersion baseVersion, pdf_int64 level):
         _ns(ns), _baseVersion(baseVersion), _level(level) {}
-        
+
         const std::string& getNamespace() const { return _ns; }
         EPdfVersion getBaseVersion() const { return _baseVersion; }
         pdf_int64 getLevel() const { return _level; }
-        
+
     private:
-        
+
         std::string _ns;
         EPdfVersion _baseVersion;
         pdf_int64 _level;

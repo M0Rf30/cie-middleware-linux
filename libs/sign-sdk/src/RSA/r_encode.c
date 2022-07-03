@@ -216,4 +216,3 @@ int count;                      /* count */
 		else *f++ = ENC(c4);
 	}
 }
-

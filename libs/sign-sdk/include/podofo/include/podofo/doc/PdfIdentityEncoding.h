@@ -34,12 +34,12 @@ namespace PoDoFo {
  */
 class PODOFO_DOC_API PdfIdentityEncoding : public PdfEncoding {
  public:
-    /** 
+    /**
      *  Create a new PdfIdentityEncoding.
      *
-     *  \param nFirstChar the first supported unicode character code (at least 0) 
-     *  \param nLastChar the last supported unicode character code, 
-     *                   must be larger than nFirstChar (max value is 0xffff) 
+     *  \param nFirstChar the first supported unicode character code (at least 0)
+     *  \param nLastChar the last supported unicode character code,
+     *                   must be larger than nFirstChar (max value is 0xffff)
      *  \param bAutoDelete if true the encoding is deleted by its owning font
      */
     PdfIdentityEncoding( int nFirstChar = 0, int nLastChar = 0xffff, bool bAutoDelete = true );
@@ -54,7 +54,7 @@ class PODOFO_DOC_API PdfIdentityEncoding : public PdfEncoding {
     /** Convert a string that is encoded with this encoding
      *  to an unicode PdfString.
      *
-     *  \param rEncodedString a string encoded by this encoding. 
+     *  \param rEncodedString a string encoded by this encoding.
      *         Usually this string was read from a content stream.
      *  \param pFont the font for which this string is converted
      *
@@ -72,7 +72,7 @@ class PODOFO_DOC_API PdfIdentityEncoding : public PdfEncoding {
      */
     virtual PdfRefCountedBuffer ConvertToEncoding( const PdfString & rString, const PdfFont* pFont ) const;
 
-    /** 
+    /**
      * PdfIdentityEncoding is usually delete along with the font.
      *
      * \returns true if this encoding should be deleted automatically with the
@@ -80,7 +80,7 @@ class PODOFO_DOC_API PdfIdentityEncoding : public PdfEncoding {
      */
     virtual bool IsAutoDelete() const;
 
-    /** 
+    /**
      *  \returns true if this is a single byte encoding with a maximum of 256 values.
      */
     virtual bool IsSingleByteEncoding() const;
@@ -90,9 +90,9 @@ class PODOFO_DOC_API PdfIdentityEncoding : public PdfEncoding {
      *  GetFirstChar() and GetLastChar()
      *
      *  \param nIndex character code at position index
-     *  \returns unicode character code 
-     * 
-     *  \see GetFirstChar 
+     *  \returns unicode character code
+     *
+     *  \see GetFirstChar
      *  \see GetLastChar
      *
      *  Will throw an exception if nIndex is out of range.
@@ -106,7 +106,7 @@ class PODOFO_DOC_API PdfIdentityEncoding : public PdfEncoding {
      *  \returns a unique id for this encoding!
      */
     inline virtual const PdfName & GetID() const;
-    
+
  private:
 
     /** Gets the unicode value from a char code in this font
@@ -116,14 +116,14 @@ class PODOFO_DOC_API PdfIdentityEncoding : public PdfEncoding {
      *  \returns an unicode value
      */
     pdf_utf16be GetUnicodeValue( long lCharCode ) const;
- 
+
  private:
     bool    m_bAutoDelete;      ///< If true this encoding is deleted by its font.
-    PdfName m_id;               ///< Unique ID of this encoding 
+    PdfName m_id;               ///< Unique ID of this encoding
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline const PdfName & PdfIdentityEncoding::GetID() const
 {
@@ -131,7 +131,7 @@ inline const PdfName & PdfIdentityEncoding::GetID() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline bool PdfIdentityEncoding::IsAutoDelete() const
 {
@@ -139,7 +139,7 @@ inline bool PdfIdentityEncoding::IsAutoDelete() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline bool PdfIdentityEncoding::IsSingleByteEncoding() const
 {

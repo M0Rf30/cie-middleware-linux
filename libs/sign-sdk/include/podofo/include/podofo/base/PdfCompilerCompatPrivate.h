@@ -30,7 +30,7 @@
 #        define _WIN32_WINNT 0x0400 // Make the TryEnterCriticalSection method available
 #        include <winsock2.h>       // This will include windows.h, so we have to define _WIN32_WINNT
                                     // if we want to use threads later.
-#        undef _WIN32_WINNT 
+#        undef _WIN32_WINNT
 #      else
 #        include <winsock2.h>
 #      endif // _WIN32_WINNT
@@ -52,7 +52,7 @@
 #    ifndef _WIN32_WINNT
 #      define _WIN32_WINNT 0x0400 // Make the TryEnterCriticalSection method available
 #      include <windows.h>
-#      undef _WIN32_WINNT 
+#      undef _WIN32_WINNT
 #    else
 #      include <windows.h>
 #    endif // _WIN32_WINNT

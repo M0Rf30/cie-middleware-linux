@@ -29,7 +29,7 @@ namespace PoDoFo {
 class PdfArray;
 class PdfPage;
 class PdfVariant;
-   
+
 /** A rectangle as defined by the PDF reference
  */
 class PODOFO_API PdfRect {
@@ -43,16 +43,16 @@ class PODOFO_API PdfRect {
      *	NOTE: since PDF is bottom-left origined, we pass the bottom instead of the top
      */
     PdfRect( double left, double bottom, double width, double height );
-    
+
     /** Create a rectangle from an array
      *  All values are in PDF units
      */
     PdfRect( const PdfArray& inArray );
-    
-    /** Copy constructor 
+
+    /** Copy constructor
      */
     PdfRect( const PdfRect & rhs );
-    
+
     /** Converts the rectangle into an array
      *  based on PDF units and adds the array into an variant.
      *  \param var the variant to store the Rect
@@ -124,7 +124,7 @@ class PODOFO_API PdfRect {
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 double PdfRect::GetBottom() const
 {
@@ -132,7 +132,7 @@ double PdfRect::GetBottom() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 void PdfRect::SetBottom( double dBottom )
 {
@@ -140,7 +140,7 @@ void PdfRect::SetBottom( double dBottom )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 double PdfRect::GetLeft() const
 {
@@ -148,7 +148,7 @@ double PdfRect::GetLeft() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 void PdfRect::SetLeft( double dLeft )
 {
@@ -156,7 +156,7 @@ void PdfRect::SetLeft( double dLeft )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 double PdfRect::GetWidth() const
 {
@@ -164,7 +164,7 @@ double PdfRect::GetWidth() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 void PdfRect::SetWidth( double dWidth )
 {
@@ -172,7 +172,7 @@ void PdfRect::SetWidth( double dWidth )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 double PdfRect::GetHeight() const
 {
@@ -180,7 +180,7 @@ double PdfRect::GetHeight() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 void PdfRect::SetHeight( double dHeight )
 {

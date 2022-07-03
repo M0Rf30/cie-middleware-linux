@@ -47,10 +47,10 @@ class PODOFO_DOC_API PdfContents : private PdfElement {
      */
     PdfContents( PdfObject* inObj );
 
-    /** Create the contents for an existing page which does not yet 
+    /** Create the contents for an existing page which does not yet
      *  have a contents object.
      *
-     *  \param pParent a /Contents key will be added to this page 
+     *  \param pParent a /Contents key will be added to this page
      *         and a contents object will be created.
      */
     PdfContents( PdfPage* pParent );

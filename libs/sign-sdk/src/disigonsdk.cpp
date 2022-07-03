@@ -2406,4 +2406,3 @@ int get_file_type(char* szFileName) {
 
     return DISIGON_FILETYPE_PLAINTEXT;
 }
-

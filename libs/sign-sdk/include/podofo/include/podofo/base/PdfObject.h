@@ -38,7 +38,7 @@ class PdfVecObjects;
 
 /**
  * This class represents a PDF indirect Object in memory
- * 
+ *
  * It is possible to manipulate the stream which can be appended to the object
  * (if the object is of underlying type dictionary).  A PdfObject is uniquely
  * identified by an object number and a generation number which has to be
@@ -104,35 +104,35 @@ class PODOFO_API PdfObject : public PdfVariant {
      *  and a PdfString as value.
      *
      *  \param rsString the string value of this PdfObject
-     */        
+     */
     PdfObject( const PdfString & rsString );
 
     /** Construct a PdfObject with object and generation number -1
      *  and a PdfName as value.
      *
      *  \param rName the value of this PdfObject
-     */        
+     */
     PdfObject( const PdfName & rName );
 
     /** Construct a PdfObject with object and generation number -1
      *  and a PdfReference as value.
      *
      *  \param rRef the value of the this PdfObject
-     */        
+     */
     PdfObject( const PdfReference & rRef );
 
     /** Construct a PdfObject with object and generation number -1
      *  and a PdfArray as value.
      *
      *  \param tList the value of the this PdfObject
-     */        
+     */
     PdfObject( const PdfArray & tList );
 
     /** Construct a PdfObject with object and generation number -1
      *  and a PdfDictionary as value.
      *
      *  \param rDict the value of the this PdfObject
-     */        
+     */
     PdfObject( const PdfDictionary & rDict );
 
     /** Creates a copy of an existing PdfObject
@@ -143,16 +143,16 @@ class PODOFO_API PdfObject : public PdfVariant {
 
     virtual ~PdfObject();
 
-    /** Get the keys value out of the dictionary. If the key is a reference, 
+    /** Get the keys value out of the dictionary. If the key is a reference,
      *  the reference is resolved and the object pointed to by the reference is returned.
      *
      *  \param key look for the key named key in the dictionary
-     * 
-     *  \returns the found value or NULL if the value is not in the 
+     *
+     *  \returns the found value or NULL if the value is not in the
      *           dictionary or if this object is no dictionary
      */
     PdfObject* GetIndirectKey( const PdfName & key ) const;
-    
+
     /**
      * MustGetIndirectKey() wraps GetIndirectKey to throw on null return.
      * This makes it MUCH more readable to look up deep chains of linked keys
@@ -205,12 +205,12 @@ class PODOFO_API PdfObject : public PdfVariant {
 
     /** Check if this object has a PdfStream object
      *  appended.
-     * 
+     *
      *  \returns true if the object has a stream
      */
     inline bool HasStream() const;
 
-    /** This operator is required for sorting a list of 
+    /** This operator is required for sorting a list of
      *  PdfObjects. It compares the objectnumber. If objectnumbers
      *  are equal, the generation number is compared.
      */
@@ -254,7 +254,7 @@ class PODOFO_API PdfObject : public PdfVariant {
      *
      *  \param pszKey  key to calculate the byte offset
      *  \param eWriteMode additional options for writing the PDF
-     *  \returns the offset of the key 
+     *  \returns the offset of the key
      */
     pdf_long GetByteOffset( const char* pszKey, EPdfWriteMode eWriteMode );
 
@@ -307,7 +307,7 @@ class PODOFO_API PdfObject : public PdfVariant {
 
  protected:
     PdfReference   m_reference;
-    
+
     PdfStream*     m_pStream;
     PdfVecObjects* m_pOwner;
 
@@ -337,7 +337,7 @@ private:
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfObject::DelayedStreamLoadDone() const
 {
@@ -345,7 +345,7 @@ bool PdfObject::DelayedStreamLoadDone() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 void PdfObject::EnableDelayedStreamLoading()
 {
@@ -354,7 +354,7 @@ void PdfObject::EnableDelayedStreamLoading()
 
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 const PdfReference & PdfObject::Reference() const
 {
@@ -362,7 +362,7 @@ const PdfReference & PdfObject::Reference() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfObject::SetOwner( PdfVecObjects* pVecObjects )
 {
@@ -370,7 +370,7 @@ inline void PdfObject::SetOwner( PdfVecObjects* pVecObjects )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline PdfVecObjects* PdfObject::GetOwner() const
 {
@@ -378,7 +378,7 @@ inline PdfVecObjects* PdfObject::GetOwner() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfObject::operator<( const PdfObject & rhs ) const
 {
@@ -386,7 +386,7 @@ bool PdfObject::operator<( const PdfObject & rhs ) const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfObject::operator==( const PdfObject & rhs ) const
 {
@@ -394,7 +394,7 @@ bool PdfObject::operator==( const PdfObject & rhs ) const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline bool PdfObject::HasStream() const
 {
@@ -404,7 +404,7 @@ inline bool PdfObject::HasStream() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 PdfObject* PdfObject::MustGetIndirectKey( const PdfName & key ) const
 {
@@ -415,7 +415,7 @@ PdfObject* PdfObject::MustGetIndirectKey( const PdfName & key ) const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 // Default implementation of virtual void DelayedStreamLoadImpl()
 // throws, since delayed loading of steams should not be enabled
@@ -452,6 +452,3 @@ inline void PdfObject::DelayedStreamLoad() const
 };
 
 #endif // _PDF_OBJECT_H_
-
-
-

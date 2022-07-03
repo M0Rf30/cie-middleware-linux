@@ -29,5 +29,3 @@ CASN1Boolean::CASN1Boolean(const CASN1Object& obj)
 bool CASN1Boolean::getBoolValue() const {
     return getValue()->getContent()[0] == 1;
 }
-
-

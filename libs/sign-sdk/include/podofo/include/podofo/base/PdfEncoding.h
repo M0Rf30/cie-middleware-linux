@@ -684,4 +684,3 @@ class PODOFO_API PdfZapfDingbatsEncoding : public PdfSimpleEncoding {
 
 
 #endif // _PDF_ENCODING_H_
-

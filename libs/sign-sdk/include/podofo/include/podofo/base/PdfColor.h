@@ -30,7 +30,7 @@ namespace PoDoFo {
 class PdfArray;
 class PdfObject;
 class PdfVecObjects;
-    
+
 /** A color object can represent either a grayscale
  *  value, a RGB color, a CMYK color, a separation color or
  *  a CieLab color.
@@ -46,7 +46,7 @@ class PODOFO_API PdfColor {
     /** Create a PdfColor object that is RGB black.
      */
     PdfColor();
-    
+
     /** Create a new PdfColor object with
      *  a grayscale value.
      *
@@ -88,11 +88,11 @@ class PODOFO_API PdfColor {
      *  \param rhs copy rhs into this object
      *
      *  \returns a reference to this color object
-     */    
+     */
     const PdfColor & operator=( const PdfColor & rhs );
 
     /** Test for equality of colors.
-     * 
+     *
      *  \param rhs color to compare ro
      *
      *  \returns true if object color is equal to rhs
@@ -100,7 +100,7 @@ class PODOFO_API PdfColor {
     inline bool operator==( const PdfColor & rhs ) const;
 
     /** Test for inequality of colors.
-     * 
+     *
      *  \param rhs color to compare ro
      *
      *  \returns true if object color is not equal to rhs
@@ -108,31 +108,31 @@ class PODOFO_API PdfColor {
     inline bool operator!=( const PdfColor & rhs ) const;
 
     /** Test if this is a grayscale color.
-     * 
+     *
      *  \returns true if this is a grayscale PdfColor object
      */
     inline bool IsGrayScale() const;
 
     /** Test if this is a RGB color.
-     * 
+     *
      *  \returns true if this is a RGB PdfColor object
      */
     inline bool IsRGB() const;
 
     /** Test if this is a CMYK color.
-     * 
+     *
      *  \returns true if this is a CMYK PdfColor object
      */
     inline bool IsCMYK() const;
 
     /** Test if this is a separation color.
-     * 
+     *
      *  \returns true if this is a separation PdfColor object
      */
     inline bool IsSeparation() const;
 
     /** Test if this is a CIE-Lab color.
-     * 
+     *
      *  \returns true if this is a lab Color object
      */
     inline bool IsCieLab() const;
@@ -149,7 +149,7 @@ class PODOFO_API PdfColor {
      */
     inline EPdfColorSpace GetAlternateColorSpace() const;
 
-    /** Get the grayscale color value 
+    /** Get the grayscale color value
      *  of this object.
      *
      *  Throws an exception if this is no grayscale color object.
@@ -160,7 +160,7 @@ class PODOFO_API PdfColor {
      */
     inline double GetGrayScale() const;
 
-    /** Get the red color value 
+    /** Get the red color value
      *  of this object.
      *
      *  Throws an exception if this is no RGB color object.
@@ -171,7 +171,7 @@ class PODOFO_API PdfColor {
      */
     inline double GetRed() const;
 
-    /** Get the green color value 
+    /** Get the green color value
      *  of this object.
      *
      *  Throws an exception if this is no RGB color object.
@@ -182,7 +182,7 @@ class PODOFO_API PdfColor {
      */
     inline double GetGreen() const;
 
-    /** Get the blue color value 
+    /** Get the blue color value
      *  of this object.
      *
      *  Throws an exception if this is no RGB color object.
@@ -193,7 +193,7 @@ class PODOFO_API PdfColor {
      */
     inline double GetBlue() const;
 
-    /** Get the cyan color value 
+    /** Get the cyan color value
      *  of this object.
      *
      *  Throws an exception if this is no CMYK or separation color object.
@@ -204,7 +204,7 @@ class PODOFO_API PdfColor {
      */
     inline double GetCyan() const;
 
-    /** Get the magenta color value 
+    /** Get the magenta color value
      *  of this object.
      *
      *  Throws an exception if this is no CMYK or separation color object.
@@ -215,7 +215,7 @@ class PODOFO_API PdfColor {
      */
     inline double GetMagenta() const;
 
-    /** Get the yellow color value 
+    /** Get the yellow color value
      *  of this object.
      *
      *  Throws an exception if this is no CMYK or separation color object.
@@ -226,7 +226,7 @@ class PODOFO_API PdfColor {
      */
     inline double GetYellow() const;
 
-    /** Get the black color value 
+    /** Get the black color value
      *  of this object.
      *
      *  Throws an exception if this is no CMYK or separation color object.
@@ -247,7 +247,7 @@ class PODOFO_API PdfColor {
      */
     inline const std::string GetName() const;
 
-    /** Get the density color value 
+    /** Get the density color value
      *  of this object.
      *
      *  Throws an exception if this is no separation color object.
@@ -258,7 +258,7 @@ class PODOFO_API PdfColor {
      */
     inline double GetDensity() const;
 
-    /** Get the L color value 
+    /** Get the L color value
      *  of this object.
      *
      *  Throws an exception if this is no CIE-Lab color object.
@@ -269,7 +269,7 @@ class PODOFO_API PdfColor {
      */
     inline double GetCieL() const;
 
-    /** Get the A color value 
+    /** Get the A color value
      *  of this object.
      *
      *  Throws an exception if this is no CIE-Lab color object.
@@ -280,7 +280,7 @@ class PODOFO_API PdfColor {
      */
     inline double GetCieA() const;
 
-    /** Get the B color value 
+    /** Get the B color value
      *  of this object.
      *
      *  Throws an exception if this is no CIE-Lab color object.
@@ -384,7 +384,7 @@ class PODOFO_API PdfColor {
         double rgb[3];
         double lab[3];
         double gray;
-    }  m_uColor; 
+    }  m_uColor;
     std::string m_separationName;
     double m_separationDensity;
     EPdfColorSpace m_eColorSpace;
@@ -396,7 +396,7 @@ class PODOFO_API PdfColor {
 
 class PODOFO_API PdfColorGray : public PdfColor {
  public:
-    
+
     /** Create a new PdfColor object with
      *  a grayscale value.
      *
@@ -589,19 +589,19 @@ class PODOFO_API PdfColorCieLab : public PdfColor {
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline bool PdfColor::operator==( const PdfColor & rhs ) const
 {
     if ( m_eColorSpace == rhs.m_eColorSpace )
     {
-        if ( 
+        if (
             (m_eColorSpace == ePdfColorSpace_DeviceGray)        &&
             (m_uColor.gray == rhs.m_uColor.gray)
            )
            return true;
 
-        if ( 
+        if (
             (m_eColorSpace == ePdfColorSpace_DeviceRGB)         &&
             (m_uColor.rgb[0] == rhs.m_uColor.rgb[0])            &&
             (m_uColor.rgb[1] == rhs.m_uColor.rgb[1])            &&
@@ -609,7 +609,7 @@ inline bool PdfColor::operator==( const PdfColor & rhs ) const
            )
            return true;
 
-        if ( 
+        if (
             (m_eColorSpace == ePdfColorSpace_DeviceCMYK)        &&
             (m_uColor.cmyk[0] == rhs.m_uColor.cmyk[0])          &&
             (m_uColor.cmyk[1] == rhs.m_uColor.cmyk[1])          &&
@@ -618,7 +618,7 @@ inline bool PdfColor::operator==( const PdfColor & rhs ) const
            )
            return true;
 
-        if ( 
+        if (
             (m_eColorSpace == ePdfColorSpace_CieLab)            &&
             (m_uColor.lab[0] == rhs.m_uColor.lab[0])            &&
             (m_uColor.lab[1] == rhs.m_uColor.lab[1])            &&
@@ -626,7 +626,7 @@ inline bool PdfColor::operator==( const PdfColor & rhs ) const
            )
            return true;
 
-        if ( 
+        if (
             (m_eColorSpace == ePdfColorSpace_Separation)               &&
             (m_separationDensity == rhs.m_separationDensity)           &&
             (m_separationName == rhs.m_separationName)                 &&
@@ -666,7 +666,7 @@ inline bool PdfColor::operator==( const PdfColor & rhs ) const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline bool PdfColor::operator!=( const PdfColor & rhs ) const
 {
@@ -674,7 +674,7 @@ inline bool PdfColor::operator!=( const PdfColor & rhs ) const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfColor::IsGrayScale() const
 {
@@ -682,7 +682,7 @@ bool PdfColor::IsGrayScale() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfColor::IsRGB() const
 {
@@ -690,7 +690,7 @@ bool PdfColor::IsRGB() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfColor::IsCMYK() const
 {
@@ -698,7 +698,7 @@ bool PdfColor::IsCMYK() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfColor::IsSeparation() const
 {
@@ -706,7 +706,7 @@ bool PdfColor::IsSeparation() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfColor::IsCieLab() const
 {
@@ -714,7 +714,7 @@ bool PdfColor::IsCieLab() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 EPdfColorSpace PdfColor::GetColorSpace() const
 {
@@ -722,7 +722,7 @@ EPdfColorSpace PdfColor::GetColorSpace() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 EPdfColorSpace PdfColor::GetAlternateColorSpace() const
 {
@@ -731,67 +731,67 @@ EPdfColorSpace PdfColor::GetAlternateColorSpace() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 double PdfColor::GetGrayScale() const
 {
-    PODOFO_RAISE_LOGIC_IF( !this->IsGrayScale() &&  
-                           !(this->IsSeparation() && (this->m_eAlternateColorSpace == ePdfColorSpace_DeviceGray)), 
+    PODOFO_RAISE_LOGIC_IF( !this->IsGrayScale() &&
+                           !(this->IsSeparation() && (this->m_eAlternateColorSpace == ePdfColorSpace_DeviceGray)),
                            "PdfColor::GetGrayScale cannot be called on non grayscale color objects!");
 
     return m_uColor.gray;
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 double PdfColor::GetRed() const
 {
     PODOFO_RAISE_LOGIC_IF( !this->IsRGB() &&
-                           !(this->IsSeparation() && (this->m_eAlternateColorSpace == ePdfColorSpace_DeviceRGB)), 
+                           !(this->IsSeparation() && (this->m_eAlternateColorSpace == ePdfColorSpace_DeviceRGB)),
                            "PdfColor::GetRed cannot be called on non RGB color objects!");
 
     return m_uColor.rgb[0];
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 double PdfColor::GetGreen() const
 {
     PODOFO_RAISE_LOGIC_IF( !this->IsRGB() &&
-                           !(this->IsSeparation() && (this->m_eAlternateColorSpace == ePdfColorSpace_DeviceRGB)), 
+                           !(this->IsSeparation() && (this->m_eAlternateColorSpace == ePdfColorSpace_DeviceRGB)),
                            "PdfColor::GetGreen cannot be called on non RGB color objects!");
 
     return m_uColor.rgb[1];
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 double PdfColor::GetBlue() const
 {
     PODOFO_RAISE_LOGIC_IF( !this->IsRGB() &&
-                           !(this->IsSeparation() && (this->m_eAlternateColorSpace == ePdfColorSpace_DeviceRGB)), 
+                           !(this->IsSeparation() && (this->m_eAlternateColorSpace == ePdfColorSpace_DeviceRGB)),
                            "PdfColor::GetBlue cannot be called on non RGB color objects!");
 
     return m_uColor.rgb[2];
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 double PdfColor::GetCyan() const
 {
     PODOFO_RAISE_LOGIC_IF( !this->IsCMYK() &&
-                           !(this->IsSeparation() && (this->m_eAlternateColorSpace == ePdfColorSpace_DeviceCMYK)), 
+                           !(this->IsSeparation() && (this->m_eAlternateColorSpace == ePdfColorSpace_DeviceCMYK)),
                            "PdfColor::GetCyan cannot be called on non CMYK color objects!");
 
     return m_uColor.cmyk[0];
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 double PdfColor::GetMagenta() const
 {
@@ -803,7 +803,7 @@ double PdfColor::GetMagenta() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 double PdfColor::GetYellow() const
 {
@@ -815,19 +815,19 @@ double PdfColor::GetYellow() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 double PdfColor::GetBlack() const
 {
     PODOFO_RAISE_LOGIC_IF( !this->IsCMYK() &&
-                           !(this->IsSeparation() && (this->m_eAlternateColorSpace == ePdfColorSpace_DeviceCMYK)), 
+                           !(this->IsSeparation() && (this->m_eAlternateColorSpace == ePdfColorSpace_DeviceCMYK)),
                            "PdfColor::GetBlack cannot be called on non CMYK color objects!");
 
     return m_uColor.cmyk[3];
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 const std::string PdfColor::GetName() const
 {
@@ -837,7 +837,7 @@ const std::string PdfColor::GetName() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 double PdfColor::GetDensity() const
 {
@@ -847,7 +847,7 @@ double PdfColor::GetDensity() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 double PdfColor::GetCieL() const
 {
@@ -859,7 +859,7 @@ double PdfColor::GetCieL() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 double PdfColor::GetCieA() const
 {
@@ -871,7 +871,7 @@ double PdfColor::GetCieA() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 double PdfColor::GetCieB() const
 {

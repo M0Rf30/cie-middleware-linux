@@ -31,7 +31,7 @@ namespace Util {
 /**
  * A platform independent non-reentrant mutex, no-op implementation.
  * This version is used if PoDoFo is built without threading support.
- *  
+ *
  * PdfMutex is *NOT* part of PoDoFo's public API.
  */
 class PdfMutexImpl {
@@ -48,7 +48,7 @@ class PdfMutexImpl {
     inline void Lock() { }
 
     /**
-     * Try locking the mutex. 
+     * Try locking the mutex.
      *
      * \returns true if the mutex was locked
      * \returns false if the mutex is already locked

@@ -21,7 +21,7 @@
 #ifndef _PDF_FIELD_H_
 #define _PDF_FIELD_H_
 
-#include "podofo/base/PdfDefines.h"  
+#include "podofo/base/PdfDefines.h"
 #include "podofo/base/PdfName.h"
 #include "podofo/base/PdfString.h"
 
@@ -42,7 +42,7 @@ class PdfStreamedDocument;
 /** The type of PDF field
  */
 enum EPdfField {
-    ePdfField_PushButton, 
+    ePdfField_PushButton,
     ePdfField_CheckBox,
     ePdfField_RadioButton,
     ePdfField_TextField,
@@ -55,10 +55,10 @@ enum EPdfField {
 
 /** The possible highlighting modes
  *  for a PdfField. I.e the visual effect
- *  that is to be used when the mouse 
+ *  that is to be used when the mouse
  *  button is pressed.
  *
- *  The default value is 
+ *  The default value is
  *  ePdfHighlightingMode_Invert
  */
 enum EPdfHighlightingMode {
@@ -97,7 +97,7 @@ class PODOFO_DOC_API PdfField {
      */
     //inline virtual const PdfField & operator=( const PdfField & rhs );
 
-    /** 
+    /**
      *  Set a bit in the field flags value of the fields dictionary.
      *
      *  \param lValue the value specifying the bits to set
@@ -158,12 +158,12 @@ class PODOFO_DOC_API PdfField {
      */
     void SetHighlightingMode( EPdfHighlightingMode eMode );
 
-    /** 
+    /**
      * \returns the highlighting mode to be used when the user
      *          presses the mouse button over this widget
      */
     EPdfHighlightingMode GetHighlightingMode() const;
-   
+
     /**
      * Sets the border color of the field to be transparent
      */
@@ -230,7 +230,7 @@ class PODOFO_DOC_API PdfField {
      *
      *  PdfFields require a field name to work correctly in acrobat reader!
      *  This name can be used to access the field in JavaScript actions.
-     *  
+     *
      *  \param rsName the field name of this pdf field
      */
     void SetFieldName( const PdfString & rsName );
@@ -240,7 +240,7 @@ class PODOFO_DOC_API PdfField {
     PdfString GetFieldName() const;
 
     /**
-     * Set the alternate name of this field which 
+     * Set the alternate name of this field which
      * is used to display the fields name to the user
      * (e.g. in error messages).
      *
@@ -258,7 +258,7 @@ class PODOFO_DOC_API PdfField {
      *
      * \param rsName the mapping name of this PdfField
      */
-    void SetMappingName( const PdfString & rsName ); 
+    void SetMappingName( const PdfString & rsName );
 
     /** \returns the mapping name of this field
      */
@@ -274,7 +274,7 @@ class PODOFO_DOC_API PdfField {
      */
     inline void SetReadOnly( bool bReadOnly );
 
-    /** 
+    /**
      * \returns true if this field is read-only
      *
      * \see SetReadOnly
@@ -283,12 +283,12 @@ class PODOFO_DOC_API PdfField {
 
     /** Required fields must have a value
      *  at the time the value is exported by a submit action
-     * 
+     *
      *  \param bRequired if true this field requires a value for submit actions
      */
     inline void SetRequired( bool bRequired );
 
-    /** 
+    /**
      * \returns true if this field is required for submit actions
      *
      * \see SetRequired
@@ -303,7 +303,7 @@ class PODOFO_DOC_API PdfField {
      */
     inline void SetExport( bool bExport );
 
-    /** 
+    /**
      * \returns true if this field can be exported by submit actions
      *
      * \see SetExport
@@ -327,15 +327,15 @@ class PODOFO_DOC_API PdfField {
     /* Peter Petrov 15 October 2008 */
     inline void SetKeystrokeAction( const PdfAction & rAction );
     inline void SetValidateAction( const PdfAction & rAction );
-    
-    /** 
+
+    /**
      * \returns the type of this field
      */
     inline EPdfField GetType() const;
 
  private:
 
-    /** 
+    /**
      *  Initialize this PdfField.
      *
      *  \param pParent parent acro forms dictionary
@@ -358,7 +358,7 @@ class PODOFO_DOC_API PdfField {
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 /*
 inline const PdfField & PdfField::operator=( const PdfField & rhs )
@@ -376,7 +376,7 @@ inline const PdfField & PdfField::operator=( const PdfField & rhs )
 
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfField::SetReadOnly( bool bReadOnly )
 {
@@ -384,7 +384,7 @@ inline void PdfField::SetReadOnly( bool bReadOnly )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline bool PdfField::IsReadOnly() const
 {
@@ -392,7 +392,7 @@ inline bool PdfField::IsReadOnly() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfField::SetRequired( bool bRequired )
 {
@@ -400,7 +400,7 @@ inline void PdfField::SetRequired( bool bRequired )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline bool PdfField::IsRequired() const
 {
@@ -408,7 +408,7 @@ inline bool PdfField::IsRequired() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfField::SetExport( bool bExport )
 {
@@ -416,7 +416,7 @@ inline void PdfField::SetExport( bool bExport )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline bool PdfField::IsExport() const
 {
@@ -424,7 +424,7 @@ inline bool PdfField::IsExport() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline PdfPage* PdfField::GetPage() const
 {
@@ -432,7 +432,7 @@ inline PdfPage* PdfField::GetPage() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfField::SetMouseEnterAction( const PdfAction & rAction )
 {
@@ -440,7 +440,7 @@ inline void PdfField::SetMouseEnterAction( const PdfAction & rAction )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfField::SetMouseLeaveAction( const PdfAction & rAction )
 {
@@ -448,7 +448,7 @@ inline void PdfField::SetMouseLeaveAction( const PdfAction & rAction )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfField::SetMouseDownAction( const PdfAction & rAction )
 {
@@ -456,7 +456,7 @@ inline void PdfField::SetMouseDownAction( const PdfAction & rAction )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfField::SetMouseUpAction( const PdfAction & rAction )
 {
@@ -464,7 +464,7 @@ inline void PdfField::SetMouseUpAction( const PdfAction & rAction )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfField::SetFocusEnterAction( const PdfAction & rAction )
 {
@@ -472,7 +472,7 @@ inline void PdfField::SetFocusEnterAction( const PdfAction & rAction )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfField::SetFocusLeaveAction( const PdfAction & rAction )
 {
@@ -480,7 +480,7 @@ inline void PdfField::SetFocusLeaveAction( const PdfAction & rAction )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfField::SetPageOpenAction( const PdfAction & rAction )
 {
@@ -488,7 +488,7 @@ inline void PdfField::SetPageOpenAction( const PdfAction & rAction )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfField::SetPageCloseAction( const PdfAction & rAction )
 {
@@ -496,7 +496,7 @@ inline void PdfField::SetPageCloseAction( const PdfAction & rAction )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfField::SetPageVisibleAction( const PdfAction & rAction )
 {
@@ -504,7 +504,7 @@ inline void PdfField::SetPageVisibleAction( const PdfAction & rAction )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfField::SetPageInvisibleAction( const PdfAction & rAction )
 {
@@ -513,7 +513,7 @@ inline void PdfField::SetPageInvisibleAction( const PdfAction & rAction )
 
 /* Peter Petrov 15 October 2008 */
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfField::SetKeystrokeAction( const PdfAction & rAction )
 {
@@ -522,7 +522,7 @@ inline void PdfField::SetKeystrokeAction( const PdfAction & rAction )
 
 /* Peter Petrov 15 October 2008 */
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfField::SetValidateAction( const PdfAction & rAction )
 {
@@ -530,7 +530,7 @@ inline void PdfField::SetValidateAction( const PdfAction & rAction )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline EPdfField PdfField::GetType() const
 {
@@ -539,7 +539,7 @@ inline EPdfField PdfField::GetType() const
 
 // Peter Petrov 27 April 2008
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline PdfAnnotation* PdfField::GetWidgetAnnotation() const
 {
@@ -548,7 +548,7 @@ inline PdfAnnotation* PdfField::GetWidgetAnnotation() const
 
 // Peter Petrov 27 April 2008
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline PdfObject* PdfField::GetFieldObject() const
 {
@@ -581,7 +581,7 @@ class PODOFO_DOC_API PdfButton : public PdfField {
 
  public:
 
-    /** Create a PdfButton from a PdfField 
+    /** Create a PdfButton from a PdfField
      *  \param rhs a PdfField that is a button
      *
      *  Internal usage only.
@@ -609,7 +609,7 @@ class PODOFO_DOC_API PdfButton : public PdfField {
      */
     void SetCaption( const PdfString & rsText );
 
-    /** 
+    /**
      *  \returns the caption of this button
      */
     const PdfString GetCaption() const;
@@ -617,7 +617,7 @@ class PODOFO_DOC_API PdfButton : public PdfField {
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline bool PdfButton::IsPushButton() const
 {
@@ -625,7 +625,7 @@ inline bool PdfButton::IsPushButton() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline bool PdfButton::IsCheckBox() const
 {
@@ -634,7 +634,7 @@ inline bool PdfButton::IsCheckBox() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline bool PdfButton::IsRadioButton() const
 {
@@ -663,7 +663,7 @@ class PODOFO_DOC_API PdfPushButton : public PdfButton {
      */
     PdfPushButton( PdfPage* pPage, const PdfRect & rRect, PdfStreamedDocument* pDoc );
 
-    /** Create a PdfPushButton from a PdfField 
+    /** Create a PdfPushButton from a PdfField
      *  \param rhs a PdfField that is a push button button
      *
      *  Raises an error if PdfField::GetType() != ePdfField_PushButton
@@ -678,7 +678,7 @@ class PODOFO_DOC_API PdfPushButton : public PdfButton {
      */
     void SetRolloverCaption( const PdfString & rsText );
 
-    /** 
+    /**
      *  \returns the rollover caption of this button
      */
     const PdfString GetRolloverCaption() const;
@@ -690,7 +690,7 @@ class PODOFO_DOC_API PdfPushButton : public PdfButton {
      */
     void SetAlternateCaption( const PdfString & rsText );
 
-    /** 
+    /**
      *  \returns the rollover caption of this button
      */
     const PdfString GetAlternateCaption() const;
@@ -719,7 +719,7 @@ class PODOFO_DOC_API PdfCheckBox : public PdfButton {
      */
     PdfCheckBox( PdfPage* pPage, const PdfRect & rRect, PdfStreamedDocument* pDoc );
 
-    /** Create a PdfCheckBox from a PdfField 
+    /** Create a PdfCheckBox from a PdfField
      *  \param rhs a PdfField that is a check box
      *
      *  Raises an error if PdfField::GetType() != ePdfField_CheckBox
@@ -765,7 +765,7 @@ class PODOFO_DOC_API PdfCheckBox : public PdfButton {
 // TODO: Dominiks PdfRadioButton
 
 /** A textfield in a PDF file.
- *  
+ *
  *  Users can enter text into a text field.
  *  Single and multi line text is possible,
  *  as well as richtext. The text can be interpreted
@@ -800,7 +800,7 @@ class PODOFO_DOC_API PdfTextField : public PdfField {
     PdfTextField( PdfPage* pPage, const PdfRect & rRect, PdfStreamedDocument* pDoc );
 
     /** Create a PdfTextField from a PdfField
-     * 
+     *
      *  \param rhs a PdfField that is a PdfTextField
      *
      *  Raises an error if PdfField::GetType() != ePdfField_TextField
@@ -823,7 +823,7 @@ class PODOFO_DOC_API PdfTextField : public PdfField {
      */
     void SetMaxLen( pdf_long nMaxLen );
 
-    /** 
+    /**
      * \returns the max length of this textfield in characters or -1
      *          if no max length was specified
      */
@@ -838,12 +838,12 @@ class PODOFO_DOC_API PdfTextField : public PdfField {
      */
     inline void SetMultiLine( bool bMultiLine );
 
-    /** 
+    /**
      * \returns true if this text field can contain multiple lines of text
      */
     inline bool IsMultiLine() const;
 
-    /** 
+    /**
      *  Create a password text field that should not echo entered
      *  characters visibly to the screen.
      *
@@ -859,7 +859,7 @@ class PODOFO_DOC_API PdfTextField : public PdfField {
      */
     inline bool IsPasswordField() const;
 
-    /** 
+    /**
      *  Create a file selection field.
      *  The entered contents are treated as filename to a file
      *  whose contents are submitted as the value of the field.
@@ -874,7 +874,7 @@ class PODOFO_DOC_API PdfTextField : public PdfField {
      */
     inline bool IsFileField() const;
 
-    /** 
+    /**
      *  Enable/disable spellchecking for this text field
      *
      *  \param bSpellcheck if true spellchecking will be enabled
@@ -883,12 +883,12 @@ class PODOFO_DOC_API PdfTextField : public PdfField {
      */
     inline void SetSpellcheckingEnabled( bool bSpellcheck );
 
-    /** 
+    /**
      *  \returns true if spellchecking is enabled for this text field
      */
     inline bool IsSpellcheckingEnabled() const;
 
-    /** 
+    /**
      *  Enable/disable scrollbars for this text field
      *
      *  \param bScroll if true scrollbars will be enabled
@@ -897,12 +897,12 @@ class PODOFO_DOC_API PdfTextField : public PdfField {
      */
     inline void SetScrollBarsEnabled( bool bScroll );
 
-    /** 
+    /**
      *  \returns true if scrollbars are enabled for this text field
      */
     inline bool IsScrollBarsEnabled() const;
 
-    /** 
+    /**
      *  Divide the text field into max-len equal
      *  combs.
      *
@@ -929,7 +929,7 @@ class PODOFO_DOC_API PdfTextField : public PdfField {
      */
     inline void SetRichText( bool bRichText );
 
-    /** 
+    /**
      * \returns true if this is a richtext text field
      */
     inline bool IsRichText() const;
@@ -939,7 +939,7 @@ class PODOFO_DOC_API PdfTextField : public PdfField {
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfTextField::SetMultiLine( bool bMultiLine )
 {
@@ -947,7 +947,7 @@ inline void PdfTextField::SetMultiLine( bool bMultiLine )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline bool PdfTextField::IsMultiLine() const
 {
@@ -955,7 +955,7 @@ inline bool PdfTextField::IsMultiLine() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfTextField::SetPasswordField( bool bPassword )
 {
@@ -963,7 +963,7 @@ inline void PdfTextField::SetPasswordField( bool bPassword )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline bool PdfTextField::IsPasswordField() const
 {
@@ -971,7 +971,7 @@ inline bool PdfTextField::IsPasswordField() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfTextField::SetFileField( bool bFile )
 {
@@ -979,7 +979,7 @@ inline void PdfTextField::SetFileField( bool bFile )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline bool PdfTextField::IsFileField() const
 {
@@ -987,7 +987,7 @@ inline bool PdfTextField::IsFileField() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfTextField::SetSpellcheckingEnabled( bool bSpellcheck )
 {
@@ -995,7 +995,7 @@ inline void PdfTextField::SetSpellcheckingEnabled( bool bSpellcheck )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline bool PdfTextField::IsSpellcheckingEnabled() const
 {
@@ -1003,15 +1003,15 @@ inline bool PdfTextField::IsSpellcheckingEnabled() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfTextField::SetScrollBarsEnabled( bool bScroll )
 {
-    this->SetFieldFlag( static_cast<int>(ePdfTextField_NoScroll), !bScroll );    
+    this->SetFieldFlag( static_cast<int>(ePdfTextField_NoScroll), !bScroll );
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline bool PdfTextField::IsScrollBarsEnabled() const
 {
@@ -1019,15 +1019,15 @@ inline bool PdfTextField::IsScrollBarsEnabled() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfTextField::SetCombs( bool bCombs )
 {
-    this->SetFieldFlag( static_cast<int>(ePdfTextField_Comb), bCombs );        
+    this->SetFieldFlag( static_cast<int>(ePdfTextField_Comb), bCombs );
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline bool PdfTextField::IsCombs() const
 {
@@ -1035,15 +1035,15 @@ inline bool PdfTextField::IsCombs() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfTextField::SetRichText( bool bRichText )
 {
-    this->SetFieldFlag( static_cast<int>(ePdfTextField_RichText), bRichText);        
+    this->SetFieldFlag( static_cast<int>(ePdfTextField_RichText), bRichText);
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline bool PdfTextField::IsRichText() const
 {
@@ -1053,8 +1053,8 @@ inline bool PdfTextField::IsRichText() const
 /** A list of items in a PDF file.
  *  You cannot create this object directly, use
  *  PdfComboBox or PdfListBox instead.
- *  
- *  \see PdfComboBox 
+ *
+ *  \see PdfComboBox
  *  \see PdfListBox
  */
 class PODOFO_DOC_API PdfListField : public PdfField {
@@ -1085,7 +1085,7 @@ class PODOFO_DOC_API PdfListField : public PdfField {
 
  public:
 
-    /** Create a PdfListField from a PdfField 
+    /** Create a PdfListField from a PdfField
      *  \param rhs a PdfField that is a list field
      *
      *  Internal usage only.
@@ -1103,23 +1103,23 @@ class PODOFO_DOC_API PdfListField : public PdfField {
      */
     void InsertItem( const PdfString & rsValue, const PdfString & rsDisplayName = PdfString::StringNull );
 
-    /** 
+    /**
      * Removes an item for the list
      *
      * @param nIndex index of the item to remove
      */
     void RemoveItem( int nIndex );
 
-    /** 
+    /**
      * @param nIndex index of the item
      * @returns the value of the item at the specified index
      */
     const PdfString GetItem( int nIndex ) const;
 
-    /** 
+    /**
      * @param nIndex index of the item
      * @returns the display text of the item or if it has no display text
-     *          its value is returned. This call is equivalent to GetItem() 
+     *          its value is returned. This call is equivalent to GetItem()
      *          in this case
      *
      * \see GetItem
@@ -1141,7 +1141,7 @@ class PODOFO_DOC_API PdfListField : public PdfField {
      *  \returns the selected item or -1 if no item was selected
      */
     int GetSelectedItem() const;
-    
+
 #if 0
     // TODO:
 #error "Only allow these if multiselect is true!"
@@ -1151,13 +1151,13 @@ class PODOFO_DOC_API PdfListField : public PdfField {
 #endif
 
 
-    /** 
+    /**
      * \returns true if this PdfListField is a PdfComboBox and false
      *               if it is a PdfListBox
      */
     inline bool IsComboBox() const;
 
-    /** 
+    /**
      *  Enable/disable spellchecking for this combobox
      *
      *  \param bSpellcheck if true spellchecking will be enabled
@@ -1165,8 +1165,8 @@ class PODOFO_DOC_API PdfListField : public PdfField {
      *  combobox are spellchecked by default
      */
     inline void SetSpellcheckingEnabled( bool bSpellcheck );
-    
-    /** 
+
+    /**
      *  \returns true if spellchecking is enabled for this combobox
      */
     inline bool IsSpellcheckingEnabled() const;
@@ -1196,7 +1196,7 @@ class PODOFO_DOC_API PdfListField : public PdfField {
      */
     inline void SetMultiSelect( bool bMulti );
 
-    /** 
+    /**
      * \returns true if multi selection is enabled
      *               for this list
      */
@@ -1207,7 +1207,7 @@ class PODOFO_DOC_API PdfListField : public PdfField {
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline bool PdfListField::IsComboBox() const
 {
@@ -1215,7 +1215,7 @@ inline bool PdfListField::IsComboBox() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfListField::SetSpellcheckingEnabled( bool bSpellcheck )
 {
@@ -1223,7 +1223,7 @@ inline void PdfListField::SetSpellcheckingEnabled( bool bSpellcheck )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline bool PdfListField::IsSpellcheckingEnabled() const
 {
@@ -1231,7 +1231,7 @@ inline bool PdfListField::IsSpellcheckingEnabled() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfListField::SetSorted( bool bSorted )
 {
@@ -1239,7 +1239,7 @@ inline void PdfListField::SetSorted( bool bSorted )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline bool PdfListField::IsSorted() const
 {
@@ -1247,7 +1247,7 @@ inline bool PdfListField::IsSorted() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfListField::SetMultiSelect( bool bMulti )
 {
@@ -1255,7 +1255,7 @@ inline void PdfListField::SetMultiSelect( bool bMulti )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline bool PdfListField::IsMultiSelect() const
 {
@@ -1263,7 +1263,7 @@ inline bool PdfListField::IsMultiSelect() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfListField::SetCommitOnSelectionChange( bool bCommit )
 {
@@ -1271,7 +1271,7 @@ inline void PdfListField::SetCommitOnSelectionChange( bool bCommit )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline bool PdfListField::IsCommitOnSelectionChange() const
 {
@@ -1299,7 +1299,7 @@ class PODOFO_DOC_API PdfComboBox : public PdfListField {
     PdfComboBox( PdfPage* pPage, const PdfRect & rRect, PdfStreamedDocument* pDoc );
 
     /** Create a PdfComboBox from a PdfField
-     * 
+     *
      *  \param rhs a PdfField that is a PdfComboBox
      *
      *  Raises an error if PdfField::GetType() != ePdfField_ComboBox
@@ -1315,7 +1315,7 @@ class PODOFO_DOC_API PdfComboBox : public PdfListField {
      */
     inline void SetEditable( bool bEdit );
 
-    /** 
+    /**
      *  \returns true if this is an editable combobox
      */
     inline bool IsEditable() const;
@@ -1323,15 +1323,15 @@ class PODOFO_DOC_API PdfComboBox : public PdfListField {
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfComboBox::SetEditable( bool bEdit )
 {
-    this->SetFieldFlag( static_cast<int>(ePdfListField_Edit), bEdit);        
+    this->SetFieldFlag( static_cast<int>(ePdfListField_Edit), bEdit);
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline bool PdfComboBox::IsEditable() const
 {
@@ -1359,7 +1359,7 @@ class PODOFO_DOC_API PdfListBox : public PdfListField {
     PdfListBox( PdfPage* pPage, const PdfRect & rRect, PdfStreamedDocument* pDoc );
 
     /** Create a PdfListBox from a PdfField
-     * 
+     *
      *  \param rhs a PdfField that is a PdfComboBox
      *
      *  Raises an error if PdfField::GetType() != ePdfField_ListBox

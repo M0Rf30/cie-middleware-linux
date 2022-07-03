@@ -57,7 +57,7 @@ enum EPdfDestinationType {
   ePdfDestinationType_FitB,
   ePdfDestinationType_FitBH,
   ePdfDestinationType_FitBV,
-  
+
   ePdfDestinationType_Unknown = 0xFF
 };
 
@@ -74,32 +74,32 @@ class PODOFO_DOC_API PdfDestination {
     PdfDestination( PdfVecObjects* pParent );
 
     /** Create a new PdfDestination from an existing PdfObject (such as loaded from a doc)
-     *  \param pObject the object to construct from 
+     *  \param pObject the object to construct from
      *  \param pDocument a PDF document owning this destination, needed to resolve pages
      */
     PdfDestination( PdfObject* pObject, PdfDocument* pDocument );
 
     /** Create a new PdfDestination from an existing PdfObject (such as loaded from a doc)
-     *  \param pObject the object to construct from 
+     *  \param pObject the object to construct from
      *  \param pVecObjects a PdfVecObjects owning this destination, needed to resolve pages
      */
     PdfDestination( PdfObject* pObject, PdfVecObjects* pVecObjects );
 
     /** Create a new PdfDestination with a page as destination
-     *  \param pPage a page which is the destination 
+     *  \param pPage a page which is the destination
      *  \param eFit fit mode for the page. Must be ePdfDestinationFit_Fit or ePdfDestinationFit_FitB
      */
     PdfDestination( const PdfPage* pPage, EPdfDestinationFit eFit = ePdfDestinationFit_Fit );
 
     /** Create a destination to a page with its contents magnified to fit into the given rectangle
-     *  \param pPage a page which is the destination 
+     *  \param pPage a page which is the destination
      *  \param rRect magnify the page so that the contents of the rectangle are visible
      */
     PdfDestination( const PdfPage* pPage, const PdfRect & rRect );
 
-    /** Create a new destination to a page with specified left 
+    /** Create a new destination to a page with specified left
      *  and top coordinates and a zoom factor.
-     *  \param pPage a page which is the destination 
+     *  \param pPage a page which is the destination
      *  \param dLeft left coordinate
      *  \param dTop  top coordinate
      *  \param dZoom zoom factor in the viewer
@@ -107,13 +107,13 @@ class PODOFO_DOC_API PdfDestination {
     PdfDestination( const PdfPage* pPage, double dLeft, double dTop, double dZoom );
 
     /** Create a new destination to a page.
-     *  \param pPage a page which is the destination 
+     *  \param pPage a page which is the destination
      *  \param eFit fit mode for the Page. Allowed values are ePdfDestinationFit_FitH,
      *              ePdfDestinationFit_FitV, ePdfDestinationFit_FitBH, ePdfDestinationFit_FitBV
      *  \param dValue value which is a required argument for the selected fit mode
      */
     PdfDestination( const PdfPage* pPage, EPdfDestinationFit eFit, double dValue );
-    
+
     /** Copy an existing PdfDestination
      *  \param rhs copy this PdfDestination
      */
@@ -129,72 +129,72 @@ class PODOFO_DOC_API PdfDestination {
      *  Requires that this PdfDestination was somehow
      *  created by or from a PdfDocument. Won't work otherwise.
      *  \param pDoc a PDF document owning this destination, needed to resolve pages
-     * 
+     *
      *  \returns the referenced PdfPage
      */
-    PdfPage* GetPage( PdfDocument* pDoc ); 
+    PdfPage* GetPage( PdfDocument* pDoc );
 
     /** Get the page that this destination points to
      *  Requires that this PdfDestination was somehow
      *  created by or from a PdfDocument. Won't work otherwise.
      *  \param pVecObjects a PdfVecObjects owning this destination, needed to resolve pages
-     * 
+     *
      *  \returns the referenced PdfPage
      */
     PdfPage* GetPage( PdfVecObjects* pVecObjects );
-    
+
     /** Get the destination fit type
      *
      *  \returns the fit type
      */
     inline EPdfDestinationType GetType() const;
-    
-    /** Get the destination zoom 
+
+    /** Get the destination zoom
      *  Destination must be of type XYZ
      *  otherwise exception is thrown.
      *
      *  \returns the zoom
      */
     inline double GetZoom() const;
-    
-    /** Get the destination rect 
+
+    /** Get the destination rect
      *  Destination must be of type FirR
      *  otherwise exception is thrown
      *
      *  \returns the destination rect
      */
     inline PdfRect GetRect() const;
-     
+
     /** Get the destination Top position
      *  Destination must be of type XYZ, FitH, FitR, FitBH
      *  otherwise exception is thrown.
-     * 
+     *
      * \returns the Top position
      */
-    inline double GetTop() const; 
-    
-    /** Get the destination Left position 
+    inline double GetTop() const;
+
+    /** Get the destination Left position
      *  Destination must be of type XYZ, FitV or FitR
      *  otherwise exception is thrown.
-     * 
+     *
      * \returns the Left position
      */
     inline double GetLeft() const;
-    
-    /** Get the destination Value 
+
+    /** Get the destination Value
      *  Destination must be of type FitH, FitV
-     *  or FitBH, otherwise exception is thrown 
-     * 
+     *  or FitBH, otherwise exception is thrown
+     *
      *  \returns the destination Value
      */
     inline double GetDValue() const;
-    
+
     /** Get access to the internal object
      *
      *  \returns the internal PdfObject
      */
     inline PdfObject* GetObject();
-    
+
     /** Get access to the internal object
      *  This is an overloaded member function.
      *
@@ -206,7 +206,7 @@ class PODOFO_DOC_API PdfDestination {
      *  \returns the internal PdfArray
      */
     inline PdfArray &GetArray();
-    
+
     /** Get access to the internal array
      *  This is an overloaded member function.
      *
@@ -214,7 +214,7 @@ class PODOFO_DOC_API PdfDestination {
      */
     inline const PdfArray &GetArray() const;
 
-    
+
     /** Adds this destination to an dictionary.
      *  This method handles the all the complexities of making sure it's added correctly
      *
@@ -228,7 +228,7 @@ class PODOFO_DOC_API PdfDestination {
     /** Initialize a new PdfDestination from an existing PdfObject (such as loaded from a doc)
      *  and a document.
      *
-     *  \param pObject the object to construct from 
+     *  \param pObject the object to construct from
      *  \param pDoc a PDF document owning this destination, needed to resolve pages
      */
     void Init( PdfObject* pObject, PdfDocument* pDocument );
@@ -243,11 +243,11 @@ class PODOFO_DOC_API PdfDestination {
     /** Create an empty destination - NOT ALLOWED
      */
     PdfDestination();
-    
+
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline PdfObject* PdfDestination::GetObject()
 {
@@ -255,7 +255,7 @@ inline PdfObject* PdfDestination::GetObject()
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline const PdfObject* PdfDestination::GetObject() const
 {
@@ -263,7 +263,7 @@ inline const PdfObject* PdfDestination::GetObject() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline PdfArray &PdfDestination::GetArray()
 {
@@ -271,7 +271,7 @@ inline PdfArray &PdfDestination::GetArray()
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline const PdfArray &PdfDestination::GetArray() const
 {
@@ -279,63 +279,63 @@ inline const PdfArray &PdfDestination::GetArray() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
-inline EPdfDestinationType PdfDestination::GetType() const 
+inline EPdfDestinationType PdfDestination::GetType() const
 {
-    if ( !m_array.size() ) 
-        return ePdfDestinationType_Unknown;  
-    
+    if ( !m_array.size() )
+        return ePdfDestinationType_Unknown;
+
     PdfName tp = m_array[1].GetName();
-    
+
     if ( tp == PdfName("XYZ") ) return ePdfDestinationType_XYZ;
     if ( tp == PdfName("Fit") ) return ePdfDestinationType_Fit;
     if ( tp == PdfName("FitH") ) return ePdfDestinationType_FitH;
-    if ( tp == PdfName("FitV") ) return ePdfDestinationType_FitV;   
-    if ( tp == PdfName("FitR") ) return ePdfDestinationType_FitR; 
-    if ( tp == PdfName("FitB") ) return ePdfDestinationType_FitB; 
-    if ( tp == PdfName("FitBH") ) return ePdfDestinationType_FitBH; 
-    if ( tp == PdfName("FitBV") ) return ePdfDestinationType_FitBV; 
-    
-    return ePdfDestinationType_Unknown; 
+    if ( tp == PdfName("FitV") ) return ePdfDestinationType_FitV;
+    if ( tp == PdfName("FitR") ) return ePdfDestinationType_FitR;
+    if ( tp == PdfName("FitB") ) return ePdfDestinationType_FitB;
+    if ( tp == PdfName("FitBH") ) return ePdfDestinationType_FitBH;
+    if ( tp == PdfName("FitBV") ) return ePdfDestinationType_FitBV;
+
+    return ePdfDestinationType_Unknown;
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
-inline double PdfDestination::GetDValue() const 
+inline double PdfDestination::GetDValue() const
 {
     EPdfDestinationType tp = GetType();
-    
+
     if ( tp != ePdfDestinationType_FitH
          && tp != ePdfDestinationType_FitV
          && tp != ePdfDestinationType_FitBH )
     {
         PODOFO_RAISE_ERROR( ePdfError_WrongDestinationType );
     }
-    
+
     return m_array[2].GetReal();
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline double PdfDestination::GetLeft() const
 {
     EPdfDestinationType tp = GetType();
-    
+
     if ( tp != ePdfDestinationType_FitV
          && tp != ePdfDestinationType_XYZ
          && tp != ePdfDestinationType_FitR )
     {
         PODOFO_RAISE_ERROR( ePdfError_WrongDestinationType );
     }
-    
+
     return m_array[2].GetReal();
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline PdfRect PdfDestination::GetRect() const
 {
@@ -343,20 +343,20 @@ inline PdfRect PdfDestination::GetRect() const
     {
         PODOFO_RAISE_ERROR( ePdfError_WrongDestinationType );
     }
-    
+
     return PdfRect(m_array[2].GetReal(), m_array[3].GetReal(),
                    m_array[4].GetReal(), m_array[5].GetReal());
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline double PdfDestination::GetTop() const
 {
     EPdfDestinationType tp = GetType();
-    
-    switch (tp) 
-    { 
+
+    switch (tp)
+    {
         case ePdfDestinationType_XYZ:
             return m_array[3].GetReal();
         case ePdfDestinationType_FitH:
@@ -377,7 +377,7 @@ inline double PdfDestination::GetTop() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline double PdfDestination::GetZoom() const
 {
@@ -385,7 +385,7 @@ inline double PdfDestination::GetZoom() const
     {
         PODOFO_RAISE_ERROR( ePdfError_WrongDestinationType );
     }
-  
+
     return m_array[4].GetReal();
 }
 
@@ -395,4 +395,3 @@ inline double PdfDestination::GetZoom() const
 
 
 #endif // _PDF_DESTINATION_H_
-

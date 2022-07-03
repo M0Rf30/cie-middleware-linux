@@ -68,11 +68,11 @@ class PODOFO_DOC_API PdfFontMetricsObject : public PdfFontMetrics {
 
     /** Create the bounding box array as required by the PDF reference
      *  so that it can be written directly to a PDF file.
-     * 
+     *
      *  \param array write the bounding box to this array.
      */
     virtual void GetBoundingBox( PdfArray & array ) const;
-    
+
     /** Retrieve the width of the given character in PDF units in the current font
      *  \param c character
      *  \returns the width in PDF units
@@ -91,7 +91,7 @@ class PODOFO_DOC_API PdfFontMetricsObject : public PdfFontMetrics {
      */
     virtual double GetLineSpacing() const;
 
-    /** Get the width of the underline for the current 
+    /** Get the width of the underline for the current
      *  font size in PDF units
      *  \returns the thickness of the underline in PDF units
      */
@@ -109,7 +109,7 @@ class PODOFO_DOC_API PdfFontMetricsObject : public PdfFontMetrics {
      */
     virtual double GetStrikeOutPosition() const;
 
-    /** Get the width of the strikeout for the current 
+    /** Get the width of the strikeout for the current
      *  font size in PDF units
      *  \returns the thickness of the strikeout in PDF units
      */
@@ -130,7 +130,7 @@ class PODOFO_DOC_API PdfFontMetricsObject : public PdfFontMetrics {
      *  units for the current font size.
      *
      *  \returns the ascender for this font
-     *  
+     *
      *  \see GetPdfAscent
      */
     virtual double GetAscent() const;
@@ -138,12 +138,12 @@ class PODOFO_DOC_API PdfFontMetricsObject : public PdfFontMetrics {
     /** Get the ascent of this font
      *  Used to build the font dictionay
      *  \returns the ascender for this font
-     *  
+     *
      *  \see GetAscent
      */
     virtual double GetPdfAscent() const;
 
-    /** Get the descent of this font in PDF 
+    /** Get the descent of this font in PDF
      *  units for the current font size.
      *  This value is usually negative!
      *
@@ -177,9 +177,9 @@ class PODOFO_DOC_API PdfFontMetricsObject : public PdfFontMetrics {
 
     /** Symbol fonts do need special treatment in a few cases.
      *  Use this method to check if the current font is a symbol
-     *  font. Symbold fonts are detected by checking 
+     *  font. Symbold fonts are detected by checking
      *  if they use FT_ENCODING_MS_SYMBOL as internal encoding.
-     * 
+     *
      * \returns true if this is a symbol font
      */
     virtual bool IsSymbol() const;
@@ -193,7 +193,7 @@ class PODOFO_DOC_API PdfFontMetricsObject : public PdfFontMetrics {
      *  \returns a the length of the font data
      */
     virtual pdf_long GetFontDataLen() const;
- 
+
  private:
     /** default constructor, not implemented
      */
@@ -231,8 +231,7 @@ class PODOFO_DOC_API PdfFontMetricsObject : public PdfFontMetrics {
     bool          m_bSymbol;  ///< Internal member to singnal a symbol font
 	double m_dDefWidth; ///< default width
 };
- 
+
 };
 
 #endif // _PDF_FONT_METRICS_OBJECT_H_
-

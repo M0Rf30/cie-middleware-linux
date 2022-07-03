@@ -75,7 +75,7 @@ class PODOFO_API PdfVariant {
 
     /** Construct a PdfVariant that is a real number.
      *  \param d the value of the real number.
-     */    
+     */
     PdfVariant( double d );
 
     /** Construct a PdfVariant that is a string. The argument
@@ -83,17 +83,17 @@ class PODOFO_API PdfVariant {
      * passed in unescaped form.
      *
      *  \param rsString the value of the string
-     */        
+     */
     PdfVariant( const PdfString & rsString );
 
     /** Construct a PdfVariant that is a name.
      *  \param rName the value of the name
-     */        
+     */
     PdfVariant( const PdfName & rName );
 
     /** Construct a PdfVariant that is a name.
      *  \param rRef the value of the name
-     */        
+     */
     PdfVariant( const PdfReference & rRef );
 
     /** Initalize a PdfVariant object with array data.
@@ -109,22 +109,22 @@ class PODOFO_API PdfVariant {
 
     /** Construct a PdfVariant that is a dictionary.
      *  \param rDict the value of the dictionary.
-     */        
+     */
     PdfVariant( const PdfDictionary & rDict );
 
     /** Construct a PdfVariant that contains raw PDF data.
      *  \param rData raw and valid PDF data.
-     */        
+     */
     PdfVariant( const PdfData & rData );
 
-    /** Constructs a new PdfVariant which has the same 
+    /** Constructs a new PdfVariant which has the same
      *  contents as rhs.
      *  \param rhs an existing variant which is copied.
      */
     PdfVariant( const PdfVariant & rhs );
 
     virtual ~PdfVariant();
-    
+
     /** \returns true if this PdfVariant is empty.
      *           i.e. m_eDataType == ePdfDataType_Null
      */
@@ -192,7 +192,7 @@ class PODOFO_API PdfVariant {
     /** \returns true if this variant is a reference (i.e. GetDataType() == ePdfDataType_Reference)
      */
     inline bool IsReference() const { return GetDataType() == ePdfDataType_Reference; }
-       
+
     /** Write the complete variant to an output device.
      *  This is an overloaded member function.
      *
@@ -201,7 +201,7 @@ class PODOFO_API PdfVariant {
      *  \param pEncrypt an encryption object which is used to encrypt this object
      *                  or NULL to not encrypt this object
      */
-    void Write( PdfOutputDevice* pDevice, EPdfWriteMode eWriteMode, 
+    void Write( PdfOutputDevice* pDevice, EPdfWriteMode eWriteMode,
                 const PdfEncrypt* pEncrypt = NULL ) const;
 
     /** Write the complete variant to an output device.
@@ -282,12 +282,12 @@ class PODOFO_API PdfVariant {
     /** Returns the dictionary value of this object
      *  \returns a PdfDictionary
      */
-    inline const PdfDictionary & GetDictionary() const; 
+    inline const PdfDictionary & GetDictionary() const;
 
     /** Returns the dictionary value of this object
      *  \returns a PdfDictionary
      */
-    inline PdfDictionary & GetDictionary(); 
+    inline PdfDictionary & GetDictionary();
 
     /** Get the reference values of this object.
      *  \returns a PdfReference
@@ -325,14 +325,14 @@ class PODOFO_API PdfVariant {
 
     /** The dirty flag is set if this variant
      *  has been modified after construction.
-     *  
+     *
      *  Usually the dirty flag is also set
      *  if you call any non-const member function
      *  (e.g. GetDictionary()) as PdfVariant cannot
      *  determine if you actually changed the dictionary
      *  or not.
      *
-     *  \returns true if the value is dirty and has been 
+     *  \returns true if the value is dirty and has been
      *                modified since construction
      */
     inline bool IsDirty() const;
@@ -343,7 +343,7 @@ class PODOFO_API PdfVariant {
      *
      * @param bImmutable if true set the object to be immutable
      *
-     * This is used by PdfImmediateWriter and PdfStreamedDocument so 
+     * This is used by PdfImmediateWriter and PdfStreamedDocument so
      * that no keys can be added to an object after setting stream data on it.
      *
      */
@@ -352,7 +352,7 @@ class PODOFO_API PdfVariant {
     /**
      * Retrieve if an object is immutable.
      *
-     * This is used by PdfImmediateWriter and PdfStreamedDocument so 
+     * This is used by PdfImmediateWriter and PdfStreamedDocument so
      * that no keys can be added to an object after setting stream data on it.
      *
      * @returns true if the object is immutable
@@ -364,7 +364,7 @@ class PODOFO_API PdfVariant {
     /**
      *  Will throw an exception if called on an immutable object,
      *  so this should be called before actually changing a value!
-     * 
+     *
      */
     inline void AssertMutable() const;
 
@@ -429,12 +429,12 @@ class PODOFO_API PdfVariant {
     /** Version of GetDictionary() that doesn't trigger a delayed load
      *  \returns a PdfDictionary
      */
-    inline const PdfDictionary & GetDictionary_NoDL() const; 
+    inline const PdfDictionary & GetDictionary_NoDL() const;
 
     /** Version of GetDictionary() that doesn't trigger a delayed load
      *  \returns a PdfDictionary
      */
-    inline PdfDictionary & GetDictionary_NoDL(); 
+    inline PdfDictionary & GetDictionary_NoDL();
 
     /** Version of GetArray() that doesn't trigger a delayed load
      *  \returns a array
@@ -463,7 +463,7 @@ class PODOFO_API PdfVariant {
      *  PdfVariant( my_ptr_to_something )
      *
      *... not ...
-     * 
+     *
      *  PdfVariant( *my_ptr_to_something )
      *
      * If you need to modify PdfVariant to legitimately take a pointer in the future,
@@ -477,8 +477,8 @@ class PODOFO_API PdfVariant {
      *  we use a union here, as there is always only
      *  one of those members used.
      */
-    typedef union { 
-        /** Holds references, strings, 
+    typedef union {
+        /** Holds references, strings,
          *  names, dictionaries and arrays
          */
         PdfDataType* pData;
@@ -495,7 +495,7 @@ class PODOFO_API PdfVariant {
 
 
     /** Datatype of the variant.
-     *  required to access the correct member of 
+     *  required to access the correct member of
      *  the union UVariant.
      */
     EPdfDataType m_eDataType;
@@ -517,7 +517,7 @@ private:
 
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfVariant::DelayedLoad() const
 {
@@ -543,7 +543,7 @@ inline void PdfVariant::DelayedLoad() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfVariant::IsEmpty() const
 {
@@ -553,7 +553,7 @@ bool PdfVariant::IsEmpty() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 EPdfDataType PdfVariant::GetDataType() const
 {
@@ -563,7 +563,7 @@ EPdfDataType PdfVariant::GetDataType() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 void PdfVariant::SetBool( bool b )
 {
@@ -580,7 +580,7 @@ void PdfVariant::SetBool( bool b )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfVariant::GetBool() const
 {
@@ -595,9 +595,9 @@ bool PdfVariant::GetBool() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
-void PdfVariant::SetNumber( long l ) 
+void PdfVariant::SetNumber( long l )
 {
     DelayedLoad();
 
@@ -615,7 +615,7 @@ void PdfVariant::SetNumber( long l )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 pdf_int64 PdfVariant::GetNumber() const
 {
@@ -633,9 +633,9 @@ pdf_int64 PdfVariant::GetNumber() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
-void PdfVariant::SetReal( double d ) 
+void PdfVariant::SetReal( double d )
 {
     DelayedLoad();
 
@@ -653,7 +653,7 @@ void PdfVariant::SetReal( double d )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 double PdfVariant::GetReal() const
 {
@@ -671,7 +671,7 @@ double PdfVariant::GetReal() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 const PdfData & PdfVariant::GetRawData() const
 {
@@ -696,7 +696,7 @@ PdfData & PdfVariant::GetRawData()
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 const PdfString & PdfVariant::GetString() const
 {
@@ -711,7 +711,7 @@ const PdfString & PdfVariant::GetString() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 const PdfName & PdfVariant::GetName() const
 {
@@ -726,7 +726,7 @@ const PdfName & PdfVariant::GetName() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 const PdfArray & PdfVariant::GetArray() const
 {
@@ -735,7 +735,7 @@ const PdfArray & PdfVariant::GetArray() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 const PdfArray & PdfVariant::GetArray_NoDL() const
 {
@@ -751,7 +751,7 @@ const PdfArray & PdfVariant::GetArray_NoDL() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 PdfArray & PdfVariant::GetArray()
 {
@@ -760,7 +760,7 @@ PdfArray & PdfVariant::GetArray()
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 PdfArray & PdfVariant::GetArray_NoDL()
 {
@@ -775,7 +775,7 @@ PdfArray & PdfVariant::GetArray_NoDL()
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 const PdfDictionary & PdfVariant::GetDictionary() const
 {
@@ -784,7 +784,7 @@ const PdfDictionary & PdfVariant::GetDictionary() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 const PdfDictionary & PdfVariant::GetDictionary_NoDL() const
 {
@@ -800,7 +800,7 @@ const PdfDictionary & PdfVariant::GetDictionary_NoDL() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 PdfDictionary & PdfVariant::GetDictionary()
 {
@@ -809,7 +809,7 @@ PdfDictionary & PdfVariant::GetDictionary()
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 PdfDictionary & PdfVariant::GetDictionary_NoDL()
 {
@@ -825,7 +825,7 @@ PdfDictionary & PdfVariant::GetDictionary_NoDL()
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 const PdfReference & PdfVariant::GetReference() const
 {
@@ -840,7 +840,7 @@ const PdfReference & PdfVariant::GetReference() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfVariant::DelayedLoadDone() const
 {
@@ -848,7 +848,7 @@ bool PdfVariant::DelayedLoadDone() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 void PdfVariant::EnableDelayedLoading()
 {
@@ -856,7 +856,7 @@ void PdfVariant::EnableDelayedLoading()
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 void PdfVariant::DelayedLoadImpl()
 {
@@ -866,7 +866,7 @@ void PdfVariant::DelayedLoadImpl()
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfVariant::operator!=( const PdfVariant & rhs) const
 {
@@ -874,7 +874,7 @@ bool PdfVariant::operator!=( const PdfVariant & rhs) const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfVariant::IsDirty() const
 {
@@ -884,7 +884,7 @@ bool PdfVariant::IsDirty() const
     if( m_bDirty )
         return m_bDirty;
 
-    switch( m_eDataType ) 
+    switch( m_eDataType )
     {
         case ePdfDataType_Array:
         case ePdfDataType_Dictionary:
@@ -908,16 +908,16 @@ bool PdfVariant::IsDirty() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
-void PdfVariant::SetDirty( bool bDirty ) 
+void PdfVariant::SetDirty( bool bDirty )
 {
     m_bDirty = bDirty;
 
-    if( !m_bDirty ) 
+    if( !m_bDirty )
     {
         // Propogate new dirty state to subclasses
-        switch( m_eDataType ) 
+        switch( m_eDataType )
         {
             case ePdfDataType_Array:
             case ePdfDataType_Dictionary:
@@ -937,26 +937,26 @@ void PdfVariant::SetDirty( bool bDirty )
             case ePdfDataType_Unknown:
             default:
                 break;
-        };    
+        };
     }
 }
 
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfVariant::SetImmutable(bool bImmutable)
 {
     m_bImmutable = bImmutable;
 
-    switch( m_eDataType ) 
+    switch( m_eDataType )
     {
         case ePdfDataType_Array:
         case ePdfDataType_Dictionary:
             // Arrays and Dictionaries
             // handle dirty status by themselfes
             m_Data.pData->SetImmutable( m_bImmutable );
-            
+
         case ePdfDataType_Bool:
         case ePdfDataType_Number:
         case ePdfDataType_Real:
@@ -969,23 +969,23 @@ inline void PdfVariant::SetImmutable(bool bImmutable)
         case ePdfDataType_Unknown:
         default:
             break;
-    };    
+    };
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
-inline bool PdfVariant::GetImmutable() const 
+inline bool PdfVariant::GetImmutable() const
 {
     return m_bImmutable;
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfVariant::AssertMutable() const
 {
-    if(m_bImmutable) 
+    if(m_bImmutable)
     {
         throw new PdfError( ePdfError_ChangeOnImmutable );
     }

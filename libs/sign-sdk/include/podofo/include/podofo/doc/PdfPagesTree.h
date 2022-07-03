@@ -43,7 +43,7 @@ enum EPdfPageInsertionPoint {
 
 /** Class for managing the tree of Pages in a PDF document
  *  Don't use this class directly. Use PdfDocument instead.
- *  
+ *
  *  \see PdfDocument
  */
 class PODOFO_DOC_API PdfPagesTree : public PdfElement
@@ -59,16 +59,16 @@ class PODOFO_DOC_API PdfPagesTree : public PdfElement
      *  \param pPagesRoot pointer to page tree dictionary
      */
     PdfPagesTree( PdfObject* pPagesRoot );
-    
+
     /** Close/down destruct a PdfPagesTree
      */
     virtual ~PdfPagesTree();
-    
+
     /** Return the number of pages in the entire tree
      *  \returns number of pages
      */
     int GetTotalNumberOfPages() const;
-    
+
     /** Return a PdfPage for the specified Page index
      *  The returned page is owned by the pages tree and
      *  deleted along with it.
@@ -87,18 +87,18 @@ class PODOFO_DOC_API PdfPagesTree : public PdfElement
      */
     PdfPage* GetPage( const PdfReference & ref );
 
-    /** Inserts an existing page object into the internal page tree. 
+    /** Inserts an existing page object into the internal page tree.
      *	after the specified page number
      *
      *  \param nAfterPageNumber an integer specifying after what page
      *         - may be one of the special values from EPdfPageInsertionPoint.
      *         Pages are 0 based.
-     *         
+     *
      *  \param pPage musst be a PdfObject with type /Page
      */
     void InsertPage( int nAfterPageNumber, PdfObject* pPage );
 
-    /** Inserts an existing page object into the internal page tree. 
+    /** Inserts an existing page object into the internal page tree.
      *	after the specified page number
      *
      *  \param nAfterPageNumber an integer specifying after what page
@@ -117,7 +117,7 @@ class PODOFO_DOC_API PdfPagesTree : public PdfElement
      *  \returns a pointer to a PdfPage object
      */
     PdfPage* CreatePage( const PdfRect & rSize );
-    
+
     /**  Delete the specified page object from the internal pages tree.
      *   It does NOT remove any PdfObjects from memory - just the reference from the tree
      *
@@ -136,7 +136,7 @@ class PODOFO_DOC_API PdfPagesTree : public PdfElement
      * when calling this method. All PdfPages will be deleted.
      *
      * You normally will never have to call this method.
-     * It is only useful if one modified the page nodes 
+     * It is only useful if one modified the page nodes
      * of the pagestree manually.
      *
      */
@@ -154,13 +154,13 @@ class PODOFO_DOC_API PdfPagesTree : public PdfElement
      * Test if a PdfObject is a page node
      * @return true if PdfObject is a page node
      */
-    bool IsTypePage( const PdfObject* pObject ) const; 
+    bool IsTypePage( const PdfObject* pObject ) const;
 
     /**
      * Test if a PdfObject is a pages node
      * @return true if PdfObject is a pages node
      */
-    bool IsTypePages( const PdfObject* pObject ) const; 
+    bool IsTypePages( const PdfObject* pObject ) const;
 
     /**
      * Find the position of pPageObj in the kids array of pPageParent
@@ -182,10 +182,10 @@ class PODOFO_DOC_API PdfPagesTree : public PdfElement
      * @param nIndex index where pPage is to be inserted in pNode's kids array
      * @param pPage the page object which is to be inserted
      */
-    void InsertPageIntoNode( PdfObject* pNode, const PdfObjectList & rlstParents, 
+    void InsertPageIntoNode( PdfObject* pNode, const PdfObjectList & rlstParents,
                              int nIndex, PdfObject* pPage );
 
-    
+
     /**
      * Delete a page object from a pages node
      *
@@ -195,9 +195,9 @@ class PODOFO_DOC_API PdfPagesTree : public PdfElement
      * @param nIndex index where pPage is to be deleted in pNode's kids array
      * @param pPage the page object which is to be deleted
      */
-    void DeletePageFromNode( PdfObject* pNode, const PdfObjectList & rlstParents, 
+    void DeletePageFromNode( PdfObject* pNode, const PdfObjectList & rlstParents,
                              int nIndex, PdfObject* pPage );
-    
+
     /**
      * Delete a single page node or page object from the kids array of pParent
      *
@@ -219,7 +219,7 @@ class PODOFO_DOC_API PdfPagesTree : public PdfElement
      *                        so that the PdfPage can later access inherited attributes
      */
     /*
-    PdfObject* GetPageNode( int nPageNum, PdfObject* pPagesObject, 
+    PdfObject* GetPageNode( int nPageNum, PdfObject* pPagesObject,
                             std::deque<PdfObject*> & rListOfParents );
     */
 
@@ -231,7 +231,7 @@ class PODOFO_DOC_API PdfPagesTree : public PdfElement
      *                        so that the PdfPage can later access inherited attributes
      */
     /*
-    PdfObject* GetPageNodeFromTree( int nPageNum, const PdfArray & kidsArray, 
+    PdfObject* GetPageNodeFromTree( int nPageNum, const PdfArray & kidsArray,
                                     std::deque<PdfObject*> & rListOfParents );
 
     */
@@ -245,9 +245,9 @@ private:
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
-inline void PdfPagesTree::ClearCache() 
+inline void PdfPagesTree::ClearCache()
 {
     m_cache.ClearCache();
 }
@@ -255,5 +255,3 @@ inline void PdfPagesTree::ClearCache()
 };
 
 #endif // _PDF_PAGES_TREE_H_
-
-

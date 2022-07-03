@@ -33,23 +33,23 @@ class PdfFontMetricsFreetype;
 class PdfFontCID : public PdfFont {
  public:
 
-    /** Create a new CID font. 
-     * 
+    /** Create a new CID font.
+     *
      *  \param pMetrics pointer to a font metrics object. The font in the PDF
-     *         file will match this fontmetrics object. The metrics object is 
+     *         file will match this fontmetrics object. The metrics object is
      *         deleted along with the font.
      *  \param pEncoding the encoding of this font. The font will not take ownership of this object.
      *  \param pParent parent of the font object
      *  \param bEmbed specifies the embedding of font
-     *  
+     *
      */
-    PdfFontCID( PdfFontMetrics* pMetrics, const PdfEncoding* const pEncoding, 
+    PdfFontCID( PdfFontMetrics* pMetrics, const PdfEncoding* const pEncoding,
                 PdfVecObjects* pParent, bool bEmbed = true );
 
     // Peter Petrov 30 April 2008
     /** Create a PdfFont based on an existing PdfObject
      *  \param pMetrics pointer to a font metrics object. The font in the PDF
-     *         file will match this fontmetrics object. The metrics object is 
+     *         file will match this fontmetrics object. The metrics object is
      *         deleted along with the font.
      *  \param pEncoding the encoding of this font. The font will not take ownership of this object.
      *  \param pObject an existing PdfObject
@@ -101,4 +101,3 @@ class PdfFontCID : public PdfFont {
 };
 
 #endif // _PDF_FONT_CID_H_
-

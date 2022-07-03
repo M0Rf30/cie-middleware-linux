@@ -33,7 +33,7 @@ namespace PoDoFo {
 class PdfDictionary;
 class PdfFont;
 
-/** 
+/**
  * A PdfEncoding is in PdfFont to transform a text string
  * into a representation so that it can be displayed in a
  * PDF file.
@@ -43,12 +43,12 @@ class PdfFont;
  */
 class PODOFO_API PdfEncoding {
  protected:
-    /** 
+    /**
      *  Create a new PdfEncoding.
      *
-     *  \param nFirstChar the first supported character code 
+     *  \param nFirstChar the first supported character code
      *                    (either a byte value in the current encoding or a unicode value)
-     *  \param nLastChar the last supported character code, must be larger than nFirstChar 
+     *  \param nLastChar the last supported character code, must be larger than nFirstChar
 -     *                    (either a byte value in the current encoding or a unicode value)
      *
      */
@@ -64,12 +64,12 @@ class PODOFO_API PdfEncoding {
  public:
 #if defined(_MSC_VER)  &&  _MSC_VER <= 1200			// ab Visualstudio 6
     class PODOFO_API const_iterator : public std::iterator<
-                                             std::forward_iterator_tag, 
+                                             std::forward_iterator_tag,
 						 int, ptrdiff_t> {
 #else
     class PODOFO_API const_iterator : public std::iterator<
-                                             std::forward_iterator_tag, 
-						 int, std::ptrdiff_t, 
+                                             std::forward_iterator_tag,
+						 int, std::ptrdiff_t,
 						 const int *, const int &> {
 #endif
     public:
@@ -78,12 +78,12 @@ class PODOFO_API PdfEncoding {
 	{
 	}
 
-	const_iterator( const const_iterator & rhs ) 
+	const_iterator( const const_iterator & rhs )
 	{
 	    this->operator=(rhs);
 	}
 
-	const const_iterator & operator=( const const_iterator & rhs ) 
+	const const_iterator & operator=( const const_iterator & rhs )
 	{
 	    m_nCur      = rhs.m_nCur;
 	    m_pEncoding = rhs.m_pEncoding;
@@ -101,11 +101,11 @@ class PODOFO_API PdfEncoding {
 	    return (m_nCur != rhs.m_nCur);
 	}
 
-	inline pdf_utf16be operator*() const 
+	inline pdf_utf16be operator*() const
 	{
 	    return m_pEncoding->GetCharCode( m_nCur );
 	}
-	
+
 	inline const_iterator & operator++()
 	{
 	    m_nCur++;
@@ -146,7 +146,7 @@ class PODOFO_API PdfEncoding {
     /** Convert a string that is encoded with this encoding
      *  to an unicode PdfString.
      *
-     *  \param rEncodedString a string encoded by this encoding. 
+     *  \param rEncodedString a string encoded by this encoding.
      *         Usually this string was read from a content stream.
      *  \param pFont the font for which this string is converted
      *
@@ -164,23 +164,23 @@ class PODOFO_API PdfEncoding {
      */
     virtual PdfRefCountedBuffer ConvertToEncoding( const PdfString & rString, const PdfFont* pFont ) const = 0;
 
-    /** 
+    /**
      * \returns true if this encoding should be deleted automatically with the
      *          font.
      */
     virtual bool IsAutoDelete() const = 0;
 
-    /** 
+    /**
      *  \returns true if this is a single byte encoding with a maximum of 256 values.
      */
     virtual bool IsSingleByteEncoding() const = 0;
 
-    /** 
+    /**
      * \returns the first character code that is defined for this encoding
      */
     inline int GetFirstChar() const;
 
-    /** 
+    /**
      * \returns the last character code that is defined for this encoding
      */
     inline int GetLastChar() const;
@@ -204,9 +204,9 @@ class PODOFO_API PdfEncoding {
      *  GetFirstChar() and GetLastChar()
      *
      *  \param nIndex character code at position index
-     *  \returns unicode character code 
-     * 
-     *  \see GetFirstChar 
+     *  \returns unicode character code
+     *
+     *  \see GetFirstChar
      *  \see GetLastChar
      *
      *  Will throw an exception if nIndex is out of range.
@@ -219,7 +219,7 @@ class PODOFO_API PdfEncoding {
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline bool PdfEncoding::operator<( const PdfEncoding & rhs ) const
 {
@@ -227,7 +227,7 @@ inline bool PdfEncoding::operator<( const PdfEncoding & rhs ) const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline bool PdfEncoding::operator==( const PdfEncoding & rhs ) const
 {
@@ -235,7 +235,7 @@ inline bool PdfEncoding::operator==( const PdfEncoding & rhs ) const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline int PdfEncoding::GetFirstChar() const
 {
@@ -243,7 +243,7 @@ inline int PdfEncoding::GetFirstChar() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline int PdfEncoding::GetLastChar() const
 {
@@ -251,7 +251,7 @@ inline int PdfEncoding::GetLastChar() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline PdfEncoding::const_iterator PdfEncoding::begin() const
 {
@@ -259,7 +259,7 @@ inline PdfEncoding::const_iterator PdfEncoding::begin() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline PdfEncoding::const_iterator PdfEncoding::end() const
 {
@@ -270,7 +270,7 @@ inline PdfEncoding::const_iterator PdfEncoding::end() const
  * A common base class for standard PdfEncoding which are
  * known by name.
  *
- *  - PdfDocEncoding (only use this for strings which are not printed 
+ *  - PdfDocEncoding (only use this for strings which are not printed
  *                    in the document. This is for meta data in the PDF).
  *  - MacRomanEncoding
  *  - WinAnsiEncoding
@@ -330,7 +330,7 @@ class PODOFO_API PdfSimpleEncoding : public PdfEncoding {
     /** Convert a string that is encoded with this encoding
      *  to an unicode PdfString.
      *
-     *  \param rEncodedString a string encoded by this encoding. 
+     *  \param rEncodedString a string encoded by this encoding.
      *         Usually this string was read from a content stream.
      *  \param pFont the font for which this string is converted
      *
@@ -348,7 +348,7 @@ class PODOFO_API PdfSimpleEncoding : public PdfEncoding {
      */
     virtual PdfRefCountedBuffer ConvertToEncoding( const PdfString & rString, const PdfFont* pFont ) const;
 
-    /** 
+    /**
      * PdfSimpleEncoding subclasses are usuylla not auto-deleted, as
      * they are allocated statically only once.
      *
@@ -360,13 +360,13 @@ class PODOFO_API PdfSimpleEncoding : public PdfEncoding {
      */
     virtual bool IsAutoDelete() const;
 
-    /** 
+    /**
      *  \returns true if this is a single byte encoding with a maximum of 256 values.
      */
     inline virtual bool IsSingleByteEncoding() const;
 
     /** Get the name of this encoding.
-     *  
+     *
      *  \returns the name of this encoding.
      */
     inline const PdfName & GetName() const;
@@ -376,9 +376,9 @@ class PODOFO_API PdfSimpleEncoding : public PdfEncoding {
      *  GetFirstChar() and GetLastChar()
      *
      *  \param nIndex character code at position index
-     *  \returns unicode character code 
-     * 
-     *  \see GetFirstChar 
+     *  \returns unicode character code
+     *
+     *  \see GetFirstChar
      *  \see GetLastChar
      *
      *  Will throw an exception if nIndex is out of range.
@@ -400,7 +400,7 @@ class PODOFO_API PdfSimpleEncoding : public PdfEncoding {
      */
     inline virtual const PdfName & GetID() const;
 
-    /** Gets a table of 256 short values which are the 
+    /** Gets a table of 256 short values which are the
      *  big endian unicode code points that are assigned
      *  to the 256 values of this encoding.
      *
@@ -413,14 +413,14 @@ class PODOFO_API PdfSimpleEncoding : public PdfEncoding {
 
  protected:
     Util::PdfMutex * m_mutex;   ///< Mutex for the creation of the encoding table
-    
+
  private:
     PdfName m_name;           ///< The name of the encoding
     char*   m_pEncodingTable; ///< The helper table for conversions into this encoding
-}; 
+};
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline const PdfName & PdfSimpleEncoding::GetID() const
 {
@@ -428,7 +428,7 @@ inline const PdfName & PdfSimpleEncoding::GetID() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline bool PdfSimpleEncoding::IsAutoDelete() const
 {
@@ -436,7 +436,7 @@ inline bool PdfSimpleEncoding::IsAutoDelete() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline bool PdfSimpleEncoding::IsSingleByteEncoding() const
 {
@@ -444,14 +444,14 @@ inline bool PdfSimpleEncoding::IsSingleByteEncoding() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline const PdfName & PdfSimpleEncoding::GetName() const
 {
     return m_name;
 }
 
-/** 
+/**
  * The PdfDocEncoding is the default encoding for
  * all strings in PoDoFo which are data in the PDF
  * file.
@@ -463,7 +463,7 @@ inline const PdfName & PdfSimpleEncoding::GetName() const
  */
 class PODOFO_API PdfDocEncoding : public PdfSimpleEncoding {
  public:
-   
+
     /** Create a new PdfDocEncoding
      */
     PdfDocEncoding()
@@ -474,7 +474,7 @@ class PODOFO_API PdfDocEncoding : public PdfSimpleEncoding {
 
  protected:
 
-    /** Gets a table of 256 short values which are the 
+    /** Gets a table of 256 short values which are the
      *  big endian unicode code points that are assigned
      *  to the 256 values of this encoding.
      *
@@ -490,8 +490,8 @@ class PODOFO_API PdfDocEncoding : public PdfSimpleEncoding {
 
 };
 
-/** 
- * The WinAnsi Encoding is the default encoding in PoDoFo for 
+/**
+ * The WinAnsi Encoding is the default encoding in PoDoFo for
  * contents on PDF pages.
  *
  * It is also called CP-1252 encoding.
@@ -503,7 +503,7 @@ class PODOFO_API PdfDocEncoding : public PdfSimpleEncoding {
  */
 class PODOFO_API PdfWinAnsiEncoding : public PdfSimpleEncoding {
  public:
-   
+
     /** Create a new PdfWinAnsiEncoding
      */
     PdfWinAnsiEncoding()
@@ -514,7 +514,7 @@ class PODOFO_API PdfWinAnsiEncoding : public PdfSimpleEncoding {
 
  protected:
 
-    /** Gets a table of 256 short values which are the 
+    /** Gets a table of 256 short values which are the
      *  big endian unicode code points that are assigned
      *  to the 256 values of this encoding.
      *
@@ -530,7 +530,7 @@ class PODOFO_API PdfWinAnsiEncoding : public PdfSimpleEncoding {
 
 };
 
-/** 
+/**
  * Do not allocate this class yourself, as allocations
  * might be expensive. Try using PdfFont::MacRomanEncoding.
  *
@@ -538,7 +538,7 @@ class PODOFO_API PdfWinAnsiEncoding : public PdfSimpleEncoding {
  */
 class PODOFO_API PdfMacRomanEncoding : public PdfSimpleEncoding {
  public:
-   
+
     /** Create a new PdfMacRomanEncoding
      */
     PdfMacRomanEncoding()
@@ -549,7 +549,7 @@ class PODOFO_API PdfMacRomanEncoding : public PdfSimpleEncoding {
 
  protected:
 
-    /** Gets a table of 256 short values which are the 
+    /** Gets a table of 256 short values which are the
      *  big endian unicode code points that are assigned
      *  to the 256 values of this encoding.
      *
@@ -565,11 +565,11 @@ class PODOFO_API PdfMacRomanEncoding : public PdfSimpleEncoding {
 
 };
 
-/** 
+/**
  */
 class PODOFO_API PdfMacExpertEncoding : public PdfSimpleEncoding {
  public:
-   
+
     /** Create a new PdfMacExpertEncoding
      */
     inline PdfMacExpertEncoding()
@@ -580,7 +580,7 @@ class PODOFO_API PdfMacExpertEncoding : public PdfSimpleEncoding {
 
  protected:
 
-    /** Gets a table of 256 short values which are the 
+    /** Gets a table of 256 short values which are the
      *  big endian unicode code points that are assigned
      *  to the 256 values of this encoding.
      *
@@ -597,7 +597,7 @@ class PODOFO_API PdfMacExpertEncoding : public PdfSimpleEncoding {
 };
 
 // OC 13.08.2010 Neu: StandardEncoding
-/** 
+/**
  * Do not allocate this class yourself, as allocations
  * might be expensive. Try using PdfFont::StandardEncoding.
  *
@@ -605,7 +605,7 @@ class PODOFO_API PdfMacExpertEncoding : public PdfSimpleEncoding {
  */
 class PODOFO_API PdfStandardEncoding : public PdfSimpleEncoding {
  public:
-   
+
     /** Create a new PdfStandardEncoding
      */
     PdfStandardEncoding()
@@ -616,7 +616,7 @@ class PODOFO_API PdfStandardEncoding : public PdfSimpleEncoding {
 
  protected:
 
-    /** Gets a table of 256 short values which are the 
+    /** Gets a table of 256 short values which are the
      *  big endian unicode code points that are assigned
      *  to the 256 values of this encoding.
      *
@@ -633,7 +633,7 @@ class PODOFO_API PdfStandardEncoding : public PdfSimpleEncoding {
 };
 
 // OC 13.08.2010 Neu: SymbolEncoding
-/** 
+/**
  * Do not allocate this class yourself, as allocations
  * might be expensive. Try using PdfFont::SymbolEncoding.
  *
@@ -641,7 +641,7 @@ class PODOFO_API PdfStandardEncoding : public PdfSimpleEncoding {
  */
 class PODOFO_API PdfSymbolEncoding : public PdfSimpleEncoding {
  public:
-   
+
     /** Create a new PdfSymbolEncoding
      */
     PdfSymbolEncoding()
@@ -652,7 +652,7 @@ class PODOFO_API PdfSymbolEncoding : public PdfSimpleEncoding {
 
  protected:
 
-    /** Gets a table of 256 short values which are the 
+    /** Gets a table of 256 short values which are the
      *  big endian unicode code points that are assigned
      *  to the 256 values of this encoding.
      *
@@ -669,7 +669,7 @@ class PODOFO_API PdfSymbolEncoding : public PdfSimpleEncoding {
 };
 
 // OC 13.08.2010 Neu: ZapfDingbatsEncoding
-/** 
+/**
  * Do not allocate this class yourself, as allocations
  * might be expensive. Try using PdfFont::ZapfDingbats.
  *
@@ -677,7 +677,7 @@ class PODOFO_API PdfSymbolEncoding : public PdfSimpleEncoding {
  */
 class PODOFO_API PdfZapfDingbatsEncoding : public PdfSimpleEncoding {
  public:
-   
+
     /** Create a new PdfZapfDingbatsEncoding
      */
     PdfZapfDingbatsEncoding()
@@ -688,7 +688,7 @@ class PODOFO_API PdfZapfDingbatsEncoding : public PdfSimpleEncoding {
 
  protected:
 
-    /** Gets a table of 256 short values which are the 
+    /** Gets a table of 256 short values which are the
      *  big endian unicode code points that are assigned
      *  to the 256 values of this encoding.
      *
@@ -708,4 +708,3 @@ class PODOFO_API PdfZapfDingbatsEncoding : public PdfSimpleEncoding {
 
 
 #endif // _PDF_ENCODING_H_
-

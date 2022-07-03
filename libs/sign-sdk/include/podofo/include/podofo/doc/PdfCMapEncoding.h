@@ -56,7 +56,7 @@ public:
     PdfCMapEncoding(PdfObject* pObject, PdfObject* pToUnicode = NULL);
     virtual PdfString ConvertToUnicode(const PdfString& rEncodedString, const PdfFont* pFont) const;
     virtual void AddToDictionary(PdfDictionary & rDictionary ) const;
-    virtual PdfRefCountedBuffer ConvertToEncoding(const PdfString& rString, const PdfFont* pFont) const; 
+    virtual PdfRefCountedBuffer ConvertToEncoding(const PdfString& rString, const PdfFont* pFont) const;
     virtual bool IsAutoDelete() const;
     virtual bool IsSingleByteEncoding() const;
     virtual pdf_utf16be GetCharCode(int nIndex) const;
@@ -70,8 +70,4 @@ private:
 
 }; /*PoDoFo namespace end*/
 
-#endif // _PDF_CMAP_ENCODING_H 
-
-
-
-
+#endif // _PDF_CMAP_ENCODING_H

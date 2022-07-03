@@ -65,15 +65,15 @@ typedef TVecObjects::const_iterator  TCIVecObjects;
 
 
 /** A STL vector of PdfObjects. I.e. a list of PdfObject classes.
- *  The PdfParser will read the PdfFile into memory and create 
+ *  The PdfParser will read the PdfFile into memory and create
  *  a PdfVecObjects of all dictionaries found in the PDF file.
- * 
+ *
  *  The PdfWriter class contrary creates a PdfVecObjects internally
- *  and writes it to a PDF file later with an appropriate table of 
+ *  and writes it to a PDF file later with an appropriate table of
  *  contents.
  *
  *  These class contains also advanced funtions for searching of PdfObject's
- *  in a PdfVecObject. 
+ *  in a PdfVecObject.
  */
 class PODOFO_API PdfVecObjects {
     friend class PdfWriter;
@@ -96,15 +96,15 @@ class PODOFO_API PdfVecObjects {
             }
 
         virtual void WriteObject( const PdfObject* pObject ) = 0;
-            
+
         /**
-         * This method is called when the observed PdfVecObjects is delted. 
+         * This method is called when the observed PdfVecObjects is delted.
          *
          * No more method may be called on the observable
          * after this method was called on the observer.
          */
         virtual void ParentDestructed() = 0;
-        
+
         /** Called whenever appending to a stream is started.
          *  \param pStream the stream object the user currently writes to.
          */
@@ -125,12 +125,12 @@ class PODOFO_API PdfVecObjects {
         virtual ~StreamFactory()
             {
             }
-        
+
         /** Creates a stream object
          *
          *  \param pParent parent object
          *
-         *  \returns a new stream object 
+         *  \returns a new stream object
          */
         virtual PdfStream* CreateStream( PdfObject* pParent ) = 0;
     };
@@ -141,13 +141,13 @@ class PODOFO_API PdfVecObjects {
     typedef TVecObservers::const_iterator TCIVecObservers;
 
  public:
-    /** Default constuctor 
+    /** Default constuctor
      */
     PdfVecObjects();
 
     virtual ~PdfVecObjects();
 
-    /** \returns a pointer to a PdfDocument that is the 
+    /** \returns a pointer to a PdfDocument that is the
      *           parent of this vector.
      *           Might be NULL if the vector has no parent.
      */
@@ -161,13 +161,13 @@ class PODOFO_API PdfVecObjects {
     /** Enable/disable auto deletion.
      *  By default auto deletion is disabled.
      *
-     *  \param bAutoDelete if true all objects will be deleted when the PdfVecObjects is 
+     *  \param bAutoDelete if true all objects will be deleted when the PdfVecObjects is
      *         deleted.
      */
     inline void SetAutoDelete( bool bAutoDelete );
 
-    /** 
-     *  \returns if autodeletion is enabled and all objects will be deleted when the PdfVecObjects is 
+    /**
+     *  \returns if autodeletion is enabled and all objects will be deleted when the PdfVecObjects is
      *           deleted.
      */
     inline bool AutoDelete() const;
@@ -183,24 +183,24 @@ class PODOFO_API PdfVecObjects {
      */
     void Clear();
 
-    /** 
+    /**
      *  \returns the size of the internal vector
      */
     inline size_t GetSize() const;
 
     /**
-     *  \returns the highest object number in the vector 
+     *  \returns the highest object number in the vector
      */
     size_t GetObjectCount() const { return m_nObjectCount; }
 
-    /** Finds the object with the given reference in m_vecOffsets 
+    /** Finds the object with the given reference in m_vecOffsets
      *  and returns a pointer to it if it is found.
      *  \param ref the object to be found
      *  \returns the found object or NULL if no object was found.
      */
     PdfObject* GetObject( const PdfReference & ref ) const;
 
-    /** Finds the object with the given reference in m_vecOffsets 
+    /** Finds the object with the given reference in m_vecOffsets
      *  and returns the index to it.
      *  \param ref the object to be found
      *  \returns the found object or NULL if no object was found.
@@ -251,7 +251,7 @@ class PODOFO_API PdfVecObjects {
      */
     inline const TPdfReferenceList & GetFreeObjects() const;
 
-    /** 
+    /**
      *  Renumbers all objects according to there current position in the vector.
      *  All references remain intact.
      *  Warning! This function is _very_ calculation intensive.
@@ -266,32 +266,32 @@ class PODOFO_API PdfVecObjects {
     void RenumberObjects( PdfObject* pTrailer, TPdfReferenceSet* pNotDelete = NULL, bool bDoGarbageCollection = false );
 
     /** Insert a object into this vector.
-     *  Overwritten from std::vector so that 
+     *  Overwritten from std::vector so that
      *  m_bObjectCount can be increased for each object.
-     * 
+     *
      *  \param pObj pointer to the object you want to insert
      */
     void push_back( PdfObject* pObj );
 
     /** Insert an object into this vector so that
-     *  the vector remains sorted w.r.t. 
+     *  the vector remains sorted w.r.t.
      *  the ordering based on object and generation numbers
      *  m_bObjectCount will be increased for the object.
-     * 
+     *
      *  Note: Assumes the vector is sorted, otherwise
      *  equivalent to push_back
-     * 
+     *
      *  \param pObj pointer to the object you want to insert
      */
     void insert_sorted( PdfObject *pObj );
-    
 
-    /** 
+
+    /**
      * Sort the objects in the vector based on their object and generation numbers
      */
     void Sort();
 
-    /** 
+    /**
      * Causes the internal vector to reserve space for size elements.
      * \param size reserve space for that much elements in the internal vector
      */
@@ -301,7 +301,7 @@ class PODOFO_API PdfVecObjects {
      *  depends on.
      *  \param pObj the object to calculate all dependencies for
      *  \param pList write the list of dependencies to this list
-     *     
+     *
      */
     void GetObjectDependencies( const PdfObject* pObj, TPdfReferenceList* pList ) const;
 
@@ -310,7 +310,7 @@ class PODOFO_API PdfVecObjects {
      *  \param pObserver to attach
      */
     inline void Attach( Observer* pObserver );
-    
+
     /** Detach an observer.
      *
      *  \param pObserver observer to detach
@@ -318,7 +318,7 @@ class PODOFO_API PdfVecObjects {
     void Detach( Observer* pObserver );
 
     /** Sets a StreamFactory which is used whenever CreateStream is called.
-     *  
+     *
      *  \param pFactory a stream factory or NULL to reset to the default factory
      */
     inline void SetStreamFactory( StreamFactory* pFactory );
@@ -328,7 +328,7 @@ class PODOFO_API PdfVecObjects {
      *
      *  \param pParent parent object
      *
-     *  \returns a new stream object 
+     *  \returns a new stream object
      */
     PdfStream* CreateStream( PdfObject* pParent );
 
@@ -336,12 +336,12 @@ class PODOFO_API PdfVecObjects {
      *
      *  \param rhs copy this stream
      *
-     *  \returns a new stream object 
+     *  \returns a new stream object
      */
     PdfStream* CreateStream( const PdfStream & rhs );
 
     /** Can be called to force objects to be written to disk.
-     * 
+     *
      *  \param pObject a PdfObject that should be written to disk.
      */
     void WriteObject( PdfObject* pObject );
@@ -354,7 +354,7 @@ class PODOFO_API PdfVecObjects {
      *  \param pStream the stream object that is calling
      */
     void BeginAppendStream( const PdfStream* pStream );
-    
+
     /** Every stream implementation has to call this in EndAppend
      *  \param pStream the stream object that is calling
      */
@@ -383,14 +383,14 @@ class PODOFO_API PdfVecObjects {
     inline PdfObject*& operator[](size_t index);
 
     /** Get the last object in the vector
-     *  \returns the last object in the vector or NULL 
+     *  \returns the last object in the vector or NULL
      *           if the vector is emtpy.
      */
     inline PdfObject* GetBack();
 
     /**
      * Deletes all objects that are not references by other objects
-     * besides the trailer (which references the root dictionary, which in 
+     * besides the trailer (which references the root dictionary, which in
      * turn should reference all other objects).
      *
      * \param pTrailer trailer object of the PDF
@@ -406,13 +406,13 @@ class PODOFO_API PdfVecObjects {
 	std::string GetNextSubsetPrefix();
 
 
- private:    
-    /** 
+ private:
+    /**
      * \returns the next free object reference
      */
     PdfReference GetNextFreeObject();
 
-    /** 
+    /**
      * Create a list of all references that point to the object
      * for each object in this vector.
      * \param pList write all references to this list
@@ -459,7 +459,7 @@ class PODOFO_API PdfVecObjects {
 
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline size_t PdfVecObjects::GetSize() const
 {
@@ -467,7 +467,7 @@ inline size_t PdfVecObjects::GetSize() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfVecObjects::Reserve( size_t size )
 {
@@ -475,7 +475,7 @@ inline void PdfVecObjects::Reserve( size_t size )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline PdfDocument* PdfVecObjects::GetParentDocument() const
 {
@@ -483,7 +483,7 @@ inline PdfDocument* PdfVecObjects::GetParentDocument() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfVecObjects::SetParentDocument( PdfDocument* pDocument )
 {
@@ -491,15 +491,15 @@ inline void PdfVecObjects::SetParentDocument( PdfDocument* pDocument )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
-inline void PdfVecObjects::SetAutoDelete( bool bAutoDelete ) 
+inline void PdfVecObjects::SetAutoDelete( bool bAutoDelete )
 {
     m_bAutoDelete = bAutoDelete;
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline bool PdfVecObjects::AutoDelete() const
 {
@@ -507,7 +507,7 @@ inline bool PdfVecObjects::AutoDelete() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline const TPdfReferenceList & PdfVecObjects::GetFreeObjects() const
 {
@@ -515,7 +515,7 @@ inline const TPdfReferenceList & PdfVecObjects::GetFreeObjects() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfVecObjects::Attach( Observer* pObserver )
 {
@@ -523,7 +523,7 @@ inline void PdfVecObjects::Attach( Observer* pObserver )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfVecObjects::SetStreamFactory( StreamFactory* pFactory )
 {
@@ -531,7 +531,7 @@ inline void PdfVecObjects::SetStreamFactory( StreamFactory* pFactory )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline TIVecObjects PdfVecObjects::begin()
 {
@@ -539,7 +539,7 @@ inline TIVecObjects PdfVecObjects::begin()
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline TCIVecObjects PdfVecObjects::begin() const
 {
@@ -547,7 +547,7 @@ inline TCIVecObjects PdfVecObjects::begin() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline TIVecObjects PdfVecObjects::end()
 {
@@ -555,7 +555,7 @@ inline TIVecObjects PdfVecObjects::end()
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline TCIVecObjects PdfVecObjects::end() const
 {
@@ -563,17 +563,17 @@ inline TCIVecObjects PdfVecObjects::end() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
-inline PdfObject* PdfVecObjects::GetBack() 
-{ 
-    return m_vector.back(); 
+inline PdfObject* PdfVecObjects::GetBack()
+{
+    return m_vector.back();
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
-inline void PdfVecObjects::SetObjectCount( const PdfReference & rRef ) 
+inline void PdfVecObjects::SetObjectCount( const PdfReference & rRef )
 {
     if( rRef.ObjectNumber() >= m_nObjectCount )
     // Peter Petrov 18 September 2008
@@ -589,7 +589,7 @@ inline void PdfVecObjects::SetObjectCount( const PdfReference & rRef )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline PdfObject*& PdfVecObjects::operator[](size_t index) { return m_vector[index]; }
 

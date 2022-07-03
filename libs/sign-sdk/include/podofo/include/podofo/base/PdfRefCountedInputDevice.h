@@ -27,7 +27,7 @@ namespace PoDoFo {
 
 class PdfInputDevice;
 
-/** 
+/**
  * A reference counted input device object
  * which is closed as soon as the last
  * object having access to it is deleted.
@@ -39,7 +39,7 @@ class PODOFO_API PdfRefCountedInputDevice {
      */
     PdfRefCountedInputDevice();
 
-    /** Create a new PdfRefCountedInputDevice which reads from a file. 
+    /** Create a new PdfRefCountedInputDevice which reads from a file.
      *  The file is opened using fopen()
      *  \param pszFilename a filename to be passed to fopen
      *  \param pszMode a mode string that can be passed to fopen
@@ -50,7 +50,7 @@ class PODOFO_API PdfRefCountedInputDevice {
 #ifdef _WIN32
 #if defined(_MSC_VER)  &&  _MSC_VER <= 1200			// nicht für Visualstudio 6
 #else
-    /** Create a new PdfRefCountedInputDevice which reads from a file. 
+    /** Create a new PdfRefCountedInputDevice which reads from a file.
      *  The file is opened using fopen()
      *  \param pszFilename a filename to be passed to fopen
      *  \param pszMode a mode string that can be passed to fopen
@@ -65,14 +65,14 @@ class PODOFO_API PdfRefCountedInputDevice {
 #endif // _WIN32
 
     /** Create a new PdfRefCountedInputDevice which operates on a in memory buffer
-     *  
+     *
      *  \param pBuffer pointer to the buffer
      *  \param lLen length of the buffer
      */
     PdfRefCountedInputDevice( const char* pBuffer, size_t lLen );
 
     /** Create a new PdfRefCountedInputDevice from an PdfInputDevice
-     *  
+     *
      *  \param pDevice the input device. It will be owned and deleted by this object.
      */
     PdfRefCountedInputDevice( PdfInputDevice* pDevice );
@@ -115,7 +115,7 @@ class PODOFO_API PdfRefCountedInputDevice {
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline PdfInputDevice* PdfRefCountedInputDevice::Device() const
 {
@@ -125,5 +125,3 @@ inline PdfInputDevice* PdfRefCountedInputDevice::Device() const
 };
 
 #endif // _PDF_REF_COUNTED_INPUT_DEVICE_H_
-
-

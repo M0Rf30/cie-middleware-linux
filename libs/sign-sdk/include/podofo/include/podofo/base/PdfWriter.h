@@ -85,12 +85,12 @@ class PODOFO_API PdfWriter {
 
     /** Writes the complete document to a PdfOutputDevice
      *
-     *  \param pDevice write to the specified device 
+     *  \param pDevice write to the specified device
      */
     void Write( PdfOutputDevice* pDevice );
-	
+
 	void WriteIncrementalUpdates( PdfOutputDevice* pDevice, long xrefOffset );
-	
+
 
     /** Set the write mode to use when writing the PDF.
      *  \param eWriteMode write mode
@@ -131,7 +131,7 @@ class PODOFO_API PdfWriter {
      */
     inline void SetUseXRefStream( bool bStream );
 
-    /** 
+    /**
      *  \returns wether a XRef stream is used or not
      */
     inline bool GetUseXRefStream() const;
@@ -140,14 +140,14 @@ class PODOFO_API PdfWriter {
      *  \returns the file format version as string
      */
     const char* GetPdfVersionString() const { return s_szPdfVersionNums[static_cast<int>(m_eVersion)]; }
-    
+
     /** Set the written document to be encrypted using a PdfEncrypt object
      *
      *  \param rEncrypt an encryption object which is used to encrypt the written PDF file
      */
     void SetEncrypted( const PdfEncrypt & rEncrypt );
 
-    /** 
+    /**
      * \returns true if this PdfWriter creates an encrypted PDF file
      */
     bool GetEncrypted() const { return (m_pEncrypt != NULL); }
@@ -157,21 +157,21 @@ class PODOFO_API PdfWriter {
      *
      *  This function is very calculation intensive!
      *
-     *  \param pObject object to calculate the byte offset (has to be a 
+     *  \param pObject object to calculate the byte offset (has to be a
      *                 child of this PdfWriter)
      *  \param pulOffset pointer to an unsigned long to save the offset
      */
     void GetByteOffset( PdfObject* pObject, pdf_long* pulOffset );
 
     /** Write the whole document to a buffer in memory.
-     *  
+     *
      *  Better use a PdfOutputDevice that writes to a PdfRefCountedBuffer.
      *
-     *  \param ppBuffer will be malloc'ed and the document 
+     *  \param ppBuffer will be malloc'ed and the document
      *         will be written to this buffer.
      *  \param pulLen the length of the buffer will be returned in this parameter
      *  \returns ErrOk on success
-     *  
+     *
      *  \see Write
      */
     void WriteToBuffer( char** ppBuffer, pdf_long* pulLen );
@@ -192,18 +192,18 @@ class PODOFO_API PdfWriter {
 
     /** Writes the pdf header to the current file.
      *  \param pDevice write to this output device
-     */       
+     */
     void PODOFO_LOCAL WritePdfHeader( PdfOutputDevice* pDevice );
 
     /** Write pdf objects to file
      *  \param pDevice write to this output device
      *  \param vecObjects write all objects in this vector to the file
      *  \param pXref add all written objects to this XRefTable
-     */ 
+     */
     void WritePdfObjects( PdfOutputDevice* pDevice, const PdfVecObjects& vecObjects, PdfXRef* pXref ) PODOFO_LOCAL;
 
     /** Creates a file identifier which is required in several
-     *  PDF workflows. 
+     *  PDF workflows.
      *  All values from the files document information dictionary are
      *  used to create a unique MD5 key which is added to the trailer dictionary.
      *
@@ -215,7 +215,7 @@ class PODOFO_API PdfWriter {
  private:
     /** Writes a linearized PDF file
      *  \param pDevice write to this output device
-     */       
+     */
     void PODOFO_LOCAL WriteLinearized( PdfOutputDevice* pDevice );
 
     /** Create a linearization dictionary for the current
@@ -271,7 +271,7 @@ class PODOFO_API PdfWriter {
     EPdfVersion     m_eVersion;
 
     bool            m_bLinearized;
- 
+
     /**
      * This value is required when writing
      * a linearized PDF file.
@@ -287,7 +287,7 @@ class PODOFO_API PdfWriter {
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 void PdfWriter::SetLinearized( bool bLinearize )
 {
@@ -295,7 +295,7 @@ void PdfWriter::SetLinearized( bool bLinearize )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfWriter::GetLinearized() const
 {
@@ -303,7 +303,7 @@ bool PdfWriter::GetLinearized() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 void PdfWriter::SetUseXRefStream( bool bStream )
 {
@@ -313,7 +313,7 @@ void PdfWriter::SetUseXRefStream( bool bStream )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfWriter::GetUseXRefStream() const
 {

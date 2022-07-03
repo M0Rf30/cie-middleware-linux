@@ -30,7 +30,7 @@ namespace PoDoFo {
 class PdfOutputDevice;
 
 /** A datatype that allows to write abitrary data
- *  to a PDF file. 
+ *  to a PDF file.
  *  The user of this class has to ensure that the data
  *  written to the PDF file using this class is valid data
  *  for a PDF file!
@@ -49,7 +49,7 @@ class PODOFO_API PdfData : public PdfDataType {
      * \param pszData a null-terminated string to be copied.
      */
     PdfData( const char* pszData )
-        : PdfDataType(), m_sData( pszData ) 
+        : PdfDataType(), m_sData( pszData )
         {
         }
 
@@ -60,11 +60,11 @@ class PODOFO_API PdfData : public PdfDataType {
      * \param dataSize size of buffer
      */
     PdfData( const char* pszData, size_t dataSize )
-        : PdfDataType(), m_sData( pszData, dataSize ) 
+        : PdfDataType(), m_sData( pszData, dataSize )
         {
         }
 
-    /** Copy an existing PdfData 
+    /** Copy an existing PdfData
      *  \param rhs another PdfData to copy
      */
     PdfData( const PdfData & rhs )
@@ -84,7 +84,7 @@ class PODOFO_API PdfData : public PdfDataType {
      */
     void Write( PdfOutputDevice* pDevice, EPdfWriteMode eWriteMode, const PdfEncrypt* pEncrypt = NULL ) const;
 
-    /** Copy an existing PdfData 
+    /** Copy an existing PdfData
      *  \param rhs another PdfData to copy
      *  \returns this object
      */
@@ -101,7 +101,7 @@ class PODOFO_API PdfData : public PdfDataType {
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 const PdfData & PdfData::operator=( const PdfData & rhs )
 {
@@ -110,7 +110,7 @@ const PdfData & PdfData::operator=( const PdfData & rhs )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 const std::string & PdfData::data() const {
     return m_sData;
@@ -120,4 +120,3 @@ const std::string & PdfData::data() const {
 }; // namespace PoDoFo
 
 #endif /* _PDF_DATATYPE_H_ */
-

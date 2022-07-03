@@ -42,7 +42,7 @@ typedef std::map<PdfReference,PdfAnnotation*> TMapAnnotation;
 typedef TMapAnnotation::iterator              TIMapAnnotation;
 typedef TMapAnnotation::const_iterator        TCIMapAnnotation;
 
-/** PdfPage is one page in the pdf document. 
+/** PdfPage is one page in the pdf document.
  *  It is possible to draw on a page using a PdfPainter object.
  *  Every document needs at least one page.
  */
@@ -59,11 +59,11 @@ class PODOFO_DOC_API PdfPage : public PdfElement, public PdfCanvas {
      *  \param pParent add the page to this parent
      */
     PdfPage( const PdfRect & rSize, PdfVecObjects* pParent );
- 
+
     /** Create a PdfPage based on an existing PdfObject
      *  \param pObject an existing PdfObject
      *  \param listOfParents a list of PdfObjects that are
-     *                       parents of this page and can be 
+     *                       parents of this page and can be
      *                       queried for inherited attributes.
      *                       The last object in the list is the
      *                       most direct parent of this page.
@@ -99,7 +99,7 @@ class PODOFO_DOC_API PdfPage : public PdfElement, public PdfCanvas {
 	void SetTrimBox( const PdfRect & rSize );
 
 	/** Page number inside of the document. The  first page
-     *  has the number 1, the last page has the number 
+     *  has the number 1, the last page has the number
      *  PdfPagesTree:GetTotalNumberOfPages()
      *
      *  \returns the number of the page inside of the document
@@ -118,14 +118,14 @@ class PODOFO_DOC_API PdfPage : public PdfElement, public PdfCanvas {
     static PdfRect CreateStandardPageSize( const EPdfPageSize ePageSize, bool bLandscape = false );
 
     /** Get access to the contents object of this page.
-     *  If you want to draw onto the page, you have to add 
+     *  If you want to draw onto the page, you have to add
      *  drawing commands to the stream of the Contents object.
      *  \returns a contents object
      */
     virtual PdfObject* GetContents() const;
 
     /** Get access an object that you can use to ADD drawing to.
-     *  If you want to draw onto the page, you have to add 
+     *  If you want to draw onto the page, you have to add
      *  drawing commands to the stream of the Contents object.
      *  \returns a contents object
      */
@@ -166,7 +166,7 @@ class PODOFO_DOC_API PdfPage : public PdfElement, public PdfCanvas {
      *  \returns int 0, 90, 180 or 270
      */
     virtual int GetRotation() const;
-        
+
     /** Get the number of annotations associated with this page
      * \ returns int number of annotations
      */
@@ -203,7 +203,7 @@ class PODOFO_DOC_API PdfPage : public PdfElement, public PdfCanvas {
      */
     void DeleteAnnotation( const PdfReference & ref );
 
-    /** 
+    /**
      * \returns the number of PdfFields on this page.
      */
     int GetNumFields() const;
@@ -237,12 +237,12 @@ class PODOFO_DOC_API PdfPage : public PdfElement, public PdfCanvas {
     PdfObject* GetFromResources( const PdfName & rType, const PdfName & rKey );
 
     /** Method for getting a value that can be inherited
-     *  Possible names that can be inherited according to 
+     *  Possible names that can be inherited according to
      *  the PDF specification are: Resources, MediaBox, CropBox and Rotate
-     *  
+     *
      *  \returns PdfObject - the result of the key fetching or NULL
      */
-    inline const PdfObject* GetInheritedKey( const PdfName & rName ) const; 
+    inline const PdfObject* GetInheritedKey( const PdfName & rName ) const;
 
  private:
 
@@ -266,14 +266,14 @@ class PODOFO_DOC_API PdfPage : public PdfElement, public PdfCanvas {
      *  \returns PdfRect the page box
      */
     const PdfRect GetPageBox( const char* inBox ) const;
-    
+
     /** Method for getting a key value that could be inherited (such as the boxes, resources, etc.)
      *  \returns PdfObject - the result of the key fetching or NULL
      */
-    const PdfObject* GetInheritedKeyFromObject( const char* inKey, const PdfObject* inObject ) const; 
+    const PdfObject* GetInheritedKeyFromObject( const char* inKey, const PdfObject* inObject ) const;
 
     /** Get the annotations array.
-     *  \param bCreate if true the annotations array is created 
+     *  \param bCreate if true the annotations array is created
      *                 if it does not exist.
      *  \returns the annotations array or NULL if none exists.
      */
@@ -287,7 +287,7 @@ class PODOFO_DOC_API PdfPage : public PdfElement, public PdfCanvas {
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline PdfObject* PdfPage::GetResources() const
 {
@@ -295,7 +295,7 @@ inline PdfObject* PdfPage::GetResources() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline const PdfRect PdfPage::GetPageSize() const
 {
@@ -303,7 +303,7 @@ inline const PdfRect PdfPage::GetPageSize() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline const PdfObject* PdfPage::GetInheritedKey( const PdfName & rName ) const
 {

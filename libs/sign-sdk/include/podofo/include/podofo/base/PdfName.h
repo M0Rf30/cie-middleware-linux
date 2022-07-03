@@ -34,7 +34,7 @@ class PdfName;
 
 /** This class represents a PdfName.
  *  Whenever a key is required you have to use a PdfName object.
- *  
+ *
  *  PdfName are required as keys in PdfObject and PdfVariant objects.
  *
  *  PdfName may have a maximum length of 127 characters.
@@ -95,7 +95,7 @@ class PODOFO_API PdfName : public PdfDataType {
      *  name string without the leading / .
      *  \param pszName A string containing the escaped name
      *  \param ilength length of the escaped string data. If a length
-     *                 of 0 is passed, the string data is expected to 
+     *                 of 0 is passed, the string data is expected to
      *                 be a zero terminated string.
      *  \return A new PdfName
      */
@@ -125,7 +125,7 @@ class PODOFO_API PdfName : public PdfDataType {
      *  \param pDevice write the object to this device
      *  \param eWriteMode additional options for writing this object
      *  \param pEncrypt an encryption object which is used to encrypt this object
-     *                  or NULL to not encrypt this object     
+     *                  or NULL to not encrypt this object
      */
     void Write( PdfOutputDevice* pDevice, EPdfWriteMode eWriteMode, const PdfEncrypt* pEncrypt = NULL) const;
 
@@ -203,7 +203,7 @@ class PODOFO_API PdfName : public PdfDataType {
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 const std::string & PdfName::GetName() const
 {
@@ -211,7 +211,7 @@ const std::string & PdfName::GetName() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 size_t PdfName::GetLength() const
 {
@@ -219,7 +219,7 @@ size_t PdfName::GetLength() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfName::operator!=( const PdfName & rhs ) const
 {
@@ -227,7 +227,7 @@ bool PdfName::operator!=( const PdfName & rhs ) const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfName::operator!=( const char* rhs ) const
 {
@@ -259,4 +259,3 @@ const PdfName& PdfName::operator=( const PdfName & rhs )
 };
 
 #endif /* _PDF_NAME_H_ */
-

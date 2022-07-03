@@ -31,11 +31,11 @@
 namespace PoDoFo {
 
 
-/** This class provides an output device which operates 
+/** This class provides an output device which operates
  *  either on a file or on a buffer in memory.
  *  Additionally it can count the bytes written to the device.
  *
- *  This class is suitable for inheritance to provide output 
+ *  This class is suitable for inheritance to provide output
  *  devices of your own for PoDoFo.
  *  Just overide the required virtual methods.
  */
@@ -101,13 +101,13 @@ class PODOFO_API PdfOutputDevice {
 
     /** The number of bytes written to this object.
      *  \returns the number of bytes written to this object.
-     *  
+     *
      *  \see Init
      */
     virtual inline size_t GetLength() const;
 
     /** Write to the PdfOutputDevice. Usage is as the usage of printf.
-     * 
+     *
      *  WARNING: Do not use this for doubles or floating point values
      *           as the output might depend on the current locale.
      *
@@ -119,7 +119,7 @@ class PODOFO_API PdfOutputDevice {
     virtual void Print( const char* pszFormat, ... );
 
     /** Write to the PdfOutputDevice. Usage is as the usage of printf.
-     * 
+     *
      *  WARNING: Do not use this for doubles or floating point values
      *           as the output might depend on the current locale.
      *
@@ -144,13 +144,13 @@ class PODOFO_API PdfOutputDevice {
      */
     long PrintVLen( const char* pszFormat, va_list args );
 
-    /** Write data to the buffer. Use this call instead of Print if you 
+    /** Write data to the buffer. Use this call instead of Print if you
      *  want to write binary data to the PdfOutputDevice.
      *
      *  \param pBuffer a pointer to the data buffer
      *  \param lLen write lLen bytes of pBuffer to the PdfOutputDevice
      *  \returns ErrOk on success
-     * 
+     *
      *  \see Print
      */
     virtual void Write( const char* pBuffer, size_t lLen );
@@ -177,7 +177,7 @@ class PODOFO_API PdfOutputDevice {
      */
     virtual void Flush();
 
- private: 
+ private:
     /** Initialize all private members
      */
     void Init();
@@ -201,7 +201,7 @@ class PODOFO_API PdfOutputDevice {
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 size_t PdfOutputDevice::GetLength() const
 {
@@ -209,7 +209,7 @@ size_t PdfOutputDevice::GetLength() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 size_t PdfOutputDevice::Tell() const
 {
@@ -219,4 +219,3 @@ size_t PdfOutputDevice::Tell() const
 };
 
 #endif // _PDF_OUTPUT_DEVICE_H_
-

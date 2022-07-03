@@ -30,4 +30,3 @@ string get_manufacturer(vector<uint8_t> atr);
 CIE_Type get_type(vector<uint8_t> atr);
 
 #endif // _CIE_ATR_H_
-

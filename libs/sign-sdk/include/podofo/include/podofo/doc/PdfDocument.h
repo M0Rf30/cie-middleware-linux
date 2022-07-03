@@ -53,7 +53,7 @@ class PdfXObject;
  *
  *  PdfDocument cannot be used directly.
  *  Use PdfMemDocument whenever you want to change the object structure
- *  of a PDF file. 
+ *  of a PDF file.
  *
  *  When you are only creating PDF files, please use PdfStreamedDocument
  *  which is usually faster for creating PDFs.
@@ -84,7 +84,7 @@ class PODOFO_DOC_API PdfDocument {
      *  \returns true if the PDF document is linearized
      */
     virtual bool IsLinearized() const = 0;
-    
+
     /** Get access to the internal Info dictionary
      *  You can set the author, title etc. of the
      *  document using the info dictionary.
@@ -95,8 +95,8 @@ class PODOFO_DOC_API PdfDocument {
 
     /** Get access to the Outlines (Bookmarks) dictionary
      *  The returned outlines object is owned by the PdfDocument.
-     * 
-     *  \param bCreate create the object if it does not exist (ePdfCreateObject) 
+     *
+     *  \param bCreate create the object if it does not exist (ePdfCreateObject)
      *                 or return NULL if it does not exist
      *  \returns the Outlines/Bookmarks dictionary
      */
@@ -104,16 +104,16 @@ class PODOFO_DOC_API PdfDocument {
 
     /** Get access to the Names dictionary (where all the named objects are stored)
      *  The returned PdfNamesTree object is owned by the PdfDocument.
-     * 
-     *  \param bCreate create the object if it does not exist (ePdfCreateObject) 
+     *
+     *  \param bCreate create the object if it does not exist (ePdfCreateObject)
      *                 or return NULL if it does not exist
      *  \returns the Names dictionary
      */
     PdfNamesTree* GetNamesTree( bool bCreate = ePdfCreateObject );
 
     /** Get access to the AcroForm dictionary
-     *  
-     *  \param bCreate create the object if it does not exist (ePdfCreateObject) 
+     *
+     *  \param bCreate create the object if it does not exist (ePdfCreateObject)
      *                 or return NULL if it does not exist
      *  \param eDefaultAppearance specifies if a default appearence shall be created
      *
@@ -145,7 +145,7 @@ class PODOFO_DOC_API PdfDocument {
 
     /** Creates a PdfFont object
      *  \param pszFontName name of the font as it is known to the system
-     *  \param pEncoding the encoding of the font. The font will not take ownership of this object.     
+     *  \param pEncoding the encoding of the font. The font will not take ownership of this object.
      *  \param eFontCreationFlags special flag to specify how fonts should be created
      *  \param bEmbedd specifies whether this font should be embedded in the PDF file.
      *         Embedding fonts is usually a good idea.
@@ -153,8 +153,8 @@ class PODOFO_DOC_API PdfDocument {
      *  \returns PdfFont* a pointer to a new PdfFont object.
      *           The returned object is owned by the PdfDocument.
      */
-    PdfFont* CreateFont( const char* pszFontName, 
-                         const PdfEncoding * const pEncoding = PdfEncodingFactory::GlobalWinAnsiEncodingInstance(), 
+    PdfFont* CreateFont( const char* pszFontName,
+                         const PdfEncoding * const pEncoding = PdfEncodingFactory::GlobalWinAnsiEncodingInstance(),
                          PdfFontCache::EFontCreationFlags eFontCreationFlags = PdfFontCache::eFontCreationFlags_AutoSelectBase14,
                          bool bEmbedd = true );
 
@@ -162,7 +162,7 @@ class PODOFO_DOC_API PdfDocument {
      *  \param pszFontName name of the font as it is known to the system
      *  \param bBold if true search for a bold font
      *  \param bItalic if true search for an italic font
-     *  \param pEncoding the encoding of the font. The font will not take ownership of this object.     
+     *  \param pEncoding the encoding of the font. The font will not take ownership of this object.
      *  \param eFontCreationFlags special flag to specify how fonts should be created
      *  \param bEmbedd specifies whether this font should be embedded in the PDF file.
      *         Embedding fonts is usually a good idea.
@@ -170,15 +170,15 @@ class PODOFO_DOC_API PdfDocument {
      *
      *  \returns PdfFont* a pointer to a new PdfFont object.
      */
-    PdfFont* CreateFont( const char* pszFontName, bool bBold, bool bItalic, 
-                         const PdfEncoding * const pEncoding = PdfEncodingFactory::GlobalWinAnsiEncodingInstance(), 
+    PdfFont* CreateFont( const char* pszFontName, bool bBold, bool bItalic,
+                         const PdfEncoding * const pEncoding = PdfEncodingFactory::GlobalWinAnsiEncodingInstance(),
                          PdfFontCache::EFontCreationFlags eFontCreationFlags = PdfFontCache::eFontCreationFlags_AutoSelectBase14,
                          bool bEmbedd = true, const char* pszFileName = NULL );
 
 #ifdef _WIN32
     /** Creates a PdfFont object
      *  \param pszFontName name of the font as it is known to the system
-     *  \param pEncoding the encoding of the font. The font will not take ownership of this object.     
+     *  \param pEncoding the encoding of the font. The font will not take ownership of this object.
      *  \param bEmbedd specifies whether this font should be embedded in the PDF file.
      *         Embedding fonts is usually a good idea.
      *
@@ -189,14 +189,14 @@ class PODOFO_DOC_API PdfDocument {
      *  with unicode characters. On Unix systes you can also path
      *  UTF-8 to the const char* overload.
      */
-    PdfFont* CreateFont( const wchar_t* pszFontName, const PdfEncoding * const pEncoding = PdfEncodingFactory::GlobalWinAnsiEncodingInstance(), 
+    PdfFont* CreateFont( const wchar_t* pszFontName, const PdfEncoding * const pEncoding = PdfEncodingFactory::GlobalWinAnsiEncodingInstance(),
                          bool bEmbedd = true );
 
     /** Creates a PdfFont object
      *  \param pszFontName name of the font as it is known to the system
      *  \param bBold if true search for a bold font
      *  \param bItalic if true search for an italic font
-     *  \param pEncoding the encoding of the font. The font will not take ownership of this object.     
+     *  \param pEncoding the encoding of the font. The font will not take ownership of this object.
      *  \param bEmbedd specifies whether this font should be embedded in the PDF file.
      *         Embedding fonts is usually a good idea.
      *  \param optional: pszFileName path to a valid font file
@@ -207,14 +207,14 @@ class PODOFO_DOC_API PdfDocument {
      *  with unicode characters. On Unix systes you can also path
      *  UTF-8 to the const char* overload.
      */
-    PdfFont* CreateFont( const wchar_t* pszFontName, bool bBold, bool bItalic, 
-                         const PdfEncoding * const pEncoding = PdfEncodingFactory::GlobalWinAnsiEncodingInstance(), 
+    PdfFont* CreateFont( const wchar_t* pszFontName, bool bBold, bool bItalic,
+                         const PdfEncoding * const pEncoding = PdfEncodingFactory::GlobalWinAnsiEncodingInstance(),
                          bool bEmbedd = true);
 #endif // _WIN32
 
     /** Creates a PdfFont object
      *  \param face a valid freetype font handle (will be free'd by PoDoFo)
-     *  \param pEncoding the encoding of the font. The font will not take ownership of this object.     
+     *  \param pEncoding the encoding of the font. The font will not take ownership of this object.
      *  \param bEmbedd specifies whether this font should be embedded in the PDF file.
      *         Embedding fonts is usually a good idea.
      *  \returns PdfFont* a pointer to a new PdfFont object.
@@ -223,11 +223,11 @@ class PODOFO_DOC_API PdfDocument {
     PdfFont* CreateFont( FT_Face face, const PdfEncoding * const pEncoding = PdfEncodingFactory::GlobalWinAnsiEncodingInstance(), bool bEmbedd = true );
 
     /** Creates a duplicate Type1-PdfFont with a new Id
-     *  \param pFont is the existing font 
-     *  \param pszSuffix Suffix to add to font-id 
+     *  \param pFont is the existing font
+     *  \param pszSuffix Suffix to add to font-id
      *           The returned object is owned by the PdfDocument.
      *
-     *  TODO: DS: Make this generic so that it will work 
+     *  TODO: DS: Make this generic so that it will work
      *            for any font type!
      */
 	PdfFont* CreateDuplicateFontType1( PdfFont * pFont, const char * pszSuffix );
@@ -239,12 +239,12 @@ class PODOFO_DOC_API PdfDocument {
      *  \param pszFontName name of the font as it is known to the system
      *  \param bBold if true search for a bold font
      *  \param bItalic if true search for an italic font
-     *  \param pEncoding the encoding of the font. The font will not take ownership of this object.     
+     *  \param pEncoding the encoding of the font. The font will not take ownership of this object.
      *  \param pszFileName optional path of a fontfile which should be used
      *
      *  \returns PdfFont* a pointer to a new PdfFont object.
      */
-    PdfFont* CreateFontSubset( const char* pszFontName, bool bBold, bool bItalic, 
+    PdfFont* CreateFontSubset( const char* pszFontName, bool bBold, bool bItalic,
 			       const PdfEncoding * const pEncoding = PdfEncodingFactory::GlobalWinAnsiEncodingInstance(),
 			       const char* pszFileName = NULL);
 
@@ -256,7 +256,7 @@ class PODOFO_DOC_API PdfDocument {
      *  \param pszFontName name of the font as it is known to the system
      *  \param bBold if true search for a bold font
      *  \param bItalic if true search for an italic font
-     *  \param pEncoding the encoding of the font. The font will not take ownership of this object.     
+     *  \param pEncoding the encoding of the font. The font will not take ownership of this object.
      *
      *  \returns PdfFont* a pointer to a new PdfFont object.
  	 *
@@ -264,7 +264,7 @@ class PODOFO_DOC_API PdfDocument {
      *  with unicode characters. On Unix systes you can also path
      *  UTF-8 to the const char* overload.
      */
-    PdfFont* CreateFontSubset( const wchar_t* pszFontName, bool bBold, bool bItalic, 
+    PdfFont* CreateFontSubset( const wchar_t* pszFontName, bool bBold, bool bItalic,
 			       const PdfEncoding * const = PdfEncodingFactory::GlobalWinAnsiEncodingInstance() );
 #endif // _WIN32
 
@@ -274,7 +274,7 @@ class PODOFO_DOC_API PdfDocument {
      *  \returns the internal handle to the freetype library
      */
     inline FT_Library GetFontLibrary() const;
-	
+
     /** Embeds all pending subset-fonts, is automatically done on Write().
 	 *  Just call explicit in case PdfDocument is needed as XObject
      *
@@ -282,7 +282,7 @@ class PODOFO_DOC_API PdfDocument {
 	void EmbedSubsetFonts();
 
     /** Creates a new page object and inserts it into the internal
-     *  page tree. 
+     *  page tree.
      *  The returned page is owned by the PdfDocument
      *  and will get deleted along with it!
      *
@@ -332,11 +332,11 @@ class PODOFO_DOC_API PdfDocument {
     /** Sets the opening mode for a document to be in full screen
      */
     void SetUseFullScreen( void );
-    
+
     /** Sets the page layout for a document
      */
     void SetPageLayout( EPdfPageLayout inLayout );
-    
+
     /** Set the document's Viewer Preferences:
      *  Hide the toolbar in the viewer
      */
@@ -366,7 +366,7 @@ class PODOFO_DOC_API PdfDocument {
     /** Set the document's Viewer Preferences:
      *  Display the title from the document information
      *  in the title of the viewer.
-     * 
+     *
      *  \see SetTitle
      */
     void SetDisplayDocTitle( void );
@@ -375,7 +375,7 @@ class PODOFO_DOC_API PdfDocument {
      *  Set the default print scaling of the document
      *
      *  TODO: DS use an enum here!
-     */   
+     */
     void SetPrintScaling( PdfName& inScalingType );
 
     /** Set the document's Viewer Preferences:
@@ -387,11 +387,11 @@ class PODOFO_DOC_API PdfDocument {
 
     /** Set the document's Viewer Preferences:
      *  Set the language of the document
-     */    
+     */
     void SetLanguage( const std::string& inLanguage );
 
     /** Set the document's Viewer Preferences:
-     */    
+     */
     void SetBindingDirection( PdfName& inDirection );
 
     /** Checks if printing this document is allowed.
@@ -401,7 +401,7 @@ class PODOFO_DOC_API PdfDocument {
      *
      *  \see PdfEncrypt to set own document permissions.
      */
-    virtual bool IsPrintAllowed() const = 0; 
+    virtual bool IsPrintAllowed() const = 0;
 
     /** Checks if modifiying this document (besides annotations, form fields or changing pages) is allowed.
      *  Every PDF consuming applications has to adhere this value!
@@ -457,19 +457,19 @@ class PODOFO_DOC_API PdfDocument {
      */
     virtual bool IsDocAssemblyAllowed() const = 0;
 
-    /** Checks if it is allowed to print a high quality version of this document 
+    /** Checks if it is allowed to print a high quality version of this document
      *  Every PDF consuming applications has to adhere this value!
      *
-     *  \returns true if you are allowed to print a high quality version of this document 
+     *  \returns true if you are allowed to print a high quality version of this document
      *
      *  \see PdfEncrypt to set own document permissions.
      */
     virtual bool IsHighPrintAllowed() const = 0;
 
-    // Peter Petrov 26 April 2008    
+    // Peter Petrov 26 April 2008
     /** Get access to the internal vector of objects
      *  or root object.
-     *  
+     *
      *  \returns the vector of objects
      */
     inline PdfVecObjects* GetObjects();
@@ -477,7 +477,7 @@ class PODOFO_DOC_API PdfDocument {
     // Peter Petrov 26 April 2008
     /** Get access to the internal vector of objects
      *  or root object.
-     *  
+     *
      *  \returns the vector of objects
      */
     inline const PdfVecObjects* GetObjects() const;
@@ -496,14 +496,14 @@ class PODOFO_DOC_API PdfDocument {
 
     /** Get access to the internal Catalog dictionary
      *  or root object.
-     *  
+     *
      *  \returns PdfObject the documents catalog
      */
     inline PdfObject* GetCatalog();
 
     /** Get access to the internal Catalog dictionary
      *  or root object.
-     *  
+     *
      *  \returns PdfObject the documents catalog
      */
     inline const PdfObject* GetCatalog() const;
@@ -518,14 +518,14 @@ class PODOFO_DOC_API PdfDocument {
 
     /** Get access to the internal trailer dictionary
      *  or root object.
-     *  
+     *
      *  \returns PdfObject the documents catalog
      */
     inline PdfObject* GetTrailer();
 
     /** Get access to the internal trailer dictionary
      *  or root object.
-     *  
+     *
      *  \returns PdfObject the documents catalog
      */
     inline const PdfObject* GetTrailer() const;
@@ -601,7 +601,7 @@ class PODOFO_DOC_API PdfDocument {
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline PdfPagesTree* PdfDocument::GetPagesTree() const
 {
@@ -609,7 +609,7 @@ inline PdfPagesTree* PdfDocument::GetPagesTree() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline PdfObject* PdfDocument::GetCatalog()
 {
@@ -617,7 +617,7 @@ inline PdfObject* PdfDocument::GetCatalog()
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline const PdfObject* PdfDocument::GetCatalog() const
 {
@@ -625,17 +625,17 @@ inline const PdfObject* PdfDocument::GetCatalog() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
-inline void PdfDocument::SetCatalog( PdfObject* pObject ) 
+inline void PdfDocument::SetCatalog( PdfObject* pObject )
 {
-    m_pCatalog = pObject; // m_pCatalog does not need to 
+    m_pCatalog = pObject; // m_pCatalog does not need to
                           // be reowned as it should
                           // alread by part of m_vecObjects
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline PdfObject* PdfDocument::GetTrailer()
 {
@@ -643,7 +643,7 @@ inline PdfObject* PdfDocument::GetTrailer()
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline const PdfObject* PdfDocument::GetTrailer() const
 {
@@ -651,7 +651,7 @@ inline const PdfObject* PdfDocument::GetTrailer() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline PdfVecObjects* PdfDocument::GetObjects()
 {
@@ -659,7 +659,7 @@ inline PdfVecObjects* PdfDocument::GetObjects()
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline const PdfVecObjects* PdfDocument::GetObjects() const
 {
@@ -668,7 +668,7 @@ inline const PdfVecObjects* PdfDocument::GetObjects() const
 
 // Peter Petrov 26 April 2008
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline FT_Library PdfDocument::GetFontLibrary() const
 {

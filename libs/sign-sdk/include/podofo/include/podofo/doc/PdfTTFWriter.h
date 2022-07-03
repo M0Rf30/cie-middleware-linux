@@ -70,7 +70,7 @@ class PODOFO_API PdfTTFWriter {
     typedef pdf_int16        pdf_ttf_f2dot14;
 
 #pragma pack(1)
-    /** The table dictionary is the starting point when reading 
+    /** The table dictionary is the starting point when reading
      *  or writing a TTF file.
      */
     struct TTableDirectory {
@@ -93,12 +93,12 @@ class PODOFO_API PdfTTFWriter {
     typedef TVecTableDirectoryEntries::const_iterator TCIVecTableDirectoryEntries;
 
     struct TTable {
-        TTable() 
-            : data( NULL ) 
+        TTable()
+            : data( NULL )
         {
         }
 
-        ~TTable() 
+        ~TTable()
         {
             /*
             if( data )
@@ -158,7 +158,7 @@ class PODOFO_API PdfTTFWriter {
     struct TCMapEntry {
         pdf_ttf_ushort platformId;
         pdf_ttf_ushort encodingId;
-        
+
         pdf_ttf_ulong  offset;
     };
 
@@ -183,18 +183,18 @@ class PODOFO_API PdfTTFWriter {
          *                    otherwise this object is simple glyph
          */
         PdfTTFGlyph( int nIndex )
-            : m_nPosition( 0 ), m_nIndex( nIndex ), m_bComposite( false ), 
+            : m_nPosition( 0 ), m_nIndex( nIndex ), m_bComposite( false ),
               m_nInstructionLength( 0 ), m_pInstructions( NULL )
             {
                 printf("m_nIndex=%i\n", m_nIndex );
             }
 
-        PdfTTFGlyph( const PdfTTFGlyph & rhs ) 
+        PdfTTFGlyph( const PdfTTFGlyph & rhs )
             {
                 operator=( rhs );
             }
 
-        const PdfTTFGlyph & operator=( const PdfTTFGlyph & rhs ) 
+        const PdfTTFGlyph & operator=( const PdfTTFGlyph & rhs )
             {
                 m_nIndex             = rhs.m_nIndex;
                 m_bComposite         = rhs.m_bComposite;
@@ -214,11 +214,11 @@ class PODOFO_API PdfTTFWriter {
                 // composite
                 arg1      = rhs.arg1;
                 arg2      = rhs.arg2;
-                
+
                 xx        = rhs.xx;
                 yy        = rhs.yy;
                 xy        = rhs.xy;
-                yx        = rhs.yx;  
+                yx        = rhs.yx;
 
                 m_buffer  = rhs.m_buffer;
 
@@ -261,7 +261,7 @@ class PODOFO_API PdfTTFWriter {
         pdf_ttf_short xx;
         pdf_ttf_short yy;
         pdf_ttf_short xy;
-        pdf_ttf_short yx;  
+        pdf_ttf_short yx;
     };
 
 #pragma pack(1)
@@ -283,16 +283,16 @@ class PODOFO_API PdfTTFWriter {
         pdf_ttf_short  nDelta;
         pdf_ttf_ushort nOffset;
 
-        TCMapRange() 
+        TCMapRange()
         {
         }
 
-        TCMapRange( const TCMapRange & rhs ) 
+        TCMapRange( const TCMapRange & rhs )
         {
             this->operator=( rhs );
         }
 
-        const TCMapRange & operator=( const TCMapRange & rhs ) 
+        const TCMapRange & operator=( const TCMapRange & rhs )
         {
             nStart  = rhs.nStart;
             nEnd    = rhs.nEnd;
@@ -340,7 +340,7 @@ class PODOFO_API PdfTTFWriter {
 
     struct TOs2 {
         pdf_ttf_ushort version;           ///< version 0x00010000
-        pdf_ttf_short  xAvgCharWidth;    
+        pdf_ttf_short  xAvgCharWidth;
         pdf_ttf_ushort usWeightClass;
         pdf_ttf_ushort usWidthClass;
         pdf_ttf_short  fsType;
@@ -380,10 +380,10 @@ class PODOFO_API PdfTTFWriter {
 
     struct TNameTable {
         // header
-        pdf_ttf_ushort format;      ///< 0 
+        pdf_ttf_ushort format;      ///< 0
         pdf_ttf_ushort numRecords;  ///< 1
         pdf_ttf_ushort offset;      ///< 6
-        
+
         // body
         pdf_ttf_ushort platformId;  ///< 3      (Microsoft)
         pdf_ttf_ushort encodingId;  ///< 1      (Unicode)
@@ -414,7 +414,7 @@ class PODOFO_API PdfTTFWriter {
      *  For testing purposes.
      *
      *  TODO: Remove
-     */ 
+     */
     PdfTTFWriter();
 
     PdfTTFWriter( const std::vector<int> & rvecGlyphs );
@@ -427,7 +427,7 @@ class PODOFO_API PdfTTFWriter {
      *  \param pDevice the TTF is read from this device
      */
     void Read( PdfInputDevice* pDevice );
-    
+
     /** Do the actual subsetting of the font data
      *  TODO
      */
@@ -441,7 +441,7 @@ class PODOFO_API PdfTTFWriter {
     void Write( PdfOutputDevice* pDevice );
 
  private:
-    
+
     /** Create a tag name from four characters,
      *  so that the user readable tag can be put into
      *  TTableDirectoryEntry.
@@ -492,7 +492,7 @@ class PODOFO_API PdfTTFWriter {
      *
      *  \param pDevice read from the current position of this device.
      *
-     *  \see m_tTableDirectory 
+     *  \see m_tTableDirectory
      */
     void ReadTableDirectory( PdfInputDevice* pDevice );
 
@@ -514,13 +514,13 @@ class PODOFO_API PdfTTFWriter {
      */
     void WriteTableDirectoryEntry( PdfOutputDevice* pDevice, TTableDirectoryEntry* pEntry );
 
-    /** Reads the head table from the current position of 
-     *  the input device, handling any necessary conversion 
+    /** Reads the head table from the current position of
+     *  the input device, handling any necessary conversion
      *  from big to little endian.
      *
      *  \param pDevice read from the current position of this device.
      *
-     *  \see m_tHead 
+     *  \see m_tHead
      */
     void ReadHeadTable( PdfInputDevice* pDevice );
 
@@ -529,7 +529,7 @@ class PODOFO_API PdfTTFWriter {
      *  \see m_tHead
      */
     void SwapHeadTable();
-    
+
     void ReadMaxpTable( PdfInputDevice* pDevice );
     void ReadLocaTable( PdfInputDevice* pDevice );
     void ReadHHeaTable( PdfInputDevice* pDevice );
@@ -546,7 +546,7 @@ class PODOFO_API PdfTTFWriter {
      *
      *  \param pDevice write at the current position of this device.
      *
-     *  \see m_tTableDirectory 
+     *  \see m_tTableDirectory
      */
     void WriteTableDirectory( PdfOutputDevice* pDevice );
 
@@ -578,7 +578,7 @@ class PODOFO_API PdfTTFWriter {
     void WriteHmtxTable( PdfOutputDevice* pDevice );
     void WritePostTable( PdfOutputDevice* pDevice );
 
-    /** 
+    /**
      *  Write a table to an output device and create a table directory for it
      *  with a correctly calculated checksum.
      *
@@ -589,10 +589,10 @@ class PODOFO_API PdfTTFWriter {
      *
      *  \see CreateTag
      */
-    void WriteTable( PdfOutputDevice* pDevice, TVecTableDirectoryEntries & rToc, 
+    void WriteTable( PdfOutputDevice* pDevice, TVecTableDirectoryEntries & rToc,
                      pdf_ttf_ulong tag, void (PdfTTFWriter::*WriteTableFunc)( PdfOutputDevice* ) );
 
-    void SwapGlyfHeader( TGlyphHeader* pHeader ); 
+    void SwapGlyfHeader( TGlyphHeader* pHeader );
 
     /** Swap the endianess of the maxp table.
      *  \see m_tMaxp
@@ -611,10 +611,10 @@ class PODOFO_API PdfTTFWriter {
      *  \param nFlagShort the flag to use for x and y coordinates which determines a short coordinate
      *  \param nFlag the flag to use (0x10 for x coordinates and 0x20 for y coordinates)
      */
-    void ReadSimpleGlyfCoordinates( PdfInputDevice* pDevice, const std::vector<unsigned char> & rvecFlags, 
+    void ReadSimpleGlyfCoordinates( PdfInputDevice* pDevice, const std::vector<unsigned char> & rvecFlags,
                                     std::vector<pdf_ttf_short> & rvecCoordinates, int nFlagShort, int nFlag );
 
-    void WriteSimpleGlyfCoordinates( PdfOutputDevice* pDevice, const std::vector<unsigned char> & rvecFlags, 
+    void WriteSimpleGlyfCoordinates( PdfOutputDevice* pDevice, const std::vector<unsigned char> & rvecFlags,
                                      std::vector<pdf_ttf_short> & rvecCoordinates, int nFlagShort, int nFlag );
 
     /** Get the offset to the location of the glyphs data.
@@ -635,7 +635,7 @@ class PODOFO_API PdfTTFWriter {
      *
      */
     void LoadGlyph( int nIndex, long lOffset, PdfInputDevice* pDevice );
- 
+
  private:
     long                      m_lGlyphDataOffset; ///< Offset to the glyph data table
     long                      m_lCMapOffset;      ///< Offset to the cmap table
@@ -645,7 +645,7 @@ class PODOFO_API PdfTTFWriter {
 
     TVecTable                 m_vecTableData;     ///< The actual data of the tables
     TMaxP                     m_tMaxp;            ///< The maximum memory requirements of this font
-    THead                     m_tHead;            ///< The head table 
+    THead                     m_tHead;            ///< The head table
     THHea                     m_tHHea;            ///< The hhea table
     TOs2                      m_tOs2;             ///< The OS/2 table
     TPost                     m_tPost;            ///< The post table
@@ -664,7 +664,7 @@ class PODOFO_API PdfTTFWriter {
 
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline PdfTTFWriter::pdf_ttf_ulong PdfTTFWriter::CreateTag( char a, char b, char c, char d ) const
 {
@@ -672,7 +672,7 @@ inline PdfTTFWriter::pdf_ttf_ulong PdfTTFWriter::CreateTag( char a, char b, char
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfTTFWriter::SwapUShort( pdf_ttf_ushort* pShort ) const
 {
@@ -680,7 +680,7 @@ inline void PdfTTFWriter::SwapUShort( pdf_ttf_ushort* pShort ) const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfTTFWriter::SwapShort( pdf_ttf_short* pShort ) const
 {
@@ -688,7 +688,7 @@ inline void PdfTTFWriter::SwapShort( pdf_ttf_short* pShort ) const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfTTFWriter::SwapFWord( pdf_ttf_fword* pFword ) const
 {
@@ -696,11 +696,11 @@ inline void PdfTTFWriter::SwapFWord( pdf_ttf_fword* pFword ) const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfTTFWriter::SwapULong( pdf_ttf_ulong* pLong ) const
 {
-    *pLong = ((*pLong << 24) & 0xFF000000) | ((*pLong << 8) & 0x00FF0000) | 
+    *pLong = ((*pLong << 24) & 0xFF000000) | ((*pLong << 8) & 0x00FF0000) |
              ((*pLong >> 8) & 0x0000FF00) | ((*pLong >> 24) & 0x000000FF) ;
 }
 

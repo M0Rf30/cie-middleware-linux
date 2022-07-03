@@ -30,19 +30,19 @@ namespace PoDoFo {
 
 class PdfOutputDevice;
 
-/** PdfStreamedDocument is the preferred class for 
+/** PdfStreamedDocument is the preferred class for
  *  creating new PDF documents.
- * 
+ *
  *  Page contents, fonts and images are written to disk
  *  as soon as possible and are not kept in memory.
- *  This results in faster document generation and 
+ *  This results in faster document generation and
  *  less memory being used.
  *
  *  Please use PdfMemDocument if you intend to work
  *  on the object structure of a PDF file.
  *
  *  One of the design goals of PdfStreamedDocument was
- *  to hide the underlying object structure of a PDF 
+ *  to hide the underlying object structure of a PDF
  *  file as far as possible.
  *
  *  \see PdfDocument
@@ -147,7 +147,7 @@ class PODOFO_DOC_API PdfStreamedDocument : public PdfDocument {
      *
      *  \see PdfEncrypt to set own document permissions.
      */
-    inline virtual bool IsPrintAllowed() const; 
+    inline virtual bool IsPrintAllowed() const;
 
     /** Checks if modifiying this document (besides annotations, form fields or changing pages) is allowed.
      *  Every PDF consuming applications has to adhere this value!
@@ -203,10 +203,10 @@ class PODOFO_DOC_API PdfStreamedDocument : public PdfDocument {
      */
     inline virtual bool IsDocAssemblyAllowed() const;
 
-    /** Checks if it is allowed to print a high quality version of this document 
+    /** Checks if it is allowed to print a high quality version of this document
      *  Every PDF consuming applications has to adhere this value!
      *
-     *  \returns true if you are allowed to print a high quality version of this document 
+     *  \returns true if you are allowed to print a high quality version of this document
      *
      *  \see PdfEncrypt to set own document permissions.
      */
@@ -235,7 +235,7 @@ class PODOFO_DOC_API PdfStreamedDocument : public PdfDocument {
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 EPdfWriteMode PdfStreamedDocument::GetWriteMode() const
 {
@@ -243,7 +243,7 @@ EPdfWriteMode PdfStreamedDocument::GetWriteMode() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 EPdfVersion PdfStreamedDocument::GetPdfVersion() const
 {
@@ -251,7 +251,7 @@ EPdfVersion PdfStreamedDocument::GetPdfVersion() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfStreamedDocument::IsLinearized() const
 {
@@ -260,7 +260,7 @@ bool PdfStreamedDocument::IsLinearized() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfStreamedDocument::IsPrintAllowed() const
 {
@@ -268,7 +268,7 @@ bool PdfStreamedDocument::IsPrintAllowed() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfStreamedDocument::IsEditAllowed() const
 {
@@ -276,7 +276,7 @@ bool PdfStreamedDocument::IsEditAllowed() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfStreamedDocument::IsCopyAllowed() const
 {
@@ -284,7 +284,7 @@ bool PdfStreamedDocument::IsCopyAllowed() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfStreamedDocument::IsEditNotesAllowed() const
 {
@@ -292,7 +292,7 @@ bool PdfStreamedDocument::IsEditNotesAllowed() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfStreamedDocument::IsFillAndSignAllowed() const
 {
@@ -300,7 +300,7 @@ bool PdfStreamedDocument::IsFillAndSignAllowed() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfStreamedDocument::IsAccessibilityAllowed() const
 {
@@ -308,7 +308,7 @@ bool PdfStreamedDocument::IsAccessibilityAllowed() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfStreamedDocument::IsDocAssemblyAllowed() const
 {
@@ -316,7 +316,7 @@ bool PdfStreamedDocument::IsDocAssemblyAllowed() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfStreamedDocument::IsHighPrintAllowed() const
 {

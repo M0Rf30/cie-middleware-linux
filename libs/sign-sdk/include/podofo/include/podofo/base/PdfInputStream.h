@@ -27,16 +27,16 @@ namespace PoDoFo {
 
 class PdfInputDevice;
 
-/** An interface for reading blocks of data from an 
+/** An interface for reading blocks of data from an
  *  a data source.
- */     
+ */
 class PODOFO_API PdfInputStream {
  public:
 
     virtual ~PdfInputStream() { };
 
     /** Read data from the input stream
-     *  
+     *
      *  \param pBuffer the data will be stored into this buffer
      *  \param lLen    the size of the buffer and number of bytes
      *                 that will be read
@@ -52,16 +52,16 @@ class PODOFO_API PdfInputStream {
  */
 class PODOFO_API PdfFileInputStream : public PdfInputStream {
  public:
-    
+
     /** Open a file for reading data
-     *  
+     *
      *  \param pszFilename the filename of the file to read
      */
     PdfFileInputStream( const char* pszFilename );
 
 #ifdef _WIN32
     /** Open a file for reading data
-     *  
+     *
      *  \param pszFilename the filename of the file to read
      *
      *  This is an overloaded member function to allow working
@@ -74,7 +74,7 @@ class PODOFO_API PdfFileInputStream : public PdfInputStream {
     ~PdfFileInputStream();
 
     /** Read data from the input stream
-     *  
+     *
      *  \param pBuffer the data will be stored into this buffer
      *  \param lLen    the size of the buffer and number of bytes
      *                 that will be read
@@ -102,9 +102,9 @@ class PODOFO_API PdfFileInputStream : public PdfInputStream {
  */
 class PODOFO_API PdfMemoryInputStream : public PdfInputStream {
  public:
-    
+
     /** Open a file for reading data
-     *  
+     *
      *  \param pBuffer buffer to read from
      *  \param lBufferLen length of the buffer
      */
@@ -112,7 +112,7 @@ class PODOFO_API PdfMemoryInputStream : public PdfInputStream {
     ~PdfMemoryInputStream();
 
     /** Read data from the input stream
-     *  
+     *
      *  \param pBuffer the data will be stored into this buffer
      *  \param lLen    the size of the buffer and number of bytes
      *                 that will be read
@@ -132,17 +132,17 @@ class PODOFO_API PdfMemoryInputStream : public PdfInputStream {
  */
 class PODOFO_API PdfDeviceInputStream : public PdfInputStream {
  public:
-    
-    /** 
+
+    /**
      *  Read from an alread opened input device
-     * 
+     *
      *  \param pDevice an input device
      */
     PdfDeviceInputStream( PdfInputDevice* pDevice );
     ~PdfDeviceInputStream();
 
     /** Read data from the input stream
-     *  
+     *
      *  \param pBuffer the data will be stored into this buffer
      *  \param lLen    the size of the buffer and number of bytes
      *                 that will be read

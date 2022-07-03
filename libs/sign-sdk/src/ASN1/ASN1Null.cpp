@@ -16,5 +16,3 @@ CASN1Null::CASN1Null()
     : CASN1Object(TAG) {
 
 }
-
-

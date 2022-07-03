@@ -44,7 +44,7 @@ class PODOFO_DOC_API PdfEncodingDifference {
     typedef std::vector<TDifference>::iterator       TIVecDifferences;
     typedef std::vector<TDifference>::const_iterator TCIVecDifferences;
 
- public: 
+ public:
     /** Create a PdfEncodingDifference object.
      */
     PdfEncodingDifference();
@@ -58,7 +58,7 @@ class PODOFO_DOC_API PdfEncodingDifference {
     const PdfEncodingDifference & operator=( const PdfEncodingDifference & rhs );
 
     /** Add a difference to the object.
-     * 
+     *
      *  \param nCode unicode code point of the difference (0 to 255 are legal values)
      *
      *  \see AddDifference if you know the name of the code point
@@ -67,19 +67,19 @@ class PODOFO_DOC_API PdfEncodingDifference {
     void AddDifference( int nCode );
 
     /** Add a difference to the object.
-     * 
+     *
      *  \param nCode unicode code point of the difference (0 to 255 are legal values)
      *  \param rName name of the different code point or .notdef if none
      */
     void AddDifference( int nCode, const PdfName & rName );
 
-    /** Tests if the specified code is part of the 
+    /** Tests if the specified code is part of the
      *  differences.
      *
      *  \param nCode test if the given code is part of the differences
-     *  \param rName write the associated name into this object if the 
+     *  \param rName write the associated name into this object if the
      *               code is part of the difference
-     *  \param rValue write the associated unicode value of the name to this value 
+     *  \param rValue write the associated unicode value of the name to this value
      *
      *  \returns true if the code is part of the difference
      */
@@ -92,9 +92,9 @@ class PODOFO_DOC_API PdfEncodingDifference {
     void ToArray( PdfArray & rArray );
 
     /** Get the number of differences in this object.
-     *  If the user added .notdef as a difference it is 
+     *  If the user added .notdef as a difference it is
      *  counted, even it is no real difference in the final encoding.
-     *  
+     *
      *  \returns the number of differences in this object
      */
     inline size_t GetCount() const;
@@ -102,8 +102,8 @@ class PODOFO_DOC_API PdfEncodingDifference {
  private:
     struct DifferenceComparatorPredicate {
         public:
-          inline bool operator()( const TDifference & rDif1, 
-                                  const TDifference & rDif2 ) const { 
+          inline bool operator()( const TDifference & rDif1,
+                                  const TDifference & rDif2 ) const {
               return rDif1.nCode < rDif2.nCode;
           }
     };
@@ -112,7 +112,7 @@ class PODOFO_DOC_API PdfEncodingDifference {
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline size_t PdfEncodingDifference::GetCount() const
 {
@@ -137,7 +137,7 @@ class PODOFO_DOC_API PdfDifferenceEncoding : public PdfEncoding, private PdfElem
         eBaseEncoding_MacExpert  ///< Use MacExpertEncoding as base encoding
     };
 
-    /** Create a new PdfDifferenceEncoding which is based on 
+    /** Create a new PdfDifferenceEncoding which is based on
      *  the fonts encoding.
      *
      *  \param rDifference the differences in this encoding
@@ -147,7 +147,7 @@ class PODOFO_DOC_API PdfDifferenceEncoding : public PdfEncoding, private PdfElem
      */
     PdfDifferenceEncoding( const PdfEncodingDifference & rDifference, PdfDocument* pParent, bool bAutoDelete = true );
 
-    /** Create a new PdfDifferenceEncoding which is based on 
+    /** Create a new PdfDifferenceEncoding which is based on
      *  the fonts encoding.
      *
      *  \param rDifference the differences in this encoding
@@ -157,7 +157,7 @@ class PODOFO_DOC_API PdfDifferenceEncoding : public PdfEncoding, private PdfElem
      */
     PdfDifferenceEncoding( const PdfEncodingDifference & rDifference, PdfVecObjects* pParent, bool bAutoDelete = true );
 
-    /** Create a new PdfDifferenceEncoding which is based on 
+    /** Create a new PdfDifferenceEncoding which is based on
      *  a predefined encoding.
      *
      *  \param rDifference the differences in this encoding
@@ -166,10 +166,10 @@ class PODOFO_DOC_API PdfDifferenceEncoding : public PdfEncoding, private PdfElem
      *                 Add a newly created object to this vector.
      *  \param bAutoDelete if true the encoding is deleted by its owning font
      */
-    PdfDifferenceEncoding( const PdfEncodingDifference & rDifference, EBaseEncoding eBaseEncoding, 
+    PdfDifferenceEncoding( const PdfEncodingDifference & rDifference, EBaseEncoding eBaseEncoding,
                            PdfDocument* pParent, bool bAutoDelete = true );
 
-    /** Create a new PdfDifferenceEncoding which is based on 
+    /** Create a new PdfDifferenceEncoding which is based on
      *  a predefined encoding.
      *
      *  \param rDifference the differences in this encoding
@@ -178,7 +178,7 @@ class PODOFO_DOC_API PdfDifferenceEncoding : public PdfEncoding, private PdfElem
      *                 Add a newly created object to this vector.
      *  \param bAutoDelete if true the encoding is deleted by its owning font
      */
-    PdfDifferenceEncoding( const PdfEncodingDifference & rDifference, EBaseEncoding eBaseEncoding, 
+    PdfDifferenceEncoding( const PdfEncodingDifference & rDifference, EBaseEncoding eBaseEncoding,
                            PdfVecObjects* pParent, bool bAutoDelete = true );
 
     /** Create a new PdfDifferenceEncoding from an existing object
@@ -190,14 +190,14 @@ class PODOFO_DOC_API PdfDifferenceEncoding : public PdfEncoding, private PdfElem
     PdfDifferenceEncoding( PdfObject* pObject, bool bAutoDelete = true );
 
     /** Convert a standard character name to a unicode code point
-     * 
+     *
      *  \param rName a standard character name
      *  \returns an unicode code point
      */
     static pdf_utf16be NameToUnicodeID( const PdfName & rName );
 
     /** Convert an unicode code point to a standard character name
-     * 
+     *
      *  \param inCodePoint a code point
      *  \returns a standard character name of /.notdef if none could be found
      */
@@ -213,7 +213,7 @@ class PODOFO_DOC_API PdfDifferenceEncoding : public PdfEncoding, private PdfElem
     /** Convert a string that is encoded with this encoding
      *  to an unicode PdfString.
      *
-     *  \param rEncodedString a string encoded by this encoding. 
+     *  \param rEncodedString a string encoded by this encoding.
      *         Usually this string was read from a content stream.
      *  \param pFont the font for which this string is converted
      *
@@ -231,18 +231,18 @@ class PODOFO_DOC_API PdfDifferenceEncoding : public PdfEncoding, private PdfElem
      */
     virtual PdfRefCountedBuffer ConvertToEncoding( const PdfString & rString, const PdfFont* pFont ) const;
 
-    /** 
+    /**
      * \returns true if this encoding should be deleted automatically with the
      *          font.
      */
     virtual bool IsAutoDelete() const;
 
-    /** 
+    /**
      *  \returns true if this is a single byte encoding with a maximum of 256 values.
      */
     virtual bool IsSingleByteEncoding() const;
 
-    /** 
+    /**
      * Get read-only access to the object containing the actual
      * differences.
      *
@@ -255,9 +255,9 @@ class PODOFO_DOC_API PdfDifferenceEncoding : public PdfEncoding, private PdfElem
      *  GetFirstChar() and GetLastChar()
      *
      *  \param nIndex character code at position index
-     *  \returns unicode character code 
-     * 
-     *  \see GetFirstChar 
+     *  \returns unicode character code
+     *
+     *  \see GetFirstChar
      *  \see GetLastChar
      *
      *  Will throw an exception if nIndex is out of range.
@@ -282,8 +282,8 @@ class PODOFO_DOC_API PdfDifferenceEncoding : public PdfEncoding, private PdfElem
      */
     void CreateID();
 
-    /** Get an object of type baseencoding 
-     * 
+    /** Get an object of type baseencoding
+     *
      *  \returns a base encoding
      */
     const PdfEncoding* GetBaseEncoding() const;
@@ -292,12 +292,12 @@ class PODOFO_DOC_API PdfDifferenceEncoding : public PdfEncoding, private PdfElem
     PdfEncodingDifference m_differences;
 
     bool          m_bAutoDelete;  ///< If true this encoding is deleted by its font.
-    PdfName       m_id;           ///< Unique ID of this encoding 
-    EBaseEncoding m_baseEncoding; ///< The base encoding of this font 
+    PdfName       m_id;           ///< Unique ID of this encoding
+    EBaseEncoding m_baseEncoding; ///< The base encoding of this font
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline const PdfName & PdfDifferenceEncoding::GetID() const
 {
@@ -305,7 +305,7 @@ inline const PdfName & PdfDifferenceEncoding::GetID() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline bool PdfDifferenceEncoding::IsAutoDelete() const
 {
@@ -313,7 +313,7 @@ inline bool PdfDifferenceEncoding::IsAutoDelete() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline bool PdfDifferenceEncoding::IsSingleByteEncoding() const
 {
@@ -321,7 +321,7 @@ inline bool PdfDifferenceEncoding::IsSingleByteEncoding() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline const PdfEncodingDifference & PdfDifferenceEncoding::GetDifferences() const
 {
@@ -332,4 +332,3 @@ inline const PdfEncodingDifference & PdfDifferenceEncoding::GetDifferences() con
 }; /* PoDoFo */
 
 #endif // _PDF_DIFFERENCE_ENCODING_H_
-

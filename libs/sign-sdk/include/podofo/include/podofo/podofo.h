@@ -85,5 +85,3 @@ using namespace PoDoFo;
 #endif /* _PODOFO_NO_NAMESPACE_ */
 
 #endif /* _PODOFO_H_ */
-
-

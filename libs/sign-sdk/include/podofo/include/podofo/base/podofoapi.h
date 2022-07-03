@@ -5,7 +5,7 @@
  * This header provides a macro to handle correct symbol imports/exports
  * on platforms that require explicit instructions to make symbols public,
  * or differentiate between exported and imported symbols.
- * 
+ *
  * Win32 compilers use this information, and gcc4 can use it on *nix
  * to reduce the size of the export symbol table and get faster runtime
  * linking.
@@ -67,7 +67,7 @@
 #if defined (podofo_EXPORTS)
     #define COMPILING_SHARED_PODOFO
     #undef USING_SHARED_PODOFO
-    #if defined(podofo_EXPORTS) 
+    #if defined(podofo_EXPORTS)
         #define COMPILING_SHARED_PODOFO_BASE
         #define COMPILING_SHARED_PODOFO_DOC
     #endif

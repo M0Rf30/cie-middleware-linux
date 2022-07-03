@@ -38,25 +38,25 @@ class PdfFontSimple : public PdfFont {
      *  The font has a default font size of 12.0pt.
      *
      *  \param pMetrics pointer to a font metrics object. The font in the PDF
-     *         file will match this fontmetrics object. The metrics object is 
+     *         file will match this fontmetrics object. The metrics object is
      *         deleted along with the font.
-     *  \param pEncoding the encoding of this font. The encoding will be owned 
-     *                   by this font and will be deleted along with it. 
+     *  \param pEncoding the encoding of this font. The encoding will be owned
+     *                   by this font and will be deleted along with it.
      *  \param pParent parent of the font object
-     *  
+     *
      */
-    PdfFontSimple( PdfFontMetrics* pMetrics, const PdfEncoding* const pEncoding, 
+    PdfFontSimple( PdfFontMetrics* pMetrics, const PdfEncoding* const pEncoding,
                    PdfVecObjects* pParent );
 
     /** Create a PdfFont based on an existing PdfObject
      *  \param pMetrics pointer to a font metrics object. The font in the PDF
-     *         file will match this fontmetrics object. The metrics object is 
+     *         file will match this fontmetrics object. The metrics object is
      *         deleted along with the font.
-     *  \param pEncoding the encoding of this font. The encoding will be owned 
-     *                   by this font and will be deleted along with it. 
+     *  \param pEncoding the encoding of this font. The encoding will be owned
+     *                   by this font and will be deleted along with it.
      *  \param pObject an existing PdfObject
      */
-    PdfFontSimple( PdfFontMetrics* pMetrics, const PdfEncoding* const pEncoding, 
+    PdfFontSimple( PdfFontMetrics* pMetrics, const PdfEncoding* const pEncoding,
                    PdfObject* pObject );
 
     // Peter Petrov 24 September 2008

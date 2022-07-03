@@ -64,7 +64,7 @@ class PODOFO_API PdfFileStream : public PdfStream {
      *
      *  \param pEncrypt an encryption object or NULL if no encryption should be done
      */
-    void SetEncrypted( PdfEncrypt* pEncrypt ); 
+    void SetEncrypted( PdfEncrypt* pEncrypt );
 
     /** Write the stream to an output device
      *  \param pDevice write to this outputdevice.
@@ -79,7 +79,7 @@ class PODOFO_API PdfFileStream : public PdfStream {
      *
      *  The caller has to free() the buffer.
      *
-     *  This is currently not implemented for PdfFileStreams 
+     *  This is currently not implemented for PdfFileStreams
      *  and will raise an ePdfError_InternalLogic exception
      *
      *  \param pBuffer pointer to the buffer
@@ -128,7 +128,7 @@ class PODOFO_API PdfFileStream : public PdfStream {
      *  \see Append
      *  \see EndAppend
      */
-    virtual void AppendImpl( const char* pszString, size_t lLen ); 
+    virtual void AppendImpl( const char* pszString, size_t lLen );
 
     /** Finish appending data to the stream
      */
@@ -142,7 +142,7 @@ class PODOFO_API PdfFileStream : public PdfStream {
 
     pdf_long    m_lLenInitial;
     pdf_long    m_lLength;
-    
+
 
     PdfObject*       m_pLength;
 
@@ -150,7 +150,7 @@ class PODOFO_API PdfFileStream : public PdfStream {
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 pdf_long PdfFileStream::GetLength() const
 {
@@ -158,7 +158,7 @@ pdf_long PdfFileStream::GetLength() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 const char* PdfFileStream::GetInternalBuffer() const
 {
@@ -166,7 +166,7 @@ const char* PdfFileStream::GetInternalBuffer() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 pdf_long PdfFileStream::GetInternalBufferSize() const
 {

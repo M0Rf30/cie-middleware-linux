@@ -84,22 +84,22 @@ class PODOFO_DOC_API PdfOutlineItem : public PdfElement {
      */
     void InsertChild( PdfOutlineItem* pItem );
 
-    /** 
+    /**
      * \returns the previous item or NULL if this is the first on the current level
      */
     inline PdfOutlineItem* Prev() const;
 
-    /** 
+    /**
      * \returns the next item or NULL if this is the last on the current level
      */
     inline PdfOutlineItem* Next() const;
 
-    /** 
+    /**
      * \returns the first outline item that is a child of this item
      */
     inline PdfOutlineItem* First() const;
 
-    /** 
+    /**
      * \returns the last outline item that is a child of this item
      */
     inline PdfOutlineItem* Last() const;
@@ -110,7 +110,7 @@ class PODOFO_DOC_API PdfOutlineItem : public PdfElement {
      */
     inline PdfOutlineItem* GetParentOutline() const;
 
-    /** Deletes this outline item and all its children from 
+    /** Deletes this outline item and all its children from
      *  the outline hierarchy and removes all objects from
      *  the list of PdfObjects
      *  All pointers to this item will be invalid after this function
@@ -153,7 +153,7 @@ class PODOFO_DOC_API PdfOutlineItem : public PdfElement {
     /** Set the text format of the title.
      *  Supported since PDF 1.4.
      *
-     *  \param eFormat the formatting options 
+     *  \param eFormat the formatting options
      *                 for the title
      */
     void SetTextFormat( EPdfOutlineFormat eFormat );
@@ -210,28 +210,28 @@ class PODOFO_DOC_API PdfOutlineItem : public PdfElement {
     /** Create a new PdfOutlineItem from scratch
      *  \param sTitle title of this item
      *  \param rDest destination of this item
-     *  \param pParentOutline parent of this outline item 
+     *  \param pParentOutline parent of this outline item
      *                        in the outline item hierarchie
      *  \param pParent parent vector of objects which is required
      *                 to create new objects
      */
-    PdfOutlineItem( const PdfString & sTitle, const PdfDestination & rDest, 
+    PdfOutlineItem( const PdfString & sTitle, const PdfDestination & rDest,
                     PdfOutlineItem* pParentOutline, PdfVecObjects* pParent );
 
     /** Create a new PdfOutlineItem from scratch
      *  \param sTitle title of this item
      *  \param rAction action of this item
-     *  \param pParentOutline parent of this outline item 
+     *  \param pParentOutline parent of this outline item
      *                        in the outline item hierarchie
      *  \param pParent parent vector of objects which is required
      *                 to create new objects
      */
-    PdfOutlineItem( const PdfString & sTitle, const PdfAction & rAction, 
+    PdfOutlineItem( const PdfString & sTitle, const PdfAction & rAction,
                     PdfOutlineItem* pParentOutline, PdfVecObjects* pParent );
 
 	/** Create a PdfOutlineItem from an existing PdfObject
      *  \param pObject an existing outline item
-     *  \param pParentOutline parent of this outline item 
+     *  \param pParentOutline parent of this outline item
      *                        in the outline item hierarchie
      *  \param pPrevious previous item of this item
      */
@@ -251,7 +251,7 @@ class PODOFO_DOC_API PdfOutlineItem : public PdfElement {
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline PdfOutlineItem* PdfOutlineItem::GetParentOutline() const
 {
@@ -259,7 +259,7 @@ inline PdfOutlineItem* PdfOutlineItem::GetParentOutline() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline PdfOutlineItem* PdfOutlineItem::First() const
 {
@@ -267,7 +267,7 @@ inline PdfOutlineItem* PdfOutlineItem::First() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline PdfOutlineItem* PdfOutlineItem::Last() const
 {
@@ -275,7 +275,7 @@ inline PdfOutlineItem* PdfOutlineItem::Last() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline PdfOutlineItem* PdfOutlineItem::Prev() const
 {
@@ -283,7 +283,7 @@ inline PdfOutlineItem* PdfOutlineItem::Prev() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline PdfOutlineItem* PdfOutlineItem::Next() const
 {
@@ -292,15 +292,15 @@ inline PdfOutlineItem* PdfOutlineItem::Next() const
 
 
 /** The main PDF outlines dictionary.
- *  
- *  Do not create it by yourself but 
+ *
+ *  Do not create it by yourself but
  *  use PdfDocument::GetOutlines() instead.
  *
  *  \see PdfDocument
  */
 class PODOFO_DOC_API PdfOutlines : public PdfOutlineItem {
  public:
-   
+
     /** Create a new PDF outlines dictionary
      *  \param pParent parent vector of objects
      */
@@ -313,7 +313,7 @@ class PODOFO_DOC_API PdfOutlines : public PdfOutlineItem {
 
     virtual ~PdfOutlines() { }
 
-    /** Create the root node of the 
+    /** Create the root node of the
      *  outline item tree.
      *
      *  \param sTitle the title of the root node

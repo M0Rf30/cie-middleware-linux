@@ -28,10 +28,10 @@
 
 namespace PoDoFo {
 
-/** This class provides an Input device which operates 
+/** This class provides an Input device which operates
  *  either on a file, a buffer in memory or any arbitrary std::istream
  *
- *  This class is suitable for inheritance to provide input 
+ *  This class is suitable for inheritance to provide input
  *  devices of your own for PoDoFo.
  *  Just overide the required virtual methods.
  */
@@ -109,7 +109,7 @@ class PODOFO_API PdfInputDevice {
     virtual void Seek( std::streamoff off, std::ios_base::seekdir dir = std::ios_base::beg );
 
     /** Read a certain number of bytes from the input device.
-     *  
+     *
      *  \param pBuffer store bytes in this buffer.
      *                 The buffer has to be large enough.
      *  \param lLen    number of bytes to read.
@@ -147,12 +147,12 @@ class PODOFO_API PdfInputDevice {
      */
     PODOFO_NOTHROW inline void SetSeekable(bool bIsSeekable);
 
-    /** CAN NOT Construct a new PdfInputDevice without an input source. 
+    /** CAN NOT Construct a new PdfInputDevice without an input source.
      *  However subclasses may well need to do just that.
      */
     PdfInputDevice();
 
- private: 
+ private:
     /** Initialize all private members
      */
     void Init();

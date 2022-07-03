@@ -698,4 +698,3 @@ CCertificate CSignerInfo::getSignatureCertificate(CSignerInfo& signature, CASN1S
 
     throw -1;
 }
-

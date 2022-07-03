@@ -87,13 +87,13 @@ class PODOFO_API PdfStream {
 
     /** Set a binary buffer whose contents are read from a PdfInputStream
      *  All data will be flate encoded.
-     * 
+     *
      *  \param pStream read stream contents from this PdfInputStream
      */
     void Set( PdfInputStream* pStream );
 
     /** Set a binary buffer whose contents are read from a PdfInputStream
-     * 
+     *
      * Use PdfFilterFactory::CreateFilterList if you want to use the contents
      * of the stream dictionary's existing filter key.
      *
@@ -159,9 +159,9 @@ class PODOFO_API PdfStream {
      *  \see BeginAppend
      *  \see EndAppend
      */
-    inline void Append( const char* pszString, size_t lLen ); 
+    inline void Append( const char* pszString, size_t lLen );
 
-    /** Append a null-terminated string to the current stream contents. 
+    /** Append a null-terminated string to the current stream contents.
      *
      *  Make sure BeginAppend has been called before.
      *
@@ -170,7 +170,7 @@ class PODOFO_API PdfStream {
      *  \see BeginAppend
      *  \see EndAppend
      */
-    inline void Append( const char* pszString ); 
+    inline void Append( const char* pszString );
 
     /** Append to the current stream contents.
      *
@@ -181,7 +181,7 @@ class PODOFO_API PdfStream {
      *  \see BeginAppend
      *  \see EndAppend
      */
-    inline void Append( const std::string& sString ); 
+    inline void Append( const std::string& sString );
 
     /** Finish appending data to this stream.
      *  BeginAppend() has to be called before this method.
@@ -239,11 +239,11 @@ class PODOFO_API PdfStream {
     void GetFilteredCopy( char** pBuffer, pdf_long* lLen ) const;
 
     /** Get a filtered copy of a the stream and write it to a PdfOutputStream
-     *  
+     *
      *  \param pStream filtered data is written to this stream.
      */
     void GetFilteredCopy( PdfOutputStream* pStream ) const;
-    
+
     /** Create a copy of a PdfStream object
      *  \param rhs the object to clone
      *  \returns a reference to this object
@@ -280,7 +280,7 @@ class PODOFO_API PdfStream {
      *  \see Append
      *  \see EndAppend
      */
-    virtual void AppendImpl( const char* pszString, size_t lLen ) = 0; 
+    virtual void AppendImpl( const char* pszString, size_t lLen ) = 0;
 
     /** Finish appending data to the stream
      */
@@ -293,16 +293,16 @@ class PODOFO_API PdfStream {
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 void PdfStream::Set( const char* pszString )
 {
-    if( pszString ) 
+    if( pszString )
         Set( const_cast<char*>(pszString), strlen( pszString ) );
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 void PdfStream::Append( const char* pszString, size_t lLen )
 {
@@ -312,7 +312,7 @@ void PdfStream::Append( const char* pszString, size_t lLen )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 void PdfStream::Append( const char* pszString )
 {
@@ -321,15 +321,15 @@ void PdfStream::Append( const char* pszString )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
-void PdfStream::Append( const std::string& sString ) 
+void PdfStream::Append( const std::string& sString )
 {
     Append( sString.c_str(), sString.length() );
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfStream::IsAppending() const
 {

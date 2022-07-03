@@ -50,7 +50,7 @@ class PODOFO_DOC_API PdfFileSpec : public PdfElement {
     PdfFileSpec( PdfObject* pObject );
 
     /** \returns the filename of this file specification.
-     *           if no general name is available 
+     *           if no general name is available
      *           it will try the Unix, Mac and DOS keys too.
      */
     const PdfString & GetFilename() const;
@@ -58,7 +58,7 @@ class PODOFO_DOC_API PdfFileSpec : public PdfElement {
  private:
 
     /** Create a file specification string from a filename
-     *  \param pszFilename filename 
+     *  \param pszFilename filename
      *  \returns a file specification string
      */
     PdfString CreateFileSpecification( const char* pszFilename ) const;
@@ -79,4 +79,3 @@ class PODOFO_DOC_API PdfFileSpec : public PdfElement {
 };
 
 #endif // _PDF_FILE_SPEC_H_
-

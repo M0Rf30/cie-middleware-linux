@@ -29,7 +29,7 @@
 
 /**
  * PODOFO_USE_UNORDERED_MAP
- * 
+ *
  * If you set this define, PoDoFo
  * will use std::tr1::unordered_map instead
  * of std::map for PdfDictionary.
@@ -55,7 +55,7 @@ public:
     size_t operator()( const PdfName& v ) const
     {
         std::tr1::hash<std::string> hasher;
-        
+
         return hasher( v.GetName() );
     }
 };
@@ -146,7 +146,7 @@ class PODOFO_API PdfDictionary : public PdfDataType {
      * so it MUST not be deleted.
      *
      *  \param key look for the key names pszKey in the dictionary
-     * 
+     *
      *  \returns pointer to the found value or 0 if the key was not found.
      */
     const PdfObject* GetKey( const PdfName & key ) const;
@@ -159,7 +159,7 @@ class PODOFO_API PdfDictionary : public PdfDataType {
      * be deleted.
      *
      *  \param key look for the key named key in the dictionary
-     * 
+     *
      *  \returns the found value or 0 if the key was not found.
      */
     PdfObject* GetKey( const PdfName & key );
@@ -183,7 +183,7 @@ class PODOFO_API PdfDictionary : public PdfDataType {
      * function does nothing.
      *
      *  \param identifier the name of the key to delete
-     * 
+     *
      *  \returns true if the key was found in the object and was removed if
      *  there was is no key with this name, false is returned.
      *
@@ -214,7 +214,7 @@ class PODOFO_API PdfDictionary : public PdfDataType {
      *  \param keyStop if not KeyNull and a key == keyStop is found
      *                 writing will stop right before this key!
      */
-    void Write( PdfOutputDevice* pDevice, EPdfWriteMode eWriteMode, 
+    void Write( PdfOutputDevice* pDevice, EPdfWriteMode eWriteMode,
                 const PdfEncrypt* pEncrypt, const PdfName & keyStop = PdfName::KeyNull ) const;
 
     /** Get access to the internal map of keys.
@@ -230,13 +230,13 @@ class PODOFO_API PdfDictionary : public PdfDataType {
 
     /** The dirty flag is set if this variant
      *  has been modified after construction.
-     *  
+     *
      *  Usually the dirty flag is also set
      *  if you call any non-const member function
-     *  as we cannot determine if you actually changed 
+     *  as we cannot determine if you actually changed
      *  something or not.
      *
-     *  \returns true if the value is dirty and has been 
+     *  \returns true if the value is dirty and has been
      *                modified since construction
      */
     virtual bool IsDirty() const;
@@ -250,42 +250,42 @@ class PODOFO_API PdfDictionary : public PdfDataType {
      */
     virtual void SetDirty( bool bDirty );
 
- private: 
-    TKeyMap      m_mapKeys; 
+ private:
+    TKeyMap      m_mapKeys;
 
     bool         m_bDirty; ///< Indicates if this object was modified after construction
 };
 
-typedef std::vector<PdfDictionary*>      TVecDictionaries; 
-typedef	TVecDictionaries::iterator       TIVecDictionaries; 
+typedef std::vector<PdfDictionary*>      TVecDictionaries;
+typedef	TVecDictionaries::iterator       TIVecDictionaries;
 typedef	TVecDictionaries::const_iterator TCIVecDictionaries;
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
-const TKeyMap & PdfDictionary::GetKeys() const 
-{ 
-    return m_mapKeys; 
+const TKeyMap & PdfDictionary::GetKeys() const
+{
+    return m_mapKeys;
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
-TKeyMap & PdfDictionary::GetKeys() 
-{ 
-    return m_mapKeys; 
+TKeyMap & PdfDictionary::GetKeys()
+{
+    return m_mapKeys;
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
-void PdfDictionary::Write( PdfOutputDevice* pDevice, EPdfWriteMode eWriteMode, const PdfEncrypt* pEncrypt ) const 
-{ 
-    this->Write( pDevice, eWriteMode, pEncrypt, PdfName::KeyNull ); 
+void PdfDictionary::Write( PdfOutputDevice* pDevice, EPdfWriteMode eWriteMode, const PdfEncrypt* pEncrypt ) const
+{
+    this->Write( pDevice, eWriteMode, pEncrypt, PdfName::KeyNull );
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfDictionary::operator!=( const PdfDictionary& rhs ) const
 {

@@ -26,7 +26,7 @@
  *        PoDoFo lib. It includes all standard files, defines some useful
  *        macros, some datatypes and all important enumeration types. On
  *        supporting platforms it will be precompiled to speed compilation.
- */ 
+ */
 
 #include "PdfCompilerCompat.h"
 
@@ -61,7 +61,7 @@
 #include <vector>
 #include <set>
 
-// Include common BOOST settings 
+// Include common BOOST settings
 #ifdef PODOFO_HAVE_BOOST
 #include <boost/config.hpp>
 #endif // PODOFO_HAVE_BOOST
@@ -123,14 +123,14 @@
 
 /**
  * \namespace PoDoFo
- * 
+ *
  * All classes, functions, types and enums of PoDoFo
  * are members of these namespace.
  *
  * If you use PoDoFo, you might want to add the line:
  *       using namespace PoDoFo;
  * to your application.
- */ 
+ */
 namespace PoDoFo {
 
 /* Explicitly big-endian short, suitable for unicode text */
@@ -146,16 +146,16 @@ typedef unsigned char  pdf_utf8;
 enum EPdfVersion {
     ePdfVersion_1_0 = 0,       /**< PDF 1.0 */
     ePdfVersion_1_1,           /**< PDF 1.1 */
-    ePdfVersion_1_2,           /**< PDF 1.2 */  
-    ePdfVersion_1_3,           /**< PDF 1.3 */ 
+    ePdfVersion_1_2,           /**< PDF 1.2 */
+    ePdfVersion_1_3,           /**< PDF 1.3 */
     ePdfVersion_1_4,           /**< PDF 1.4 */
     ePdfVersion_1_5,           /**< PDF 1.5 */
-    ePdfVersion_1_6,           /**< PDF 1.6 */ 
-    ePdfVersion_1_7            /**< PDF 1.7 */ 
+    ePdfVersion_1_6,           /**< PDF 1.6 */
+    ePdfVersion_1_7            /**< PDF 1.7 */
 };
 
 /** The default PDF Version used by new PDF documents
- *  in PoDoFo. 
+ *  in PoDoFo.
  */
 const EPdfVersion ePdfVersion_Default = ePdfVersion_1_3;
 
@@ -195,7 +195,7 @@ enum EPdfDataType {
 };
 
 /**
- * Every filter that can be used to encode a stream 
+ * Every filter that can be used to encode a stream
  * in a PDF file is referenced by an own enum value.
  * Common filters are ePdfFilter_FlateDecode (i.e. Zip) or
  * ePdfFilter_ASCIIHexDecode
@@ -203,7 +203,7 @@ enum EPdfDataType {
 enum EPdfFilter {
     ePdfFilter_ASCIIHexDecode,            /**< Converts data from and to hexadecimal. Increases size of the data by a factor of 2! \see PdfHexFilter */
     ePdfFilter_ASCII85Decode,             /**< Converts to and from Ascii85 encoding. \see PdfAscii85Filter */
-    ePdfFilter_LZWDecode,                 
+    ePdfFilter_LZWDecode,
     ePdfFilter_FlateDecode,               /**< Compress data using the Flate algorithm of ZLib. This filter is recommended to be used always. \see PdfFlateFilter */
     ePdfFilter_RunLengthDecode,           /**< Run length decode data. \see PdfRLEFilter */
     ePdfFilter_CCITTFaxDecode,
@@ -225,7 +225,7 @@ enum EPdfFontType {
     ePdfFontType_Unknown = 0xff
 };
 
-/** 
+/**
  * Enum for the colorspaces supported
  * by PDF.
  */
@@ -248,7 +248,7 @@ enum EPdfStrokeStyle {
     ePdfStrokeStyle_Dot,
     ePdfStrokeStyle_DashDot,
     ePdfStrokeStyle_DashDotDot,
-    ePdfStrokeStyle_Custom 
+    ePdfStrokeStyle_Custom
 };
 
 /**
@@ -318,7 +318,7 @@ enum EPdfAlignment {
 
 /**
  * Enum holding the supported page sizes by PoDoFo.
- * Can be used to construct a PdfRect structure with 
+ * Can be used to construct a PdfRect structure with
  * measurements of a page object.
  *
  * \see PdfPage
@@ -463,15 +463,15 @@ template <typename T> const T PDF_MIN ( const T a, const T b ) {
  *
  * <b>PoDoFo</b> is a library to work with the PDF file format and includes also a few
  * tools. The name comes from the first letter of PDF (Portable Document
- * Format). 
- * 
+ * Format).
+ *
  * The <b>PoDoFo</b> library is a free portable C++ library which includes
  * classes to parse a PDF file and modify its contents into memory. The changes
  * can be written back to disk easily. The parser could also be used to write a
  * PDF viewer. Besides parsing PoDoFo includes also very simple classes to create
  * your own PDF files. All classes are documented so it is easy to start writing
  * your own application using PoDoFo.
- * 
+ *
  * The <b>PoDoFo</b> tools are simple tools build around the <b>PoDoFo</b> library. These tools
  * are first of all examples on how to use the <b>PoDoFo</b> library in your own
  * projects. But secondly they offer also features for working with PDF
@@ -480,18 +480,18 @@ template <typename T> const T PDF_MIN ( const T a, const T b ) {
  * extracts all jpeg images from a given PDF file) and podofouncompress (which
  * removes all compression filters from a PDF file - this is useful for debugging
  * existing PDF files).
- * 
+ *
  * Additionally there is the external tool <b>PoDoFoBrowser</b> which is not included in
  * this package, but can be downloaded from the <b>PoDoFo</b> webpage. <b>PoDoFoBrowser</b> is
  * a Qt application for browsing the objects in a PDF file and modifying their
  * keys easily. It is very useful if you want to look on the internal structure
  * of PDF files.
- * 
- * As of now <b>PoDoFo</b> is available for Unix, Mac OS X and Windows platforms. 
+ *
+ * As of now <b>PoDoFo</b> is available for Unix, Mac OS X and Windows platforms.
  *
  * More information can be found at: http://podofo.sourceforge.net
  *
- * <b>PoDoFo</b> is created by Dominik Seichter <domseichter@web.de>, 
+ * <b>PoDoFo</b> is created by Dominik Seichter <domseichter@web.de>,
  * Leonard Rosenthol <leonardr@pdfsages.com> and Craig Ringer <craig@postnewspapers.com.au>
  *
  * \page Codingstyle (Codingstyle)

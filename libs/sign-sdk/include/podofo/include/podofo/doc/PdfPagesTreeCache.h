@@ -38,11 +38,11 @@ class PODOFO_DOC_API PdfPagesTreeCache
 
  public:
     /** Construct a new PdfCachedPagesTree.
-     *  
+     *
      *  @param nInitialSize initial size of the pagestree
      */
     PdfPagesTreeCache( int nInitialSize );
-    
+
     /** Close/down destruct a PdfCachedPagesTree
      */
     virtual ~PdfPagesTreeCache();
@@ -78,7 +78,7 @@ class PODOFO_DOC_API PdfPagesTreeCache
     virtual void DeletePage( int nIndex );
 
     /**
-     * Clear cache, i.e. remove all elements from the 
+     * Clear cache, i.e. remove all elements from the
      * cache.
      */
     virtual void ClearCache();
@@ -96,5 +96,3 @@ private:
 };
 
 #endif // _PDF_PAGES_TREE_CACHE_H_
-
-

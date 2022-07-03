@@ -153,4 +153,3 @@ class ByteDynArray : public ByteArray {
 #define VarToByteArray(a) (ByteArray((uint8_t*)&(a),sizeof(a)))
 #define VarToByteDynArray(a) (ByteDynArray(VarToByteArray(a)))
 #define ByteArrayToVar(a,b) (*(b*)(a).data())
-

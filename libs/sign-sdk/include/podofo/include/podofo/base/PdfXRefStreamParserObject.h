@@ -46,7 +46,7 @@ public:
      *  \param rBuffer buffer to use for parsing to avoid reallocations
      *  \param pOffsets XRef entries are stored into this array
      */
-    PdfXRefStreamParserObject(PdfVecObjects* pCreator, const PdfRefCountedInputDevice & rDevice, 
+    PdfXRefStreamParserObject(PdfVecObjects* pCreator, const PdfRefCountedInputDevice & rDevice,
                               const PdfRefCountedBuffer & rBuffer, PdfParser::TVecOffsets* pOffsets );
 
     ~PdfXRefStreamParserObject();
@@ -93,7 +93,7 @@ private:
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline bool PdfXRefStreamParserObject::HasPrevious()
 {
@@ -101,7 +101,7 @@ inline bool PdfXRefStreamParserObject::HasPrevious()
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline pdf_long PdfXRefStreamParserObject::GetPreviousOffset()
 {

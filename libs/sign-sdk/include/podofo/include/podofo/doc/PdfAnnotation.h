@@ -37,9 +37,9 @@ class PdfString;
 class PdfXObject;
 
 /** The type of the annotation.
- *  PDF supports different annotation types, each of 
+ *  PDF supports different annotation types, each of
  *  them has different keys and propeties.
- *  
+ *
  *  Not all annotation types listed here are supported yet.
  *
  *  Please make also sure that the annotation type you use is
@@ -77,7 +77,7 @@ enum EPdfAnnotation {
 };
 
 /** Flags that control the appearance of a PdfAnnotation.
- *  You can OR them together and pass it to 
+ *  You can OR them together and pass it to
  *  PdfAnnotation::SetFlags.
  */
 enum EPdfAnnotationFlags {
@@ -94,9 +94,9 @@ enum EPdfAnnotationFlags {
     ePdfAnnotationFlags_Unknow       = 0xffff
 };
 
-/** An annotation to a PdfPage 
+/** An annotation to a PdfPage
  *  To create an annotation use PdfPage::CreateAnnotation
- * 
+ *
  *  \see PdfPage::CreateAnnotation
  */
 class PODOFO_DOC_API PdfAnnotation : public PdfElement {
@@ -127,7 +127,7 @@ class PODOFO_DOC_API PdfAnnotation : public PdfElement {
      */
     void SetAppearanceStream( PdfXObject* pObject );
 
-    /** 
+    /**
      * \returns true if this annotation has an appearance stream
      */
     bool HasAppearanceStream() const;
@@ -138,7 +138,7 @@ class PODOFO_DOC_API PdfAnnotation : public PdfElement {
     PdfRect GetRect() const;
 
     /** Set the flags of this annotation.
-     *  \param uiFlags is an unsigned 32bit integer with different 
+     *  \param uiFlags is an unsigned 32bit integer with different
      *                 EPdfAnnotationFlags OR'ed together.
      *  \see GetFlags
      */
@@ -153,15 +153,15 @@ class PODOFO_DOC_API PdfAnnotation : public PdfElement {
     pdf_uint32 GetFlags() const;
 
     /** Set the annotations border style.
-     *  \param dHCorner horitzontal corner radius 
-     *  \param dVCorner vertical corner radius 
+     *  \param dHCorner horitzontal corner radius
+     *  \param dVCorner vertical corner radius
      *  \param dWidth width of border
      */
     void SetBorderStyle( double dHCorner, double dVCorner, double dWidth );
 
     /** Set the annotations border style.
-     *  \param dHCorner horitzontal corner radius 
-     *  \param dVCorner vertical corner radius 
+     *  \param dHCorner horitzontal corner radius
+     *  \param dVCorner vertical corner radius
      *  \param dWidth width of border
      *  \param rStrokeStyle a custom stroke style pattern
      */
@@ -209,12 +209,12 @@ class PODOFO_DOC_API PdfAnnotation : public PdfElement {
      *  \param pDoc a PdfDocument owning this annotation.
      *         This is required to resolve names and pages.
      *  \returns a destination object
-     * 
+     *
      *  \see SetDestination
      */
     PdfDestination GetDestination( PdfDocument* pDoc ) const;
 
-    /** 
+    /**
      *  \returns true if this annotation has an destination
      */
     bool HasDestination() const;
@@ -222,7 +222,7 @@ class PODOFO_DOC_API PdfAnnotation : public PdfElement {
     /** Set the action that is executed for this annotation
      *  \param rAction an action object
      *
-     *  \see GetAction 
+     *  \see GetAction
      */
     void SetAction( const PdfAction & rAction );
 
@@ -230,11 +230,11 @@ class PODOFO_DOC_API PdfAnnotation : public PdfElement {
      *  \returns an action object. The action object is owned
      *           by the PdfAnnotation.
      *
-     *  \see SetAction 
+     *  \see SetAction
      */
     PdfAction* GetAction() const;
 
-    /** 
+    /**
      *  \returns true if this annotation has an action
      */
     bool HasAction() const;
@@ -245,12 +245,12 @@ class PODOFO_DOC_API PdfAnnotation : public PdfElement {
      */
     void SetOpen( bool b );
 
-    /** 
+    /**
      * \returns true if this annotation should be opened immediately
      *          by the viewer
      */
     bool GetOpen() const;
-    
+
     /**
      * \returns true if this annotation has a file attachement
      */
@@ -258,7 +258,7 @@ class PODOFO_DOC_API PdfAnnotation : public PdfElement {
 
     /** Set a file attachment for this annotation.
      *  The type of this annotation has to be
-     *  ePdfAnnotation_FileAttachement for file 
+     *  ePdfAnnotation_FileAttachement for file
      *  attachements to work.
      *
      *  \param rFileSpec a file specification
@@ -269,11 +269,11 @@ class PODOFO_DOC_API PdfAnnotation : public PdfElement {
      *  \returns a file specification object. The file specification object is owned
      *           by the PdfAnnotation.
      *
-     *  \see SetFileAttachement 
+     *  \see SetFileAttachement
      */
     PdfFileSpec* GetFileAttachement() const;
 
- 
+
     /** Get the quad points associated with the annotation (if appropriate).
      *  This array is used in text markup annotations to describe the
      *  regions affected by the markup (i.e. the hilighted words, one
@@ -293,12 +293,12 @@ class PODOFO_DOC_API PdfAnnotation : public PdfElement {
      *
      *  \param rQuadPoints a PdfArray of 8xn numbers describing the
      *           x,y coordinates of BL BR TR TL corners of the
-     *           quadrilaterals. 
+     *           quadrilaterals.
      */
     void SetQuadPoints( const PdfArray & rQuadPoints );
 
     /** Get the color key of the Annotation dictionary
-     *  which defines the color of the annotation, 
+     *  which defines the color of the annotation,
      *  as per 8.4 of the pdf spec. The PdfArray contains
      *  0 to four numbers, depending on the colorspace in
      *  which the color is specified
@@ -318,9 +318,9 @@ class PODOFO_DOC_API PdfAnnotation : public PdfElement {
      *  color of the annotation, as per 8.4 of the pdf spec. Parameters
      *  give the color in rgb colorspace coordinates
      *
-     *  \param r number from 0 to 1, the intensity of the red channel 
-     *  \param g number from 0 to 1, the intensity of the green channel 
-     *  \param b number from 0 to 1, the intensity of the blue channel 
+     *  \param r number from 0 to 1, the intensity of the red channel
+     *  \param g number from 0 to 1, the intensity of the green channel
+     *  \param b number from 0 to 1, the intensity of the blue channel
      */
 
     void SetColor( double r, double g, double b );
@@ -329,10 +329,10 @@ class PODOFO_DOC_API PdfAnnotation : public PdfElement {
      *  color of the annotation, as per 8.4 of the pdf spec. Parameters
      *  give the color in cmyk colorspace coordinates
      *
-     *  \param c number from 0 to 1, the intensity of the cyan channel 
-     *  \param m number from 0 to 1, the intensity of the magneta channel 
-     *  \param y number from 0 to 1, the intensity of the yellow channel 
-     *  \param k number from 0 to 1, the intensity of the black channel 
+     *  \param c number from 0 to 1, the intensity of the cyan channel
+     *  \param m number from 0 to 1, the intensity of the magneta channel
+     *  \param y number from 0 to 1, the intensity of the yellow channel
+     *  \param k number from 0 to 1, the intensity of the black channel
      */
 
     void SetColor( double c, double m, double y, double k );
@@ -383,7 +383,7 @@ class PODOFO_DOC_API PdfAnnotation : public PdfElement {
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline EPdfAnnotation PdfAnnotation::GetType() const
 {
@@ -391,7 +391,7 @@ inline EPdfAnnotation PdfAnnotation::GetType() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline PdfPage* PdfAnnotation::GetPage() const
 {

@@ -40,7 +40,7 @@ protected:
 	char			m_szAlias[MAX_PATH];
 	CTSAClient*		m_pTSAClient;
 
-	
+
 };
 
 

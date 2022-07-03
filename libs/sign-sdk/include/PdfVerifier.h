@@ -28,44 +28,40 @@ typedef struct _SignatureAppearanceInfo
 	int heigth;
 } SignatureAppearanceInfo;
 
-class PDFVerifier 
+class PDFVerifier
 {
 public:
 	PDFVerifier();
-	
+
 	virtual ~PDFVerifier();
-	
+
 	int Load(const char* pdf, int len);
     int Load(const char* szFilePath);
-	
+
 	int GetNumberOfSignatures();
-	
+
 	int VerifySignature(int index, const char* szDate, char* signatureType, REVOCATION_INFO* pRevocationInfo);
-	
-	
+
+
 	int GetSignature(int index, UUCByteArray& signedDocument, SignatureAppearanceInfo& appearanceInfo);
-	
+
 	static int GetNumberOfSignatures(PdfMemDocument* pPdfDocument);
     static int GetNumberOfSignatures(const char* szFilePath);
-	
+
 private:
 	UUCByteArray m_data;
 	static bool IsSignatureField(const PdfMemDocument* pDoc, const PdfObject *const pObj);
-	
+
 	int VerifySignature(const PdfMemDocument* pDoc, const PdfObject *const pObj, const char* szDate, char* signatureType, REVOCATION_INFO* pRevocationInfo);
 
 	int GetSignature(const PdfMemDocument* pDoc, const PdfObject *const pObj, UUCByteArray& signedDocument, SignatureAppearanceInfo& appearanceInfo);
 
 	PdfMemDocument* m_pPdfDocument;
-	
+
 	int m_actualLen;
-	
+
 	char* m_szDocBuffer;
-	
+
 };
 
 #endif //_PDFVERIFIER_H
-
-
-
-

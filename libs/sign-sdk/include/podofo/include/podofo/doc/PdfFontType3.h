@@ -51,28 +51,28 @@ class PdfFontType3 : public PdfFontSimple {
     /** Create a new Type3 font.
      *
      *  It will get embedded automatically.
-     * 
+     *
      *  \param pMetrics pointer to a font metrics object. The font in the PDF
-     *         file will match this fontmetrics object. The metrics object is 
+     *         file will match this fontmetrics object. The metrics object is
      *         deleted along with the font.
      *  \param pEncoding the encoding of this font. The font will take ownership of this object
      *                   depending on pEncoding->IsAutoDelete()
      *  \param pParent parent of the font object
      *  \param bEmbed if true the font will get embedded.
-     *  
+     *
      */
-    PdfFontType3( PdfFontMetrics* pMetrics, const PdfEncoding* const pEncoding, 
+    PdfFontType3( PdfFontMetrics* pMetrics, const PdfEncoding* const pEncoding,
                      PdfVecObjects* pParent, bool bEmbed );
 
     /** Create a PdfFont based on an existing PdfObject
      *  \param pMetrics pointer to a font metrics object. The font in the PDF
-     *         file will match this fontmetrics object. The metrics object is 
+     *         file will match this fontmetrics object. The metrics object is
      *         deleted along with the font.
      *  \param pEncoding the encoding of this font. The font will take ownership of this object
      *                   depending on pEncoding->IsAutoDelete()
      *  \param pObject an existing PdfObject
      */
-    PdfFontType3( PdfFontMetrics* pMetrics, const PdfEncoding* const pEncoding, 
+    PdfFontType3( PdfFontMetrics* pMetrics, const PdfEncoding* const pEncoding,
                      PdfObject* pObject );
 
  private:
@@ -87,4 +87,3 @@ class PdfFontType3 : public PdfFontSimple {
 };
 
 #endif // _PDF_FONT_TYPE3_H_
-

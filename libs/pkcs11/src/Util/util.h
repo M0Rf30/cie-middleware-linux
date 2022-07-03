@@ -276,5 +276,3 @@ template< typename t >
 scopeExitClass< t > scopeExit(t o) {
     return { std::move(o) };
 }
-
-

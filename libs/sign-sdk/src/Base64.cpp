@@ -299,4 +299,3 @@ char * base64_decode(const char *in) {
 
     return(out);
 }
-

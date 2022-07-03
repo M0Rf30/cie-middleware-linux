@@ -39,7 +39,7 @@ class PdfHintStream : public PdfElement {
     PdfHintStream( PdfVecObjects* pParent, PdfPagesTree* pPagesTree );
     ~PdfHintStream();
 
-    /** Create the hint stream 
+    /** Create the hint stream
      *  \param pXRef pointer to a valid XREF table structure
      */
     //void Create( TVecXRefTable* pXRef );
@@ -57,7 +57,7 @@ class PdfHintStream : public PdfElement {
  private:
     //void CreatePageHintTable( TVecXRefTable* pXRef );
     void CreateSharedObjectHintTable();
- 
+
  private:
     PdfPagesTree* m_pPagesTree;
 };

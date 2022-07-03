@@ -32,7 +32,7 @@ namespace PoDoFo {
 class PdfInputDevice;
 class PdfOutputDevice;
 
-// This code is based heabily on code by ZhangYang 
+// This code is based heabily on code by ZhangYang
 // (张杨.国际) <zhang_yang@founder.com>
 //
 // (Do not put this into doxygen documentation blocks
@@ -56,7 +56,7 @@ class PODOFO_DOC_API PdfFontTTFSubset {
     };
 
 
-    /** Create a new PdfFontTTFSubset from an existing 
+    /** Create a new PdfFontTTFSubset from an existing
      *  TTF font file.
      *
      *  @param pszFontFileName path to a TTF file
@@ -65,7 +65,7 @@ class PODOFO_DOC_API PdfFontTTFSubset {
      */
     PdfFontTTFSubset( const char* pszFontFileName, PdfFontMetrics* pMetrics, unsigned short nFaceIndex = 0 );
 
-    /** Create a new PdfFontTTFSubset from an existing 
+    /** Create a new PdfFontTTFSubset from an existing
      *  TTF font file using an input device.
      *
      *  @param pDevice a PdfInputDevice
@@ -82,7 +82,7 @@ class PODOFO_DOC_API PdfFontTTFSubset {
      *
      * @param pOutputDevice write the font to this device
      */
-    void BuildFont( PdfOutputDevice* pOutputDevice ); 
+    void BuildFont( PdfOutputDevice* pOutputDevice );
 
     /** Add a new glyph index to the subset.
      *
@@ -108,7 +108,7 @@ class PODOFO_DOC_API PdfFontTTFSubset {
  private:
     /** Hide default constructor
      */
-    PdfFontTTFSubset() : m_bOwnDevice( false ) {} 
+    PdfFontTTFSubset() : m_bOwnDevice( false ) {}
 
     /** copy constructor, not implemented
      */
@@ -118,8 +118,8 @@ class PODOFO_DOC_API PdfFontTTFSubset {
     PdfFontTTFSubset& operator=(const PdfFontTTFSubset& rhs);
 
     void Init();
-    
-    /** Get the offset of a specified table. 
+
+    /** Get the offset of a specified table.
      *  @param pszTableName name of the table
      */
     unsigned long GetTableOffset( const char* pszTableName );
@@ -146,7 +146,7 @@ class PODOFO_DOC_API PdfFontTTFSubset {
 	std::string  m_strTableName; // TODO: DS: REMOVE FIELD?
     };
 
-    /** GlyphData contains the glyph address relative 
+    /** GlyphData contains the glyph address relative
      *  to the beginning of the glyf table.
      */
     struct TGlyphData {
@@ -168,10 +168,10 @@ class PODOFO_DOC_API PdfFontTTFSubset {
     PdfFontMetrics* m_pMetrics;                ///< FontMetrics object which is required to convert unicode character points to glyph ids
     EFontFileType   m_eFontFileType;
     bool	    m_bIsLongLoca;
-    
+
     unsigned short  m_numTables;
     unsigned short  m_numGlyphs;
-    
+
     std::vector<TTrueTypeTable> m_vTable;
     std::vector<unsigned short> m_vGlyphIndice;
 
@@ -184,15 +184,15 @@ class PODOFO_DOC_API PdfFontTTFSubset {
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
-inline size_t PdfFontTTFSubset::GetSize() const 
+inline size_t PdfFontTTFSubset::GetSize() const
 {
     return m_vGlyphIndice.size();
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfFontTTFSubset::AddCharacter( pdf_utf16be nCharCode )
 {

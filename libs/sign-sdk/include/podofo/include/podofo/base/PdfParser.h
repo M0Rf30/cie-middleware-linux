@@ -38,7 +38,7 @@ class PdfEncrypt;
 class PdfString;
 
 /**
- * PdfParser reads a PDF file into memory. 
+ * PdfParser reads a PDF file into memory.
  * The file can be modified in memory and written back using
  * the PdfWriter class.
  * Most PDF features are supported
@@ -64,7 +64,7 @@ class PODOFO_API PdfParser : public PdfTokenizer {
      *  You have to open a PDF file using ParseFile later.
      *  \param pVecObjects vector to write the parsed PdfObjects to
      *
-     *  \see ParseFile  
+     *  \see ParseFile
      */
     PdfParser( PdfVecObjects* pVecObjects );
 
@@ -76,13 +76,13 @@ class PODOFO_API PdfParser : public PdfTokenizer {
      *  \param bLoadOnDemand If true all objects will be read from the file at
      *                       the time they are accesed first.
      *                       If false all objects will be read immediately.
-     *                       This is faster if you do not need the complete PDF 
+     *                       This is faster if you do not need the complete PDF
      *                       file in memory.
      *
      *  This might throw a PdfError( ePdfError_InvalidPassword ) exception
      *  if a password is required to read this PDF.
      *  Call SetPassword with the correct password in this case.
-     *  
+     *
      *  \see SetPassword
      */
     PdfParser( PdfVecObjects* pVecObjects, const char* pszFilename, bool bLoadOnDemand = true );
@@ -98,13 +98,13 @@ class PODOFO_API PdfParser : public PdfTokenizer {
      *  \param bLoadOnDemand If true all objects will be read from the file at
      *                       the time they are accesed first.
      *                       If false all objects will be read immediately.
-     *                       This is faster if you do not need the complete PDF 
+     *                       This is faster if you do not need the complete PDF
      *                       file in memory.
      *
      *  This might throw a PdfError( ePdfError_InvalidPassword ) exception
      *  if a password is required to read this PDF.
      *  Call SetPassword with the correct password in this case.
-     *  
+     *
      *  This is an overloaded member function to allow working
      *  with unicode characters. On Unix systes you can also path
      *  UTF-8 to the const char* overload.
@@ -124,13 +124,13 @@ class PODOFO_API PdfParser : public PdfTokenizer {
      *  \param bLoadOnDemand If true all objects will be read from the file at
      *                       the time they are accesed first.
      *                       If false all objects will be read immediately.
-     *                       This is faster if you do not need the complete PDF 
+     *                       This is faster if you do not need the complete PDF
      *                       file in memory.
      *
      *  This might throw a PdfError( ePdfError_InvalidPassword ) exception
      *  if a password is required to read this PDF.
      *  Call SetPassword with the correct password in this case.
-     *  
+     *
      *  \see SetPassword
      */
     PdfParser( PdfVecObjects* pVecObjects, const char* pBuffer, long lLen, bool bLoadOnDemand = true );
@@ -143,16 +143,16 @@ class PODOFO_API PdfParser : public PdfTokenizer {
      *  \param bLoadOnDemand If true all objects will be read from the file at
      *                       the time they are accesed first.
      *                       If false all objects will be read immediately.
-     *                       This is faster if you do not need the complete PDF 
+     *                       This is faster if you do not need the complete PDF
      *                       file in memory.
      *
      *  This might throw a PdfError( ePdfError_InvalidPassword ) exception
      *  if a password is required to read this PDF.
      *  Call SetPassword with the correct password in this case.
-     *  
+     *
      *  \see SetPassword
      */
-    PdfParser( PdfVecObjects* pVecObjects, const PdfRefCountedInputDevice & rDevice, 
+    PdfParser( PdfVecObjects* pVecObjects, const PdfRefCountedInputDevice & rDevice,
                bool bLoadOnDemand = true );
 
     /** Delete the PdfParser and all PdfObjects
@@ -165,14 +165,14 @@ class PODOFO_API PdfParser : public PdfTokenizer {
      *  \param bLoadOnDemand If true all objects will be read from the file at
      *                       the time they are accesed first.
      *                       If false all objects will be read immediately.
-     *                       This is faster if you do not need the complete PDF 
+     *                       This is faster if you do not need the complete PDF
      *                       file in memory.
      *
      *
      *  This might throw a PdfError( ePdfError_InvalidPassword ) exception
      *  if a password is required to read this PDF.
      *  Call SetPassword with the correct password in this case.
-     *  
+     *
      *  \see SetPassword
      */
     void ParseFile( const char* pszFilename, bool bLoadOnDemand = true );
@@ -184,14 +184,14 @@ class PODOFO_API PdfParser : public PdfTokenizer {
      *  \param bLoadOnDemand If true all objects will be read from the file at
      *                       the time they are accesed first.
      *                       If false all objects will be read immediately.
-     *                       This is faster if you do not need the complete PDF 
+     *                       This is faster if you do not need the complete PDF
      *                       file in memory.
      *
      *
      *  This might throw a PdfError( ePdfError_InvalidPassword ) exception
      *  if a password is required to read this PDF.
      *  Call SetPassword with the correct password in this case.
-     *  
+     *
      *  This is an overloaded member function to allow working
      *  with unicode characters. On Unix systes you can also path
      *  UTF-8 to the const char* overload.
@@ -208,14 +208,14 @@ class PODOFO_API PdfParser : public PdfTokenizer {
      *  \param bLoadOnDemand If true all objects will be read from the file at
      *                       the time they are accesed first.
      *                       If false all objects will be read immediately.
-     *                       This is faster if you do not need the complete PDF 
+     *                       This is faster if you do not need the complete PDF
      *                       file in memory.
      *
      *
      *  This might throw a PdfError( ePdfError_InvalidPassword ) exception
      *  if a password is required to read this PDF.
      *  Call SetPassword with the correct password in this case.
-     *  
+     *
      *  \see SetPassword
      */
     void ParseFile( const char* pBuffer, long lLen, bool bLoadOnDemand = true );
@@ -226,14 +226,14 @@ class PODOFO_API PdfParser : public PdfTokenizer {
      *  \param bLoadOnDemand If true all objects will be read from the file at
      *                       the time they are accesed first.
      *                       If false all objects will be read immediately.
-     *                       This is faster if you do not need the complete PDF 
+     *                       This is faster if you do not need the complete PDF
      *                       file in memory.
      *
      *
      *  This might throw a PdfError( ePdfError_InvalidPassword ) exception
      *  if a password is required to read this PDF.
      *  Call SetPassword with the correct password in this case.
-     *  
+     *
      *  \see SetPassword
      */
     void ParseFile( const PdfRefCountedInputDevice & rDevice, bool bLoadOnDemand = true );
@@ -246,7 +246,7 @@ class PODOFO_API PdfParser : public PdfTokenizer {
     bool QuickEncryptedCheck( const char* pszFilename );
 
     /**
-     * Retrieve the number of incremental updates that 
+     * Retrieve the number of incremental updates that
      * have been applied to the last parsed PDF file.
      *
      * 0 means no update has been applied.
@@ -290,17 +290,17 @@ class PODOFO_API PdfParser : public PdfTokenizer {
      */
     size_t GetFileSize() const { return m_nFileSize; }
 
-    /** 
+    /**
      * \returns true if this PdfWriter creates an encrypted PDF file
      */
     bool GetEncrypted() const { return (m_pEncrypt != NULL); }
 
-    /** 
+    /**
      * \returns the parsers encryption object or NULL if the read PDF file was not encrypted
      */
     const PdfEncrypt* GetEncrypt() const { return m_pEncrypt; }
 
-    /** 
+    /**
      * Takes the encryption object fro mthe parser. The internal handle will be set
      * to NULL and the ownership of the object is given to the caller.
      *
@@ -310,12 +310,12 @@ class PODOFO_API PdfParser : public PdfTokenizer {
      * \returns the parsers encryption object or NULL if the read PDF file was not encrypted
      */
     inline PdfEncrypt* TakeEncrypt();
-    
+
 
     /** If you try to open an encrypted PDF file, which requires
-     *  a password to open, PoDoFo will throw a PdfError( ePdfError_InvalidPassword ) 
-     *  exception. 
-     *  
+     *  a password to open, PoDoFo will throw a PdfError( ePdfError_InvalidPassword )
+     *  exception.
+     *
      *  If you got such an exception, you have to set a password
      *  which should be used for opening the PDF.
      *
@@ -341,7 +341,7 @@ class PODOFO_API PdfParser : public PdfTokenizer {
      * Strict parsing is by default disabled.
      *
      * If you enable strict parsing, PoDoFo will fail
-     * on a few more common PDF failures. Please not 
+     * on a few more common PDF failures. Please not
      * that PoDoFo's parser is by default very strict
      * already and does not recover from e.g. wrong XREF
      * tables.
@@ -366,7 +366,7 @@ class PODOFO_API PdfParser : public PdfTokenizer {
      * \param bBroken if true broken objects will be ignored
      */
     inline void SetIgnoreBrokenObjects( bool bBroken );
-	
+
 	pdf_long GetXRefOffset() {return m_nXRefOffset; }
 
 
@@ -374,7 +374,7 @@ class PODOFO_API PdfParser : public PdfTokenizer {
     /** Searches backwards from the end of the file
      *  and tries to find a token.
      *  The current file is positioned right after the token.
-     * 
+     *
      *  \param pszToken a token to find
      *  \param lRange range in bytes in which to search
      *                begining at the end of the file
@@ -385,11 +385,11 @@ class PODOFO_API PdfParser : public PdfTokenizer {
     /** Searches backwards from the specified position of the file
      *  and tries to find a token.
      *  The current file is positioned right after the token.
-     * 
+     *
      *  \param pszToken a token to find
      *  \param lRange range in bytes in which to search
      *                begining at the specified position of the file
-     *  \param searchEnd specifies position 
+     *  \param searchEnd specifies position
      */
     void FindToken2( const char* pszToken, const long lRange, size_t searchEnd );
 
@@ -423,15 +423,15 @@ class PODOFO_API PdfParser : public PdfTokenizer {
     /** Reads the xref table from a pdf file.
      *  If there is no xref table, ReadXRefStreamContents() is called.
      *  \param lOffset read the table from this offset
-     *  \param bPositionAtEnd if true the xref table is not read, but the 
-     *                        file stream is positioned directly 
+     *  \param bPositionAtEnd if true the xref table is not read, but the
+     *                        file stream is positioned directly
      *                        after the table, which allows reading
      *                        a following trailer dictionary.
      */
     void ReadXRefContents( pdf_long lOffset, bool bPositionAtEnd = false );
 
     /** Read a xref subsection
-     *  
+     *
      *  Throws ePdfError_NoXref if the number of objects read was not
      *  the number specified by the subsection header (as passed in
      *  `nNumObjects').
@@ -504,8 +504,8 @@ class PODOFO_API PdfParser : public PdfTokenizer {
      *
      */
     void CheckEOFMarker();
-	
-	
+
+
  private:
     /** Free all internal data structures
      */
@@ -531,8 +531,8 @@ class PODOFO_API PdfParser : public PdfTokenizer {
      *  be used.
      */
     void         UpdateDocumentVersion();
-	
-	
+
+
 
  private:
     EPdfVersion   m_ePdfVersion;
@@ -564,7 +564,7 @@ class PODOFO_API PdfParser : public PdfTokenizer {
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfParser::GetLoadOnDemand() const
 {
@@ -572,7 +572,7 @@ bool PdfParser::GetLoadOnDemand() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 EPdfVersion PdfParser::GetPdfVersion() const
 {
@@ -580,7 +580,7 @@ EPdfVersion PdfParser::GetPdfVersion() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 int PdfParser::GetNumberOfIncrementalUpdates() const
 {
@@ -588,7 +588,7 @@ int PdfParser::GetNumberOfIncrementalUpdates() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 const PdfVecObjects* PdfParser::GetObjects() const
 {
@@ -596,7 +596,7 @@ const PdfVecObjects* PdfParser::GetObjects() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 const PdfObject* PdfParser::GetTrailer() const
 {
@@ -604,17 +604,17 @@ const PdfObject* PdfParser::GetTrailer() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
-PdfEncrypt* PdfParser::TakeEncrypt() 
-{ 
+PdfEncrypt* PdfParser::TakeEncrypt()
+{
     PdfEncrypt* pEncrypt = m_pEncrypt;
-    m_pEncrypt = NULL; 
-    return pEncrypt; 
+    m_pEncrypt = NULL;
+    return pEncrypt;
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfParser::IsStrictParsing() const
 {
@@ -622,7 +622,7 @@ bool PdfParser::IsStrictParsing() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 void PdfParser::SetStrictParsing( bool bStrict )
 {
@@ -630,7 +630,7 @@ void PdfParser::SetStrictParsing( bool bStrict )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfParser::GetIgnoreBrokenObjects()
 {
@@ -638,7 +638,7 @@ bool PdfParser::GetIgnoreBrokenObjects()
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 void PdfParser::SetIgnoreBrokenObjects( bool bBroken )
 {
@@ -648,4 +648,3 @@ void PdfParser::SetIgnoreBrokenObjects( bool bBroken )
 };
 
 #endif // _PDF_PARSER_H_
-

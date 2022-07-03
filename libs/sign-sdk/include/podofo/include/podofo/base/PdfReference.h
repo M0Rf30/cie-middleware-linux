@@ -63,13 +63,13 @@ class PODOFO_API PdfReference : public PdfDataType {
      * \param nGenerationNo the generation number
      */
     PdfReference( const pdf_objnum nObjectNo, const pdf_gennum nGenerationNo )
-        : m_nObjectNo( nObjectNo ), m_nGenerationNo( nGenerationNo ) 
+        : m_nObjectNo( nObjectNo ), m_nGenerationNo( nGenerationNo )
     {
     }
 
     /**
      * Create a copy of an existing PdfReference.
-     * 
+     *
      * \param rhs the object to copy
      */
     PdfReference( const PdfReference & rhs ) : PdfDataType()
@@ -103,19 +103,19 @@ class PODOFO_API PdfReference : public PdfDataType {
      */
     void Write( PdfOutputDevice* pDevice, EPdfWriteMode eWriteMode, const PdfEncrypt* pEncrypt = NULL ) const;
 
-    /** 
+    /**
      * Compare to PdfReference objects.
      * \returns true if both reference the same object
      */
     PODOFO_NOTHROW inline bool operator==( const PdfReference & rhs ) const;
 
-    /** 
+    /**
      * Compare to PdfReference objects.
      * \returns false if both reference the same object
      */
     PODOFO_NOTHROW inline bool operator!=( const PdfReference & rhs ) const;
 
-    /** 
+    /**
      * Compare to PdfReference objects.
      * \returns true if this reference has a smaller object and generation number
      */
@@ -158,7 +158,7 @@ class PODOFO_API PdfReference : public PdfDataType {
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 const PdfReference & PdfReference::operator=( const PdfReference & rhs )
 {
@@ -168,7 +168,7 @@ const PdfReference & PdfReference::operator=( const PdfReference & rhs )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfReference::operator<( const PdfReference & rhs ) const
 {
@@ -176,7 +176,7 @@ bool PdfReference::operator<( const PdfReference & rhs ) const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfReference::operator==( const PdfReference & rhs ) const
 {
@@ -184,7 +184,7 @@ bool PdfReference::operator==( const PdfReference & rhs ) const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline bool PdfReference::operator!=( const PdfReference & rhs ) const
 {
@@ -192,7 +192,7 @@ inline bool PdfReference::operator!=( const PdfReference & rhs ) const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 void PdfReference::SetObjectNumber( pdf_objnum o )
 {
@@ -200,7 +200,7 @@ void PdfReference::SetObjectNumber( pdf_objnum o )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 pdf_objnum PdfReference::ObjectNumber() const
 {
@@ -208,7 +208,7 @@ pdf_objnum PdfReference::ObjectNumber() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 void PdfReference::SetGenerationNumber( pdf_gennum g )
 {
@@ -216,7 +216,7 @@ void PdfReference::SetGenerationNumber( pdf_gennum g )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 pdf_gennum PdfReference::GenerationNumber() const
 {
@@ -224,7 +224,7 @@ pdf_gennum PdfReference::GenerationNumber() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfReference::IsIndirect() const
 {
@@ -234,5 +234,3 @@ bool PdfReference::IsIndirect() const
 };
 
 #endif // _PDF_REFERENCE_H_
-
-

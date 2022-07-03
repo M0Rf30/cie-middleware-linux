@@ -163,4 +163,3 @@ class PODOFO_API PdfEncodingFactory {
 
 
 #endif // _PDF_ENCODING_FACTORY_H__
-

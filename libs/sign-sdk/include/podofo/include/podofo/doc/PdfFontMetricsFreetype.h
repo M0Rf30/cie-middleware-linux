@@ -39,7 +39,7 @@ class PODOFO_DOC_API PdfFontMetricsFreetype : public PdfFontMetrics {
      *  \param pszFilename filename of a truetype file
      *  \param pszSubsetPrefix unique prefix for font subsets (see GetFontSubsetPrefix)
      */
-    PdfFontMetricsFreetype( FT_Library* pLibrary, const char* pszFilename, 
+    PdfFontMetricsFreetype( FT_Library* pLibrary, const char* pszFilename,
 		    const char* pszSubsetPrefix = NULL );
 
     /** Create a font metrics object for a given memory buffer
@@ -100,11 +100,11 @@ class PODOFO_DOC_API PdfFontMetricsFreetype : public PdfFontMetrics {
 
     /** Create the bounding box array as required by the PDF reference
      *  so that it can be written directly to a PDF file.
-     * 
+     *
      *  \param array write the bounding box to this array.
      */
     virtual void GetBoundingBox( PdfArray & array ) const;
-    
+
     /** Retrieve the width of the given character in PDF units in the current font
      *  \param c character
      *  \returns the width in PDF units
@@ -123,7 +123,7 @@ class PODOFO_DOC_API PdfFontMetricsFreetype : public PdfFontMetrics {
      */
     virtual double GetLineSpacing() const;
 
-    /** Get the width of the underline for the current 
+    /** Get the width of the underline for the current
      *  font size in PDF units
      *  \returns the thickness of the underline in PDF units
      */
@@ -141,7 +141,7 @@ class PODOFO_DOC_API PdfFontMetricsFreetype : public PdfFontMetrics {
      */
     virtual double GetStrikeOutPosition() const;
 
-    /** Get the width of the strikeout for the current 
+    /** Get the width of the strikeout for the current
      *  font size in PDF units
      *  \returns the thickness of the strikeout in PDF units
      */
@@ -162,7 +162,7 @@ class PODOFO_DOC_API PdfFontMetricsFreetype : public PdfFontMetrics {
      *  units for the current font size.
      *
      *  \returns the ascender for this font
-     *  
+     *
      *  \see GetPdfAscent
      */
     virtual double GetAscent() const;
@@ -170,12 +170,12 @@ class PODOFO_DOC_API PdfFontMetricsFreetype : public PdfFontMetrics {
     /** Get the ascent of this font
      *  Used to build the font dictionay
      *  \returns the ascender for this font
-     *  
+     *
      *  \see GetAscent
      */
     virtual double GetPdfAscent() const;
 
-    /** Get the descent of this font in PDF 
+    /** Get the descent of this font in PDF
      *  units for the current font size.
      *  This value is usually negative!
      *
@@ -209,9 +209,9 @@ class PODOFO_DOC_API PdfFontMetricsFreetype : public PdfFontMetrics {
 
     /** Symbol fonts do need special treatment in a few cases.
      *  Use this method to check if the current font is a symbol
-     *  font. Symbold fonts are detected by checking 
+     *  font. Symbold fonts are detected by checking
      *  if they use FT_ENCODING_MS_SYMBOL as internal encoding.
-     * 
+     *
      * \returns true if this is a symbol font
      */
     virtual bool IsSymbol() const;
@@ -227,13 +227,13 @@ class PODOFO_DOC_API PdfFontMetricsFreetype : public PdfFontMetrics {
     virtual pdf_long GetFontDataLen() const;
 
     /** Get direct access to the internal FreeType handle
-     * 
+     *
      *  \returns the internal freetype handle
      */
     inline FT_Face GetFace();
- 
+
  private:
-    
+
     /** Initialize this object from an in memory buffer
      *  Called internally by the constructors
      */
@@ -271,15 +271,14 @@ class PODOFO_DOC_API PdfFontMetricsFreetype : public PdfFontMetrics {
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
-FT_Face PdfFontMetricsFreetype::GetFace() 
-{ 
-    return m_pFace; 
-} 
+FT_Face PdfFontMetricsFreetype::GetFace()
+{
+    return m_pFace;
+}
 
- 
+
 };
 
 #endif // _PDF_FONT_METRICS_FREETYPE_H_
-

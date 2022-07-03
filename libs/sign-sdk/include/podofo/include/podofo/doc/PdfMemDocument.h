@@ -74,14 +74,14 @@ class PODOFO_DOC_API PdfMemDocument : public PdfDocument {
     /** Construct a new (empty) PdfMemDocument
      */
     PdfMemDocument();
-    
+
     /** Construct a PdfMemDocument from an existing PDF (on disk)
      *  \param pszFilename filename of the file which is going to be parsed/opened
      *
      *  This might throw a PdfError( ePdfError_InvalidPassword ) exception
      *  if a password is required to read this PDF.
      *  Call SetPassword with the correct password in this case.
-     *  
+     *
      *  \see SetPassword
      */
     PdfMemDocument( const char* pszFilename );
@@ -95,7 +95,7 @@ class PODOFO_DOC_API PdfMemDocument : public PdfDocument {
      *  This might throw a PdfError( ePdfError_InvalidPassword ) exception
      *  if a password is required to read this PDF.
      *  Call SetPassword with the correct password in this case.
-     *  
+     *
      *  This is an overloaded member function to allow working
      *  with unicode characters. On Unix systes you can also path
      *  UTF-8 to the const char* overload.
@@ -117,7 +117,7 @@ class PODOFO_DOC_API PdfMemDocument : public PdfDocument {
      *  This might throw a PdfError( ePdfError_InvalidPassword ) exception
      *  if a password is required to read this PDF.
      *  Call SetPassword with the correct password in this case.
-     *  
+     *
      *  \see SetPassword
      */
     void Load( const char* pszFilename );
@@ -132,7 +132,7 @@ class PODOFO_DOC_API PdfMemDocument : public PdfDocument {
      *  This might throw a PdfError( ePdfError_InvalidPassword ) exception
      *  if a password is required to read this PDF.
      *  Call SetPassword with the correct password in this case.
-     *  
+     *
      *  This is an overloaded member function to allow working
      *  with unicode characters. On Unix systes you can also path
      *  UTF-8 to the const char* overload.
@@ -151,7 +151,7 @@ class PODOFO_DOC_API PdfMemDocument : public PdfDocument {
      *  This might throw a PdfError( ePdfError_InvalidPassword ) exception
      *  if a password is required to read this PDF.
      *  Call SetPassword with the correct password in this case.
-     *  
+     *
      *  \see SetPassword
      */
     void Load( const char* pBuffer, long lLen );
@@ -163,14 +163,14 @@ class PODOFO_DOC_API PdfMemDocument : public PdfDocument {
      *  This might throw a PdfError( ePdfError_InvalidPassword ) exception
      *  if a password is required to read this PDF.
      *  Call SetPassword with the correct password in this case.
-     *  
+     *
      *  \see SetPassword
      */
     void Load( const PdfRefCountedInputDevice & rDevice );
 
     /** Writes the complete document to a file
      *
-     *  \param pszFilename filename of the document 
+     *  \param pszFilename filename of the document
      *
      *  \see Write
      *
@@ -181,7 +181,7 @@ class PODOFO_DOC_API PdfMemDocument : public PdfDocument {
 #ifdef _WIN32
     /** Writes the complete document to a file
      *
-     *  \param pszFilename filename of the document 
+     *  \param pszFilename filename of the document
      *
      *  \see Write
      *
@@ -217,16 +217,16 @@ class PODOFO_DOC_API PdfMemDocument : public PdfDocument {
     void SetPdfVersion( EPdfVersion eVersion ) { m_eVersion = eVersion;}
 
 	void SetIncrementalUpdates(bool bIncrementalUpdates);
-	
+
     /** Get the PDF version of the document
      *  \returns EPdfVersion version of the pdf document
      */
     EPdfVersion GetPdfVersion() const { return m_eVersion; }
 
     /** If you try to open an encrypted PDF file, which requires
-     *  a password to open, PoDoFo will throw a PdfError( ePdfError_InvalidPassword ) 
-     *  exception. 
-     *  
+     *  a password to open, PoDoFo will throw a PdfError( ePdfError_InvalidPassword )
+     *  exception.
+     *
      *  If you got such an exception, you have to set a password
      *  which should be used for opening the PDF.
      *
@@ -242,28 +242,28 @@ class PODOFO_DOC_API PdfMemDocument : public PdfDocument {
 
     /** Encrypt the document during writing.
      *
-     *  \param userPassword the user password (if empty the user does not have 
+     *  \param userPassword the user password (if empty the user does not have
      *                      to enter a password to open the document)
      *  \param ownerPassword the owner password
-     *  \param protection several EPdfPermissions values or'ed together to set 
+     *  \param protection several EPdfPermissions values or'ed together to set
      *                    the users permissions for this document
      *  \param eAlgorithm the revision of the encryption algorithm to be used
-     *  \param eKeyLength the length of the encryption key ranging from 40 to 128 bits 
+     *  \param eKeyLength the length of the encryption key ranging from 40 to 128 bits
      *                    (only used if eAlgorithm == ePdfEncryptAlgorithm_RC4V2)
      *
      *  \see PdfEncrypt
      */
     void SetEncrypted( const std::string & userPassword,
-                       const std::string & ownerPassword, 
-                       int protection = PdfEncrypt::ePdfPermissions_Print | 
+                       const std::string & ownerPassword,
+                       int protection = PdfEncrypt::ePdfPermissions_Print |
                                         PdfEncrypt::ePdfPermissions_Edit |
                                         PdfEncrypt::ePdfPermissions_Copy |
-                                        PdfEncrypt::ePdfPermissions_EditNotes | 
+                                        PdfEncrypt::ePdfPermissions_EditNotes |
                                         PdfEncrypt::ePdfPermissions_FillAndSign |
                                         PdfEncrypt::ePdfPermissions_Accessible |
                                         PdfEncrypt::ePdfPermissions_DocAssembly |
                                         PdfEncrypt::ePdfPermissions_HighPrint,
-                       PdfEncrypt::EPdfEncryptAlgorithm eAlgorithm = PdfEncrypt::ePdfEncryptAlgorithm_RC4V1, 
+                       PdfEncrypt::EPdfEncryptAlgorithm eAlgorithm = PdfEncrypt::ePdfEncryptAlgorithm_RC4V1,
                        PdfEncrypt::EPdfKeyLength eKeyLength = PdfEncrypt::ePdfKeyLength_40 );
 
     /** Encrypt the document during writing using a PdfEncrypt object
@@ -272,7 +272,7 @@ class PODOFO_DOC_API PdfMemDocument : public PdfDocument {
      */
     void SetEncrypted( const PdfEncrypt & pEncrypt );
 
-    /** 
+    /**
      * \returns true if this PdfMemDocument creates an encrypted PDF file
      */
     bool GetEncrypted() const { return (m_pEncrypt != NULL); }
@@ -282,7 +282,7 @@ class PODOFO_DOC_API PdfMemDocument : public PdfDocument {
      *  \returns true if the PDF document is linearized
      */
     bool IsLinearized() const { return m_bLinearized; }
-    
+
     /** Get a reference to the sorted internal objects vector.
      *  \returns the internal objects vector.
      */
@@ -296,16 +296,16 @@ class PODOFO_DOC_API PdfMemDocument : public PdfDocument {
 
     /** Get access to the internal Catalog dictionary
      *  or root object.
-     *  
-     *  \returns PdfObject the documents catalog or NULL 
+     *
+     *  \returns PdfObject the documents catalog or NULL
      *                     if no catalog is available
      */
     PdfObject* GetCatalog()  { return PdfDocument::GetCatalog(); }
 
     /** Get access to the internal Catalog dictionary
      *  or root object.
-     *  
-     *  \returns PdfObject the documents catalog or NULL 
+     *
+     *  \returns PdfObject the documents catalog or NULL
      *                     if no catalog is available
      */
     const PdfObject* GetCatalog() const { return PdfDocument::GetCatalog(); }
@@ -314,7 +314,7 @@ class PODOFO_DOC_API PdfMemDocument : public PdfDocument {
      *  which can be written unmodified to a pdf file.
      */
     const PdfObject* GetTrailer() const { return PdfDocument::GetTrailer(); }
-    
+
     /** Get access to the StructTreeRoot dictionary
      *  \returns PdfObject the StructTreeRoot dictionary
      */
@@ -365,7 +365,7 @@ class PODOFO_DOC_API PdfMemDocument : public PdfDocument {
      *
      *  \see PdfEncrypt to set own document permissions.
      */
-    inline virtual bool IsPrintAllowed() const; 
+    inline virtual bool IsPrintAllowed() const;
 
     /** Checks if modifiying this document (besides annotations, form fields or changing pages) is allowed.
      *  Every PDF consuming applications has to adhere this value!
@@ -421,10 +421,10 @@ class PODOFO_DOC_API PdfMemDocument : public PdfDocument {
      */
     inline virtual bool IsDocAssemblyAllowed() const;
 
-    /** Checks if it is allowed to print a high quality version of this document 
+    /** Checks if it is allowed to print a high quality version of this document
      *  Every PDF consuming applications has to adhere this value!
      *
-     *  \returns true if you are allowed to print a high quality version of this document 
+     *  \returns true if you are allowed to print a high quality version of this document
      *
      *  \see PdfEncrypt to set own document permissions.
      */
@@ -435,7 +435,7 @@ class PODOFO_DOC_API PdfMemDocument : public PdfDocument {
      *  it from disk again if it is requested another time.
      *
      *  This will only work if load on demand is used. Other-
-     *  wise any call to this method will be ignored. Load on 
+     *  wise any call to this method will be ignored. Load on
      *  demand is currently always enabled when using PdfMemDocument.
      *  If the object is dirty if will not be free'd.
      *
@@ -455,7 +455,7 @@ class PODOFO_DOC_API PdfMemDocument : public PdfDocument {
      *  it from disk again if it is requested another time.
      *
      *  This will only work if load on demand is used. Other-
-     *  wise any call to this method will be ignored. Load on 
+     *  wise any call to this method will be ignored. Load on
      *  demand is currently always enabled when using PdfMemDocument.
      *  If the object is dirty if will not be free'd.
      *
@@ -464,20 +464,20 @@ class PODOFO_DOC_API PdfMemDocument : public PdfDocument {
      *                even if IsDirty() returns true.
      *                So you will loose any changes made
      *                to this object.
-     * 
+     *
      *  \see IsDirty
      */
     void FreeObjectMemory( PdfObject* pObj, bool bForce = false );
 
-    /** 
+    /**
      * \returns the parsers encryption object or NULL if the read PDF file was not encrypted
      */
     inline const PdfEncrypt* GetEncrypt() const;
 
  private:
-	
+
 	void GetUpdates(PdfVecObjects& updates);
-	
+
     /** Get a dictioary from the catalog dictionary by its name.
      *  \param pszName will be converted into a PdfName
      *  \returns the dictionary if it was found or NULL
@@ -516,9 +516,9 @@ class PODOFO_DOC_API PdfMemDocument : public PdfDocument {
 
     PdfParser*      m_pParser; ///< This will be temporarily initialized to a PdfParser object so that SetPassword can work
     EPdfWriteMode   m_eWriteMode;
-	
+
 	long m_nXRefOffset;
-	
+
 	bool m_bIncrementalUpdates;
 	PdfObject* m_pOrgObjects[2000];
 	vector<PdfObject*> m_orgObjectsVect;
@@ -526,7 +526,7 @@ class PODOFO_DOC_API PdfMemDocument : public PdfDocument {
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfMemDocument::IsPrintAllowed() const
 {
@@ -534,7 +534,7 @@ bool PdfMemDocument::IsPrintAllowed() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfMemDocument::IsEditAllowed() const
 {
@@ -542,7 +542,7 @@ bool PdfMemDocument::IsEditAllowed() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfMemDocument::IsCopyAllowed() const
 {
@@ -550,7 +550,7 @@ bool PdfMemDocument::IsCopyAllowed() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfMemDocument::IsEditNotesAllowed() const
 {
@@ -558,7 +558,7 @@ bool PdfMemDocument::IsEditNotesAllowed() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfMemDocument::IsFillAndSignAllowed() const
 {
@@ -566,7 +566,7 @@ bool PdfMemDocument::IsFillAndSignAllowed() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfMemDocument::IsAccessibilityAllowed() const
 {
@@ -574,7 +574,7 @@ bool PdfMemDocument::IsAccessibilityAllowed() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfMemDocument::IsDocAssemblyAllowed() const
 {
@@ -582,7 +582,7 @@ bool PdfMemDocument::IsDocAssemblyAllowed() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfMemDocument::IsHighPrintAllowed() const
 {
@@ -590,11 +590,11 @@ bool PdfMemDocument::IsHighPrintAllowed() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
-const PdfEncrypt* PdfMemDocument::GetEncrypt() const 
-{ 
-    return m_pEncrypt; 
+const PdfEncrypt* PdfMemDocument::GetEncrypt() const
+{
+    return m_pEncrypt;
 }
 
 };

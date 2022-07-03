@@ -11,7 +11,7 @@
 /**
  * \mainpage
  *
- * <b>PdfDefinesPrivate.h</b> contains preprocessor definitions, inline functions, templates, 
+ * <b>PdfDefinesPrivate.h</b> contains preprocessor definitions, inline functions, templates,
  * compile-time const variables, and other things that must be visible across the entirety of
  * the PoDoFo library code base but should not be visible to users of the library's headers.
  *

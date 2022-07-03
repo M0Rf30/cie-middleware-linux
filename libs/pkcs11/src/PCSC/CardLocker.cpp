@@ -27,4 +27,3 @@ void CCardLocker::Unlock() {
 
     exit_func
 }
-

@@ -36,7 +36,7 @@ class PdfString;
 class PODOFO_DOC_API PdfInfo : public PdfElement {
  public:
     /**
-     * Enum to specifiy the initial information of the 
+     * Enum to specifiy the initial information of the
      * info dictionary.
      */
     enum EPdfInfoInitial {
@@ -47,16 +47,16 @@ class PODOFO_DOC_API PdfInfo : public PdfElement {
 
     /** Create a new PdfInfo object
      *  \param pParent the parent of this object
-     *  \param eInitial which information should be 
+     *  \param eInitial which information should be
      *         writting initially to the information dictionary
      */
-    PdfInfo( PdfVecObjects* pParent, 
+    PdfInfo( PdfVecObjects* pParent,
              int eInitial = ePdfInfoInitial_WriteCreationTime | ePdfInfoInitial_WriteProducer );
 
     /** Create a PdfInfo object from an existing
      *  object in the PDF file.
      *  \param pObject must be an info dictionary.
-     *  \param eInitial which information should be 
+     *  \param eInitial which information should be
      *         writting initially to the information
      */
     PdfInfo( PdfObject* pObject, int eInitial = ePdfInfoInitial_WriteModificationTime );
@@ -115,7 +115,7 @@ class PODOFO_DOC_API PdfInfo : public PdfElement {
      *  \returns the title
      */
     inline const PdfString & GetTitle() const;
-    
+
     // Peter Petrov 27 April 2008
     /** Set the producer of the document.
      *  \param sProducer producer
@@ -132,7 +132,7 @@ class PODOFO_DOC_API PdfInfo : public PdfElement {
      *  \param sTrapped trapped
      */
     void SetTrapped( const PdfName & sTrapped );
-    
+
     /** Get the trapping state of the document
      *  \returns the title
      */
@@ -140,7 +140,7 @@ class PODOFO_DOC_API PdfInfo : public PdfElement {
 
  private:
     /** Add the initial document information to the dictionary.
-     *  \param eInitial which information should be 
+     *  \param eInitial which information should be
      *         writting initially to the information
      */
     void Init( int eInitial );
@@ -150,7 +150,7 @@ class PODOFO_DOC_API PdfInfo : public PdfElement {
      *  \return a value from the info dictionary
      */
     const PdfString & GetStringFromInfoDict( const PdfName & rName ) const;
-    
+
      /** Get a value from the info dictionary as name
      *  \para rName the key to fetch from the info dictionary
      *  \return a value from the info dictionary
@@ -160,7 +160,7 @@ class PODOFO_DOC_API PdfInfo : public PdfElement {
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 const PdfString & PdfInfo::GetAuthor() const
 {
@@ -168,7 +168,7 @@ const PdfString & PdfInfo::GetAuthor() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 const PdfString & PdfInfo::GetCreator() const
 {
@@ -176,7 +176,7 @@ const PdfString & PdfInfo::GetCreator() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 const PdfString & PdfInfo::GetKeywords() const
 {
@@ -184,7 +184,7 @@ const PdfString & PdfInfo::GetKeywords() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 const PdfString & PdfInfo::GetSubject() const
 {
@@ -192,7 +192,7 @@ const PdfString & PdfInfo::GetSubject() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 const PdfString & PdfInfo::GetTitle() const
 {
@@ -200,7 +200,7 @@ const PdfString & PdfInfo::GetTitle() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 const PdfString & PdfInfo::GetProducer() const
 {
@@ -208,7 +208,7 @@ const PdfString & PdfInfo::GetProducer() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 const PdfName & PdfInfo::GetTrapped() const
 {

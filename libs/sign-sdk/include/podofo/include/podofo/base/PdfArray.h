@@ -36,7 +36,7 @@ namespace PoDoFo {
 
 /** This class represents a PdfArray
  *  Use it for all arrays that are written to a PDF file.
- *  
+ *
  *  A PdfArray can hold any PdfVariant.
  *
  *  \see PdfVariant
@@ -50,7 +50,7 @@ class PODOFO_API PdfArray : private PdfArrayBaseClass, public PdfDataType {
     typedef PdfArrayBaseClass::reverse_iterator       reverse_iterator;
     typedef PdfArrayBaseClass::const_reverse_iterator const_reverse_iterator;
 
-    /** Create an empty array 
+    /** Create an empty array
      */
     PdfArray();
 
@@ -75,7 +75,7 @@ class PODOFO_API PdfArray : private PdfArrayBaseClass, public PdfDataType {
      */
     PdfArray& operator=(const PdfArray& rhs);
 
-    /** 
+    /**
      *  \returns the size of the array
      */
     inline size_t GetSize() const;
@@ -92,7 +92,7 @@ class PODOFO_API PdfArray : private PdfArrayBaseClass, public PdfDataType {
      *  \param pEncrypt an encryption object which is used to encrypt this object
      *                  or NULL to not encrypt this object
      */
-    virtual void Write( PdfOutputDevice* pDevice, EPdfWriteMode eWriteMode, 
+    virtual void Write( PdfOutputDevice* pDevice, EPdfWriteMode eWriteMode,
                         const PdfEncrypt* pEncrypt = NULL ) const;
 
     /** Utility method to determine if the array contains
@@ -102,7 +102,7 @@ class PODOFO_API PdfArray : private PdfArrayBaseClass, public PdfDataType {
      *  \returns true if success, false if not
      */
     bool ContainsString( const std::string& cmpString ) const;
-    
+
     /** Utility method to return the actual index in the
      *  array which contains an object of ePdfDataType_String whose
      *  value is the passed string.
@@ -120,7 +120,7 @@ class PODOFO_API PdfArray : private PdfArrayBaseClass, public PdfDataType {
      */
     inline void push_back( const PdfObject & var );
 
-    /** 
+    /**
      *  \returns the size of the array
      */
     inline size_t size() const;
@@ -138,7 +138,7 @@ class PODOFO_API PdfArray : private PdfArrayBaseClass, public PdfDataType {
      * \param __n new size
      */
     inline void resize(size_t __n, value_type __x = PdfArrayBaseClass::value_type());
-    
+
     /**
      *  Returns a read/write iterator that points to the first
      *  element in the array.  Iteration is done in ordinary
@@ -196,12 +196,12 @@ class PODOFO_API PdfArray : private PdfArrayBaseClass, public PdfDataType {
     inline const_reverse_iterator rend() const;
 
 #if defined(_MSC_VER)  &&  _MSC_VER <= 1200    // workaround template-error in Visualstudio 6
-    inline void insert(iterator __position, 
+    inline void insert(iterator __position,
                        iterator __first,
                        iterator __last);
 #else
-    template<typename _InputIterator> 
-        void insert(const iterator& __position, 
+    template<typename _InputIterator>
+        void insert(const iterator& __position,
                     const _InputIterator& __first,
                     const _InputIterator& __last);
 #endif
@@ -230,7 +230,7 @@ class PODOFO_API PdfArray : private PdfArrayBaseClass, public PdfDataType {
      *           element of the array.
      */
     inline reference back();
-      
+
     /**
      *  \returns a read-only (constant) reference to the data at the
      *           last element of the array.
@@ -242,13 +242,13 @@ class PODOFO_API PdfArray : private PdfArrayBaseClass, public PdfDataType {
 
     /** The dirty flag is set if this variant
      *  has been modified after construction.
-     *  
+     *
      *  Usually the dirty flag is also set
      *  if you call any non-const member function
-     *  as we cannot determine if you actually changed 
+     *  as we cannot determine if you actually changed
      *  something or not.
      *
-     *  \returns true if the value is dirty and has been 
+     *  \returns true if the value is dirty and has been
      *                modified since construction
      */
     virtual bool IsDirty() const;
@@ -268,9 +268,9 @@ class PODOFO_API PdfArray : private PdfArrayBaseClass, public PdfDataType {
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
-void PdfArray::Clear() 
+void PdfArray::Clear()
 {
     AssertMutable();
 
@@ -278,7 +278,7 @@ void PdfArray::Clear()
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 size_t PdfArray::GetSize() const
 {
@@ -286,7 +286,7 @@ size_t PdfArray::GetSize() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 void PdfArray::push_back( const PdfObject & var )
 {
@@ -297,7 +297,7 @@ void PdfArray::push_back( const PdfObject & var )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 size_t PdfArray::size() const
 {
@@ -305,7 +305,7 @@ size_t PdfArray::size() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfArray::empty() const
 {
@@ -313,7 +313,7 @@ bool PdfArray::empty() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 PdfObject& PdfArray::operator[](size_type __n)
 {
@@ -324,7 +324,7 @@ PdfObject& PdfArray::operator[](size_type __n)
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 const PdfObject& PdfArray::operator[](size_type __n) const
 {
@@ -332,7 +332,7 @@ const PdfObject& PdfArray::operator[](size_type __n) const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 void PdfArray::resize(size_t __n, value_type __x)
 {
@@ -340,7 +340,7 @@ void PdfArray::resize(size_t __n, value_type __x)
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 PdfArray::iterator PdfArray::begin()
 {
@@ -348,7 +348,7 @@ PdfArray::iterator PdfArray::begin()
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 PdfArray::const_iterator PdfArray::begin() const
 {
@@ -356,7 +356,7 @@ PdfArray::const_iterator PdfArray::begin() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 PdfArray::iterator PdfArray::end()
 {
@@ -364,7 +364,7 @@ PdfArray::iterator PdfArray::end()
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 PdfArray::const_iterator PdfArray::end() const
 {
@@ -372,7 +372,7 @@ PdfArray::const_iterator PdfArray::end() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 PdfArray::reverse_iterator PdfArray::rbegin()
 {
@@ -380,7 +380,7 @@ PdfArray::reverse_iterator PdfArray::rbegin()
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 PdfArray::const_reverse_iterator PdfArray::rbegin() const
 {
@@ -388,7 +388,7 @@ PdfArray::const_reverse_iterator PdfArray::rbegin() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 PdfArray::reverse_iterator PdfArray::rend()
 {
@@ -396,7 +396,7 @@ PdfArray::reverse_iterator PdfArray::rend()
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 PdfArray::const_reverse_iterator PdfArray::rend() const
 {
@@ -404,15 +404,15 @@ PdfArray::const_reverse_iterator PdfArray::rend() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 #if defined(_MSC_VER)  &&  _MSC_VER <= 1200        // workaround template-error in Visualstudio 6
-void PdfArray::insert(PdfArray::iterator __position, 
+void PdfArray::insert(PdfArray::iterator __position,
                       PdfArray::iterator __first,
                       PdfArray::iterator __last)
 #else
 template<typename _InputIterator>
-void PdfArray::insert(const PdfArray::iterator& __position, 
+void PdfArray::insert(const PdfArray::iterator& __position,
                       const _InputIterator& __first,
                       const _InputIterator& __last)
 #endif
@@ -424,7 +424,7 @@ void PdfArray::insert(const PdfArray::iterator& __position,
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 PdfArray::iterator PdfArray::insert(const iterator& __position, const PdfObject & val )
 {
@@ -435,7 +435,7 @@ PdfArray::iterator PdfArray::insert(const iterator& __position, const PdfObject 
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 void PdfArray::erase( const iterator& pos )
 {
@@ -446,7 +446,7 @@ void PdfArray::erase( const iterator& pos )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 void PdfArray::erase( const iterator& first, const iterator& last )
 {
@@ -457,7 +457,7 @@ void PdfArray::erase( const iterator& first, const iterator& last )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 void PdfArray::reserve(size_type __n)
 {
@@ -465,7 +465,7 @@ void PdfArray::reserve(size_type __n)
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 PdfObject & PdfArray::front()
 {
@@ -473,7 +473,7 @@ PdfObject & PdfArray::front()
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 const PdfObject & PdfArray::front() const
 {
@@ -481,15 +481,15 @@ const PdfObject & PdfArray::front() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 PdfObject & PdfArray::back()
 {
     return PdfArrayBaseClass::back();
 }
-      
+
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 const PdfObject & PdfArray::back() const
 {
@@ -497,7 +497,7 @@ const PdfObject & PdfArray::back() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfArray::operator==( const PdfArray & rhs ) const
 {
@@ -506,7 +506,7 @@ bool PdfArray::operator==( const PdfArray & rhs ) const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfArray::operator!=( const PdfArray & rhs ) const
 {

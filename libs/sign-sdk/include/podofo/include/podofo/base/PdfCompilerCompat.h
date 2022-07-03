@@ -21,7 +21,7 @@
 #endif // _MSC_VER
 #endif // _MSC_VER
 
-// Make sure that DEBUG is defined 
+// Make sure that DEBUG is defined
 // for debug builds on Windows
 // as Visual Studio defines only _DEBUG
 #ifdef _DEBUG
@@ -73,7 +73,7 @@
 #include <malloc.h>
 #endif
 
-// Disable usage of min() and max() macros 
+// Disable usage of min() and max() macros
 #if defined(_WIN32) && !defined(__MINGW32__)
 #define NOMINMAX
 #endif
@@ -102,7 +102,7 @@ namespace PoDoFo {
 #undef PDF_UINT64_TYPENAME
 
 
-/* 
+/*
  * Some elderly compilers, notably VC6, don't support LL literals.
  * In those cases we can use the oversized literal without any suffix.
  */
@@ -166,7 +166,7 @@ namespace PoDoFo {
 
 /**
  * \mainpage
- * 
+ *
  * <b>PdfCompilerCompat.h</b> gathers up nastyness required for various
  * compiler compatibility into a central place. All compiler-specific defines,
  * wrappers, and the like should be included here and (if necessary) in

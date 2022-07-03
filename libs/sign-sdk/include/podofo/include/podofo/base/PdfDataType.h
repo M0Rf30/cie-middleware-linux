@@ -30,8 +30,8 @@ class PdfOutputDevice;
 
 /** An interface for all PDF datatype classes.
  *
- *  
- *  \see PdfName \see PdfArray \see PdfReference 
+ *
+ *  \see PdfName \see PdfArray \see PdfReference
  *  \see PdfVariant \see PdfDictionary \see PdfString
  */
 class PODOFO_API PdfDataType {
@@ -55,13 +55,13 @@ class PODOFO_API PdfDataType {
 
     /** The dirty flag is set if this variant
      *  has been modified after construction.
-     *  
+     *
      *  Usually the dirty flag is also set
      *  if you call any non-const member function
-     *  as we cannot determine if you actually changed 
+     *  as we cannot determine if you actually changed
      *  something or not.
      *
-     *  \returns true if the value is dirty and has been 
+     *  \returns true if the value is dirty and has been
      *                modified since construction
      */
     virtual bool IsDirty() const;
@@ -81,7 +81,7 @@ class PODOFO_API PdfDataType {
      *
      * @param bImmutable if true set the object to be immutable
      *
-     * This is used by PdfImmediateWriter and PdfStreamedDocument so 
+     * This is used by PdfImmediateWriter and PdfStreamedDocument so
      * that no keys can be added to an object after setting stream data on it.
      *
      */
@@ -90,7 +90,7 @@ class PODOFO_API PdfDataType {
     /**
      * Retrieve if an object is immutable.
      *
-     * This is used by PdfImmediateWriter and PdfStreamedDocument so 
+     * This is used by PdfImmediateWriter and PdfStreamedDocument so
      * that no keys can be added to an object after setting stream data on it.
      *
      * @returns true if the object is immutable
@@ -101,7 +101,7 @@ protected:
     /**
      *  Will throw an exception if called on an immutable object,
      *  so this should be called before actually changing a value!
-     * 
+     *
      */
     inline void AssertMutable() const;
 
@@ -110,7 +110,7 @@ private:
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfDataType::SetImmutable(bool bImmutable)
 {
@@ -118,19 +118,19 @@ inline void PdfDataType::SetImmutable(bool bImmutable)
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
-inline bool PdfDataType::GetImmutable() const 
+inline bool PdfDataType::GetImmutable() const
 {
     return m_bImmutable;
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline void PdfDataType::AssertMutable() const
 {
-    if(m_bImmutable) 
+    if(m_bImmutable)
     {
         throw new PdfError( ePdfError_ChangeOnImmutable );
     }
@@ -139,4 +139,3 @@ inline void PdfDataType::AssertMutable() const
 }; // namespace PoDoFo
 
 #endif /* _PDF_DATATYPE_H_ */
-

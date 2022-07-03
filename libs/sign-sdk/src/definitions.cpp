@@ -32,4 +32,3 @@ int atox(const char* szVal) {
 
     return nVal;
 }
-

@@ -24,15 +24,15 @@ class PODOFO_DOC_API PdfExtGState : public PdfElement {
      *  automatically to every page object it is used on.
      *
      *  \param pParent parent vector of objects
-     *  
+     *
      */
     PdfExtGState( PdfVecObjects* pParent );
 
     /** Create a new PdfExtGState object which will introduce itself
      *  automatically to every page object it is used on.
      *
-     *  \param pParent parent document 
-     *  
+     *  \param pParent parent document
+     *
      */
     PdfExtGState( PdfDocument* pParent );
 
@@ -94,7 +94,7 @@ class PODOFO_DOC_API PdfExtGState : public PdfElement {
      */
     void Init( void );
 
- private: 
+ private:
     PdfName m_Identifier;
 };
 
@@ -107,4 +107,3 @@ const PdfName & PdfExtGState::GetIdentifier() const
 };
 
 #endif // _PDF_EXTGSTATE_H_
-

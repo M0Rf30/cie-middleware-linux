@@ -116,4 +116,3 @@ const std::string & PdfData::data() const {
 }; // namespace PoDoFo
 
 #endif /* _PDF_DATATYPE_H_ */
-

@@ -78,21 +78,21 @@ public:
      *  \param rsText the reason of signature
      */
      void SetSignatureReason(const PdfString & rsLabel, const PdfString & rsText);
-    
+
     void SetSignatureName(const PdfString & rsLabel, const PdfString & rsText);
-    
+
     void SetSignatureLocation(const PdfString & rsLabel, const PdfString & rsText);
 
     /** Date of signature
      */
     void SetSignatureDate(const PdfDate &sigDate);
-    
+
     void SetAppearance(const char* szImagePath, const char* szDescription, const bool showData = FALSE);
 
     void SetGraphometricData(const PdfString & rsGraphometricDataName, const PdfString & rsGraphometricData, const PdfString & rsVersion);
 
     void SetFontSize(int nFontSize);
-    
+
 private:
     PdfString m_rsText;
     PdfRect m_rRect;
@@ -110,8 +110,8 @@ private:
     PdfString m_rsReasonLabel;
 
     int m_nFontSize;
-    
-    
+
+
 };
 
 }

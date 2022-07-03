@@ -79,7 +79,7 @@ namespace PoDoFo {
 
 /// Class implementing the Rijndael cipher. (For internal use only)
 class PODOFO_API PdfRijndael
-{	
+{
 public:
 	enum Direction { Encrypt , Decrypt };
 	enum Mode { ECB , CBC , CFB1 };
@@ -153,5 +153,5 @@ protected:
 };
 
 };
-	
+
 #endif // _PDFRIJNDAEL_H_

@@ -43,7 +43,7 @@ class PdfStream;
 class PdfString;
 class PdfXObject;
 
-struct TLineElement 
+struct TLineElement
 {
 	TLineElement()
 		: pszStart( NULL ), lLen( 0L )
@@ -57,10 +57,10 @@ struct TLineElement
 /**
  * This class provides an easy to use painter object which allows you to draw on a PDF page
  * object.
- * 
+ *
  * During all drawing operations, you are still able to access the stream of the object you are
- * drawing on directly. 
- * 
+ * drawing on directly.
+ *
  * All functions that take coordinates expect these to be in PDF User Units. Keep in mind that PDF has
  * its coordinate system origin at the bottom left corner.
  */
@@ -93,7 +93,7 @@ class PODOFO_DOC_API PdfPainter {
     inline const PdfCanvas* GetPage() const;
 
     /** Finish drawing onto a page.
-     * 
+     *
      *  This has to be called whenever a page has been drawn complete.
      */
     void FinishPage();
@@ -167,14 +167,14 @@ class PODOFO_DOC_API PdfPainter {
      */
     void SetShadingPattern( const PdfShadingPattern & rPattern );
 
-    /** Set the color for all following stroking operations. 
-     * 
+    /** Set the color for all following stroking operations.
+     *
      *  \param rColor a PdfColor object
      */
     void SetStrokingColor( const PdfColor & rColor );
 
-    /** Set the color for all following non-stroking operations. 
-     * 
+    /** Set the color for all following non-stroking operations.
+     *
      *  \param rColor a PdfColor object
      */
     void SetColor( const PdfColor & rColor );
@@ -202,7 +202,7 @@ class PODOFO_DOC_API PdfPainter {
     void SetStrokeStyle( EPdfStrokeStyle eStyle, const char* pszCustom = NULL );
 
     /** Set the line cap style for all stroking operations.
-     *  \param eCapStyle the cap style. 
+     *  \param eCapStyle the cap style.
      *
      *  Possible values:
      *    ePdfLineCapStyle_Butt,
@@ -212,7 +212,7 @@ class PODOFO_DOC_API PdfPainter {
     void SetLineCapStyle( EPdfLineCapStyle eCapStyle );
 
     /** Set the line join style for all stroking operations.
-     *  \param eJoinStyle the join style. 
+     *  \param eJoinStyle the join style.
      *
      *  Possible values:
      *    ePdfLineJoinStyle_Miter
@@ -268,7 +268,7 @@ class PODOFO_DOC_API PdfPainter {
                    double dRoundX=0.0, double dRoundY=0.0 );
 
     /** Draw a rectangle with the current stroking settings
-     *	
+     *
      *  \param rRect the rectangle area
      *  \param dRoundX rounding factor, x direction
      *  \param dRoundY rounding factor, y direction
@@ -279,8 +279,8 @@ class PODOFO_DOC_API PdfPainter {
 
     /** Fill a rectangle with the current fill settings
      *  \param dX x coordinate of the rectangle (left coordinate)
-     *  \param dY y coordinate of the rectangle (bottom coordinate) 
-     *  \param dWidth width of the rectangle 
+     *  \param dY y coordinate of the rectangle (bottom coordinate)
+     *  \param dWidth width of the rectangle
      *  \param dHeight absolute height of the rectangle
      *  \param dRoundX rounding factor, x direction
      *  \param dRoundY rounding factor, y direction
@@ -289,7 +289,7 @@ class PODOFO_DOC_API PdfPainter {
                    double dRoundX=0.0, double dRoundY=0.0 );
 
     /** Fill a rectangle with the current fill settings
-     *	
+     *
      *  \param rRect the rectangle area
      *  \param dRoundX rounding factor, x direction
      *  \param dRoundY rounding factor, y direction
@@ -304,15 +304,15 @@ class PODOFO_DOC_API PdfPainter {
      *  \param dWidth width of the ellipse
      *  \param dHeight absolute height of the ellipse
      */
-    void DrawEllipse( double dX, double dY, double dWidth, double dHeight ); 
+    void DrawEllipse( double dX, double dY, double dWidth, double dHeight );
 
     /** Fill an ellipse with the current fill settings
      *  \param dX x coordinate of the ellipse (left coordinate)
      *  \param dY y coordinate of the ellipse (top coordinate)
-     *  \param dWidth width of the ellipse 
+     *  \param dWidth width of the ellipse
      *  \param dHeight absolute height of the ellipse
      */
-    void FillEllipse( double dX, double dY, double dWidth, double dHeight ); 
+    void FillEllipse( double dX, double dY, double dWidth, double dHeight );
 
     /** Draw a circle with the current stroking settings
      *  \param dX x center coordinate of the circle
@@ -332,7 +332,7 @@ class PODOFO_DOC_API PdfPainter {
      *  You have to call SetFont before calling this function.
      *  \param dX the x coordinate
      *  \param dY the y coordinate
-     *  \param sText the text string which should be printed 
+     *  \param sText the text string which should be printed
      *
      *  \see SetFont()
      */
@@ -361,7 +361,7 @@ class PODOFO_DOC_API PdfPainter {
      *  \param eAlignment alignment of the individual text lines in the given bounding box
      *  \param eVertical vertical alignment of the text in the given bounding box
      */
-    void DrawMultiLineText( double dX, double dY, double dWidth, double dHeight, 
+    void DrawMultiLineText( double dX, double dY, double dWidth, double dHeight,
                             const PdfString & rsText, EPdfAlignment eAlignment = ePdfAlignment_Left,
                             EPdfVerticalAlignment eVertical = ePdfVerticalAlignment_Top);
 
@@ -399,7 +399,7 @@ class PODOFO_DOC_API PdfPainter {
      *  If you want more simpler text output and do not need
      *  the advanced text position features of MoveTextPos
      *  use DrawText which is easier.
-     * 
+     *
      *  \param dX the x coordinate
      *  \param dY the y coordinate
      *
@@ -417,8 +417,8 @@ class PODOFO_DOC_API PdfPainter {
      *  If you want more simpler text output and do not need
      *  the advanced text position features of MoveTextPos
      *  use DrawText which is easier.
-     * 
-     *  \param sText the text string which should be printed 
+     *
+     *  \param sText the text string which should be printed
      *
      *  \see SetFont()
      *  \see MoveTextPos()
@@ -433,8 +433,8 @@ class PODOFO_DOC_API PdfPainter {
      *  If you want more simpler text output and do not need
      *  the advanced text position features of MoveTextPos
      *  use DrawText which is easier.
-     * 
-     *  \param sText the text string which should be printed 
+     *
+     *  \param sText the text string which should be printed
      *  \param lStringLen draw only lLen characters of pszText
      *
      *  \see SetFont()
@@ -449,10 +449,10 @@ class PODOFO_DOC_API PdfPainter {
      *  If you want more simpler text output and do not need
      *  the advanced text position features of MoveTextPos
      *  use DrawText which is easier.
-     * 
+     *
      *  \param dX the x offset relative to pos of BeginText or last MoveTextPos
      *  \param dY the y offset relative to pos of BeginText or last MoveTextPos
-     * 
+     *
      *  \see BeginText()
      *  \see AddText()
      *  \see EndText()
@@ -464,7 +464,7 @@ class PODOFO_DOC_API PdfPainter {
      *  If you want more simpler text output and do not need
      *  the advanced text position features of MoveTextPos
      *  use DrawText which is easier.
-     * 
+     *
      *  \see BeginText()
      *  \see AddText()
      *  \see MoveTextPos()
@@ -475,7 +475,7 @@ class PODOFO_DOC_API PdfPainter {
 	 *  \param pDocument pointer to the document, needed to generate a copy of the current font
      *  \param dX the x coordinate
      *  \param dY the y coordinate
-     *  \param pszGlyphname the name of the glyph which should be printed 
+     *  \param pszGlyphname the name of the glyph which should be printed
      *
      *  \see SetFont()
      */
@@ -517,7 +517,7 @@ class PODOFO_DOC_API PdfPainter {
      */
     void LineTo( double  dX, double dY );
 
-    /** Begin a new path. Matches the PDF 'm' operator. 
+    /** Begin a new path. Matches the PDF 'm' operator.
      *  This function is useful to construct an own path
      *  for drawing or clipping.
      *  \param dX x position
@@ -550,7 +550,7 @@ class PODOFO_DOC_API PdfPainter {
      *  \param dY y coordinate to draw the line to
      */
     void VerticalLineTo( double dY );
-    
+
     /** Append a smooth bezier curve to the current path
      *  Matches the SVG 'S' operator.
      *
@@ -597,7 +597,7 @@ class PODOFO_DOC_API PdfPainter {
     /**
     */
     bool DrawArc(double dX, double dY, double dRadius, double dAngle1, double dAngle2);
-    
+
     /** Close the current path. Matches the PDF 'h' operator.
      */
     void Close();
@@ -624,7 +624,7 @@ class PODOFO_DOC_API PdfPainter {
 
     /** Save the current graphics settings onto the graphics
      *  stack. Operator 'q' in PDF.
-     *  This call has to be balanced with a corresponding call 
+     *  This call has to be balanced with a corresponding call
      *  to Restore()!
      *
      *  \see Restore
@@ -633,7 +633,7 @@ class PODOFO_DOC_API PdfPainter {
 
     /** Restore the current graphics settings from the graphics
      *  stack. Operator 'Q' in PDF.
-     *  This call has to be balanced with a corresponding call 
+     *  This call has to be balanced with a corresponding call
      *  to Save()!
      *
      *  \see Save
@@ -652,7 +652,7 @@ class PODOFO_DOC_API PdfPainter {
      *  \param d scale in y direction
      *  \param e translate in x direction
      *  \param f translate in y direction
-     * 
+     *
      *  \see Save()
      *  \see Restore()
      */
@@ -662,14 +662,14 @@ class PODOFO_DOC_API PdfPainter {
      *	\param inGState the specific ExtGState to set
      */
     void SetExtGState( PdfExtGState* inGState );
-    
+
     /** Sets a specific rendering intent
      *	\param intent the specific intent to set
      */
     void SetRenderingIntent( char* intent );
 
     /** Set the tab width for the DrawText operation.
-     *  Every tab '\\t' is replaced with nTabWidth 
+     *  Every tab '\\t' is replaced with nTabWidth
      *  spaces before drawing text. Default is a value of 4
      *
      *  \param nTabWidth replace every tabulator by this much spaces
@@ -681,7 +681,7 @@ class PODOFO_DOC_API PdfPainter {
 
     /** Get the currently set tab width
      *  \returns by how many spaces a tabulator will be replaced
-     *  
+     *
      *  \see DrawText
      *  \see TabWidth
      */
@@ -701,26 +701,26 @@ class PODOFO_DOC_API PdfPainter {
  private:
     /** Register an object in the resource dictionary of this page
      *  so that it can be used for any following drawing operations.
-     *  
+     *
      *  \param rIdentifier identifier of this object, e.g. /Ft0
      *  \param rRef reference to the object you want to register
      *  \param rName register under this key in the resource dictionary
      */
     void AddToPageResources( const PdfName & rIdentifier, const PdfReference & rRef, const PdfName & rName );
 
-    /** Coverts a rectangle to an array of points which can be used 
+    /** Coverts a rectangle to an array of points which can be used
      *  to draw an ellipse using 4 bezier curves.
-     * 
-     *  The arrays plPointX and plPointY need space for at least 12 longs 
+     *
+     *  The arrays plPointX and plPointY need space for at least 12 longs
      *  to be stored.
      *
      *  \param dX x position of the bounding rectangle
      *  \param dY y position of the bounding rectangle
      *  \param dWidth width of the bounding rectangle
      *  \param dHeight height of the bounding rectangle
-     *  \param pdPointX pointer to an array were the x coordinates 
+     *  \param pdPointX pointer to an array were the x coordinates
      *                  of the resulting points will be stored
-     *  \param pdPointY pointer to an array were the y coordinates 
+     *  \param pdPointY pointer to an array were the y coordinates
      *                  of the resulting points will be stored
      */
     void ConvertRectToBezier( double dX, double dY, double dWidth, double dHeight, double pdPointX[], double pdPointY[] );
@@ -750,8 +750,8 @@ class PODOFO_DOC_API PdfPainter {
      *  \see SetTabWidth
      */
     PdfString ExpandTabs( const PdfString & rsString, pdf_long lLen ) const;
-    
-#if defined(_MSC_VER)  &&  _MSC_VER <= 1200	// MSC 6.0 has a template-bug 
+
+#if defined(_MSC_VER)  &&  _MSC_VER <= 1200	// MSC 6.0 has a template-bug
     PdfString ExpandTabs_char( const char* pszText, long lStringLen, int nTabCnt, const char cTab, const char cSpace ) const;
     PdfString ExpandTabs_pdf_utf16be( const pdf_utf16be* pszText, long lStringLen, int nTabCnt, const pdf_utf16be cTab, const pdf_utf16be cSpace ) const;
 #else
@@ -775,7 +775,7 @@ class PODOFO_DOC_API PdfPainter {
      */
     PdfFont* m_pFont;
 
-    /** Every tab '\\t' is replaced with m_nTabWidth 
+    /** Every tab '\\t' is replaced with m_nTabWidth
      *  spaces before drawing text. Default is a value of 4
      */
     unsigned short m_nTabWidth;
@@ -788,7 +788,7 @@ class PODOFO_DOC_API PdfPainter {
      */
 	bool m_isTextOpen;
 
-    /** temporary stream buffer 
+    /** temporary stream buffer
      */
     std::ostringstream  m_oss;
 
@@ -798,7 +798,7 @@ class PODOFO_DOC_API PdfPainter {
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 const PdfCanvas* PdfPainter::GetPage() const
 {
@@ -806,7 +806,7 @@ const PdfCanvas* PdfPainter::GetPage() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 PdfFont* PdfPainter::GetFont() const
 {
@@ -814,7 +814,7 @@ PdfFont* PdfPainter::GetFont() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 void PdfPainter::SetTabWidth( unsigned short nTabWidth )
 {
@@ -822,7 +822,7 @@ void PdfPainter::SetTabWidth( unsigned short nTabWidth )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 unsigned short PdfPainter::GetTabWidth() const
 {
@@ -830,7 +830,7 @@ unsigned short PdfPainter::GetTabWidth() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 void PdfPainter::SetPrecision( unsigned short inPrec )
 {
@@ -838,7 +838,7 @@ void PdfPainter::SetPrecision( unsigned short inPrec )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 unsigned short PdfPainter::GetPrecision() const
 {
@@ -846,7 +846,7 @@ unsigned short PdfPainter::GetPrecision() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 void PdfPainter::SetClipRect( const PdfRect & rRect )
 {
@@ -854,32 +854,32 @@ void PdfPainter::SetClipRect( const PdfRect & rRect )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 void PdfPainter::DrawRect( const PdfRect & rRect, double dRoundX, double dRoundY )
 {
-    this->DrawRect( rRect.GetLeft(), rRect.GetBottom(), 
-                    rRect.GetWidth(), rRect.GetHeight(), 
+    this->DrawRect( rRect.GetLeft(), rRect.GetBottom(),
+                    rRect.GetWidth(), rRect.GetHeight(),
                     dRoundX, dRoundY );
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 void PdfPainter::FillRect( const PdfRect & rRect, double dRoundX, double dRoundY )
 {
-    this->FillRect( rRect.GetLeft(), rRect.GetBottom(), 
-                    rRect.GetWidth(), rRect.GetHeight(), 
+    this->FillRect( rRect.GetLeft(), rRect.GetBottom(),
+                    rRect.GetWidth(), rRect.GetHeight(),
                     dRoundX, dRoundY );
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
-void PdfPainter::DrawMultiLineText( const PdfRect & rRect, const PdfString & rsText, 
+void PdfPainter::DrawMultiLineText( const PdfRect & rRect, const PdfString & rsText,
                                     EPdfAlignment eAlignment, EPdfVerticalAlignment eVertical)
 {
-    this->DrawMultiLineText( rRect.GetLeft(), rRect.GetBottom(), rRect.GetWidth(), rRect.GetHeight(), 
+    this->DrawMultiLineText( rRect.GetLeft(), rRect.GetBottom(), rRect.GetWidth(), rRect.GetHeight(),
                              rsText, eAlignment, eVertical );
 }
 

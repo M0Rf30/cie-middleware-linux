@@ -158,7 +158,7 @@ class PODOFO_API PdfMemStream : public PdfStream {
      *  \see Append
      *  \see EndAppend
      */
-    virtual void AppendImpl( const char* pszString, size_t lLen ); 
+    virtual void AppendImpl( const char* pszString, size_t lLen );
 
     /** Finish appending data to the stream
      */
@@ -181,7 +181,7 @@ class PODOFO_API PdfMemStream : public PdfStream {
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 const char* PdfMemStream::Get() const
 {
@@ -189,7 +189,7 @@ const char* PdfMemStream::Get() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 const char* PdfMemStream::GetInternalBuffer() const
 {
@@ -197,7 +197,7 @@ const char* PdfMemStream::GetInternalBuffer() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 pdf_long PdfMemStream::GetInternalBufferSize() const
 {

@@ -66,7 +66,7 @@ class PODOFO_DOC_API PdfFontMetrics {
 
     /** Create the bounding box array as required by the PDF reference
      *  so that it can be written directly to a PDF file.
-     * 
+     *
      *  \param array write the bounding box to this array.
      */
     virtual void GetBoundingBox( PdfArray & array ) const = 0;
@@ -137,7 +137,7 @@ class PODOFO_DOC_API PdfFontMetrics {
     inline unsigned long StringWidthMM( const wchar_t* pszText, unsigned int nLength = 0 ) const;
 #endif
 #endif
-    
+
     /** Retrieve the width of the given character in PDF units in the current font
      *  \param c character
      *  \returns the width in PDF units
@@ -167,13 +167,13 @@ class PODOFO_DOC_API PdfFontMetrics {
      */
     inline unsigned long GetLineSpacingMM() const;
 
-    /** Get the width of the underline for the current 
+    /** Get the width of the underline for the current
      *  font size in PDF units
      *  \returns the thickness of the underline in PDF units
      */
     virtual double GetUnderlineThickness() const = 0;
 
-    /** Get the width of the underline for the current 
+    /** Get the width of the underline for the current
      *  font size in 1/1000th mm
      *  \returns the thickness of the underline in 1/1000th mm
      */
@@ -203,13 +203,13 @@ class PODOFO_DOC_API PdfFontMetrics {
      */
     inline unsigned long GetStrikeOutPositionMM() const;
 
-    /** Get the width of the strikeout for the current 
+    /** Get the width of the strikeout for the current
      *  font size in PDF units
      *  \returns the thickness of the strikeout in PDF units
      */
     virtual double GetStrikeoutThickness() const = 0;
 
-    /** Get the width of the strikeout for the current 
+    /** Get the width of the strikeout for the current
      *  font size in 1/1000th mm
      *  \returns the thickness of the strikeout in 1/1000th mm
      */
@@ -251,7 +251,7 @@ class PODOFO_DOC_API PdfFontMetrics {
      *  units for the current font size.
      *
      *  \returns the ascender for this font
-     *  
+     *
      *  \see GetPdfAscent
      */
     virtual double GetAscent() const = 0;
@@ -259,12 +259,12 @@ class PODOFO_DOC_API PdfFontMetrics {
     /** Get the ascent of this font
      *  Used to build the font dictionay
      *  \returns the ascender for this font
-     *  
+     *
      *  \see GetAscent
      */
     virtual double GetPdfAscent() const = 0;
 
-    /** Get the descent of this font in PDF 
+    /** Get the descent of this font in PDF
      *  units for the current font size.
      *  This value is usually negative!
      *
@@ -296,7 +296,7 @@ class PODOFO_DOC_API PdfFontMetrics {
      */
     inline void SetFontSize( float fSize );
 
-    /** Retrieve the current font size of this metrics object 
+    /** Retrieve the current font size of this metrics object
      *  \returns the current font size
      */
     inline float GetFontSize() const;
@@ -323,11 +323,11 @@ class PODOFO_DOC_API PdfFontMetrics {
      */
     inline float GetFontCharSpace() const;
 
-    /** 
+    /**
      *  \returns the fonttype of the loaded font
      */
     inline EPdfFontType GetFontType() const;
- 
+
     /** Get the glyph id for a unicode character
      *  in the current font.
      *
@@ -338,13 +338,13 @@ class PODOFO_DOC_API PdfFontMetrics {
 
     /** Symbol fonts do need special treatment in a few cases.
      *  Use this method to check if the current font is a symbol
-     *  font. Symbold fonts are detected by checking 
+     *  font. Symbold fonts are detected by checking
      *  if they use FT_ENCODING_MS_SYMBOL as internal encoding.
-     * 
+     *
      * \returns true if this is a symbol font
      */
     virtual bool IsSymbol() const = 0;
-    
+
     /** Try to detect the internal fonttype from
      *  the file extension of a fontfile.
      *
@@ -355,7 +355,7 @@ class PODOFO_DOC_API PdfFontMetrics {
     static EPdfFontType FontTypeFromFilename( const char* pszFilename );
 
  protected:
-    /** 
+    /**
      *  Set the fonttype.
      *  \param eFontType fonttype
      */
@@ -374,7 +374,7 @@ class PODOFO_DOC_API PdfFontMetrics {
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 unsigned long PdfFontMetrics::CharWidthMM( unsigned char c ) const
 {
@@ -382,7 +382,7 @@ unsigned long PdfFontMetrics::CharWidthMM( unsigned char c ) const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 double PdfFontMetrics::StringWidth( const PdfString & rsString ) const
 {
@@ -390,7 +390,7 @@ double PdfFontMetrics::StringWidth( const PdfString & rsString ) const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 unsigned long PdfFontMetrics::StringWidthMM( const char* pszText, unsigned int nLength ) const
 {
@@ -398,7 +398,7 @@ unsigned long PdfFontMetrics::StringWidthMM( const char* pszText, unsigned int n
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 unsigned long PdfFontMetrics::StringWidthMM( const pdf_utf16be* pszText, unsigned int nLength ) const
 {
@@ -406,7 +406,7 @@ unsigned long PdfFontMetrics::StringWidthMM( const pdf_utf16be* pszText, unsigne
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 #ifndef _WCHAR_T_DEFINED
 #if defined(_MSC_VER)  &&  _MSC_VER <= 1200			// nicht für Visualstudio 6
@@ -419,7 +419,7 @@ unsigned long PdfFontMetrics::StringWidthMM( const wchar_t* pszText, unsigned in
 #endif
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 unsigned long PdfFontMetrics::GetLineSpacingMM() const
 {
@@ -427,7 +427,7 @@ unsigned long PdfFontMetrics::GetLineSpacingMM() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 long PdfFontMetrics::GetUnderlinePositionMM() const
 {
@@ -435,7 +435,7 @@ long PdfFontMetrics::GetUnderlinePositionMM() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 unsigned long PdfFontMetrics::GetStrikeOutPositionMM() const
 {
@@ -443,7 +443,7 @@ unsigned long PdfFontMetrics::GetStrikeOutPositionMM() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 unsigned long PdfFontMetrics::GetUnderlineThicknessMM() const
 {
@@ -451,7 +451,7 @@ unsigned long PdfFontMetrics::GetUnderlineThicknessMM() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 unsigned long PdfFontMetrics::GetStrikeoutThicknessMM() const
 {
@@ -459,7 +459,7 @@ unsigned long PdfFontMetrics::GetStrikeoutThicknessMM() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 const char* PdfFontMetrics::GetFilename() const
 {
@@ -467,15 +467,15 @@ const char* PdfFontMetrics::GetFilename() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 EPdfFontType PdfFontMetrics::GetFontType() const
 {
     return m_eFontType;
 }
-  
+
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 void PdfFontMetrics::SetFontType(EPdfFontType eFontType)
 {
@@ -483,7 +483,7 @@ void PdfFontMetrics::SetFontType(EPdfFontType eFontType)
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 float PdfFontMetrics::GetFontSize() const
 {
@@ -491,7 +491,7 @@ float PdfFontMetrics::GetFontSize() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 void PdfFontMetrics::SetFontSize( float fSize )
 {
@@ -499,15 +499,15 @@ void PdfFontMetrics::SetFontSize( float fSize )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 float PdfFontMetrics::GetFontScale() const
 {
     return m_fFontScale;
 }
- 
+
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 float PdfFontMetrics::GetFontCharSpace() const
 {
@@ -515,7 +515,7 @@ float PdfFontMetrics::GetFontCharSpace() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 const char* PdfFontMetrics::GetSubsetFontnamePrefix() const
 {
@@ -523,7 +523,7 @@ const char* PdfFontMetrics::GetSubsetFontnamePrefix() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 void PdfFontMetrics::SetFontScale( float fScale )
 {
@@ -531,7 +531,7 @@ void PdfFontMetrics::SetFontScale( float fScale )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 void PdfFontMetrics::SetFontCharSpace( float fCharSpace )
 {
@@ -542,4 +542,3 @@ void PdfFontMetrics::SetFontCharSpace( float fCharSpace )
 };
 
 #endif // _PDF_FONT_METRICS_H_
-

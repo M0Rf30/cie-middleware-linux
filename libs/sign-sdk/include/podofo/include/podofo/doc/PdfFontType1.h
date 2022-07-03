@@ -28,7 +28,7 @@ namespace PoDoFo {
 
 /** A PdfFont implementation that can be used
  *  to embedd type1 fonts into a PDF file
- *  or to draw with type1 fonts. 
+ *  or to draw with type1 fonts.
  */
 class PdfFontType1 : public PdfFontSimple {
  public:
@@ -36,33 +36,33 @@ class PdfFontType1 : public PdfFontSimple {
     /** Create a new Type1 font object.
      *
      *  \param pMetrics pointer to a font metrics object. The font in the PDF
-     *         file will match this fontmetrics object. The metrics object is 
+     *         file will match this fontmetrics object. The metrics object is
      *         deleted along with the font.
      *  \param pEncoding the encoding of this font. The font will not take ownership of this object.
      *  \param pParent parent of the font object
      *  \param bEmbed if true the font will get embedded.
      *  \param bSubsetting if true the font will use subsetting.
-     *  
+     *
      */
-    PdfFontType1( PdfFontMetrics* pMetrics, const PdfEncoding* const pEncoding, 
+    PdfFontType1( PdfFontMetrics* pMetrics, const PdfEncoding* const pEncoding,
                   PdfVecObjects* pParent, bool bEmbed, bool bSubsetting = false );
 
     /** Create a PdfFont based on an existing PdfObject
      *  \param pMetrics pointer to a font metrics object. The font in the PDF
-     *         file will match this fontmetrics object. The metrics object is 
+     *         file will match this fontmetrics object. The metrics object is
      *         deleted along with the font.
      *  \param pEncoding the encoding of this font. The font will not take ownership of this object.
      *  \param pObject an existing PdfObject
      */
-    PdfFontType1( PdfFontMetrics* pMetrics, const PdfEncoding* const pEncoding, 
+    PdfFontType1( PdfFontMetrics* pMetrics, const PdfEncoding* const pEncoding,
                   PdfObject* pObject );
 
 	/** Create a PdfFont based on an existing PdfFont with a new id
      *  \param pFont pointer to existing font
      *  \param pMetrics pointer to a font metrics object. The font in the PDF
-     *         file will match this fontmetrics object. The metrics object is 
+     *         file will match this fontmetrics object. The metrics object is
      *         deleted along with the font.
-     *  \param pszSuffix Suffix to add to font-id 
+     *  \param pszSuffix Suffix to add to font-id
      *  \param pParent parent of the font object
      */
     PdfFontType1( PdfFontType1* pFont, PdfFontMetrics* pMetrics, const char *pszSuffix, PdfVecObjects* pParent );
@@ -71,14 +71,14 @@ class PdfFontType1 : public PdfFontSimple {
 
   protected:
 
-  	/** Remember the glyphs used in the string in case of subsetting 
+  	/** Remember the glyphs used in the string in case of subsetting
 	 *
      *  \param sText the text string which should be printed (is not allowed to be NULL!)
      *  \param lStringLen draw only lLen characters of pszText
 	 */
 	virtual void AddUsedSubsettingGlyphs( const PdfString & sText, long lStringLen );
 
-  	/** Remember the glyphname in case of subsetting 
+  	/** Remember the glyphname in case of subsetting
 	 *
      *  \param sGlyphName Name of the glyph to remember
      */
@@ -116,7 +116,7 @@ public:
      *
      */
 	PdfType1Encrypt();
-	
+
     /** Encrypts a character
      *
      *  \param plain the character to encrypt.
@@ -134,7 +134,7 @@ public:
      *
      */
 	unsigned char Decrypt( unsigned char cipher );
-	
+
 protected:
 	unsigned short int m_r;
 	unsigned short int m_c1;
@@ -162,4 +162,3 @@ public:
 };
 
 #endif // _PDF_FONT_TYPE1_H_
-

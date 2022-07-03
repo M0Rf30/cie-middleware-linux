@@ -60,7 +60,7 @@ class PODOFO_DOC_API PdfImage : public PdfXObject {
     PdfImage( PdfDocument* pParent, const char* pszPrefix = NULL );
 
     /** Construct an image from an existing PdfObject
-     *  
+     *
      *  \param pObject a PdfObject that has to be an image
      */
     PdfImage( PdfObject* pObject );
@@ -93,7 +93,7 @@ class PODOFO_DOC_API PdfImage : public PdfXObject {
      *
      *  \see SetImageColorSpace to set an colorspace instead of an ICC profile for this image
      */
-    void SetImageICCProfile( PdfInputStream* pStream, long lColorComponents, 
+    void SetImageICCProfile( PdfInputStream* pStream, long lColorComponents,
                              EPdfColorSpace eAlternateColorSpace = ePdfColorSpace_DeviceRGB );
 
     //EPdfColorSpace GetImageColorSpace() const;
@@ -115,12 +115,12 @@ class PODOFO_DOC_API PdfImage : public PdfXObject {
     inline double GetHeight() const;
 
     /** Set the actual image data from an input stream
-     *  
+     *
      *  The image data will be flate compressed.
      *  If you want no compression or another filter to be applied
      *  use the overload of SetImageData which takes a TVecFilters
      *  as argument.
-     *  
+     *
      *  \param nWidth width of the image in pixels
      *  \param nHeight height of the image in pixels
      *  \param nBitsPerComponent bits per color component of the image (depends on the image colorspace you have set
@@ -129,11 +129,11 @@ class PODOFO_DOC_API PdfImage : public PdfXObject {
      *
      *  \see SetImageData
      */
-    void SetImageData( unsigned int nWidth, unsigned int nHeight, 
+    void SetImageData( unsigned int nWidth, unsigned int nHeight,
                        unsigned int nBitsPerComponent, PdfInputStream* pStream );
 
     /** Set the actual image data from an input stream
-     *  
+     *
      *  \param nWidth width of the image in pixels
      *  \param nHeight height of the image in pixels
      *  \param nBitsPerComponent bits per color component of the image (depends on the image colorspace you have set
@@ -141,7 +141,7 @@ class PODOFO_DOC_API PdfImage : public PdfXObject {
      *  \param pStream stream supplieding raw image data
      *  \param vecFilters these filters will be applied to compress the image data
      */
-    void SetImageData( unsigned int nWidth, unsigned int nHeight, 
+    void SetImageData( unsigned int nWidth, unsigned int nHeight,
                        unsigned int nBitsPerComponent, PdfInputStream* pStream, const TVecFilters & vecFilters );
 
     /** Load the image data from a file
@@ -201,14 +201,14 @@ class PODOFO_DOC_API PdfImage : public PdfXObject {
     /** Set the actual image data from an input stream.
      *  The data has to be encoded already and an appropriate
      *  filters key entry has to be set manually before!
-     *  
+     *
      *  \param nWidth width of the image in pixels
      *  \param nHeight height of the image in pixels
      *  \param nBitsPerComponent bits per color component of the image (depends on the image colorspace you have set
      *                           but is 8 in most cases)
      *  \param pStream stream supplieding raw image data
      */
-    void SetImageDataRaw( unsigned int nWidth, unsigned int nHeight, 
+    void SetImageDataRaw( unsigned int nWidth, unsigned int nHeight,
                           unsigned int nBitsPerComponent, PdfInputStream* pStream );
 
     /** Converts a EPdfColorSpace enum to a name key which can be used in a
@@ -224,7 +224,7 @@ class PODOFO_DOC_API PdfImage : public PdfXObject {
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline double PdfImage::GetWidth() const
 {
@@ -232,7 +232,7 @@ inline double PdfImage::GetWidth() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline double PdfImage::GetHeight() const
 {

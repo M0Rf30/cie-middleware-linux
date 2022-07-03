@@ -44,7 +44,7 @@ class PODOFO_API PdfParserObject : public PdfObject, public PdfTokenizer {
      *                 front of the object which is going to be parsed.
      *  \param rBuffer buffer to use for parsing to avoid reallocations
      *  \param lOffset the position in the device from which the object shall be read
-     *                 if lOffset = -1, the object will be read from the current 
+     *                 if lOffset = -1, the object will be read from the current
      *                 position in the file.
      */
     PdfParserObject( PdfVecObjects* pCreator, const PdfRefCountedInputDevice & rDevice, const PdfRefCountedBuffer & rBuffer, pdf_long lOffset = -1 );
@@ -63,11 +63,11 @@ class PODOFO_API PdfParserObject : public PdfObject, public PdfTokenizer {
 
     virtual ~PdfParserObject();
 
-    /** Parse the object data from the given file handle 
+    /** Parse the object data from the given file handle
      *  If delayed loading is enabled, only the object and generation number
      *  is read now and everything else is read later.
      *
-     *  \param pEncrypt an encryption dictionary which is used to decrypt 
+     *  \param pEncrypt an encryption dictionary which is used to decrypt
      *                  strings and streams during parsing or NULL if the PDF
      *                  file was not encrypted
      *  \param bIsTrailer wether this is a trailer dictionary or not.
@@ -113,7 +113,7 @@ class PODOFO_API PdfParserObject : public PdfObject, public PdfTokenizer {
      *                even if IsDirty() returns true.
      *                So you will loose any changes made
      *                to this object.
-     * 
+     *
      *  \see IsLoadOnDemand
      *  \see IsDirty
      */
@@ -145,7 +145,7 @@ class PODOFO_API PdfParserObject : public PdfObject, public PdfTokenizer {
      */
     void InitPdfParserObject();
 
-    /** Parse the object data from the given file handle 
+    /** Parse the object data from the given file handle
      *  \param bIsTrailer wether this is a trailer dictionary or not.
      *                    trailer dictionaries do not have a object number etc.
      */
@@ -173,7 +173,7 @@ class PODOFO_API PdfParserObject : public PdfObject, public PdfTokenizer {
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 void PdfParserObject::SetObjectNumber( unsigned int nObjNo )
 {
@@ -181,7 +181,7 @@ void PdfParserObject::SetObjectNumber( unsigned int nObjNo )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfParserObject::IsLoadOnDemand() const
 {
@@ -189,7 +189,7 @@ bool PdfParserObject::IsLoadOnDemand() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 void PdfParserObject::SetLoadOnDemand( bool bDelayed )
 {
@@ -197,7 +197,7 @@ void PdfParserObject::SetLoadOnDemand( bool bDelayed )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 bool PdfParserObject::HasStreamToParse() const
 {

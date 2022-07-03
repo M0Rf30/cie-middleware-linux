@@ -56,4 +56,3 @@ PODOFO_API bool podofo_is_little_endian();
 };
 
 #endif // _PDF_XREF_STREAM_PARSER_OBJECT_H_
-

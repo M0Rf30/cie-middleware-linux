@@ -34,7 +34,7 @@ namespace PoDoFo {
 
 struct PODOFO_CharData {
     pdf_int16     char_cd;
-    pdf_uint16   unicode;  
+    pdf_uint16   unicode;
     pdf_int16     width;
 } ;
 
@@ -4441,7 +4441,7 @@ static const PdfFontMetricsBase14Rec  PODOFO_BUILTIN_FONTS[] = {
         0,
         {0, 0, 0, 0}
     },
-};	 
+};
 */
 
 static   PdfFontMetricsBase14   PODOFO_BUILTIN_FONTS[] = {

@@ -66,7 +66,7 @@ class PODOFO_DOC_API PdfNamesTree : public PdfElement {
      *  \param tree name of the tree to search for the key.
      *  \param key the key to search for
      *  \returns the value of the key or NULL if the key was not found.
-     *           if the value is a reference, the object referenced by 
+     *           if the value is a reference, the object referenced by
      *           this reference is returned.
      */
     PdfObject* GetValue( const PdfName & tree, const PdfString & key ) const;
@@ -75,7 +75,7 @@ class PODOFO_DOC_API PdfNamesTree : public PdfElement {
      *
      *  It is generally faster to use GetValue and check for NULL
      *  as return value.
-     *  
+     *
      *  \param tree name of the tree to search for the key.
      *  \param key name of the key to look for
      *  \returns true if the dictionary has such a key.
@@ -91,10 +91,10 @@ class PODOFO_DOC_API PdfNamesTree : public PdfElement {
      */
     static EPdfNameLimits CheckLimits( const PdfObject* pObj, const PdfString & key );
 
-    /** 
+    /**
      * Adds all keys and values from a name tree to a dictionary.
      * Removes all keys that have been previously in the dictionary.
-     * 
+     *
      * \param tree the name of the tree to convert into a dictionary
      * \param rDict add all keys and values to this dictionary
      */
@@ -133,13 +133,13 @@ class PODOFO_DOC_API PdfNamesTree : public PdfElement {
     PdfObject* GetRootNode( const PdfName & name, bool bCreate = false ) const;
 
     /** Recursively walk through the name tree and find the value for key.
-     *  \param pObj the name tree 
+     *  \param pObj the name tree
      *  \param key the key to find a value for
      *  \return the value for the key or NULL if it was not found
      */
     PdfObject* GetKeyValue( PdfObject* pObj, const PdfString & key ) const;
 
-    /** 
+    /**
      *  Add all keys and values from an object and its children to a dictionary.
      *  \param pObj a pdf name tree node
      *  \param rDict a dictionary
@@ -151,7 +151,7 @@ class PODOFO_DOC_API PdfNamesTree : public PdfElement {
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 PdfObject* PdfNamesTree::GetJavaScriptNode(bool bCreate) const
 {
@@ -159,7 +159,7 @@ PdfObject* PdfNamesTree::GetJavaScriptNode(bool bCreate) const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 PdfObject* PdfNamesTree::GetDestsNode(bool bCreate) const
 {

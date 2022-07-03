@@ -33,7 +33,7 @@ class PdfPage;
 class PdfWriter;
 
 enum EPdfShadingPatternType {
-    ePdfShadingPatternType_FunctionBase  = 1,    
+    ePdfShadingPatternType_FunctionBase  = 1,
     ePdfShadingPatternType_Axial         = 2,
     ePdfShadingPatternType_Radial        = 3,
     ePdfShadingPatternType_FreeForm      = 4,
@@ -42,7 +42,7 @@ enum EPdfShadingPatternType {
     ePdfShadingPatternType_TensorProduct = 7
 };
 
-/** 
+/**
  * This class defined a shading pattern which can be used
  * to fill abitrary shapes with a pattern using PdfPainter.
  */
@@ -62,16 +62,16 @@ class PODOFO_DOC_API PdfShadingPattern : public PdfElement {
      *
      *  \param pParent parent vector of objects
      *  \param eShadingType the type of this shading pattern
-     *  
+     *
      */
     PdfShadingPattern( EPdfShadingPatternType eShadingType, PdfVecObjects* pParent );
 
     /** Create a new PdfShadingPattern object which will introduce itself
      *  automatically to every page object it is used on.
      *
-     *  \param pParent parent document 
+     *  \param pParent parent document
      *  \param eShadingType the type of this shading pattern
-     *  
+     *
      */
     PdfShadingPattern( EPdfShadingPatternType eShadingType, PdfDocument* pParent );
 
@@ -83,12 +83,12 @@ class PODOFO_DOC_API PdfShadingPattern : public PdfElement {
      */
     void Init( EPdfShadingPatternType eShadingType );
 
- private: 
+ private:
     PdfName m_Identifier;
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 const PdfName & PdfShadingPattern::GetIdentifier() const
 {
@@ -149,7 +149,7 @@ public:
      *  \param rUL the color on upper left corner
      *  \param rLR the color on lower right corner
      *  \param rUR the color on upper right corner
-     *  \param rMatrix the transformation matrix mapping the coordinate space 
+     *  \param rMatrix the transformation matrix mapping the coordinate space
      *         specified by the Domain entry into the shadings target coordinate space
      *  \param pParent the parent
      */
@@ -161,7 +161,7 @@ public:
      *  \param rUL the color on upper left corner
      *  \param rLR the color on lower right corner
      *  \param rUR the color on upper right corner
-     *  \param rMatrix the transformation matrix mapping the coordinate space 
+     *  \param rMatrix the transformation matrix mapping the coordinate space
      *         specified by the Domain entry into the shading's target coordinate space
      *  \param pParent the parent
      */
@@ -175,7 +175,7 @@ private:
      *  \param rUL the color on upper left corner
      *  \param rLR the color on lower right corner
      *  \param rUR the color on upper right corner
-     *  \param rMatrix the transformation matrix mapping the coordinate space 
+     *  \param rMatrix the transformation matrix mapping the coordinate space
      *         specified by the Domain entry into the shading's target coordinate space
      */
     void Init( const PdfColor & rLL, const PdfColor & rUL, const PdfColor & rLR, const PdfColor & rUR, const PdfArray & rMatrix );
@@ -233,4 +233,3 @@ private:
 };
 
 #endif // _PDF_SHADING_PATTERN_H_
-

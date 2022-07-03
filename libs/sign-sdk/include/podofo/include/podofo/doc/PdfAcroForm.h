@@ -39,7 +39,7 @@ class PODOFO_DOC_API PdfAcroForm : public PdfElement {
      *  \param pDoc parent of this action
      *  \param eDefaultAppearance specifies if a default appearance should be added
      */
-    PdfAcroForm( PdfDocument* pDoc, 
+    PdfAcroForm( PdfDocument* pDoc,
                  EPdfAcroFormDefaulAppearance eDefaultAppearance = ePdfAcroFormDefaultAppearance_BlackText12pt );
 
     /** Create a PdfAcroForm dictionary object from an existing PdfObject
@@ -52,16 +52,16 @@ class PODOFO_DOC_API PdfAcroForm : public PdfElement {
 
     virtual ~PdfAcroForm() { }
 
-    /** Get the document that is associated with this 
+    /** Get the document that is associated with this
      *  acro forms dictionary.
      *
      *  \returns a valid pointer to the parent document
      */
-    inline PdfDocument* GetDocument(); 
+    inline PdfDocument* GetDocument();
 
     /** Set the value of the NeedAppearances key in the interactive forms
      *  dictionary.
-     * 
+     *
      *  \param bNeedAppearances A flag specifying whether to construct appearance streams
      *                          and appearance dictionaries for all widget annotations in
      *                          the document. Default value is false.
@@ -76,8 +76,8 @@ class PODOFO_DOC_API PdfAcroForm : public PdfElement {
      *  \see SetNeedAppearances
      */
     bool GetNeedAppearances() const;
-	
-	
+
+
 	void SetHasSignature();
 
  private:
@@ -92,7 +92,7 @@ class PODOFO_DOC_API PdfAcroForm : public PdfElement {
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 PdfDocument* PdfAcroForm::GetDocument()
 {

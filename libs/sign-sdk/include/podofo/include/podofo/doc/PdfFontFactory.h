@@ -48,7 +48,7 @@ class PODOFO_DOC_API PdfFontFactory {
     /** Create a new PdfFont object.
      *
      *  \param pMetrics pointer to a font metrics object. The font in the PDF
-     *         file will match this fontmetrics object. The metrics object is 
+     *         file will match this fontmetrics object. The metrics object is
      *         deleted along with the created font. In case of an error, it is deleted
      *         here.
      *  \param nFlags font flags or'ed together, specifying the font style and if it should be embedded
@@ -57,7 +57,7 @@ class PODOFO_DOC_API PdfFontFactory {
      *
      *  \returns a new PdfFont object or NULL
      */
-    static PdfFont* CreateFontObject( PdfFontMetrics* pMetrics, int nFlags, 
+    static PdfFont* CreateFontObject( PdfFontMetrics* pMetrics, int nFlags,
                                       const PdfEncoding* const pEncoding, PdfVecObjects* pParent );
 
     /** Create a new PdfFont from an existing
@@ -72,7 +72,7 @@ class PODOFO_DOC_API PdfFontFactory {
 //	static PdfFont* CreateBase14Font(const char* pszFontName, const PdfEncoding * const pEncoding,PdfVecObjects *pvecObjects);
 
     /** Try to guess the fonttype from a the filename of a font file.
-     * 
+     *
      *  \param pszFilename filename of a fontfile
      *  \returns the font type
      */
@@ -84,8 +84,8 @@ class PODOFO_DOC_API PdfFontFactory {
      *
      *  \returns a new PdfFont object or NULL
      */
-    static PdfFont* CreateFontForType( EPdfFontType eType, PdfFontMetrics* pMetrics, 
-                                       const PdfEncoding* const pEncoding, 
+    static PdfFont* CreateFontForType( EPdfFontType eType, PdfFontMetrics* pMetrics,
+                                       const PdfEncoding* const pEncoding,
                                        bool bEmbed, bool bSubsetting, PdfVecObjects* pParent );
 
 };
@@ -93,5 +93,3 @@ class PODOFO_DOC_API PdfFontFactory {
 };
 
 #endif /* _PDF_FONT_FACTORY_H_ */
-
-

@@ -32,9 +32,9 @@ class PdfStreamedDocument;
 class PdfVecObjects;
 
 /** The type of the action.
- *  PDF supports different action types, each of 
+ *  PDF supports different action types, each of
  *  them has different keys and propeties.
- *  
+ *
  *  Not all action types listed here are supported yet.
  *
  *  Please make also sure that the action type you use is
@@ -44,7 +44,7 @@ enum EPdfAction {
     ePdfAction_GoTo = 0,
     ePdfAction_GoToR,
     ePdfAction_GoToE,
-    ePdfAction_Launch,    
+    ePdfAction_Launch,
     ePdfAction_Thread,
     ePdfAction_URI,
     ePdfAction_Sound,
@@ -59,7 +59,7 @@ enum EPdfAction {
     ePdfAction_Rendition,
     ePdfAction_Trans,
     ePdfAction_GoTo3DView,
-    
+
     ePdfAction_Unknown = 0xff
 };
 
@@ -84,7 +84,7 @@ class PODOFO_DOC_API PdfAction : public PdfElement {
 
     virtual ~PdfAction() { }
 
-    /** Create a PdfAction object from an existing 
+    /** Create a PdfAction object from an existing
      *  PdfObject
      */
     PdfAction( PdfObject* pObject );
@@ -99,7 +99,7 @@ class PODOFO_DOC_API PdfAction : public PdfElement {
      */
     PdfString GetURI() const;
 
-    /** 
+    /**
      *  \returns true if this action has an URI
      */
     bool HasURI() const;
@@ -109,7 +109,7 @@ class PODOFO_DOC_API PdfAction : public PdfElement {
     PdfString GetScript() const;
 
     bool HasScript() const;
-    
+
     /** Get the type of this action
      *  \returns the type of this action
      */
@@ -137,7 +137,7 @@ class PODOFO_DOC_API PdfAction : public PdfElement {
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline EPdfAction PdfAction::GetType() const
 {

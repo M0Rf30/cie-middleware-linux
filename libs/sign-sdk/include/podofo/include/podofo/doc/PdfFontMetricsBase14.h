@@ -45,15 +45,15 @@ class PdfArray;
    The member functions are accessed only through PDFFontmetrics.
    For eg. pdffontmetrics->GetFontSize would check if it is a base14 font,
    and call PdfFontMetricsBase14->GetFontSize.
-   
+
    This is done to ensure all existing paths work as is.
    The changes to Base 14 get added without affecting the existing workflow and fit in exactly.
-   
+
    Ideally PdfFontMetrics should be abstract or the metric related interface should be seperated out
    from the implementation details - such as whether the font metric data is read from a file/buffer/hard coded.
-   
+
    Kaushik : April 12th 2010
-   
+
  */
 class PODOFO_DOC_API PdfFontMetricsBase14 : public PdfFontMetrics {
 public:
@@ -94,7 +94,7 @@ public:
 
     /** Create the bounding box array as required by the PDF reference
      *  so that it can be written directly to a PDF file.
-     * 
+     *
      *  \param array write the bounding box to this array.
      */
     virtual void GetBoundingBox( PdfArray & array ) const;
@@ -117,7 +117,7 @@ public:
      */
     virtual double GetLineSpacing() const;
 
-    /** Get the width of the underline for the current 
+    /** Get the width of the underline for the current
      *  font size in PDF units
      *  \returns the thickness of the underline in PDF units
      */
@@ -135,7 +135,7 @@ public:
      */
     virtual double GetStrikeOutPosition() const;
 
-    /** Get the width of the strikeout for the current 
+    /** Get the width of the strikeout for the current
      *  font size in PDF units
      *  \returns the thickness of the strikeout in PDF units
      */
@@ -156,7 +156,7 @@ public:
      *  units for the current font size.
      *
      *  \returns the ascender for this font
-     *  
+     *
      *  \see GetPdfAscent
      */
     virtual double GetAscent() const;
@@ -164,12 +164,12 @@ public:
     /** Get the ascent of this font
      *  Used to build the font dictionay
      *  \returns the ascender for this font
-     *  
+     *
      *  \see GetAscent
      */
     virtual double GetPdfAscent() const;
 
-    /** Get the descent of this font in PDF 
+    /** Get the descent of this font in PDF
      *  units for the current font size.
      *  This value is usually negative!
      *
@@ -192,7 +192,7 @@ public:
      *  \returns the italic angle of this font.
      */
     virtual int GetItalicAngle() const;
- 
+
     /** Get the glyph id for a unicode character
      *  in the current font.
      *
@@ -203,9 +203,9 @@ public:
 
     /** Symbol fonts do need special treatment in a few cases.
      *  Use this method to check if the current font is a symbol
-     *  font. Symbold fonts are detected by checking 
+     *  font. Symbold fonts are detected by checking
      *  if they use FT_ENCODING_MS_SYMBOL as internal encoding.
-     * 
+     *
      * \returns true if this is a symbol font
      */
     virtual bool IsSymbol() const;
@@ -241,7 +241,7 @@ private :
     unsigned int  m_nWeight;
     int           m_nItalicAngle;
 
-	
+
     double        m_dAscent;
     double        m_dPdfAscent;
     double        m_dDescent;
@@ -262,9 +262,9 @@ PdfFontMetricsBase14*
 PODOFO_Base14FontDef_FindBuiltinData  (const char  *font_name);
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
-inline double PdfFontMetricsBase14::GetCapHeight() const 
+inline double PdfFontMetricsBase14::GetCapHeight() const
 {
     return cap_height;
 }

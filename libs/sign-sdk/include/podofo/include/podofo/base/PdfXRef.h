@@ -39,7 +39,7 @@ class PdfOutputDevice;
 class PdfXRef {
  protected:
     struct TXRefItem{
-        TXRefItem( const PdfReference & rRef, const pdf_uint64 & off ) 
+        TXRefItem( const PdfReference & rRef, const pdf_uint64 & off )
             : reference( rRef ), offset( off )
             {
             }
@@ -63,7 +63,7 @@ class PdfXRef {
 
     class PdfXRefBlock {
     public:
-        PdfXRefBlock() 
+        PdfXRefBlock()
             : m_nFirst( 0 ), m_nCount( 0 )
         {
         }
@@ -73,7 +73,7 @@ class PdfXRef {
         {
             this->operator=( rhs );
         }
-        
+
         bool InsertItem( const TXRefItem & rItem, bool bUsed );
 
         bool operator<( const PdfXRefBlock & rhs ) const
@@ -85,7 +85,7 @@ class PdfXRef {
         {
             m_nFirst  = rhs.m_nFirst;
             m_nCount  = rhs.m_nCount;
-            
+
             items     = rhs.items;
             freeItems = rhs.freeItems;
 
@@ -94,11 +94,11 @@ class PdfXRef {
 
         pdf_objnum   m_nFirst;
         pdf_uint32   m_nCount;
-        
+
         TVecXRefItems items;
         TVecReferences freeItems;
     };
-    
+
     typedef std::vector<PdfXRefBlock>      TVecXRefBlock;
     typedef TVecXRefBlock::iterator        TIVecXRefBlock;
     typedef TVecXRefBlock::const_iterator  TCIVecXRefBlock;
@@ -114,7 +114,7 @@ class PdfXRef {
 
     /** Add an object to the XRef table.
      *  The object should have been written to an output device already.
-     *  
+     *
      *  \param rRef reference of this object
      *  \param offset the offset where on the device the object was written
      *  \param bUsed specifies wether this is an used or free object.
@@ -124,7 +124,7 @@ class PdfXRef {
     void AddObject( const PdfReference & rRef, pdf_uint64 offset, bool bUsed );
 
     /** Write the XRef table to an output device.
-     * 
+     *
      *  \param pDevice an output device (usually a PDF file)
      *
      */
@@ -148,7 +148,7 @@ class PdfXRef {
      *  This method can be overwritten in subclasses
      *  to write a general header for the XRef table.
      *
-     *  @param pDevice the output device to which the XRef table 
+     *  @param pDevice the output device to which the XRef table
      *                 should be written.
      */
     virtual void BeginWrite( PdfOutputDevice* pDevice );
@@ -156,7 +156,7 @@ class PdfXRef {
     /** Begin an XRef subsection.
      *  All following calls of WriteXRefEntry belong to this XRef subsection.
      *
-     *  @param pDevice the output device to which the XRef table 
+     *  @param pDevice the output device to which the XRef table
      *                 should be written.
      *  @param nFirst the object number of the first object in this subsection
      *  @param nCount the number of entries in this subsection
@@ -164,22 +164,22 @@ class PdfXRef {
     virtual void WriteSubSection( PdfOutputDevice* pDevice, pdf_objnum nFirst, pdf_uint32 nCount );
 
     /** Write a single entry to the XRef table
-     *  
-     *  @param pDevice the output device to which the XRef table 
+     *
+     *  @param pDevice the output device to which the XRef table
      *                 should be written.
      *  @param offset the offset of the object
      *  @param generation the generation number
      *  @param cMode the mode 'n' for object and 'f' for free objects
-     *  @param objectNumber the object number of the currently written object if cMode = 'n' 
+     *  @param objectNumber the object number of the currently written object if cMode = 'n'
      *                       otherwise undefined
      */
-    virtual void WriteXRefEntry( PdfOutputDevice* pDevice, pdf_uint64 offset, pdf_gennum generation, 
+    virtual void WriteXRefEntry( PdfOutputDevice* pDevice, pdf_uint64 offset, pdf_gennum generation,
                                  char cMode, pdf_objnum objectNumber = 0 );
 
     /** Called at the end of writing the XRef table.
      *  Sub classes can overload this method to finish a XRef table.
      *
-     *  @param pDevice the output device to which the XRef table 
+     *  @param pDevice the output device to which the XRef table
      *                 should be written.
      */
     virtual void EndWrite( PdfOutputDevice* pDevice );
@@ -204,7 +204,7 @@ class PdfXRef {
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline pdf_uint64 PdfXRef::GetOffset() const
 {

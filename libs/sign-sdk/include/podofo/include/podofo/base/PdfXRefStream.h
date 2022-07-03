@@ -65,7 +65,7 @@ class PdfXRefStream : public PdfXRef {
      *  This method can be overwritten in subclasses
      *  to write a general header for the XRef table.
      *
-     *  @param pDevice the output device to which the XRef table 
+     *  @param pDevice the output device to which the XRef table
      *                 should be written.
      */
     virtual void BeginWrite( PdfOutputDevice* pDevice );
@@ -73,7 +73,7 @@ class PdfXRefStream : public PdfXRef {
     /** Begin an XRef subsection.
      *  All following calls of WriteXRefEntry belong to this XRef subsection.
      *
-     *  @param pDevice the output device to which the XRef table 
+     *  @param pDevice the output device to which the XRef table
      *                 should be written.
      *  @param nFirst the object number of the first object in this subsection
      *  @param nCount the number of entries in this subsection
@@ -81,22 +81,22 @@ class PdfXRefStream : public PdfXRef {
     virtual void WriteSubSection( PdfOutputDevice* pDevice, pdf_objnum nFirst, pdf_uint32 nCount );
 
     /** Write a single entry to the XRef table
-     *  
-     *  @param pDevice the output device to which the XRef table 
+     *
+     *  @param pDevice the output device to which the XRef table
      *                 should be written.
      *  @param offset the offset of the object
      *  @param generation the generation number
      *  @param cMode the mode 'n' for object and 'f' for free objects
-     *  @param objectNumber the object number of the currently written object if cMode = 'n' 
+     *  @param objectNumber the object number of the currently written object if cMode = 'n'
      *                       otherwise undefined
      */
-    virtual void WriteXRefEntry( PdfOutputDevice* pDevice, pdf_uint64 offset, pdf_gennum generation, 
+    virtual void WriteXRefEntry( PdfOutputDevice* pDevice, pdf_uint64 offset, pdf_gennum generation,
                                  char cMode, pdf_objnum objectNumber = 0 );
 
     /** Called at the end of writing the XRef table.
      *  Sub classes can overload this method to finish a XRef table.
      *
-     *  @param pDevice the output device to which the XRef table 
+     *  @param pDevice the output device to which the XRef table
      *                 should be written.
      */
     virtual void EndWrite( PdfOutputDevice* pDevice );
@@ -112,7 +112,7 @@ class PdfXRefStream : public PdfXRef {
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline pdf_uint64 PdfXRefStream::GetOffset() const
 {

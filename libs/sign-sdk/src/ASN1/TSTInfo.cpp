@@ -159,4 +159,3 @@ CName CTSTInfo::getTSAName() {
 
     throw -1;
 }
-

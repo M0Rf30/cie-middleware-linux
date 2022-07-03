@@ -39,14 +39,14 @@ class PdfMemDocument;
  *
  *  You can draw on a XObject like you would draw onto a page and can draw
  *  this XObject later again using a PdfPainter.
- * 
+ *
  *  \see PdfPainter
  */
 class PODOFO_DOC_API PdfXObject : public PdfElement, public PdfCanvas {
  public:
     /** Create a new XObject with a specified dimension
      *  in a given document
-     * 
+     *
      *  \param rRect the size of the XObject
      *  \param pParent the parent document of the XObject
 	 *  \param pszPrefix optional prefix for XObject-name
@@ -55,16 +55,16 @@ class PODOFO_DOC_API PdfXObject : public PdfElement, public PdfCanvas {
 
     /** Create a new XObject with a specified dimension
      *  in a given vector of PdfObjects
-     * 
+     *
      *  \param rRect the size of the XObject
      *  \param pParent the parent vector of the XObject
 	 *  \param pszPrefix optional prefix for XObject-name
      */
     PdfXObject( const PdfRect & rRect, PdfVecObjects* pParent, const char* pszPrefix = NULL );
-    
+
     /** Create a new XObject from a page of another document
      *  in a given document
-     * 
+     *
      *  \param rSourceDoc the document to create the XObject from
      *  \param nPage the page-number in rDoc to create the XObject from
      *  \param pParent the parent document of the XObject
@@ -74,7 +74,7 @@ class PODOFO_DOC_API PdfXObject : public PdfElement, public PdfCanvas {
     PdfXObject( const PdfMemDocument & rSourceDoc, int nPage, PdfDocument* pParent, const char* pszPrefix = NULL, bool bUseTrimBox = false );
 
     /** Create a XObject from an existing PdfObject
-     *  
+     *
      *  \param pObject an existing object which has to be
      *                 a XObject
      */
@@ -83,9 +83,9 @@ class PODOFO_DOC_API PdfXObject : public PdfElement, public PdfCanvas {
     virtual ~PdfXObject() { }
 
     /** Get access to the contents object of this page.
-     *  If you want to draw onto the page, you have to add 
+     *  If you want to draw onto the page, you have to add
      *  drawing commands to the stream of the Contents object.
-     * 
+     *
      *  The contents object is a this pointer in this case.
      *
      *  \returns a contents object
@@ -93,9 +93,9 @@ class PODOFO_DOC_API PdfXObject : public PdfElement, public PdfCanvas {
     inline virtual PdfObject* GetContents() const;
 
    /** Get access to the contents object of this page.
-     *  If you want to draw onto the page, you have to add 
+     *  If you want to draw onto the page, you have to add
      *  drawing commands to the stream of the Contents object.
-     * 
+     *
      *  The contents object is a this pointer in this case.
      *
      *  \returns a contents object
@@ -121,7 +121,7 @@ class PODOFO_DOC_API PdfXObject : public PdfElement, public PdfCanvas {
     /** Get the reference to the XObject in the PDF file
      *  without having to access the PdfObject.
      *
-     *  This allows to work with XObjects which have been 
+     *  This allows to work with XObjects which have been
      *  written to disk already.
      *
      *  \returns the reference of the PdfObject for this XObject
@@ -148,7 +148,7 @@ class PODOFO_DOC_API PdfXObject : public PdfElement, public PdfCanvas {
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline PdfObject* PdfXObject::GetContents() const
 {
@@ -156,7 +156,7 @@ inline PdfObject* PdfXObject::GetContents() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline PdfObject* PdfXObject::GetResources() const
 {
@@ -164,7 +164,7 @@ inline PdfObject* PdfXObject::GetResources() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline const PdfRect PdfXObject::GetPageSize() const
 {
@@ -172,7 +172,7 @@ inline const PdfRect PdfXObject::GetPageSize() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline const PdfName & PdfXObject::GetIdentifier() const
 {
@@ -180,7 +180,7 @@ inline const PdfName & PdfXObject::GetIdentifier() const
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 inline const PdfReference & PdfXObject::GetObjectReference() const
 {
@@ -190,5 +190,3 @@ inline const PdfReference & PdfXObject::GetObjectReference() const
 };
 
 #endif /* _PDF_XOBJECT_H_ */
-
-

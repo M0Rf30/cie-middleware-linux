@@ -350,4 +350,3 @@ DISIGON_API long disigon_get_file_from_p7m(DISIGON_CTX ctx);
 #endif
 */
 #endif // __DISIGON_H
-

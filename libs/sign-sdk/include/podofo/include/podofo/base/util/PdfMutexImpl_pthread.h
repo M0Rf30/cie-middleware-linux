@@ -37,7 +37,7 @@ namespace Util {
 
 /**
  * A platform independent reentrant mutex, pthread implementation.
- *  
+ *
  * PdfMutex is *NOT* part of PoDoFo's public API.
  *
  * This is the pthread implementation, which is
@@ -59,7 +59,7 @@ class PdfMutexImpl {
     inline void Lock();
 
     /**
-     * Try locking the mutex. 
+     * Try locking the mutex.
      *
      * \returns true if the mutex was locked
      * \returns false if the mutex is already locked
@@ -87,7 +87,7 @@ PdfMutexImpl::~PdfMutexImpl()
 
 void PdfMutexImpl::Lock()
 {
-    if( pthread_mutex_lock( &m_mutex ) != 0 ) 
+    if( pthread_mutex_lock( &m_mutex ) != 0 )
     {
 	    PODOFO_RAISE_ERROR( ePdfError_MutexError );
     }

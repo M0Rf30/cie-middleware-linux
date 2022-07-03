@@ -41,8 +41,8 @@ typedef TVecFilters::iterator              TIVecFilters;
 typedef TVecFilters::const_iterator        TCIVecFilters;
 
 /** Every filter in PoDoFo has to implement this interface.
- * 
- *  The two methods Encode and Decode have to be implemented 
+ *
+ *  The two methods Encode and Decode have to be implemented
  *  for every filter.
  *
  *  The output buffers are malloc'ed in the functions and have
@@ -59,10 +59,10 @@ class PODOFO_API PdfFilter {
     inline virtual ~PdfFilter();
 
     /** Check wether encoding is implemented for this filter.
-     * 
+     *
      *  \returns true if the filter is able to encode data
      */
-    virtual bool CanEncode() const = 0; 
+    virtual bool CanEncode() const = 0;
 
     /** Encodes a buffer using a filter. The buffer will malloc'ed and
      *  has to be free'd by the caller.
@@ -126,14 +126,14 @@ class PODOFO_API PdfFilter {
     inline void EndEncode();
 
     /** Check wether the decoding is implemented for this filter.
-     * 
+     *
      *  \returns true if the filter is able to decode data
      */
-    virtual bool CanDecode() const = 0; 
+    virtual bool CanDecode() const = 0;
 
     /** Decodes a buffer using a filter. The buffer will malloc'ed and
      *  has to be free'd by the caller.
-     *  
+     *
      *  \param pInBuffer input buffer
      *  \param lInLen    length of the input buffer
      *  \param ppOutBuffer pointer to the buffer of the decoded data
@@ -203,7 +203,7 @@ class PODOFO_API PdfFilter {
  protected:
     /**
      * Indicate that the filter has failed, and will be non-functional until BeginEncode()
-     * or BeginDecode() is next called. Call this instead of EndEncode() or EndDecode if 
+     * or BeginDecode() is next called. Call this instead of EndEncode() or EndDecode if
      * something went wrong. It clears the stream output but otherwise does nothing.
      *
      * After this method is called futher calls to EncodeBlock(), DecodeBlock(), EndDecode() and
@@ -295,7 +295,7 @@ class PODOFO_API PdfFilter {
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 void PdfFilter::BeginEncode( PdfOutputStream* pOutput )
 {
@@ -310,9 +310,9 @@ void PdfFilter::BeginEncode( PdfOutputStream* pOutput )
 		throw e;
 	}
 }
- 
+
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 void PdfFilter::EncodeBlock( const char* pBuffer, pdf_long lLen )
 {
@@ -328,7 +328,7 @@ void PdfFilter::EncodeBlock( const char* pBuffer, pdf_long lLen )
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 void PdfFilter::EndEncode()
 {
@@ -340,14 +340,14 @@ void PdfFilter::EndEncode()
 		// Clean up and close stream
 		this->FailEncodeDecode();
 		throw e;
-	}    
+	}
 
     m_pOutputStream->Close();
     m_pOutputStream = NULL;
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 void PdfFilter::BeginDecode( PdfOutputStream* pOutput, const PdfDictionary* pDecodeParms )
 {
@@ -360,11 +360,11 @@ void PdfFilter::BeginDecode( PdfOutputStream* pOutput, const PdfDictionary* pDec
 		// Clean up and close stream
 		this->FailEncodeDecode();
 		throw e;
-	}    
+	}
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 void PdfFilter::DecodeBlock( const char* pBuffer, pdf_long lLen )
 {
@@ -376,11 +376,11 @@ void PdfFilter::DecodeBlock( const char* pBuffer, pdf_long lLen )
 		// Clean up and close stream
 		this->FailEncodeDecode();
 		throw e;
-	}    
+	}
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 void PdfFilter::EndDecode()
 {
@@ -392,9 +392,9 @@ void PdfFilter::EndDecode()
 		// Clean up and close stream
 		this->FailEncodeDecode();
 		throw e;
-	}    
+	}
 
-    if( m_pOutputStream ) 
+    if( m_pOutputStream )
     {
         m_pOutputStream->Close();
         m_pOutputStream = NULL;
@@ -402,7 +402,7 @@ void PdfFilter::EndDecode()
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 void PdfFilter::FailEncodeDecode()
 {
@@ -412,7 +412,7 @@ void PdfFilter::FailEncodeDecode()
 }
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 PdfFilter::~PdfFilter()
 {
@@ -425,7 +425,7 @@ PdfFilter::~PdfFilter()
 
 
 /** A factory to create a filter object for a filter GetType from the EPdfFilter enum.
- * 
+ *
  *  All filters should be created using this factory.
  */
 class PODOFO_API PdfFilterFactory {
@@ -443,7 +443,7 @@ class PODOFO_API PdfFilterFactory {
      */
     static std::auto_ptr<PdfFilter> Create( const EPdfFilter eFilter );
 
-    /** Create a PdfOutputStream that applies a list of filters 
+    /** Create a PdfOutputStream that applies a list of filters
      *  on all data written to it.
      *
      *  \param filters a list of filters
@@ -454,7 +454,7 @@ class PODOFO_API PdfFilterFactory {
      */
     static PdfOutputStream* CreateEncodeStream( const TVecFilters & filters, PdfOutputStream* pStream );
 
-    /** Create a PdfOutputStream that applies a list of filters 
+    /** Create a PdfOutputStream that applies a list of filters
      *  on all data written to it.
      *
      *  \param filters a list of filters
@@ -468,14 +468,14 @@ class PODOFO_API PdfFilterFactory {
      *
      *  \see PdfFilterFactory::CreateFilterList
      */
-    static PdfOutputStream* CreateDecodeStream( const TVecFilters & filters, PdfOutputStream* pStream, 
+    static PdfOutputStream* CreateDecodeStream( const TVecFilters & filters, PdfOutputStream* pStream,
                                                 const PdfDictionary* pDictionary = NULL );
 
     /** Converts a filter name to the corresponding enum
      *  \param name of the filter without leading
      *  \param bSupportShortNames the PDF Reference supports several
      *         short names for filters (e.g. AHx for AsciiHexDecode), if true
-     *         support for these short names will be enabled. 
+     *         support for these short names will be enabled.
      *         This is often used in inline images.
      *  \returns the filter as enum
      */

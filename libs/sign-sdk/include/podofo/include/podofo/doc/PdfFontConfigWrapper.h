@@ -42,8 +42,8 @@ namespace PoDoFo {
 
 /**
  * This class initializes and destroys the FontConfig library.
- * 
- * As initializing fontconfig can take a long time, you 
+ *
+ * As initializing fontconfig can take a long time, you
  * can create a wrapper by yourself to cache initialization of
  * fontconfig.
  *
@@ -112,16 +112,16 @@ private:
 };
 
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
-void* PdfFontConfigWrapper::GetFontConfig() 
+void* PdfFontConfigWrapper::GetFontConfig()
 {
-    if( m_pFontConfig != NULL ) 
+    if( m_pFontConfig != NULL )
     {
         InitializeFontConfig();
         return m_pFontConfig->m_pFcConfig;
-    } 
-    else 
+    }
+    else
     {
         return NULL;
     }
@@ -129,7 +129,7 @@ void* PdfFontConfigWrapper::GetFontConfig()
 
 #if defined(PODOFO_HAVE_FONTCONFIG)
 // -----------------------------------------------------
-// 
+//
 // -----------------------------------------------------
 Util::PdfMutex & PdfFontConfigWrapper::GetFontConfigMutex()
 {

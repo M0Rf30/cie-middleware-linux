@@ -94,6 +94,3 @@ void CounterSignatureGenerator::toByteArray(UUCByteArray& pkcs7SignedData) {
 
 
 }
-
-
-

@@ -321,16 +321,3 @@ int CASN1Object::parseBER(UUCBufferedReader& reader, UUCByteArray& buffer) {
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

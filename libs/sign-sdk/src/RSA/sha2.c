@@ -86,7 +86,7 @@ void sha2_starts( sha2_context *ctx, int is224 )
         /* SHA-224 */
         ctx->state[0] = 0xC1059ED8;
         ctx->state[1] = 0x367CD507;
-        ctx->state[2] = 0x3070DD17; 
+        ctx->state[2] = 0x3070DD17;
         ctx->state[3] = 0xF70E5939;
         ctx->state[4] = 0xFFC00B31;
         ctx->state[5] = 0x68581511;
@@ -451,7 +451,7 @@ void sha2_hmac( const unsigned char *key, size_t keylen,
 /*
  * FIPS-180-2 test vectors
  */
-static unsigned char sha2_test_buf[3][57] = 
+static unsigned char sha2_test_buf[3][57] =
 {
     { "abc" },
     { "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq" },

@@ -51,4 +51,3 @@ int CTimeStampResponse::verify(const char* szDateTime) {
     CTimeStampToken tst(elementAt(1));
     return tst.verify(szDateTime, NULL);
 }
-

@@ -31,7 +31,7 @@ namespace PoDoFo {
 class PdfArray;
 
 /**
- * The function type of a mathematical function in a PDF file. 
+ * The function type of a mathematical function in a PDF file.
  */
 enum EPdfFunctionType {
     ePdfFunctionType_Sampled     = 0, ///< A sampled function (Type1)
@@ -40,7 +40,7 @@ enum EPdfFunctionType {
     ePdfFunctionType_PostScript  = 4  ///< A PostScript calculator function (Type4)
 };
 
-/** 
+/**
  * This class defines a PdfFunction.
  * A function can be used in various ways in a PDF file.
  * Examples are device dependent rasterization for high quality
@@ -57,30 +57,30 @@ public:
 protected:
     /** Create a new PdfFunction object.
      *
-     *  \param eType the function type 
+     *  \param eType the function type
      *  \param rDomain this array describes the input parameters of this PdfFunction. If this
      *                 function has m input parameters, this array has to contain 2*m numbers
      *                 where each number describes either the lower or upper boundary of the input range.
      *  \param pParent parent vector of objects
-     *  
+     *
      */
     PdfFunction( EPdfFunctionType eType, const PdfArray & rDomain, PdfVecObjects* pParent );
 
     /** Create a new PdfFunction object.
      *
-     *  \param eType the function type 
+     *  \param eType the function type
      *  \param rDomain this array describes the input parameters of this PdfFunction. If this
      *                 function has m input parameters, this array has to contain 2*m numbers
      *                 where each number describes either the lower or upper boundary of the input range.
-     *  \param pParent parent document 
-     *  
+     *  \param pParent parent document
+     *
      */
     PdfFunction( EPdfFunctionType eType, const PdfArray & rDomain, PdfDocument* pParent );
 
 private:
     /** Initialize this object.
      *
-     *  \param eType the function type 
+     *  \param eType the function type
      *  \param rDomain this array describes the input parameters of this PdfFunction. If this
      *                 function has m input parameters, this array has to contain 2*m numbers
      *                 where each number describes either the lower or upper boundary of the input range.
@@ -115,7 +115,7 @@ public:
      *                 function has n input parameters, this array has to contain 2*n numbers
      *                 where each number describes either the lower or upper boundary of the output range.
      *  \param rlstSamples a list of bytes which are used to build up this function sample data
-     *  \param pParent parent document 
+     *  \param pParent parent document
      */
     PdfSampledFunction( const PdfArray & rDomain,  const PdfArray & rRange, const PdfFunction::Sample & rlstSamples, PdfDocument* pParent );
 
@@ -150,7 +150,7 @@ public:
      *  \param rC0
      *  \param rC1
      *  \param dExponent
-     *  \param pParent parent document 
+     *  \param pParent parent document
      */
     PdfExponentialFunction( const PdfArray & rDomain, const PdfArray & rC0, const PdfArray & rC1, double dExponent, PdfDocument* pParent );
 
@@ -178,7 +178,7 @@ public:
      *  \param rBounds the bounds array
      *  \param rEncode the encode array
      *  \param pParent parent vector of objects
-     *  
+     *
      */
     PdfStitchingFunction( const PdfFunction::List & rlstFunctions, const PdfArray & rDomain, const PdfArray & rBounds, const PdfArray & rEncode, PdfVecObjects* pParent );
 
@@ -190,8 +190,8 @@ public:
      *                 where each number describes either the lower or upper boundary of the input range.
      *  \param rBounds the bounds array
      *  \param rEncode the encode array
-     *  \param pParent parent document 
-     *  
+     *  \param pParent parent document
+     *
      */
     PdfStitchingFunction( const PdfFunction::List & rlstFunctions, const PdfArray & rDomain, const PdfArray & rBounds, const PdfArray & rEncode, PdfDocument* pParent );
 
