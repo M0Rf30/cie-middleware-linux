@@ -195,6 +195,7 @@ CK_RV CK_ENTRY AbilitaCIE(const char*  szPAN, const char*  szPIN, int* attempts,
 
             progressCallBack(10, "Verifica carta esistente");
 
+            LOG_DEBUG("AbbinaCIE - Checking if card has been activated yet...");
             IAS ias((CToken::TokenTransmitCallback)TokenTransmitCallback, atrBa);
             ias.SetCardContext(&conn);
 
@@ -476,6 +477,7 @@ DWORD CardAuthenticateEx(IAS*       ias,
     if (sw >= 0x63C0 && sw <= 0x63CF) {
         if (pcAttemptsRemaining != nullptr)
             *pcAttemptsRemaining = sw - 0x63C0;
+        LOG_ERROR("CardAuthenticateEx - Wrong Pin");
         return SCARD_W_WRONG_CHV;
     }
     if (sw == 0x6700) {

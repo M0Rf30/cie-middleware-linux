@@ -222,9 +222,6 @@ void IAS::readfile(uint16_t id, ByteDynArray &content) {
         if (sw == 0x9000) {
             content.append(chn);
             cnt = content.size();
-//            WORD chnSize;
-//            if (FAILED(SizeTToWord(chn.size(), &chnSize)) || FAILED(WordAdd(cnt, chnSize, &cnt)))
-//                throw logged_error("File troppo grande");
             chunk = 128;
         } else {
             if (sw == 0x6282)
@@ -261,9 +258,6 @@ void IAS::readfile_SM(uint16_t id, ByteDynArray &content) {
         if (sw == 0x9000) {
             content.append(chn);
             cnt = content.size();
-//            WORD chnSize;
-//            if (FAILED(SizeTToWord(chn.size(), &chnSize)) || FAILED(WordAdd(cnt, chnSize, &cnt)))
-//                throw logged_error("File troppo grande");
             chunk = 128;
         } else {
             if (sw == 0x6282)
@@ -296,43 +290,38 @@ void IAS::SelectAID_CIE(bool SM) {
     exit_func
 }
 
-uint8_t NXP_ATR[] = { 0x80, 0x31, 0x80, 0x65, 0x49, 0x54, 0x4E, 0x58, 0x50 };
-uint8_t Gemalto_ATR[] = { 0x80, 0x31, 0x80, 0x65, 0xB0, 0x85, 0x04, 0x00, 0x11 };
-uint8_t Gemalto2_ATR[] = { 0x80, 0x31, 0x80, 0x65, 0xB0, 0x85, 0x03, 0x00, 0xEF };
-uint8_t STM_ATR[] = {0x80, 0x66, 0x47, 0x50, 0x00, 0xB8, 0x00, 0x7F};
-uint8_t STM2_ATR[] = { 0x80, 0x80, 0x01, 0x01 };
-uint8_t STM3_ATR[] = { 0x80, 0x01, 0x80, 0x66, 0x47, 0x50, 0x00, 0xB8, 0x00, 0x94, 0x82, 0x90, 0x00, 0xC5 };
-
-ByteArray baNXP_ATR(NXP_ATR, sizeof(NXP_ATR));
-ByteArray baGemalto_ATR(Gemalto_ATR, sizeof(Gemalto_ATR));
-ByteArray baGemalto2_ATR(Gemalto2_ATR, sizeof(Gemalto2_ATR));
-ByteArray baSTM_ATR(STM_ATR, sizeof(STM_ATR));
-ByteArray baSTM2_ATR(STM2_ATR, sizeof(STM2_ATR));
-ByteArray baSTM3_ATR(STM3_ATR, sizeof(STM3_ATR));
-
 void IAS::ReadCIEType() {
     init_func
-    size_t position;
+
+    std::vector<uint8_t> atr_vector((ATR.data()), ATR.data() + ATR.size());
+
+    type = get_type(atr_vector);
+    if (type == CIE_Type::CIE_Unknown) {
+        throw logged_error("ReadCIEType - CIE not recognized");
+    }
+
+#if 0
     if (ATR.indexOf(baNXP_ATR, position)) {
         type = CIE_Type::CIE_NXP;
-        LOG_INFO("IAS::ReadCIEType - CIE NXP detected");
+        LOG_INFO("ReadCIEType - CIE NXP detected");
     } else if (ATR.indexOf(baGemalto_ATR, position)) {
         type = CIE_Type::CIE_Gemalto;
-        LOG_INFO("IAS::ReadCIEType - CIE Gemalto detected\n");
+        LOG_INFO("ReadCIEType - CIE Gemalto detected\n");
     } else if (ATR.indexOf(baGemalto2_ATR, position)) {
         type = CIE_Type::CIE_Gemalto;
-        LOG_INFO("IAS::ReadCIEType - CIE Gemalto2 detected\n");
+        LOG_INFO("ReadCIEType - CIE Gemalto2 detected\n");
     } else if (ATR.indexOf(baSTM_ATR, position)) {
         type = CIE_Type::CIE_STM;
-        LOG_INFO("IAS::ReadCIEType - CIE STM detected\n");
+        LOG_INFO("ReadCIEType - CIE STM detected\n");
     } else if (ATR.indexOf(baSTM2_ATR, position)) {
         type = CIE_Type::CIE_STM2;
-        LOG_INFO("IAS::ReadCIEType - CIE STM2 detected\n");
+        LOG_INFO("ReadCIEType - CIE STM2 detected\n");
     } else if (ATR.indexOf(baSTM3_ATR, position)) {
         type = CIE_Type::CIE_STM3;
-        LOG_INFO("IAS::ReadCIEType - CIE STM3 detected\n");
+        LOG_INFO("ReadCIEType - CIE STM3 detected\n");
     } else
-        throw logged_error("IAS::ReadCIEType - CIE not recognized");
+        throw logged_error("ReadCIEType - CIE not recognized");
+#endif
 }
 
 void IAS::SelectAID_IAS(bool SM) {
@@ -342,8 +331,7 @@ void IAS::SelectAID_IAS(bool SM) {
     }
     ByteDynArray resp;
     StatusWord sw;
-
-    if (type == CIE_Type::CIE_NXP) {
+    if ((type >= CIE_Type::CIE_NXP)) {
         uint8_t selectMF[] = { 0x00, 0xa4, 0x00, 0x00 };
 
         if (SM) {
@@ -353,7 +341,7 @@ void IAS::SelectAID_IAS(bool SM) {
             if ((sw = SendAPDU(VarToByteArray(selectMF), ByteArray(), resp)) != 0x9000)
                 throw scard_error(sw);
         }
-    } else if (type == CIE_Type::CIE_Gemalto || type == CIE_Type::CIE_STM || CIE_Type::CIE_STM2 || CIE_Type::CIE_STM3) {
+    } else if ((type < CIE_Type::CIE_NXP) && (type != CIE_Type::CIE_Unknown)) {
         uint8_t selectIAS[] = { 0x00, 0xa4, 0x04, 0x0c };
         if (SM) {
             if ((sw = SendAPDU_SM(VarToByteArray(selectIAS), IAS_AID, resp)) != 0x9000)
@@ -363,11 +351,10 @@ void IAS::SelectAID_IAS(bool SM) {
                 throw scard_error(sw);
         }
     } else {
-        throw logged_error("Tipo CIE sconosciuto");
+        throw logged_error("SelectAID_IAS - CIE not recognized");
     }
 
     SM = false;
-
     ActiveDF = DF_IAS;
     ActiveSM = false;
     exit_func
@@ -892,19 +879,10 @@ StatusWord IAS::SendAPDU_SM(ByteArray head, ByteArray data, ByteDynArray &resp, 
         smApdu.set(&head, (uint8_t)data.size(), &data, (le == nullptr) ? &emptyBa : &leBa);
 
 
-//		//Log.writePure("%s", std::string().append("\nClear APDU:").append(dumpHexData(smApdu, str)).append("\n").c_str());
         smApdu = SM(sessENC, sessMAC, smApdu, sessSSC);
 
-//        //Log.writePure("%s", std::string().append("\nAPDU:").append(dumpHexData(smApdu)).append("\n").c_str());
-
         sw = token.Transmit(smApdu, &curresp);
-
-//        //Log.writePure("%s", std::string().append("RESP:").append(dumpHexData(curresp)).append("\n").c_str());
-
         sw = getResp_SM(curresp, sw, resp);
-
-
-//		//Log.writePure("%s", std::string().append("Clear RESP:").append(dumpHexData(resp, str)).append(HexByte(sw >> 8)).append(HexByte(sw & 0xff)).append("\n").c_str());
         return sw;
     } else {
         // attenzione:
@@ -912,8 +890,6 @@ StatusWord IAS::SendAPDU_SM(ByteArray head, ByteArray data, ByteDynArray &resp, 
         // la get response sembra che faccia saltare il chaining. Forse è una questione di driver del lettore?
         // Per daesso l'ho osservato solo su una virtual machine Win7 con il lettore in sharing con l'host
 
-
-//        size_t ds = data.size();
         size_t i = 0;
         uint8_t cla = head[0];
         while (true) {
@@ -928,18 +904,11 @@ StatusWord IAS::SendAPDU_SM(ByteArray head, ByteArray data, ByteDynArray &resp, 
             else
                 smApdu.set(&head, (le == nullptr || i < data.size()) ? &emptyBa : &leBa);
 
-//			//Log.writePure("%s", std::string("Clear APDU:").append(dumpHexData(smApdu, str)).append("\n").c_str());
             smApdu = SM(sessENC, sessMAC, smApdu, sessSSC);
 
-//            //Log.writePure("%s", std::string().append("\nAPDU:").append(dumpHexData(smApdu)).append("\n").c_str());
-
             sw = token.Transmit(smApdu, &curresp);
-
-//            //Log.writePure("%s",std::string().append("\nRESP:").append(dumpHexData(curresp)).append("\n").c_str());
-
             sw = getResp_SM(curresp, sw, resp);
 
-//			//Log.writePure("%s", std::string("Clear RESP:").append(dumpHexData(resp, str)).append(HexByte(sw >> 8)).append(HexByte(sw & 0xff)).append("\n").c_str());
             if (i == data.size())
                 return sw;
         }
@@ -985,11 +954,7 @@ StatusWord IAS::SendAPDU(ByteArray head, ByteArray data, ByteDynArray &resp, uin
         else
             apdu.set(&head, le == nullptr ? &emptyBa : &leBa);
 
-//        //Log.writePure("%s", std::string().append("\nAPDU:").append(dumpHexData(apdu)).append("\n").c_str());
-
         StatusWord sw = token.Transmit(apdu, &curresp);
-
-//        //Log.writePure("%s",std::string().append("RESP:").append(dumpHexData(curresp)).append("\n").c_str());
 
         sw=getResp(curresp, sw, resp);
 
@@ -1018,7 +983,7 @@ void IAS::InitDHParam() {
         dh_g = parser.tags[0]->tags[0]->tags[0]->tags[0]->content;
         dh_p = parser.tags[0]->tags[0]->tags[0]->tags[1]->content;
         dh_q = parser.tags[0]->tags[0]->tags[0]->tags[2]->content;
-    } else if (type == CIE_Type::CIE_NXP || type == CIE_Type::CIE_STM || type == CIE_Type::CIE_STM2 || type == CIE_Type::CIE_STM3) {
+    } else if ((type > CIE_Type::CIE_Gemalto)) {
         uint8_t getDHDoup[] = { 00, 0xcb, 0x3f, 0xff };
         uint8_t getDHDuopData_g[] = { 0x4D, 0x0A, 0x70, 0x08, 0xBF, 0xA1, 0x01, 0x04, 0xA3, 0x02, 0x97, 0x00 };
 
@@ -1039,7 +1004,7 @@ void IAS::InitDHParam() {
         parser.Parse(resp);
         dh_q = parser.tags[0]->tags[0]->tags[0]->tags[0]->content;
     } else
-        throw logged_error("CIE non riconosciuta");
+        throw logged_error("InitDHParam - CIE type not recognizes");
 
 
     exit_func
@@ -1206,7 +1171,6 @@ void IAS::GetCertificate(ByteDynArray &certificate,bool askEnable) {
             return;
         }
     }
-
     std::vector<BYTE> certEncBuf;
     CacheGetCertificate(PANStr.c_str(), certEncBuf);
 
@@ -1380,7 +1344,6 @@ void IAS::VerificaSODPSS(ByteArray &SOD, std::map<uint8_t, ByteDynArray> &hashSe
 
     CASNTag &CertIssuer = *issuerParser.tags[0];
     if (issuerName.tags.size() != CertIssuer.tags.size())
-//        throw logged_error("Issuer name non corrispondente");
         printf("Issuer name non corrispondente");
 
     uint8_t val = 1;
@@ -1440,7 +1403,6 @@ void IAS::VerificaSOD(ByteArray &SOD, std::map<BYTE, ByteDynArray> &hashSet) {
     uint8_t val1 = 1;
     temp3.Child(0, 02).Verify(VarToByteArray(val1));
     CASNTag &issuerName = temp3.Child(1, 0x30).Child(0, 0x30);
-//    CASNTag &signerCertSerialNumber = temp3.Child(1, 0x30).Child(1, 02);
     temp3.Child(2, 0x30).Child(0, 06).Verify(VarToByteArray(OID_SH256));
 
     CASNTag &signerInfo = temp3.Child(3, 0xA0);
@@ -1483,14 +1445,6 @@ void IAS::VerificaSOD(ByteArray &SOD, std::map<BYTE, ByteDynArray> &hashSet) {
     CryptoPP::Integer serial;
 
     GetPublicKeyFromCert(certin, pbKey, issuer, serial);
-
-//    long size = pbKey.CurrentSize();
-//    BYTE* pbtPubKey = new BYTE[size];
-//    pbKey.Get(pbtPubKey, size);
-//
-//    ByteArray pubKeyData(pbtPubKey, pbKey.CurrentSize());
-
-
 
     ByteDynArray pubKeyData(pbKey.CurrentSize());
     pbKey.Get(pubKeyData.data(), pubKeyData.size());
@@ -1544,7 +1498,6 @@ void IAS::VerificaSOD(ByteArray &SOD, std::map<BYTE, ByteDynArray> &hashSet) {
     }
     if (digestSignature!=decryptedSignature)
         throw logged_error("VerificaSOD - SOD sign not valid");
-//        throw logged_error("Firma del SOD non valida");
 
     issuerName.Reparse();
     CASNParser issuerParser;
@@ -1556,7 +1509,6 @@ void IAS::VerificaSOD(ByteArray &SOD, std::map<BYTE, ByteDynArray> &hashSet) {
 
     CASNTag &CertIssuer = *issuerParser.tags[0];
     if (issuerName.tags.size() != CertIssuer.tags.size())
-//        throw logged_error("Issuer name non corrispondente");
         printf("Issuer name non corrispondente");
 
     uint8_t val0=0;
@@ -1571,7 +1523,6 @@ void IAS::VerificaSOD(ByteArray &SOD, std::map<BYTE, ByteDynArray> &hashSet) {
         uint8_t num = ByteArrayToVar(dgNum.content, BYTE);
 
         if (hashSet.find(num) == hashSet.end() || hashSet[num].size() == 0)
-//            throw logged_error(stdPrintf("Digest non trovato per il DG %02X", num));
             printf("%s", stdPrintf("Digest non trovato per il DG %02X", num).c_str());
 
 
