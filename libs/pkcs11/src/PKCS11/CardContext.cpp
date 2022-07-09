@@ -6,22 +6,15 @@ extern CLog Log;
 
 void CCardContext::getContext() {
     init_func
-#ifdef WIN32
-    HANDLE hSCardSystemEvent=SCardAccessStartedEvent();
-    if (hSCardSystemEvent) {
-        WaitForSingleObject(hSCardSystemEvent,INFINITE);
-        SCardReleaseStartedEvent();
-    }
-#endif
-
     LONG _call_ris;
-    if ((_call_ris=(SCardEstablishContext(SCARD_SCOPE_USER,NULL,NULL,&hContext)))!=S_OK) {
+    if ((_call_ris=(SCardEstablishContext(SCARD_SCOPE_USER, NULL, NULL,
+    &hContext))) != S_OK) {
         throw windows_error(_call_ris);
     }
 }
 
 CCardContext::CCardContext(void) {
-    hContext=NULL;
+    hContext = NULL;
     getContext();
 }
 
@@ -36,17 +29,8 @@ CCardContext::operator SCARDCONTEXT() {
 
 
 void CCardContext::validate() {
-
-#ifdef WIN32
-    HANDLE hSCardSystemEvent=SCardAccessStartedEvent();
-    if (hSCardSystemEvent) {
-        WaitForSingleObject(hSCardSystemEvent,INFINITE);
-        SCardReleaseStartedEvent();
-    }
-#endif
-
     if (hContext)
-        if (SCardIsValidContext(hContext)!=SCARD_S_SUCCESS)
+        if (SCardIsValidContext(hContext) != SCARD_S_SUCCESS)
             hContext = NULL;
 
     if (hContext == 0) {
@@ -61,7 +45,7 @@ void CCardContext::renew() {
     if (hContext)
         if ((ris=SCardReleaseContext(hContext)) != SCARD_S_SUCCESS)
             throw windows_error(ris);
-    hContext=NULL;
+    hContext = NULL;
 
     getContext();
 

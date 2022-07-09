@@ -39,8 +39,6 @@ ByteDynArray CSHA512::Digest(ByteArray &data) {
 #include <cryptopp/base64.h>
 
 void CSHA512::Init() {
-//    if (isInit)
-//    throw logged_error("Un'operazione di hash Ë gi‡ in corso");
     SHA512_Init(&ctx);
     isInit = true;
 }
