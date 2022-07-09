@@ -17,8 +17,6 @@
   SCARD_ATTR_VALUE(SCARD_CLASS_ICC_STATE, \
                    0x0303) /**< Answer to reset (ATR) string. */
 
-// using namespace std
-
 /* CK_NOTIFY is an application callback that processes events */
 typedef CK_CALLBACK_FUNCTION(CK_RV, PROGRESS_CALLBACK)(const int progress,
                                                        const char* szMessage);

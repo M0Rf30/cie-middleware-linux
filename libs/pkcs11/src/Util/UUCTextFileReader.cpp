@@ -28,10 +28,8 @@
 //////////////////////////////////////////////////////////////////////
 
 UUCTextFileReader::UUCTextFileReader(const char* szFilePath) {
-  // LOG_DBG((0, "UUCTextFileReader", szFilePath));
   m_pf = fopen(szFilePath, "rt");
   if (!m_pf) {
-    // LOG_DBG((0, "UUCTextFileReader", "fopen not found: %s", szFilePath ));
     throw(long) ERROR_FILE_NOT_FOUND;
   }
 
@@ -64,7 +62,6 @@ UUCTextFileReader::UUCTextFileReader(const char* szFilePath) {
     fclose(m_pf);
     throw(long) ERROR_FILE_NOT_FOUND;
   }
-  // LOG_DBG((0, "UUCTextFileReader", "read OK %s", szFilePath));
 }
 
 UUCTextFileReader::~UUCTextFileReader() { fclose(m_pf); }
@@ -93,7 +90,6 @@ long UUCTextFileReader::readLine(char* szLine,
   while ((fread(szLine + i, 1, 1, m_pf) > 0) && (szLine[i] != '\n')) {
     i++;
     if (i == nLen) {
-      // SetLastError(ERROR_MORE_DATA);
       throw(long) ERROR_MORE_DATA;
     }
   }

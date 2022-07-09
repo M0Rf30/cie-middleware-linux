@@ -42,9 +42,6 @@ long CCIESigner::Init(const char* szPIN) {
         m_pIAS->SelectAID_CIE();
         m_pIAS->InitDHParam();
 
-//        ByteDynArray IdServizi;
-//        m_pIAS->ReadIdServizi(IdServizi);
-
         ByteDynArray data;
         m_pIAS->ReadDappPubKey(data);
         m_pIAS->InitExtAuthKeyParam();

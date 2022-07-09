@@ -41,11 +41,9 @@ class UUCStringTable : public UUCHashtable<char*, char*> {
   virtual ~UUCStringTable();
 
  protected:
-  // virtual unsigned long getHashValue(unsigned long szKey);
   virtual unsigned long getHashValue(char* const& szKey) const;
   virtual bool equal(char* const& szKey1, char* const& szKey2) const;
 
-  // virtual UINT getHashValue(const char*& szKey);
 };
 
 #endif  // !defined(AFX_UUCSTRINGTABLE_H__4392B6C2_89AA_436D_8291_A3D22CFF877B__INCLUDED_)

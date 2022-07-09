@@ -52,9 +52,9 @@ void initLog(const char *moduleName, const char *iniFile,const char *version) {
     OutputDebugString("\n");
 
     UUCProperties settings;
-    //settings.load(iniFile);
 
-    LogMode = (logMode)(settings.getIntProperty("LogMode", (int)LM_Single));//, "Modalità di Log. Valori possibili:\n"
+    LogMode = (logMode)(settings.getIntProperty("LogMode", (int)LM_Single));
+//, "Modalità di Log. Valori possibili:\n"
 //        "0 ;LM_Single,    // un solo file\n"
 //        "1 ;LM_Module,    // un file per modulo\n"
 //        "2 ;LM_Thread,    // un file per thread\n"
@@ -181,7 +181,6 @@ DWORD CLog::write(const char *format,...) {
             writeModuleInfo();
         }
 
-        //DWORD thNum;
         switch(LogMode) {
         case (LM_Module) :
             Num=&LogCount;
@@ -309,7 +308,6 @@ void CLog::writePure(const char *format,...) {
             logPath.replace(threadPos, threadPos + 14, th.str());
         }
         FILE *lf = nullptr;
-        //lf = fopen(logPath.c_str(), "a+t");
         lf = 0;
         if (lf) {
 

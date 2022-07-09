@@ -38,8 +38,6 @@ public:
 	CCertificate getSignerCertificate(int index);
 	void getContent(UUCByteArray& content);
 
-	//static void init(map<string, CCertificate*> certMap);
-	
 	void makeDetached();
 	
 	void toByteArray(UUCByteArray& signedData);

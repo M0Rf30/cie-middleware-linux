@@ -135,9 +135,6 @@ CRSA::CRSA(ByteArray &mod,ByteArray &exp) {
 }
 
 CRSA::~CRSA(void) {
-    //if (keyPriv!=nullptr)
-    //	RSA_free(keyPriv);
-
 }
 
 ByteDynArray CRSA::RSA_PURE(ByteArray &data) {

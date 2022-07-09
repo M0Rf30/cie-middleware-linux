@@ -5,9 +5,6 @@
 #if !defined(AFX_UUCPROPERTIES_H__715BAE3B_069E_4D31_9FBF_54EA38AAEFEC__INCLUDED_)
 #define AFX_UUCPROPERTIES_H__715BAE3B_069E_4D31_9FBF_54EA38AAEFEC__INCLUDED_
 
-#if _MSC_VER > 1000
-#pragma once
-#endif // _MSC_VER > 1000
 #include "UUCByteArray.h"
 #include "UUCStringTable.h"
 #include <stdio.h>
@@ -25,7 +22,6 @@ public:
 	long save(const char* szFilePath, const char* szHeader) const;
 	long save(UUCByteArray& props, const char* szHeader) const;
 	void putProperty(const char* szName, const char* szValue);
-	//void putProperty(char* szName, char* szValue);
 	const char* getProperty(const char* szName, const char* szDefaultValue = NULL) const;
 	void remove(const char* szName);
 	void removeAll();

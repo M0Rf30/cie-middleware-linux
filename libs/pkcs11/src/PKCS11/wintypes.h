@@ -28,32 +28,10 @@
 
 #define NNULL 0
 #define UINT unsigned int
-//#ifndef LONG
-//#define LONG long
-//#endif
-//#ifndef LPCTSTR
-//typedef LPCTSTR const char*;
-//#endif
-//
-//#ifndef LPCSTR
-//typedef LPCSTR const char*;
-//#endif
 
 #ifndef BYTE
 #define BYTE unsigned char
 #endif
-
-//#ifndef
-//#define DWORD uint32_t
-//#endif
-
-//#ifndef WORD
-//#define WORD unsigned short
-//#endif
-
-//#ifndef BOOL
-//#define BOOL unsigned char
-//#endif
 
 #define HANDLE void*
 #define PCHAR char*

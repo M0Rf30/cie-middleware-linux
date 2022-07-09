@@ -3,9 +3,6 @@
 #include "../Crypto/sha256.h"
 #include "../Crypto/MD5.h"
 #include "cryptoki.h"
-//#pragma pack(1)
-//#include "pkcs11.h"
-//#pragma pack()
 
 #include <memory>
 

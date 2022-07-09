@@ -1,7 +1,6 @@
 
 #include "definitions.h"
 
-//static unsigned long g_nErr;
 #include <string>
 
 using namespace std;

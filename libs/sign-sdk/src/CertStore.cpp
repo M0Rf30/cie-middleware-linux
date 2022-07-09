@@ -24,8 +24,6 @@ map<unsigned long, CCertificate*> CCertStore::m_certMap;
 
 
 void CCertStore::AddCertificate(CCertificate& certificate) {
-    //LOG_DBG((0, "--> CertStore::AddCertificate", ""));
-
     unsigned long nHash;
 
     try {
@@ -34,8 +32,6 @@ void CCertStore::AddCertificate(CCertificate& certificate) {
         if(subjectKeyIdentifier.getLength() > 0) {
             UUCByteArray* pValue = (UUCByteArray*)subjectKeyIdentifier.getValue();
             const char* szSki = pValue->toHexString();
-
-            //LOG_DBG((0, "AddCertificate", "szSki: %s", szSki));
 
             nHash = getHash(szSki);
         } else {
@@ -50,8 +46,6 @@ void CCertStore::AddCertificate(CCertificate& certificate) {
     } catch(...) {
         LOG_ERR((0, "CertStore::AddCertificate Exception", ""));
     }
-
-    //LOG_DBG((0, "<-- CertStore::AddCertificate", ""));
 }
 
 CCertificate* CCertStore::GetCertificate(CCertificate& certificate) {

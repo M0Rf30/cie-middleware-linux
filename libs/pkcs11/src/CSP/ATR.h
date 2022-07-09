@@ -1,5 +1,5 @@
-#ifndef LIBS_PKCS11_SRC_CSP_ATR_H_
-#define LIBS_PKCS11_SRC_CSP_ATR_H_
+#ifndef PKCS11_SRC_CSP_ATR_H_
+#define PKCS11_SRC_CSP_ATR_H_
 
 #include <stdint.h>
 
@@ -29,4 +29,4 @@ typedef struct _cie_atr {
 string get_manufacturer(vector<uint8_t> atr);
 CIE_Type get_type(vector<uint8_t> atr);
 
-#endif  // LIBS_PKCS11_SRC_CSP_ATR_H_
+#endif  // PKCS11_SRC_CSP_ATR_H_

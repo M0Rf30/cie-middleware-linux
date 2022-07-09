@@ -17,8 +17,8 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
-#ifndef _UUHASHTABLE_HPP_
-#define _UUHASHTABLE_HPP_
+#ifndef PKCS11_SRC_UTIL_UUCHASHTABLE_HPP_
+#define PKCS11_SRC_UTIL_UUCHASHTABLE_HPP_
 
 #define POS void*
 #define INVALID (void*)-1l
@@ -202,9 +202,6 @@ class UUCHashtable {
   };
 
   virtual void put(const KEY& key, const VALUE& value) {
-    // if (key == NULL || value == NULL)
-    //	throw 1;
-
     // Makes sure the key is not already in the hashtable.
     unsigned long hash = getHashValue(key);
     int index = (hash & 0x7FFFFFFF) % m_nSize;
@@ -284,4 +281,4 @@ class UUCHashtable {
   };
 };
 
-#endif  //_UUHASHTABLE_HPP_
+#endif  // PKCS11_SRC_UTIL_UUCHASHTABLE_HPP_

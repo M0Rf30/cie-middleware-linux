@@ -79,17 +79,13 @@ ByteDynArray CDES3::Des3(const ByteArray &data, int encOp) {
 void CDES3::Init(const ByteArray &key, const ByteArray &iv) {
     init_func
     long KeySize = key.size();
-//	ER_ASSERT((KeySize % 8) == 0, "Errore nella lunghezza della chiave DES (non divisibile per 8)")
-//	ER_ASSERT(iv.size() == 8, "Errore nella lunghezza dell'Initial Vector")
 
-//	ER_ASSERT(KeySize >= 8 && KeySize <= 24, "Errore nella lunghezza della chiave DES (<8 o >24)")
     DES_cblock *keyVal1 = nullptr, *keyVal2 = nullptr, *keyVal3 = nullptr;
     CryptoPP::memcpy_s(initVec, sizeof(DES_cblock), iv.data(), 8);
 
     switch (KeySize) {
     case 8:
         throw logged_error("Chiave 3DES 8 byte non supportata");
-        //keyVal1 = keyVal2 = keyVal3 = (DES_cblock *)key.data();
         break;
     case 16:
         keyVal1 = keyVal3 = (DES_cblock *)key.left(8).data();//data();

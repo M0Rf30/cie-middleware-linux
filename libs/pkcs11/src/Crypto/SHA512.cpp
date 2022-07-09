@@ -66,13 +66,6 @@ ByteDynArray CSHA512::Digest(ByteArray &data) {
 
     ByteArray resp(abDigest, CryptoPP::SHA512::DIGESTSIZE);
 
-//	ByteDynArray resp(SHA512_DIGEST_LENGTH);
-//	SHA512_Init(&ctx);
-//	SHA512_Update(&ctx, data.data(), data.size());
-//	SHA512_Final(resp.data(), &ctx);
-
-    //ER_ASSERT(SHA512(data.data(), data.size(), resp.data()) != NULL, "Errore nel calcolo dello SHA512")
-
     return resp;
 }
 #endif

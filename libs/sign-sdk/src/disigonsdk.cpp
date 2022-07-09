@@ -106,8 +106,6 @@ long sign_pdf(DISIGON_SIGN_CONTEXT* pContext, UUCByteArray& data);
 long sign_xml(DISIGON_SIGN_CONTEXT* pContext, UUCByteArray& data);
 
 
-//long load_tsl(const char* szTSLUrl, const char* szCACertDir);
-
 long HTTPRequest(UUCByteArray& data, const char* szUrl, const char* szContentType, UUCByteArray& response);
 
 static xmlChar nl[] = "\n";
@@ -167,10 +165,6 @@ void disigon_cleanup() {
 DISIGON_CTX disigon_sign_init(void) {
     LOG_MSG((0, "--> disigon_sign_init", ""));
 
-#ifdef WIN32
-    //checkLicense();
-#endif
-
     DISIGON_SIGN_CONTEXT* pContext = new DISIGON_SIGN_CONTEXT;
 
     pContext->bDetached = 0;
@@ -206,15 +200,6 @@ DISIGON_CTX disigon_sign_init(void) {
     if(g_mapOIDProps.size() == 0)
         g_mapOIDProps.load("OID.txt");
 
-//    if (g_bCACertDirSet && CCertStore::m_certMap.size() == 0)
-//    {
-//        long nRet = CCertStore::LoadCertificates(g_szCACertDir);
-//        if (nRet)
-//            LOG_ERR((0, "disigon_sign_init", "set DISIGON_OPT_CACERT_DIR error: %X", nRet));
-//        else
-//            LOG_DBG((0, "disigon_sign_init", "set DISIGON_OPT_CACERT_DIR: OK"));
-//    }
-
     LOG_MSG((0, "<-- disigon_sign_init", "Context: %p", pContext));
 
     return (DISIGON_CTX) pContext;
@@ -224,12 +209,6 @@ long disigon_sign_set_int(DISIGON_CTX ctx, int option, int value) {
     return disigon_sign_set(ctx, option, (void*)value);
 }
 
-/*
-long disigon_sign_set_bool(DISIGON_CTX ctx, int option, bool value)
-{
-    return disigon_sign_set(ctx, option, (void*)value);
-}
-*/
 long disigon_sign_set_string(DISIGON_CTX ctx, int option, char* value) {
     return disigon_sign_set(ctx, option, (void*)value);
 }
@@ -260,12 +239,10 @@ long disigon_sign_set(DISIGON_CTX ctx, int option, void* value) {
     case DISIGON_OPT_ALIAS:
         LOG_MSG((0, "disigon_sign_set", "Context: %p, Option: %s, Value: %s", ctx, "DISIGON_OPT_ALIAS", (char*)value));
         strcpy(pContext->szAlias, (char*)value);
-        //pContext->pSignatureGenerator->SetAlias((char*)value);
         break;
 
     case DISIGON_OPT_CADES:
         LOG_MSG((0, "disigon_sign_set", "Context: %p, Option: %s, Value: %d", ctx, "DISIGON_OPT_CADES", (long)value));
-        //pContext->pSignatureGenerator->SetCAdES((BOOL)(long)value);
         pContext->bCades = (BOOL)(long)value;
         break;
 
@@ -292,19 +269,16 @@ long disigon_sign_set(DISIGON_CTX ctx, int option, void* value) {
     case DISIGON_OPT_TSA_URL:
         LOG_MSG((0, "disigon_sign_set", "Context: %p, Option: %s, Value: %s", ctx, "DISIGON_OPT_TSA_URL", (char*)value));
         strcpy(pContext->szTSAUrl, (char*)value);
-        //pContext->pSignatureGenerator->SetTSA((char*)value, NULL, NULL);
         break;
 
     case DISIGON_OPT_TSA_USERNAME:
         LOG_MSG((0, "disigon_sign_set", "Context: %p, Option: %s, Value: %s", ctx, "DISIGON_OPT_TSA_USERNAME", (char*)value));
         strcpy(pContext->szTSAUsername, (char*)value);
-        //pContext->pSignatureGenerator->SetTSAUsername((char*)value);
         break;
 
     case DISIGON_OPT_TSA_PASSWORD:
         LOG_MSG((0, "disigon_sign_set", "Context: %p, Option: %s, Value: %s", ctx, "DISIGON_OPT_TSA_PASSWORD", (char*)value));
         strcpy(pContext->szTSAPassword, (char*)value);
-        //pContext->pSignatureGenerator->SetTSAPassword((char*)value);
         break;
 
     case DISIGON_OPT_PDF_SUBFILTER:
@@ -399,11 +373,6 @@ void disigon_sign_freecertificates(CERTIFICATES* pCerts) {
 
 long disigon_sign_sign(DISIGON_CTX ctx) {
     LOG_MSG((0, "--> disigon_sign_sign", "Context: %p", ctx));
-
-//    char szv[200];
-//    GetVersionString(szv);
-
-//    LOG_MSG((0, "disigon_sign_sign", "Version: %s", szv));
     LOG_MSG((0, "disigon_sign_sign", "Version: %s", "1.0.0"));
 
 
@@ -413,7 +382,6 @@ long disigon_sign_sign(DISIGON_CTX ctx) {
 
     LOG_MSG((0, "--> disigon_sign_sign", "pContext: %p, pdf_left: %f", pContext, pContext->fPdfLeft));
     if(pContext->szInputFile[0] == 0) {
-        //LOG_ERR((0, "disigon_sign_sign", "Context: %p, Error: DISIGON_ERROR_INVALID_FILE"));
         LOG_ERR((0, "disigon_sign_sign -> Error: DISIGON_ERROR_INVALID_FILE", ""));
         return DISIGON_ERROR_INVALID_FILE;
     }
@@ -563,7 +531,6 @@ DISIGON_CTX disigon_verify_init(void) {
     pContext->bVerifyCRL = 0;
     pContext->nInputFileType = DISIGON_FILETYPE_AUTO;
     pContext->szInputPlainTextFile[0] = '\0';
-    //pContext->szPdfSubfilter[0] = '\0';
     pContext->szOutputFile[0] = 0;
     pContext->szInputFile[0] = 0;
 
@@ -575,18 +542,6 @@ DISIGON_CTX disigon_verify_init(void) {
 
 
     g_nVerifyProxyPort = -1;
-
-//    if(g_mapOIDProps.size() == 0)
-//        g_mapOIDProps.load("OID.txt");
-
-//    if(g_bCACertDirSet && CCertStore::m_certMap.size() == 0)
-//    {
-//        long nRet = CCertStore::LoadCertificates(g_szCACertDir);
-//        if(nRet)
-//            LOG_ERR((0, "disigon_verify_init", "set DISIGON_OPT_CACERT_DIR error: %X", nRet));
-//        else
-//            LOG_DBG((0, "disigon_verify_init", "set DISIGON_OPT_CACERT_DIR: OK"));
-//    }
 
     LOG_MSG((0, "<-- disigon_verify_init", "Context: %p", pContext));
 
@@ -806,12 +761,8 @@ long disigon_verify_cleanup_result(VERIFY_RESULT* pVerifyResult) {
 
             if(pVerifyResult->verifyInfo.pSignerInfos->pSignerInfo[i].pRevocationInfo)
                 SAFEDELETE(pVerifyResult->verifyInfo.pSignerInfos->pSignerInfo[i].pRevocationInfo);
-
-            //SAFEDELETE(pVerifyResult->verifyInfo.pSignerInfos->pSignerInfo[i]);
         }
 
-        //SAFEDELETE(*(pVerifyResult->verifyInfo.pSignerInfos->pSignerInfo));
-//        SAFEDELETE(pVerifyResult->verifyInfo.pSignerInfos->pSignerInfo);
         SAFEDELETE(pVerifyResult->verifyInfo.pSignerInfos);
         break;
     }
@@ -896,7 +847,6 @@ long verify_p7m(DISIGON_VERIFY_CONTEXT* pContext, VERIFY_INFO* pVerifyInfo) {
             SIGNER_INFOS* pdfSignerInfos = verifyInfo.pSignerInfos;
 
             TS_INFO* p7mTSInfo = pVerifyInfo->pTSInfo;
-            //TS_INFO* pdfTSInfo = verifyInfo.pTSInfo;
 
             pVerifyInfo->pSignerInfos = new SIGNER_INFOS;
             pVerifyInfo->pSignerInfos->nCount = p7mSignatures + pdfSignatures;
@@ -994,14 +944,12 @@ long verify_xml(DISIGON_VERIFY_CONTEXT* pContext, VERIFY_INFO* pVerifyInfo) {
     pVerifyInfo->pSignerInfos->nCount = signatureCount;
 
 
-    //pVerifyInfo->pSignerInfos->pSignerInfo = new SIGNER_INFO*;
     pVerifyInfo->pSignerInfos->pSignerInfo = new SIGNER_INFO[signatureCount];
 
 
     for(int i = 0; i < signatureCount; i++) {
         CCertificate* pCert = verifier.GetCertificate(i);
 
-        //SIGNER_INFO* pSI = new SIGNER_INFO;
         SIGNER_INFO* pSI = &(pVerifyInfo->pSignerInfos->pSignerInfo[i]);
 
         pSI->pCounterSignatures = NULL;
@@ -1068,40 +1016,6 @@ long verify_xml(DISIGON_VERIFY_CONTEXT* pContext, VERIFY_INFO* pVerifyInfo) {
         pSI->nCertLen = certificate.getLength();
         pSI->pCertificate = new BYTE[pSI->nCertLen];
         memcpy(pSI->pCertificate, certificate.getContent(), pSI->nCertLen);
-
-
-
-        /*
-                if(si.hasTimeStampToken())
-                {
-                    CTimeStampToken tst = si.getTimeStampToken();
-
-                    TS_INFO* pTSInfo = new TS_INFO;
-
-                    CCertificate tsacert(tst.getCertificates().elementAt(0));
-
-                    strcpy(pTSInfo->szCN, tsacert.getSubject().getField(OID_NAME).c_str());
-                    strcpy(pTSInfo->szCACN, tsacert.getIssuer().getField(OID_NAME).c_str());
-
-                    CTSTInfo tstInfo(tst.getTSTInfo());
-
-                    strcpy(pSI->szSN, ((UUCByteArray*)tstInfo.getSerialNumber().getValue())->toHexString());
-
-                    tstInfo.getUTCTime().getUTCTime(pTSInfo->szTimestamp);
-
-                    tsacert.getExpiration().getUTCTime(pTSInfo->szExpiration);
-
-                    pTSInfo->bitmask = tst.verify(pContext->bVerifyCRL);
-
-                    pSI->pTimeStamp = pTSInfo;
-                }
-                else
-                {
-                    pSI->pTimeStamp = NULL;
-                }
-        */
-        //pVerifyInfo->pSignerInfos->pSignerInfo[i] = pSI;
-
     }
 
     LOG_MSG((0, "<-- verify_xml", "Context: %p", pContext));
@@ -1192,7 +1106,6 @@ long verify_m7m(DISIGON_VERIFY_CONTEXT* pContext, VERIFY_INFO* pVerifyInfo) {
         return nRes;
     }
 
-    //pVerifyInfo->pSignerInfos->pSignerInfo[0]->pTimeStamp = new TS_INFO;
     pVerifyInfo->pTSInfo = new TS_INFO;
 
     UUCBufferedReader reader(tsrData);
@@ -1209,16 +1122,11 @@ int getEmbeddedSignatureCount(CSignedDocument& sd) {
     sd.getContent(content);
 
     try {
-        //LOG_DBG((0, "getEmbeddedSignatureCount", "Create SignedDocument"));
 
         const BYTE* bt = content.getContent();
         int len = content.getLength();
 
-        //LOG_DBG((0, "getEmbeddedSignatureCount", "Create SignedDocument: %d", len));
-
         CSignedDocument sd1(bt, len);
-
-        //LOG_DBG((0, "getEmbeddedSignatureCount", "Create SignedDocument OK"));
 
         int n = sd.getSignerCount() + getEmbeddedSignatureCount(sd1);
 
@@ -1253,8 +1161,6 @@ SIGNER_INFO* verify_countersignature(DISIGON_VERIFY_CONTEXT* pContext, CSignerIn
 
             CCertificate cert = CSignerInfo::getSignatureCertificate(counterSignature, certificates);
 
-            //SIGNER_INFO* pSI = new SIGNER_INFO;
-
             SIGNER_INFO* pSI = &(((SIGNER_INFO*)pSignerInfo->pCounterSignatures)[i]);
             pSI->pTimeStamp = NULL;
             pSI->pCounterSignatures = NULL;
@@ -1263,8 +1169,6 @@ SIGNER_INFO* verify_countersignature(DISIGON_VERIFY_CONTEXT* pContext, CSignerIn
             if(pContext->bVerifyCRL)
                 pSI->pRevocationInfo = new REVOCATION_INFO;
 
-            //LOG_DBG((0, "verify_signed_document 2", "verify : %d", pContext->bVerifyCRL));
-
             pSI->bitmask = si.verifyCountersignature(i, certificates, NULL, pSI->pRevocationInfo);
 
             LOG_DBG((0, "verify_countersignature", "verify result: %x", pSI->bitmask));
@@ -1272,12 +1176,8 @@ SIGNER_INFO* verify_countersignature(DISIGON_VERIFY_CONTEXT* pContext, CSignerIn
             UUCByteArray issuer;
             cert.getIssuer().getNameAsString(issuer);
 
-            //LOG_DBG((0, "verify_signed_document 2", "issuer: %s", issuer.getContent()));
-
             UUCByteArray subject;
             cert.getSubject().getNameAsString(subject);
-
-            //LOG_DBG((0, "verify_signed_document 2", "subject: %s", subject.getContent()));
 
             string giveName = cert.getSubject().getField(OID_GIVEN_NAME);
             string surname = cert.getSubject().getField(OID_SURNAME);
@@ -1289,22 +1189,14 @@ SIGNER_INFO* verify_countersignature(DISIGON_VERIFY_CONTEXT* pContext, CSignerIn
 
             strcpy(pSI->szDN, (char*)subject.getContent());
 
-            //LOG_DBG((0, "verify_signed_document 2", "CN: %s", pSI->szCN));
-
             strcpy(pSI->szSN, ((UUCByteArray*)cert.getSerialNumber().getValue())->toHexString());
 
-            //LOG_DBG((0, "verify_signed_document 2", "CN: %s, SN: %s", pSI->szCN, pSI->szSN));
-
             strcpy(pSI->szCADN, (char*)issuer.getContent());
-
-            //LOG_DBG((0, "verify_signed_document 2", "CACN: %s", pSI->szCACN));
 
             CASN1ObjectIdentifier digestOID = si.getDigestAlgorithn().elementAt(0);
             UUCByteArray oid;
             digestOID.ToOidString(oid);
             strcpy(pSI->szDigestAlgorithm, (char*)oid.getContent());
-
-            //LOG_DBG((0, "verify_signed_document 2", "Algo: %s", pSI->szDigestAlgorithm));
 
             CASN1Sequence certExtensions(cert.getExtensions());
             CASN1Sequence extensions = certExtensions.elementAt(0);
@@ -1326,8 +1218,6 @@ SIGNER_INFO* verify_countersignature(DISIGON_VERIFY_CONTEXT* pContext, CSignerIn
                 strcpy(pSI->pszExtensions[j], szAux);
                 delete szAux;
             }
-
-            //LOG_DBG((0, "verify_signed_document 2", "Estension OK"));
 
             cert.getExpiration().getUTCTime(pSI->szExpiration);
             cert.getFrom().getUTCTime(pSI->szValidFrom);
@@ -1355,9 +1245,6 @@ SIGNER_INFO* verify_countersignature(DISIGON_VERIFY_CONTEXT* pContext, CSignerIn
                 pSI->b2011Error = false;
             }
 
-            //        string certv2;
-            //        certv2id.ToOidString(certv2);
-            //        strcpy(pSI->szCertificateV2, certv2.c_str());
             strcpy(pSI->szCertificateV2, szSHA256OID); // default value
 
             if(si.hasTimeStampToken()) {
@@ -1459,8 +1346,6 @@ SIGNER_INFO* verify_countersignature(DISIGON_VERIFY_CONTEXT* pContext, CSignerIn
                 pSI->pTimeStamp = NULL;
             }
 
-            //pSignerInfo->pCounterSignatures[i] = pSI;
-
             if(counterSignature.getCountersignatureCount() > 0) {
                 verify_countersignature(pContext, counterSignature, certificates, pSI, pVerifyInfo);
             }
@@ -1488,13 +1373,8 @@ long verify_signed_document(int index, DISIGON_VERIFY_CONTEXT* pContext, CSigned
     for(int i = 0; i < sigCount; i++) {
         CCertificate cert = sd.getSignerCertificate(i);
 
-        //LOG_DBG((0, "verify_signed_document 2", "Cert OK: %d", i));
-
         CSignerInfo si = sd.getSignerInfo(i);
 
-        //LOG_DBG((0, "verify_signed_document 2", "SignerInfo OK: %d", i));
-
-        //SIGNER_INFO* pSI = new SIGNER_INFO;
         SIGNER_INFO* pSI = &(pVerifyInfo->pSignerInfos->pSignerInfo[index]);// = pSI;
 
         pSI->pTimeStamp = NULL;
@@ -1504,16 +1384,12 @@ long verify_signed_document(int index, DISIGON_VERIFY_CONTEXT* pContext, CSigned
         if(pContext->bVerifyCRL)
             pSI->pRevocationInfo = new REVOCATION_INFO;
 
-        //LOG_DBG((0, "verify_signed_document 2", "verify : %d", pContext->bVerifyCRL));
-
         pSI->bitmask = sd.verify(i, pSI->pRevocationInfo);//pContext->bVerifyCRL);
 
         LOG_DBG((0, "verify_signed_document 2", "verify result: %x", pSI->bitmask));
 
         UUCByteArray issuer;
         cert.getIssuer().getNameAsString(issuer);
-
-        //LOG_DBG((0, "verify_signed_document 2", "issuer: %s", issuer.getContent()));
 
         UUCByteArray subject;
         cert.getSubject().getNameAsString(subject);
@@ -1528,23 +1404,14 @@ long verify_signed_document(int index, DISIGON_VERIFY_CONTEXT* pContext, CSigned
 
         strcpy(pSI->szDN, (char*)subject.getContent());
 
-        //LOG_DBG((0, "verify_signed_document 2", "CN: %s", pSI->szCN));
-
         strcpy(pSI->szSN, ((UUCByteArray*)cert.getSerialNumber().getValue())->toHexString());
 
-        //LOG_DBG((0, "verify_signed_document 2", "CN: %s, SN: %s", pSI->szCN, pSI->szSN));
-
         strcpy(pSI->szCADN, (char*)issuer.getContent());
-
-        //LOG_DBG((0, "verify_signed_document 2", "CACN: %s", pSI->szCACN));
-
 
         CASN1ObjectIdentifier digestOID = si.getDigestAlgorithn().elementAt(0);
         UUCByteArray oid;
         digestOID.ToOidString(oid);
         strcpy(pSI->szDigestAlgorithm, (char*)oid.getContent());
-
-        //LOG_DBG((0, "verify_signed_document 2", "Algo: %s", pSI->szDigestAlgorithm));
 
         CASN1Sequence certExtensions(cert.getExtensions());
         CASN1Sequence extensions = certExtensions.elementAt(0);
@@ -1566,8 +1433,6 @@ long verify_signed_document(int index, DISIGON_VERIFY_CONTEXT* pContext, CSigned
             strcpy(pSI->pszExtensions[j], szAux);
             delete szAux;
         }
-
-        //LOG_DBG((0, "verify_signed_document 2", "Estension OK"));
 
         cert.getExpiration().getUTCTime(pSI->szExpiration);
         cert.getFrom().getUTCTime(pSI->szValidFrom);
@@ -1595,9 +1460,6 @@ long verify_signed_document(int index, DISIGON_VERIFY_CONTEXT* pContext, CSigned
             pSI->b2011Error = false;
         }
 
-//        string certv2;
-//        certv2id.ToOidString(certv2);
-//        strcpy(pSI->szCertificateV2, certv2.c_str());
         strcpy(pSI->szCertificateV2, szSHA256OID); // default value
 
 
@@ -1675,29 +1537,6 @@ long verify_signed_document(int index, DISIGON_VERIFY_CONTEXT* pContext, CSigned
             UUCByteArray oid;
             digestOID.ToOidString(oid);
             strcpy(pTSInfo->signerInfo.szDigestAlgorithm, (char*)oid.getContent());
-            /*
-                        CASN1Sequence certExtensions(tsacert.getExtensions());
-                        CASN1Sequence extensions = certExtensions.elementAt(0);
-                        int count = extensions.size();
-                        pTSInfo->signerInfo.nExtensionsCount = count;
-                        pTSInfo->signerInfo.pszExtensions = new char*[count];
-                        for(int i = 0; i < count; i++)
-                        {
-                            CASN1Sequence extension = extensions.elementAt(i);
-                            CASN1ObjectIdentifier extoid = extension.elementAt(0);
-                            CASN1OctetString value(extension.elementAt(1));
-
-                            UUCByteArray oidName;
-                            extoid.ToOidString(oidName);
-                            const char* szoid = g_mapOIDProps.getProperty((char*)oidName.getContent(), (char*)oidName.getContent());
-                            const char* hexval = ((UUCByteArray*)value.getValue())->toHexString();
-                            char* szAux = new char[strlen(szoid) + strlen(hexval) + 5];
-                            sprintf(szAux, "%s:%s", szoid, hexval);
-                            pSI->pszExtensions[i] = new char[strlen(szAux) + 1];
-                            strcpy(pTSInfo->signerInfo.pszExtensions[i], szAux);
-                            delete szAux;
-                        }
-            */
             pSI->pTimeStamp = pTSInfo;
         } else {
             LOG_DBG((0, "verify_signed_document 2", "Doesn't Have TimeStamp"));
@@ -1705,14 +1544,8 @@ long verify_signed_document(int index, DISIGON_VERIFY_CONTEXT* pContext, CSigned
             pSI->pTimeStamp = NULL;
         }
 
-        //pVerifyInfo->pSignerInfos->pSignerInfo[index] = pSI;
-
-        //LOG_DBG((0, "verify_signed_document 2", "Set SI: %d", index));
-
         index++;
     }
-
-    //LOG_DBG((0, "verify_signed_document 2", "exiting"));
 
     try {
         UUCByteArray content;
@@ -1737,14 +1570,9 @@ long verify_signed_document(DISIGON_VERIFY_CONTEXT* pContext, CSignedDocument& s
     LOG_MSG((0, "verify_signed_document", "Signature Count: %d", signatureCount));
 
     pVerifyInfo->pSignerInfos = new SIGNER_INFOS;
-    pVerifyInfo->pSignerInfos->nCount = signatureCount;// = sd.getSignerCount();
+    pVerifyInfo->pSignerInfos->nCount = signatureCount;
 
-    //LOG_DBG((0, "verify_signed_document", "Alloc 1 OK: %d", signatureCount));
-
-    //pVerifyInfo->pSignerInfos->pSignerInfo = new SIGNER_INFO*;
     pVerifyInfo->pSignerInfos->pSignerInfo = new SIGNER_INFO[signatureCount];
-
-    //LOG_DBG((0, "verify_signed_document", "Alloc 2 OK: %d", signatureCount));
 
     return verify_signed_document(0, pContext, sd, pVerifyInfo);
 }
@@ -1901,7 +1729,6 @@ long verify_pdf(DISIGON_VERIFY_CONTEXT* pContext, UUCByteArray& data, VERIFY_INF
 
     pVerifyInfo->pSignerInfos = new SIGNER_INFOS;
     pVerifyInfo->pSignerInfos->nCount = signatureCount;
-    //pVerifyInfo->pSignerInfos->pSignerInfo = new SIGNER_INFO*;
     pVerifyInfo->pSignerInfos->pSignerInfo = new SIGNER_INFO[signatureCount];
 
 
@@ -1917,7 +1744,6 @@ long verify_pdf(DISIGON_VERIFY_CONTEXT* pContext, UUCByteArray& data, VERIFY_INF
 #endif
 
         if(nRes) {
-            //delete *(pVerifyInfo->pSignerInfos->pSignerInfo);
             delete pVerifyInfo->pSignerInfos->pSignerInfo;
             LOG_ERR((0, "<-- verify_pdf", "Context: %p, Error: %x", pContext, nRes));
             return nRes;
@@ -1929,8 +1755,6 @@ long verify_pdf(DISIGON_VERIFY_CONTEXT* pContext, UUCByteArray& data, VERIFY_INF
         CCertificate cert = sd.getSignerCertificate(0);
         CSignerInfo si = sd.getSignerInfo(0);
 
-        //SIGNER_INFO* pSI = new SIGNER_INFO;
-
         SIGNER_INFO* pSI = &(pVerifyInfo->pSignerInfos->pSignerInfo[i]);// = pSI;
         pSI->pCounterSignatures = NULL;
         pSI->nCounterSignatureCount = 0;
@@ -1940,8 +1764,6 @@ long verify_pdf(DISIGON_VERIFY_CONTEXT* pContext, UUCByteArray& data, VERIFY_INF
 
         char sigType[256];
         pSI->bitmask = pdfVerifier.VerifySignature(i, NULL, sigType, pSI->pRevocationInfo);
-
-        //strcpy(pContext->szPdfSubfilter, sigType);
 
         UUCByteArray subject;
         UUCByteArray issuer;
@@ -2005,7 +1827,6 @@ long verify_pdf(DISIGON_VERIFY_CONTEXT* pContext, UUCByteArray& data, VERIFY_INF
 
         cert.getExpiration().getUTCTime(pSI->szExpiration);
         cert.getFrom().getUTCTime(pSI->szValidFrom);
-        //pSI->pCertificate = new  CCertificate(cert);
 
         UUCByteArray certificate;
         cert.toByteArray(certificate);
@@ -2043,7 +1864,6 @@ long verify_pdf(DISIGON_VERIFY_CONTEXT* pContext, UUCByteArray& data, VERIFY_INF
 
             tsacert.getExpiration().getUTCTime(pTSInfo->signerInfo.szExpiration);
             tsacert.getFrom().getUTCTime(pTSInfo->signerInfo.szValidFrom);
-            //pTSInfo->signerInfo.pCertificate = new  CCertificate(tsacert);
 
             UUCByteArray certificate;
             tsacert.toByteArray(certificate);
@@ -2062,9 +1882,6 @@ long verify_pdf(DISIGON_VERIFY_CONTEXT* pContext, UUCByteArray& data, VERIFY_INF
         } else {
             pSI->pTimeStamp = NULL;
         }
-
-        //pVerifyInfo->pSignerInfos->pSignerInfo[i] = pSI;
-
     }
 
     LOG_MSG((0, "<-- verify_pdf", "Context: %p", pContext));
@@ -2180,26 +1997,12 @@ long verify_tsd(DISIGON_VERIFY_CONTEXT* pContext, VERIFY_INFO* pVerifyInfo) {
 
         LOG_DBG((0, "verify_tsd", "Signature Count: %d", pVerifyInfo->pSignerInfos->nCount));
 
-//        pVerifyInfo->pSignerInfos->pSignerInfo[0]->pTimeStamp = new TS_INFO;
 
-//        return verifyTST(tst, (TS_INFO*)pVerifyInfo->pSignerInfos->pSignerInfo[0]->pTimeStamp, pContext->bVerifyCRL);
     } catch(...) {
 
     }
 
-    //LOG_MSG((0, "verify_tsd", "pVerifyInfo->pSignerInfos: %p", pVerifyInfo->pSignerInfos));
-
     pVerifyInfo->pTSInfo = new TS_INFO;
-
-    // TEST
-    //LOG_MSG((0, "verify_tsd", "pVerifyInfo->pSignerInfos: %p", pVerifyInfo->pSignerInfos));
-
-    //LOG_DBG((0, "verify_tsd", "Count: %d", pVerifyInfo->pSignerInfos->nCount));
-
-    //SIGNER_INFO* pSignerInfo = pVerifyInfo->pSignerInfos->pSignerInfo[0];
-
-    //LOG_DBG((0, "verify_tsd", "pSignerInfo SN: %s", pSignerInfo->szSN));
-    /////////////////////////
 
     return verifyTST(tst, pVerifyInfo->pTSInfo, pContext->bVerifyCRL);
 
@@ -2312,8 +2115,6 @@ long verifyTST(CTimeStampToken& tst, TS_INFO* pTSInfo, BOOL bVerifyCRL) {
 
     tsacert.getExpiration().getUTCTime(pTSInfo->signerInfo.szExpiration);
     tsacert.getFrom().getUTCTime(pTSInfo->signerInfo.szValidFrom);
-    //pTSInfo->signerInfo.pCertificate = new  CCertificate(tsacert);
-
 
     UUCByteArray subject;
     UUCByteArray issuer;
@@ -2333,7 +2134,6 @@ long verifyTST(CTimeStampToken& tst, TS_INFO* pTSInfo, BOOL bVerifyCRL) {
 
     tsacert.getExpiration().getUTCTime(pTSInfo->signerInfo.szExpiration);
     tsacert.getFrom().getUTCTime(pTSInfo->signerInfo.szValidFrom);
-    //pTSInfo->signerInfo.pCertificate = new  CCertificate(tsacert);
 
     UUCByteArray* certificate = (UUCByteArray*)tsacert.getValue();
 

@@ -51,7 +51,6 @@ UUCByteArray::UUCByteArray(const UUCByteArray& blob) : m_szHex(NULL) {
 
   if (m_unLen > 0) {
     m_nCapacity = m_unLen;
-    // m_pbtContent = (BYTE*)GlobalAlloc(GPTR, m_nCapacity);
     m_pbtContent = (BYTE*)malloc(m_nCapacity);
     if (m_pbtContent == NULL) throw -5L;
 
@@ -59,7 +58,6 @@ UUCByteArray::UUCByteArray(const UUCByteArray& blob) : m_szHex(NULL) {
   } else {
     m_unLen = 0;
     m_nCapacity = DEFAULT_CAPACITY;
-    // m_pbtContent = (BYTE*)GlobalAlloc(GPTR, m_nCapacity);
     m_pbtContent = (BYTE*)malloc(m_nCapacity);
     if (m_pbtContent == NULL) throw -5L;
   }
@@ -78,10 +76,8 @@ UUCByteArray::UUCByteArray(const char* szHexString) : m_szHex(NULL) {
 }
 
 UUCByteArray::UUCByteArray(const unsigned long nLen) : m_szHex(NULL) {
-  // m_unLen = nLen;
   m_unLen = 0;
   m_nCapacity = nLen;
-  // m_pbtContent = (BYTE*)GlobalAlloc(GPTR, m_nCapacity);
   m_pbtContent = (BYTE*)malloc(m_nCapacity);
   if (m_pbtContent == NULL) throw -5L;
 }
@@ -89,13 +85,11 @@ UUCByteArray::UUCByteArray(const unsigned long nLen) : m_szHex(NULL) {
 UUCByteArray::UUCByteArray() : m_szHex(NULL) {
   m_unLen = 0;
   m_nCapacity = DEFAULT_CAPACITY;
-  // m_pbtContent = (BYTE*)GlobalAlloc(GPTR, m_nCapacity);
   m_pbtContent = (BYTE*)malloc(m_nCapacity);
   if (m_pbtContent == NULL) throw -5L;
 }
 
 UUCByteArray::~UUCByteArray() {
-  // GlobalFree(m_pbtContent);
   free(m_pbtContent);
   if (m_szHex) delete m_szHex;
 }
@@ -103,10 +97,8 @@ UUCByteArray::~UUCByteArray() {
 long UUCByteArray::load(const char* szHexString) {
   m_unLen = (strlen(szHexString) / 2);
 
-  // GlobalFree(m_pbtContent);
   free(m_pbtContent);
   m_nCapacity = m_unLen;
-  // m_pbtContent = (BYTE*)GlobalAlloc(GPTR, m_nCapacity);
   m_pbtContent = (BYTE*)malloc(m_nCapacity);
   if (m_pbtContent == NULL) return ERROR_UNABLE_TO_ALLOCATE;
 
@@ -127,7 +119,6 @@ BYTE UUCByteArray::operator[](const unsigned int index) const {  // throw(long)
 
 BYTE UUCByteArray::get(const unsigned int index) const {  // throw(long)
   if (index >= m_unLen) {
-    // SetLastError(ERR_INDEX_OUT_OF_BOUND);
     throw(long) ERR_INDEX_OUT_OF_BOUND;
   }
   return m_pbtContent[index];
@@ -136,7 +127,6 @@ BYTE UUCByteArray::get(const unsigned int index) const {  // throw(long)
 void UUCByteArray::set(const unsigned int index,
                        const BYTE btVal) {  // throw(long)
   if (index >= m_unLen) {
-    // SetLastError(ERR_INDEX_OUT_OF_BOUND);
     throw(long) ERR_INDEX_OUT_OF_BOUND;
   }
   m_pbtContent[index] = btVal;
@@ -144,7 +134,6 @@ void UUCByteArray::set(const unsigned int index,
 
 void UUCByteArray::remove(const unsigned int index) {  // throw(long)
   if (index >= m_unLen) {
-    // SetLastError((long)ERR_INDEX_OUT_OF_BOUND);
     throw(long) ERR_INDEX_OUT_OF_BOUND;
   }
 
@@ -200,27 +189,6 @@ long UUCByteArray::append(const char* szHexString) {
   UUCByteArray ba(szHexString);
   return append(ba.getContent(), ba.getLength());
 }
-
-/*
-void UUCByteArray::toHexString(char* szHexString) const
-{
-        try
-        {
-                char szDigit[3];
-                strcpy(szHexString, "");
-                for(unsigned int i = 0; i < m_unLen; i++)
-                {
-                        sprintf(szDigit, "%02X", m_pbtContent[i]);
-                        strcat(szHexString, szDigit);
-                }
-        }
-        catch(...)
-        {
-                throw new UUCException("UUCByteArray:toHexString:Access
-Violation");
-        }
-}
-*/
 
 long UUCByteArray::reverse() {
   BYTE* pbtContent = (BYTE*)malloc(m_unLen);

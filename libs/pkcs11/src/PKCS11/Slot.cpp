@@ -51,7 +51,6 @@ CSlot::CSlot(const char *szReader) {
   dwP11ObjCnt = 0;
   dwSessionCount = 0;
   pTemplate = NULL;
-  // slotMutex.Create(mutexName(szReader));
   pSerialTemplate = NULL;
   hCard = NULL;
 }
@@ -264,7 +263,6 @@ void CSlot::InitSlotList() {
     const char *name = it->second->szName.c_str();
 
     const char *szReaderName = readers.c_str();
-    // char *szReaderName=szReaderAlloc;
     bool bFound = false;
     while (*szReaderName != 0) {
       if (strcmp(name, szReaderName) == 0) {

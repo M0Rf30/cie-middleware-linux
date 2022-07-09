@@ -64,8 +64,7 @@ static const ENGINE_CMD_DEFN cie_engine_cmd_defns[] = {
     {
     
     case NID_sha1:
-        //printf("** HASH = SHA1 **");
-        
+
         requestedLen = 2 + 2 + 9 + 2 + btDigestLen;
         if(*pbtDigestInfoLen < requestedLen)// protezione memoria e memcpy in basso
                         return 0;
@@ -91,7 +90,6 @@ static const ENGINE_CMD_DEFN cie_engine_cmd_defns[] = {
         break;
 
     case NID_sha256:
-           //printf("** HASH = SHA256 **");
             
             requestedLen = 2 + 2 + 9 + 6 + btDigestLen;
             if(*pbtDigestInfoLen < requestedLen)// protezione memoria e memcpy in basso
@@ -122,7 +120,6 @@ static const ENGINE_CMD_DEFN cie_engine_cmd_defns[] = {
            break;
             
     case NID_sha384:
-        //printf("** HASH = SHA384 **");
             
         requestedLen = 2 + 2 + 9 + 6 + btDigestLen;
         if(*pbtDigestInfoLen < requestedLen)// protezione memoria e memcpy in basso
@@ -153,7 +150,6 @@ static const ENGINE_CMD_DEFN cie_engine_cmd_defns[] = {
         break;
             
     case NID_sha512:
-        //printf("** HASH = SHA512 **");
         
         requestedLen = 2 + 2 + 9 + 6 + btDigestLen;
         if(*pbtDigestInfoLen < requestedLen)// protezione memoria e memcpy in basso
@@ -182,12 +178,6 @@ static const ENGINE_CMD_DEFN cie_engine_cmd_defns[] = {
         memcpy(pbtDigestInfo + 19, pbtDigest, btDigestLen);
         *pbtDigestInfoLen = 2 + 2 + 9 + 6 + btDigestLen;
         break;
-            
-//    case CALG_SSL3_SHAMD5:
-//        //printf("** HASH = SSL3_SHAMD5 **");
-//        memcpy(pbtDigestInfo, pbtDigest, btDigestLen);
-//        *pbtDigestInfoLen = btDigestLen;
-//        break;
     }
     return 1;
 }
@@ -341,7 +331,6 @@ EC_KEY_METHOD *cie_get_ec_key_method(void)
 
     compute_key_fn ossl_ecdh_compute_key;
     
-    //alloc_ec_ex_index();
     if (!ops) {
         ops = EC_KEY_METHOD_new((EC_KEY_METHOD *)EC_KEY_OpenSSL());
         EC_KEY_METHOD_get_sign(ops, &orig_sign, NULL, NULL);
@@ -542,7 +531,6 @@ RSA_METHOD *cie_get_rsa_method(void)
     static RSA_METHOD *ops = NULL;
 
     if (ops == NULL) {
-        //alloc_rsa_ex_index();
         ops = RSA_meth_dup(RSA_get_default_method());
         if (ops == NULL)
             return NULL;
@@ -581,9 +569,8 @@ int bind_helper(ENGINE * e, const char *id)
         !ENGINE_set_ctrl_function(e, cie_engine_ctrl) ||
         !ENGINE_set_load_privkey_function(e, cie_load_privkey) ||
         !ENGINE_set_load_pubkey_function(e, cie_load_pubkey) //||
-        //!ENGINE_set_EC(e, cie_get_ec_key_method())
         )
-            
+
     {
         return 0;
     }

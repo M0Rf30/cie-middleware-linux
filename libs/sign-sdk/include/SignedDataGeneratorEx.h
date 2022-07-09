@@ -7,7 +7,6 @@
  *
  */
 
-//#include "ASN1/utiltypes.h"
 #include "ASN1/UUCByteArray.h"
 #include "SignedDocument.h"
 #include "ASN1/SignerInfo.h"

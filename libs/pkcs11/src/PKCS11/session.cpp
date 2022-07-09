@@ -1,4 +1,3 @@
-//#include "../StdAfx.h"
 #include "session.h"
 #include "CardTemplate.h"
 #include "../Util/util.h"
@@ -198,16 +197,6 @@ void CSession::FindObjectsInit(CK_ATTRIBUTE_PTR pTemplate, CK_ULONG ulCount) {
                     if (err.getP11ErrorCode() != CKR_USER_NOT_LOGGED_IN)
                         throw;
                 }
-                /*if (Log.LogParam) {
-                	ByteArray *Label = NULL;
-                	pSlot->P11Objects[i]->getAttribute(CKA_LABEL, Label);
-                	//Log.writePure("Object found %i:", i);
-                	//Log.writePure("Class: %x", pSlot->P11Objects[i]->ObjClass);
-                	if (Label) {
-                		//Log.writePure("Label:");
-                		info.logParameter(Label->data(), Label->size());
-                	}
-                }*/
             }
         }
     }

@@ -48,11 +48,6 @@ bool bModuleInit = false;
 /* ---- GENERATE CK_FUNCTION_LIST */
 
 #define CK_PKCS11_FUNCTION_INFO(name) name,
-//
-// CK_FUNCTION_LIST pkcs11_function_list = {
-//    { LIBRARY_VERSION_MAJOR, LIBRARY_VERSION_MINOR },
-//#include "pkcs11f.h"
-//};
 #undef CK_PKCS11_FUNCTION_INFO
 
 __attribute__((constructor)) void DllMainAttach() {

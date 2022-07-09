@@ -2,7 +2,6 @@
 
 #include "cryptoki.h"
 #include "../Util/SyncroMutex.h"
-//#include "../Util/Thread.h"
 #pragma pack()
 #include "CardContext.h"
 #include <map>

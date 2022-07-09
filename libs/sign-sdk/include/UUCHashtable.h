@@ -235,9 +235,6 @@ public:
 		
     virtual void put(const KEY& key, const VALUE& value) 
 	{
-		//if (key == NULL || value == NULL)
-		//	throw 1;
-
 		// Makes sure the key is not already in the hashtable.
 		UINT hash = getHashValue(key);
 		int index = (hash & 0x7FFFFFFF) % m_nSize;

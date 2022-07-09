@@ -1,9 +1,6 @@
 #pragma once
 
 #include "cryptoki.h"
-//#pragma pack(1)
-//#include "pkcs11.h"
-//#pragma pack()
 
 #include "Mechanism.h"
 #include "Slot.h"

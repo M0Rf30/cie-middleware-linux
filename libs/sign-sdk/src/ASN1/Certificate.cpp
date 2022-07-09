@@ -20,7 +20,6 @@
 #include "RSAPublicKey.h"
 #include "Base64.h"
 #include <curl/curl.h>
-#include "LdapCrl.h"
 #include "UUCLogger.h"
 #include "CertStore.h"
 #include <openssl/bio.h>

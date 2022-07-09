@@ -28,8 +28,8 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef __CERTIFICATE_UTILS_H__
-#define __CERTIFICATE_UTILS_H__
+#ifndef PKCS11_SRC_UTIL_CRYPTOPPUTILS_H_
+#define PKCS11_SRC_UTIL_CRYPTOPPUTILS_H_
 
 #include <cryptopp/eccrypto.h>
 #include <cryptopp/rsa.h>
@@ -85,4 +85,4 @@ class CryptoppUtils {
 };
 }  // namespace lcp
 
-#endif  //__CERTIFICATE_UTILS_H__
+#endif  // PKCS11_SRC_UTIL_CRYPTOPPUTILS_H_

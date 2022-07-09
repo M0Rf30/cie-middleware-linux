@@ -56,8 +56,6 @@ CMD5::~CMD5() {
 }
 
 void CMD5::Init() {
-    //if (isInit)
-    //	throw logged_error("Un'operazione di hash � gi� in corso");
     MD5_Init(&ctx);
     isInit = true;
 }

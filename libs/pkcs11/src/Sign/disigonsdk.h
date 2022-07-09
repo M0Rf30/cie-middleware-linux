@@ -1,6 +1,6 @@
 
-#ifndef __DISIGON_H
-#define __DISIGON_H
+#ifndef PKCS11_SRC_SIGN_DISIGONSDK_H_
+#define PKCS11_SRC_SIGN_DISIGONSDK_H_
 
 #ifdef DISIGON_STATIC
 #define DISIGON_API
@@ -338,4 +338,4 @@ DISIGON_API long disigon_get_file_from_p7m(DISIGON_CTX ctx);
 }
 #endif
 */
-#endif  // __DISIGON_H
+#endif  // PKCS11_SRC_SIGN_DISIGONSDK_H_

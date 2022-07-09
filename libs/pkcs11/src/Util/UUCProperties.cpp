@@ -110,8 +110,7 @@ long UUCProperties::load(const UUCByteArray& props) {
       putProperty(szName, szValue);
       szLine = strtok_r(NULL, "\r\n", &szSavePtr);
     } else {
-      szLine = strtok_r(NULL, "\r\n", &szSavePtr);  // strlen(szLine) + 1;
-      // szProps += strlen(szLine) + 1;
+      szLine = strtok_r(NULL, "\r\n", &szSavePtr);
     }
   }
 
