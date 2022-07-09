@@ -8,15 +8,14 @@
 #ifndef CIEEngine_h
 #define CIEEngine_h
 
-#include <stdio.h>
 #include <openssl/crypto.h>
-#include <openssl/objects.h>
 #include <openssl/engine.h>
+#include <openssl/objects.h>
+#include <stdio.h>
 
-typedef short (*sign)(unsigned char* tosign, size_t len, unsigned char* signature, size_t* psiglen);
-
+typedef short (*sign)(unsigned char* tosign, size_t len,
+                      unsigned char* signature, size_t* psiglen);
 
 void engine_load_cie(sign sign_cb);
-
 
 #endif /* CIEEngine_h */

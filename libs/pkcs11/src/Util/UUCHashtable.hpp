@@ -1,7 +1,7 @@
 /* CHashtable.hpp
  *
  *  Copyright (c) 2000-2018 by Ugo Chirico - http://www.ugochirico.com
- *  All Rights Reserved 
+ *  All Rights Reserved
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU Lesser General Public License as published by
@@ -23,311 +23,265 @@
 #define POS void*
 #define INVALID (void*)-1l
 
-#ifndef _DEFAULT_CAPACITY 
+#ifndef _DEFAULT_CAPACITY
 #define _DEFAULT_CAPACITY 100
 #define _DEFAULT_LOADFACTOR 0.75
 #endif
 
-#define ERR_INDEX_OUT_OF_BOUND    0xC0001001L
-#define ERR_TABLE_IS_EMPTY		  0xC0001002L
+#define ERR_INDEX_OUT_OF_BOUND 0xC0001001L
+#define ERR_TABLE_IS_EMPTY 0xC0001002L
 #include <stdlib.h>
-#include "defines.h"
 
-template<class KEY, class VALUE>
-class UUCHashtable
-{	
-private:
-	struct HashtableEntry
-	{
-		HashtableEntry(){};
-		unsigned int hash;
-		KEY   key; 
-		VALUE value;
-		HashtableEntry* next;
-	};
+#include "./defines.h"
 
-	HashtableEntry** m_table;
+template <class KEY, class VALUE>
+class UUCHashtable {
+ private:
+  struct HashtableEntry {
+    HashtableEntry(){};
+    unsigned int hash;
+    KEY key;
+    VALUE value;
+    HashtableEntry* next;
+  };
 
-	unsigned int m_nSize;
+  HashtableEntry** m_table;
 
-    unsigned int m_nCount;
-	unsigned int m_nIndex;		
-    unsigned int m_threshold;
+  unsigned int m_nSize;
 
-    float m_loadFactor;
-	
-	void rehash() 
-	{				
-		HashtableEntry** oldTable = m_table;
-		// search for old first entry
-		int nIndex;
-		for(nIndex = m_nSize - 1; nIndex > 0 && oldTable[nIndex] == NULL; nIndex--);
-		HashtableEntry* e = oldTable[nIndex];	
-		
-		// new capacity
-		m_nSize = (unsigned int )(m_nSize * (m_loadFactor + 1));
-		
-		init();
-		
-		HashtableEntry* e1;
-		// reput all entries
-		while(e != NULL)
-		{
-			e1 = e;
-			put(e->key, e->value);
-			e = e->next;
-			if(e == NULL)
-			{			
-				if(nIndex == 0) 
-				{
-					e = NULL;
-				}
-				else
-				{
-					for(nIndex--; nIndex > 0 && oldTable[nIndex] == NULL; nIndex--);
-					e = oldTable[nIndex];
-				}
-			}
-			
-			free(e1);
-		}
+  unsigned int m_nCount;
+  unsigned int m_nIndex;
+  unsigned int m_threshold;
 
-		free(oldTable);		
-    };
+  float m_loadFactor;
 
-	void init()
-	{
-		m_table = (HashtableEntry**)malloc(sizeof(HashtableEntry*) * m_nSize);
-		m_threshold = (unsigned int)(m_nSize * m_loadFactor);		
-		m_nCount = 0;
-		m_nIndex = 0;
-		for(unsigned int i = 0; i < m_nSize; i++)
-		{
-			m_table[i] = NULL;
-		}		
-	}
-	
-protected:
-	virtual unsigned long getHashValue(const KEY& key) const
-	{
-		// default identity hash - works for most primitive values
-		return (unsigned long)key;
-	};
+  void rehash() {
+    HashtableEntry** oldTable = m_table;
+    // search for old first entry
+    int nIndex;
+    for (nIndex = m_nSize - 1; nIndex > 0 && oldTable[nIndex] == NULL; nIndex--)
+      ;
+    HashtableEntry* e = oldTable[nIndex];
 
-	virtual bool equal(const KEY& key1, const KEY& key2) const
-	{		
-		return key1 == key2;
-	};
+    // new capacity
+    m_nSize = (unsigned int)(m_nSize * (m_loadFactor + 1));
 
-public:
-	
-	UUCHashtable(unsigned int initialCapacity, float loadFactor) 
-	{
-		m_loadFactor = loadFactor;
-		m_nSize = initialCapacity;		
-		init();
-    };
+    init();
 
-    UUCHashtable(unsigned int initialCapacity) 
-	{
-		m_loadFactor = _DEFAULT_LOADFACTOR;
-		m_nSize = initialCapacity;
+    HashtableEntry* e1;
+    // reput all entries
+    while (e != NULL) {
+      e1 = e;
+      put(e->key, e->value);
+      e = e->next;
+      if (e == NULL) {
+        if (nIndex == 0) {
+          e = NULL;
+        } else {
+          for (nIndex--; nIndex > 0 && oldTable[nIndex] == NULL; nIndex--)
+            ;
+          e = oldTable[nIndex];
+        }
+      }
 
-		init();		
-    };
+      free(e1);
+    }
 
-    UUCHashtable() 
-	{
-		m_loadFactor = _DEFAULT_LOADFACTOR;
-		m_nSize = _DEFAULT_CAPACITY;
+    free(oldTable);
+  };
 
-		init();		
-    };
+  void init() {
+    m_table = (HashtableEntry**)malloc(sizeof(HashtableEntry*) * m_nSize);
+    m_threshold = (unsigned int)(m_nSize * m_loadFactor);
+    m_nCount = 0;
+    m_nIndex = 0;
+    for (unsigned int i = 0; i < m_nSize; i++) {
+      m_table[i] = NULL;
+    }
+  }
 
-    virtual ~UUCHashtable() 
-	{
-		removeAll();
-		if(m_table)
-			free(m_table);
-	};
+ protected:
+  virtual unsigned long getHashValue(const KEY& key) const {
+    // default identity hash - works for most primitive values
+    return (unsigned long)key;
+  };
 
-	// la scansione degli elementi non ha niente a che fare con la tabella
-	POS getFirstPosition()
-	{
-		for(m_nIndex = m_nSize - 1; m_nIndex > 0 && m_table[m_nIndex] == NULL; m_nIndex--);
+  virtual bool equal(const KEY& key1, const KEY& key2) const {
+    return key1 == key2;
+  };
 
-		return m_table[m_nIndex];		
-	}
+ public:
+  UUCHashtable(unsigned int initialCapacity, float loadFactor) {
+    m_loadFactor = loadFactor;
+    m_nSize = initialCapacity;
+    init();
+  };
 
-	POS getNextEntry(POS pos, KEY& key, VALUE& value)
-	{
-		if(pos)
-		{
-			key = ((HashtableEntry*)pos)->key;
-			value = ((HashtableEntry*)pos)->value;
-			pos = ((HashtableEntry*)pos)->next;
-			if(pos == NULL)
-			{			
-				if(m_nIndex == 0) 
-				{
-					pos = NULL;
-				}
-				else
-				{
-					for(m_nIndex--; m_nIndex > 0 && m_table[m_nIndex] == NULL; m_nIndex--);
-					pos = m_table[m_nIndex];
-				}
-			}
+  UUCHashtable(unsigned int initialCapacity) {
+    m_loadFactor = _DEFAULT_LOADFACTOR;
+    m_nSize = initialCapacity;
 
-			return pos;
-		}
-		else
-		{
-			key = NULL;
-			value = NULL;
-			return NULL;
-		}
-	}
+    init();
+  };
 
-	unsigned int size() const
-	{
-		return m_nCount;
-    };
+  UUCHashtable() {
+    m_loadFactor = _DEFAULT_LOADFACTOR;
+    m_nSize = _DEFAULT_CAPACITY;
 
-    bool isEmpty() const
-	{
-		return m_nCount == 0;
-    };
+    init();
+  };
 
-    bool containsKey(const KEY& key) const
-	{
-		unsigned long hash = getHashValue(key);
-		long index = (hash & 0x7FFFFFFF) % m_nSize;
+  virtual ~UUCHashtable() {
+    removeAll();
+    if (m_table) free(m_table);
+  };
 
-		for(HashtableEntry* e = m_table[index]; e != NULL; e = e->next)
-		{
-			if(e->hash == hash && equal(e->key,key))
-			{
-				return true;
-			}
-		}
+  // la scansione degli elementi non ha niente a che fare con la tabella
+  POS getFirstPosition() {
+    for (m_nIndex = m_nSize - 1; m_nIndex > 0 && m_table[m_nIndex] == NULL;
+         m_nIndex--)
+      ;
 
-		return false;
-    };
-	
-    virtual bool get(KEY& key, VALUE& value) const
-	{
-		unsigned long hash = getHashValue(key);
-		int index = (hash & 0x7FFFFFFF) % m_nSize;
+    return m_table[m_nIndex];
+  }
 
-		for(HashtableEntry* e = m_table[index]; e != NULL; e = e->next)
-		{
-			if(e->hash == hash && equal(e->key,key))
-			{
-				value = e->value;
-				key = e->key;
-				return true;
-			}
-		}
+  POS getNextEntry(POS pos, KEY& key, VALUE& value) {
+    if (pos) {
+      key = ((HashtableEntry*)pos)->key;
+      value = ((HashtableEntry*)pos)->value;
+      pos = ((HashtableEntry*)pos)->next;
+      if (pos == NULL) {
+        if (m_nIndex == 0) {
+          pos = NULL;
+        } else {
+          for (m_nIndex--; m_nIndex > 0 && m_table[m_nIndex] == NULL;
+               m_nIndex--)
+            ;
+          pos = m_table[m_nIndex];
+        }
+      }
 
-		return false;
-    };
-		
-    virtual void put(const KEY& key, const VALUE& value) 
-	{
-		//if (key == NULL || value == NULL)
-		//	throw 1;
+      return pos;
+    } else {
+      key = NULL;
+      value = NULL;
+      return NULL;
+    }
+  }
 
-		// Makes sure the key is not already in the hashtable.
-		unsigned long hash = getHashValue(key);
-		int index = (hash & 0x7FFFFFFF) % m_nSize;
-		HashtableEntry* e;
-		for(e = m_table[index]; e != NULL; e = e->next)
-		{
-			if(e->hash == hash && equal(e->key,key))
-			{
-				e->value = value;
-				e->key = key;
-				return;
-			}
-		}
+  unsigned int size() const { return m_nCount; };
 
-		if (m_nCount >= m_threshold) 
-		{
-			// Rehash the table if the threshold is exceeded
-			rehash();
-			put(key, value);
-			return;
-		}
+  bool isEmpty() const { return m_nCount == 0; };
 
-		// Creates the new entry.
-		e = (HashtableEntry*)malloc(sizeof(HashtableEntry));
-		e->hash  = hash;		
-		e->key   = key;		
-		e->value = value;
-		e->next  = m_table[index];
-		m_table[index] = e;
-		
-		m_nCount++;		
-    };
+  bool containsKey(const KEY& key) const {
+    unsigned long hash = getHashValue(key);
+    long index = (hash & 0x7FFFFFFF) % m_nSize;
 
-	void removeAll()
-	{
-		KEY* keys = new KEY[size()];
-		KEY key;
-		VALUE value;
-		POS pos = getFirstPosition();
-		unsigned int i = 0;
-		while(pos)
-		{	
-			pos = getNextEntry(pos, key, value);
-			keys[i] = key;	
-			i++;
-		}
-		
-		for(unsigned int j = 0; j < i; j++)
-		{			
-			remove(keys[j]);												
-		}
+    for (HashtableEntry* e = m_table[index]; e != NULL; e = e->next) {
+      if (e->hash == hash && equal(e->key, key)) {
+        return true;
+      }
+    }
 
-		m_nCount = 0;
+    return false;
+  };
 
-        delete[] keys;
-	}
+  virtual bool get(KEY& key, VALUE& value) const {
+    unsigned long hash = getHashValue(key);
+    int index = (hash & 0x7FFFFFFF) % m_nSize;
 
+    for (HashtableEntry* e = m_table[index]; e != NULL; e = e->next) {
+      if (e->hash == hash && equal(e->key, key)) {
+        value = e->value;
+        key = e->key;
+        return true;
+      }
+    }
 
-    virtual bool remove(const KEY& key) 
-	{
-		unsigned long hash = getHashValue(key);
-		int index = (hash & 0x7FFFFFFF) % m_nSize;
-		
-		HashtableEntry* prev = NULL;
+    return false;
+  };
 
-		for(HashtableEntry* e = m_table[index]; e != NULL; e = e->next)
-		{
-			if(e->hash == hash && equal(e->key,key))
-			{
-				if(prev == NULL)
-				{
-					m_table[index] = e->next;
-					e->next = NULL;
-				}
-				else
-				{
-					prev->next = e->next;
-					m_table[index] = prev;
-				}		
-							
-				free(e);
-				m_nCount--;
-				return true;
-			}
+  virtual void put(const KEY& key, const VALUE& value) {
+    // if (key == NULL || value == NULL)
+    //	throw 1;
 
-			prev = e;
-		}
+    // Makes sure the key is not already in the hashtable.
+    unsigned long hash = getHashValue(key);
+    int index = (hash & 0x7FFFFFFF) % m_nSize;
+    HashtableEntry* e;
+    for (e = m_table[index]; e != NULL; e = e->next) {
+      if (e->hash == hash && equal(e->key, key)) {
+        e->value = value;
+        e->key = key;
+        return;
+      }
+    }
 
-		return false;
-    };
+    if (m_nCount >= m_threshold) {
+      // Rehash the table if the threshold is exceeded
+      rehash();
+      put(key, value);
+      return;
+    }
+
+    // Creates the new entry.
+    e = (HashtableEntry*)malloc(sizeof(HashtableEntry));
+    e->hash = hash;
+    e->key = key;
+    e->value = value;
+    e->next = m_table[index];
+    m_table[index] = e;
+
+    m_nCount++;
+  };
+
+  void removeAll() {
+    KEY* keys = new KEY[size()];
+    KEY key;
+    VALUE value;
+    POS pos = getFirstPosition();
+    unsigned int i = 0;
+    while (pos) {
+      pos = getNextEntry(pos, key, value);
+      keys[i] = key;
+      i++;
+    }
+
+    for (unsigned int j = 0; j < i; j++) {
+      remove(keys[j]);
+    }
+
+    m_nCount = 0;
+
+    delete[] keys;
+  }
+
+  virtual bool remove(const KEY& key) {
+    unsigned long hash = getHashValue(key);
+    int index = (hash & 0x7FFFFFFF) % m_nSize;
+
+    HashtableEntry* prev = NULL;
+
+    for (HashtableEntry* e = m_table[index]; e != NULL; e = e->next) {
+      if (e->hash == hash && equal(e->key, key)) {
+        if (prev == NULL) {
+          m_table[index] = e->next;
+          e->next = NULL;
+        } else {
+          prev->next = e->next;
+          m_table[index] = prev;
+        }
+
+        free(e);
+        m_nCount--;
+        return true;
+      }
+
+      prev = e;
+    }
+
+    return false;
+  };
 };
 
-#endif //_UUHASHTABLE_HPP_
+#endif  //_UUHASHTABLE_HPP_

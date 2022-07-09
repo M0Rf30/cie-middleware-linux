@@ -20,23 +20,20 @@
 #if !defined(AFX_UUCTEXTFILE_H__CD3660A5_B4C5_4CD4_99AC_69AC96D1460F__INCLUDED_)
 #define AFX_UUCTEXTFILE_H__CD3660A5_B4C5_4CD4_99AC_69AC96D1460F__INCLUDED_
 
-#if _MSC_VER > 1000
-#pragma once
-#endif // _MSC_VER > 1000
-
 #include <stdio.h>
+
 #include "UUCByteArray.h"
 
 class UUCTextFileReader {
-  public:
-    UUCTextFileReader(const char* szFilePath);
-    virtual ~UUCTextFileReader();
+ public:
+  UUCTextFileReader(const char* szFilePath);
+  virtual ~UUCTextFileReader();
 
-    long readLine(char* szLine, unsigned long nLen);// throw (long);
-    long readLine(UUCByteArray& line);
-  private:
+  long readLine(char* szLine, unsigned long nLen);  // throw (long);
+  long readLine(UUCByteArray& line);
 
-    FILE* m_pf;
+ private:
+  FILE* m_pf;
 };
 
-#endif // !defined(AFX_UUCTEXTFILE_H__CD3660A5_B4C5_4CD4_99AC_69AC96D1460F__INCLUDED_)
+#endif

@@ -9,7 +9,6 @@
 #include <iomanip>
 #include "log.h"
 #include "UtilException.h"
-//#include "Thread.h"
 #include "IniSettings.h"
 #include <thread>
 #include <stdio.h>
@@ -194,17 +193,12 @@ DWORD CLog::write(const char *format,...) {
             Num=&GlobalCount;
             break;
         }
-#ifdef WIN32
-        SYSTEMTIME  stTime;
-        GetLocalTime(&stTime);
-        sprintf_s(pbtDate,sizeof(pbtDate),"%05u:[%02d:%02d:%02d.%03d]", *Num, stTime.wHour, stTime.wMinute, stTime.wSecond, stTime.wMilliseconds);
-#else
         time_t T= time(NULL);
         struct tm t;
         struct  tm tm = *localtime_r(&T, &t);
 
         snprintf(pbtDate,20,"%05u:[%02d:%02d:0%02d]", *Num, tm.tm_hour, tm.tm_min, tm.tm_sec);
-#endif
+
         // se siamo in LM_thread devo scrivere il thread nel nome del file
         std::hash<std::thread::id> hasher;
         auto dwThreadID = hasher(std::this_thread::get_id());
@@ -217,31 +211,7 @@ DWORD CLog::write(const char *format,...) {
             logPath.replace(threadPos, threadPos + 14, th.str());
         }
         FILE *lf=nullptr;
-#ifdef WIN32
-        fopen_s(&lf,logPath.c_str(), "a+t");
-        if (lf) {
-            switch(LogMode) {
-            case (LM_Single) :
-            case (LM_Single) :
-                fprintf(lf,"%s|%04i|%04i|%02i|", pbtDate, getpid(), dwThreadID, ModuleNum);
-                break;
-                break;
-            case (LM_Module) :
-                fprintf(lf,"%s|%04i|%04x|", pbtDate, GetCurrentProcessId(), dwThreadID);
-                break;
-            case (LM_Thread) :
-                fprintf(lf,"%s|%04i|%02i|", pbtDate, GetCurrentProcessId(), ModuleNum);
-                break;
-            case (LM_Module_Thread) :
-                fprintf(lf,"%s|", pbtDate);
-                break;
-            }
-            vfprintf(lf, format, params);
-            fprintf(lf, "\n");
-            fclose(lf);
-        }
-#else
-        //lf = fopen(logPath.c_str(), "a+t");
+
         if (lf) {
 
             struct stat	lstat_buf;
@@ -292,24 +262,10 @@ DWORD CLog::write(const char *format,...) {
             fprintf(lf, "\n");
             fclose(lf);
         }
-
-//        printf(format, params);
-//        printf("\n", NULL);
-#endif
-
     }
 
 #ifdef _DEBUG
-#ifdef WIN32
-    vsprintf_s(pbtDate, format, params);
-    int dtLen = (int)strnlen(pbtDate, sizeof(pbtDate));
-    sprintf_s(pbtDate + dtLen, 2048 - dtLen, "|thread:%08x|%s|", GetCurrentThreadId(), logName.c_str());
-    dtLen = (int)strnlen(pbtDate, sizeof(pbtDate));
-    sprintf_s(pbtDate+ dtLen, 2048 - dtLen, "\n");
-    OutputDebugString(pbtDate);
-#else
-    puts(pbtDate);
-#endif
+  puts(pbtDate);
 #endif
     va_end(params);
     switch(LogMode) {
@@ -329,17 +285,14 @@ DWORD CLog::write(const char *format,...) {
 void CLog::writePure(const char *format,...) {
     va_list params;
     va_start (params, format);
-//    char pbtDate[0x800]={NULL};
     if (Enabled && Initialized && mainEnable) {
         if (!firstGlobal && LogMode==LM_Single) {
             firstGlobal =true;
-            //write("Inizio Sessione - versione: %s",logGlobalVersion);
             printf("Inizio Sessione - versione: %s",logGlobalVersion);
             writeModuleInfo();
         }
         if (!FirstLog && (LogMode==LM_Module || LogMode==LM_Module_Thread)) {
             FirstLog=true;
-            //write("%s - Inizio Sessione - versione file: %s",logName.c_str(), logVersion.c_str());
             printf("%s - Inizio Sessione - versione file: %s",logName.c_str(), logVersion.c_str());
             writeModuleInfo();
         }
@@ -356,12 +309,8 @@ void CLog::writePure(const char *format,...) {
             logPath.replace(threadPos, threadPos + 14, th.str());
         }
         FILE *lf = nullptr;
-#ifdef WIN32
-        fopen_s(&lf,logPath.c_str(), "a+t");
-#else
         //lf = fopen(logPath.c_str(), "a+t");
         lf = 0;
-#endif
         if (lf) {
 
             struct stat	lstat_buf;
@@ -398,20 +347,9 @@ void CLog::writePure(const char *format,...) {
             fprintf(lf, "\n");
             fclose(lf);
         }
-
-//        printf(format, params);
-//        printf("\n", NULL);
     }
 #ifdef _DEBUG
-#ifdef WIN32
-    int dtLen = (int)strnlen(pbtDate, sizeof(pbtDate));
-    vsprintf_s(pbtDate+dtLen,2048-dtLen, format, params);
-    dtLen = (int)strnlen(pbtDate, sizeof(pbtDate));
-    sprintf_s(pbtDate + dtLen, 2048 - dtLen, "\n");
-    OutputDebugString(pbtDate);
-#else
     puts(pbtDate);
-#endif
 #endif
     va_end(params);
 }
@@ -429,8 +367,6 @@ void CLog::writeBinData(BYTE *data, size_t datalen) {
         writeModuleInfo();
     }
 
-//    char pbtDate[0x800]={NULL};
-
     // se siamo in LM_thread devo scrivere il thread nel nome del file
     std::hash<std::thread::id> hasher;
     auto dwThreadID = hasher(std::this_thread::get_id());
@@ -444,11 +380,7 @@ void CLog::writeBinData(BYTE *data, size_t datalen) {
     }
 
     FILE *lf = nullptr;
-#ifdef WIN32
-    fopen_s(&lf,logPath.c_str(), "a+t");
-#else
     lf = fopen(logPath.c_str(), "a+t");
-#endif
     if (lf) {
 
         struct stat	lstat_buf;

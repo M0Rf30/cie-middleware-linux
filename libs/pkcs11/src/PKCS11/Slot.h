@@ -99,7 +99,7 @@ class CSlot {
     P11ObjectVector P11Objects; // vettore degli oggetti
 
     std::shared_ptr<CCardTemplate> pTemplate;	// template della carta
-    // (aggoirnato se bUpdated=true
+    // (aggiornato se bUpdated=true
 
     void *pTemplateData;
     // i dati specifici del template della carta,
@@ -108,7 +108,6 @@ class CSlot {
     static std::thread Thread;		// thread monitor degli eventi
     static CCardContext *ThreadContext; // context del monitor degli eventi
 
-    //CSyncroMutex slotMutex;		// mutex per il lock alla carta
     SlotEvent lastEvent;
 
     void GetInfo(CK_SLOT_INFO_PTR pInfo);

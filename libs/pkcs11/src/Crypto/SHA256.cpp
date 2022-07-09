@@ -38,8 +38,6 @@ ByteDynArray CSHA256::Digest(ByteArray &data) {
 #include <cryptopp/base64.h>
 
 void CSHA256::Init() {
-//    if (isInit)
-//    throw logged_error("Un'operazione di hash è già in corso");
     SHA256_Init(&ctx);
     isInit = true;
 }

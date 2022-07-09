@@ -1,7 +1,7 @@
 #pragma once
 
-#include "log.h"
 #include <memory>
+#include "./log.h"
 
 class  CFuncCallInfo {
     const char *fName;

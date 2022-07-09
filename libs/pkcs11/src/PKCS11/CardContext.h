@@ -3,7 +3,7 @@
 #include <PCSC/winscard.h>
 
 class CCardContext {
-  public:
+ public:
     SCARDCONTEXT hContext;
 
     CCardContext(void);
@@ -13,7 +13,6 @@ class CCardContext {
     void validate();
     void renew();
 
-  private:
+ private:
     void getContext();
-
 };
