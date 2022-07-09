@@ -13,12 +13,9 @@
 #include "../Crypto/SHA1.h"
 #include "../Crypto/sha256.h"
 #include "../Crypto/sha512.h"
-#include "../Util/ModuleInfo.h"
-
-//#include "../res/resource.h"
-#include "../Util/CacheLib.h"
-//#include <intsafe.h>
 #include "../LOGGER/Logger.h"
+#include "../Util/CacheLib.h"
+#include "../Util/ModuleInfo.h"
 
 using namespace CieIDLogger;
 
@@ -336,27 +333,38 @@ ByteArray baSTM2_ATR(STM2_ATR, sizeof(STM2_ATR));
 ByteArray baSTM3_ATR(STM3_ATR, sizeof(STM3_ATR));
 
 void IAS::ReadCIEType() {
-  init_func size_t position;
+  init_func
+
+      std::vector<uint8_t>
+          atr_vector((ATR.data()), ATR.data() + ATR.size());
+  type = get_type(atr_vector);
+  if (type == CIE_Type::CIE_Unknown) {
+    throw logged_error("ReadCIEType - CIE not recognized");
+  }
+
+#if 0
   if (ATR.indexOf(baNXP_ATR, position)) {
     type = CIE_Type::CIE_NXP;
-    LOG_INFO("IAS::ReadCIEType - CIE NXP detected");
+    LOG_INFO("ReadCIEType - CIE NXP detected");
   } else if (ATR.indexOf(baGemalto_ATR, position)) {
     type = CIE_Type::CIE_Gemalto;
-    LOG_INFO("IAS::ReadCIEType - CIE Gemalto detected\n");
+    LOG_INFO("ReadCIEType - CIE Gemalto detected\n");
   } else if (ATR.indexOf(baGemalto2_ATR, position)) {
     type = CIE_Type::CIE_Gemalto;
-    LOG_INFO("IAS::ReadCIEType - CIE Gemalto2 detected\n");
+    LOG_INFO("ReadCIEType - CIE Gemalto2 detected\n");
   } else if (ATR.indexOf(baSTM_ATR, position)) {
     type = CIE_Type::CIE_STM;
-    LOG_INFO("IAS::ReadCIEType - CIE STM detected\n");
+    LOG_INFO("ReadCIEType - CIE STM detected\n");
   } else if (ATR.indexOf(baSTM2_ATR, position)) {
     type = CIE_Type::CIE_STM2;
-    LOG_INFO("IAS::ReadCIEType - CIE STM2 detected\n");
+    LOG_INFO("ReadCIEType - CIE STM2 detected\n");
   } else if (ATR.indexOf(baSTM3_ATR, position)) {
     type = CIE_Type::CIE_STM3;
-    LOG_INFO("IAS::ReadCIEType - CIE STM3 detected\n");
-  } else
-    throw logged_error("IAS::ReadCIEType - CIE not recognized");
+    LOG_INFO("ReadCIEType - CIE STM3 detected\n");
+  } else {
+    throw logged_error("ReadCIEType - CIE not recognized");
+  }
+#endif
 }
 
 void IAS::SelectAID_IAS(bool SM) {
@@ -364,9 +372,8 @@ void IAS::SelectAID_IAS(bool SM) {
   ByteDynArray resp;
   StatusWord sw;
 
-  if (type == CIE_Type::CIE_NXP) {
+  if ((type >= CIE_Type::CIE_NXP)) {
     uint8_t selectMF[] = {0x00, 0xa4, 0x00, 0x00};
-
     if (SM) {
       if ((sw = SendAPDU_SM(VarToByteArray(selectMF), ByteArray(), resp)) !=
           0x9000)
@@ -376,8 +383,7 @@ void IAS::SelectAID_IAS(bool SM) {
           0x9000)
         throw scard_error(sw);
     }
-  } else if (type == CIE_Type::CIE_Gemalto || type == CIE_Type::CIE_STM ||
-             CIE_Type::CIE_STM2 || CIE_Type::CIE_STM3) {
+  } else if ((type < CIE_Type::CIE_NXP) && (type != CIE_Type::CIE_Unknown)) {
     uint8_t selectIAS[] = {0x00, 0xa4, 0x04, 0x0c};
     if (SM) {
       if ((sw = SendAPDU_SM(VarToByteArray(selectIAS), IAS_AID, resp)) !=
@@ -388,11 +394,10 @@ void IAS::SelectAID_IAS(bool SM) {
         throw scard_error(sw);
     }
   } else {
-    throw logged_error("Tipo CIE sconosciuto");
+    throw logged_error("SelectAID_IAS - CIE not recognized");
   }
 
   SM = false;
-
   ActiveDF = DF_IAS;
   ActiveSM = false;
   exit_func

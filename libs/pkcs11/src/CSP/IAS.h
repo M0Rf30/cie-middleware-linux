@@ -2,6 +2,7 @@
 #include <map>
 
 #include "../PCSC/Token.h"
+#include "ATR.h"
 
 #define DirCIE "CIE"
 
@@ -18,15 +19,6 @@
 extern bool switchDesktop;
 extern BOOL CheckOneInstance(char *nome);
 extern ByteArray baExtAuth_PrivExp;
-
-enum CIE_Type {
-  CIE_Unknown,
-  CIE_Gemalto,
-  CIE_NXP,
-  CIE_STM,
-  CIE_STM2,
-  CIE_STM3
-};
 
 enum CIE_DF { DF_Root, DF_IAS, DF_CIE };
 
