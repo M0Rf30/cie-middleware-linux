@@ -106,10 +106,6 @@ void CDES3::Init(const ByteArray &key, const ByteArray &iv) {
     DES_set_key(keyVal2, &k2);
     DES_set_key(keyVal3, &k3);
 
-//    DES_set_key(keyVal1, k1);
-//    DES_set_key(keyVal2, k2);
-//    DES_set_key(keyVal3, k3);
-
     exit_func
 }
 

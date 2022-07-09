@@ -185,13 +185,6 @@ void CSlot::DeleteSlot(CK_SLOT_ID hSlotId) {
         throw p11_error(CKR_SLOT_ID_INVALID);
 
     pSlot->CloseAllSessions();
-
-//        try {
-//            g_mSlots.erase(hSlotId);
-//        } catch (...) {
-//            printf("erase error");
-//        }
-
     pSlot->Final();
 }
 
@@ -218,28 +211,13 @@ std::shared_ptr<CSlot> CSlot::GetSlotFromID(CK_SLOT_ID hSlotId) {
 void CSlot::DeleteSlotList() {
     init_func
 
-//            int i = 0;
-
     if (Thread.joinable())
         Thread.join();
-
-    // TODO: verificare se è il caso di usare un thread con join a tempo
-
-    /*while (i<5) {
-    	if (Thread.join(1000)==OK)
-    		break;
-    	i=i+1;
-    	if (CSlot::ThreadContext!=NULL)
-    		SCardCancel(*CSlot::ThreadContext);
-    }
-    if (i==5) {
-    	Thread.terminateThread();
-    }*/
 
     SlotMap::iterator it = CSlot::g_mSlots.begin();
     while (it != CSlot::g_mSlots.end()) {
         DeleteSlot(it->second->hSlot);
-        it++;// = CSlot::g_mSlots.begin();
+        it++;
     }
 }
 
@@ -595,11 +573,6 @@ CK_OBJECT_HANDLE CSlot::GetIDFromObject(const std::shared_ptr<CP11Object>&pObjec
     return pPair->second;
 }
 
-//    CK_OBJECT_HANDLE CSlot::GetNewObjectID() {
-//        init_func
-//            return InterlockedIncrement(&dwP11ObjCnt);
-//    }
-
 void CSlot::DelObjectHandle(const std::shared_ptr<CP11Object>& pObject) {
     init_func
     ObjHandleMap::iterator pPair;
@@ -668,25 +641,6 @@ ByteDynArray CSlot::GetATR() {
         LOG_INFO("CSlot::GetATR() - no card inserted");
         return ByteArray();
     }
-//readCIEType
-//        SCARD_READERSTATE state;
-//        state.szReader = this->szName.data();
-//        long ret = SCardGetStatusChange(CSlot::Context, 0, &state, 1);
-//
-//        printf("\nSCardGetStatusChange: %x\n", ret);
-//
-//        if (state.cbAtr > 0) {
-//            Log.write("ATR Letto:");
-//            if(state.cbAtr > 32)
-//                state.cbAtr = 32;
-//
-//            Log.writeBinData(state.rgbAtr, state.cbAtr);
-//            return ByteArray(state.rgbAtr, state.cbAtr);
-//        }
-//        else {
-//            Log.write("ATR Letto: -nessuna carta inserita-");
-//            return ByteArray();
-//        }
 }
 
 void CSlot::GetATR(ByteArray &ATR) {

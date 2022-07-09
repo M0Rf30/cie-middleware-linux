@@ -6,10 +6,10 @@
 //  Copyright © 2019 IPZS. All rights reserved.
 //
 
-#ifndef keys_h
-#define keys_h
+#ifndef KEYS_H_
+#define KEYS_H_
 
 #define ENCRYPTION_KEY "this is a fake key"
 
 
-#endif /* keys_h */
+#endif  // KEYS_H_
