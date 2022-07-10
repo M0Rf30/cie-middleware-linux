@@ -19,18 +19,24 @@ extern auto_reset_event p11slotEvent;
 extern bool bP11Terminate;
 extern bool bP11Initialized;
 
-extern uint8_t NXP_ATR[];
-extern uint8_t Gemalto_ATR[];
+extern uint8_t ACTALIS_ATR[];
+extern uint8_t BIT4ID_ATR[];
 extern uint8_t Gemalto2_ATR[];
-extern uint8_t STM_ATR[];
+extern uint8_t Gemalto_ATR[];
+extern uint8_t NXP_ATR[];
 extern uint8_t STM2_ATR[];
+extern uint8_t STM3_ATR[];
+extern uint8_t STM_ATR[];
 
-extern ByteArray baNXP_ATR;
-extern ByteArray baGemalto_ATR;
+
+extern ByteArray baACTALIS_ATR;
+extern ByteArray baBIT4ID_ATR;
 extern ByteArray baGemalto2_ATR;
-extern ByteArray baSTM_ATR;
+extern ByteArray baGemalto_ATR;
+extern ByteArray baNXP_ATR;
 extern ByteArray baSTM2_ATR;
 extern ByteArray baSTM3_ATR;
+extern ByteArray baSTM_ATR;
 
 namespace p11 {
 
