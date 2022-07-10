@@ -984,7 +984,8 @@ void IAS::InitDHParam() {
     dh_p = parser.tags[0]->tags[0]->tags[0]->tags[1]->content;
     dh_q = parser.tags[0]->tags[0]->tags[0]->tags[2]->content;
   } else if (type == CIE_Type::CIE_NXP || type == CIE_Type::CIE_STM ||
-             type == CIE_Type::CIE_STM2 || type == CIE_Type::CIE_STM3) {
+             type == CIE_Type::CIE_STM2 || type == CIE_Type::CIE_STM3 ||
+             type == CIE_Type::CIE_ACTALIS || type == CIE_Type::CIE_BIT4ID) {
     uint8_t getDHDoup[] = {00, 0xcb, 0x3f, 0xff};
     uint8_t getDHDuopData_g[] = {0x4D, 0x0A, 0x70, 0x08, 0xBF, 0xA1,
                                  0x01, 0x04, 0xA3, 0x02, 0x97, 0x00};
