@@ -31,17 +31,16 @@ jobs:
       - name: Build
         run: |
           docker run -v $(pwd)/.ccache:/ccache -v $(pwd):/project -e CCACHE_DIR=/ccache packagefoundation/yap-ubuntu-focal:latest build ubuntu-focal packages
-          mkdir artifacts
-          sudo mv packages/cryptopp/artifacts/*.deb artifacts
-          sudo mv packages/cie-middleware/artifacts/*.deb artifacts
-          for i in $(ls artifacts/); do sha256sum artifacts/$i >> artifacts/SHA256SUMS; done
+          mkdir artifacts_ci
+          sudo mv artifacts/*.deb artifacts_ci
+          for i in $(ls artifacts_ci/); do sha256sum artifacts_ci/$i >> artifacts_ci/SHA256SUMS; done
 
       - name: Archive production artifacts
         uses: actions/upload-artifact@v2
         with:
           name: "cie-middleware-${{ steps.version.outputs.version }}"
           path: |
-            artifacts/*.deb
+            artifacts_ci/*.deb
             artifacts/SHA256SUMS
 
       - uses: "marvinpinto/action-automatic-releases@latest"
@@ -51,5 +50,5 @@ jobs:
           prerelease: false
           title: "cie-middleware-${{ steps.version.outputs.version }}"
           files: |
-            artifacts/*.deb
-            artifacts/SHA256SUMS
+            artifacts_ci/*.deb
+            artifacts_ci/SHA256SUMS

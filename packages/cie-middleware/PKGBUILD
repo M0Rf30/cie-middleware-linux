@@ -139,7 +139,7 @@ build:fedora() {
 
 build:ubuntu() {
     export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-    pip3 install ninja==1.11.0 meson==0.62.2
+    pip3 install ninja==1.10.2.3 meson==0.61.1
 
     cd "${srcdir}/${pkgname}-linux-main"
     ../gradle-7.4.2/bin/gradle -b cie-java/build.gradle standalone
