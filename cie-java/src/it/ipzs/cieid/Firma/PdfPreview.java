@@ -1,19 +1,15 @@
 package it.ipzs.cieid.Firma;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Image;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.rendering.PDFRenderer;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import org.ghost4j.document.DocumentException;
-import org.ghost4j.document.PDFDocument;
-import org.ghost4j.renderer.RendererException;
-import org.ghost4j.renderer.SimpleRenderer;
 
 public class PdfPreview {
     private final JPanel prPanel;
@@ -21,7 +17,7 @@ public class PdfPreview {
     private final String signImagePath;
     private int pdfPageIndex;
     private int pdfNumPages;
-    private List<Image> images;
+    private List<BufferedImage> renderedPages = new ArrayList<BufferedImage>();
     private final JLabel imgLabel;
     private final ImageIcon imgIcon;
     private final MoveablePicture signImage;
@@ -41,36 +37,33 @@ public class PdfPreview {
         imgPanel.add(signImage);
         imgPanel.add(imgLabel);
 
+        File file = new File(filePath);
+
         try {
-            PDFDocument document = new PDFDocument();
-            document.load(new File(filePath));
-            pdfNumPages = document.getPageCount();
+            PDDocument document = PDDocument.load(file);
+            pdfNumPages = document.getNumberOfPages();
             System.out.println("Pdf page: " + pdfNumPages);
-            SimpleRenderer renderer = new SimpleRenderer();
+            PDFRenderer renderer = new PDFRenderer(document);
 
-            renderer.setResolution(100);
             prPanel.removeAll();
-            images = renderer.render(document);
 
+            for (pdfPageIndex = 0; pdfPageIndex < pdfNumPages; pdfPageIndex++) {
+                BufferedImage renderedPage = renderer.renderImage(pdfPageIndex);
+                renderedPages.add(renderedPage);
+            }
+
+            pdfPageIndex = 0;
             showPreview();
-
+            document.close();
         } catch (IOException e) {
             // TODO Auto-generated catch block
             System.out.println("PDF File not found");
-            e.printStackTrace();
-        } catch (DocumentException e) {
-            // TODO Auto-generated catch block
-            System.out.println("Document Exception");
-            e.printStackTrace();
-        } catch (RendererException e) {
-            // TODO Auto-generated catch block
-            System.out.println("Renderer Exception");
             e.printStackTrace();
         }
     }
 
     private void showPreview() {
-        Image tmpImg = images.get(pdfPageIndex);
+        Image tmpImg = renderedPages.get(pdfPageIndex);
 
         int width = prPanel.getWidth();
         int height = prPanel.getHeight();
@@ -78,34 +71,33 @@ public class PdfPreview {
         int tmpImgWidth = tmpImg.getWidth(null);
         int tmpImgHeight = tmpImg.getHeight(null);
 
-        int imgHeigth = height;
+        int imgHeight = height;
         int imgWidth = width;
 
         if (tmpImgWidth > tmpImgHeight) {
-            imgHeigth = (width * tmpImgHeight) / tmpImgWidth;
+            imgHeight = (width * tmpImgHeight) / tmpImgWidth;
 
-            if (imgHeigth > height) {
+            if (imgHeight > height) {
                 imgWidth = (height * tmpImgWidth) / tmpImgHeight;
-                imgHeigth = (imgWidth * tmpImgHeight) / tmpImgWidth;
+                imgHeight = (imgWidth * tmpImgHeight) / tmpImgWidth;
             }
         } else {
             imgWidth = (height * tmpImgWidth) / tmpImgHeight;
 
             if (imgWidth > width) {
-                imgHeigth = (width * imgHeigth) / tmpImgWidth;
-                imgWidth = (imgHeigth * tmpImgWidth) / imgHeigth;
+                imgHeight = (width * imgHeight) / tmpImgWidth;
+                imgWidth = (imgHeight * tmpImgWidth) / imgHeight;
             }
         }
 
-        imgIcon.setImage(tmpImg.getScaledInstance(imgWidth, imgHeigth, Image.SCALE_AREA_AVERAGING));
+        imgIcon.setImage(tmpImg.getScaledInstance(imgWidth, imgHeight, Image.SCALE_AREA_AVERAGING));
         imgLabel.setIcon(imgIcon);
         imgLabel.setHorizontalAlignment(JLabel.CENTER);
         imgLabel.setVerticalAlignment(JLabel.CENTER);
         imgLabel.revalidate();
         imgLabel.repaint();
 
-        // imgPanel.removeAll();
-        imgPanel.setMaximumSize(new Dimension(imgWidth, imgHeigth));
+        imgPanel.setMaximumSize(new Dimension(imgWidth, imgHeight));
         imgPanel.updateUI();
 
         prPanel.removeAll();
@@ -133,8 +125,8 @@ public class PdfPreview {
         return pdfPageIndex;
     }
 
-    public float[] signImageInfos() {
-        float[] infos = new float[4];
+    public float[] signImageInfo() {
+        float[] info = new float[4];
 
         float x = ((float) signImage.getX() / (float) imgPanel.getWidth());
         float y =
@@ -142,11 +134,11 @@ public class PdfPreview {
         float w = ((float) signImage.getWidth() / (float) imgPanel.getWidth());
         float h = ((float) signImage.getHeight() / (float) imgPanel.getHeight());
 
-        infos[0] = x;
-        infos[1] = y;
-        infos[2] = w;
-        infos[3] = h;
+        info[0] = x;
+        info[1] = y;
+        info[2] = w;
+        info[3] = h;
 
-        return infos;
+        return info;
     }
 }
