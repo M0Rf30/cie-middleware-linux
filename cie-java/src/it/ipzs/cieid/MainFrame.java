@@ -3461,7 +3461,7 @@ public class MainFrame extends JFrame {
                             final int ret;
                             if (signOperation == SignOp.PADES) {
                                 if (cbGraphicSig.isSelected()) {
-                                    float infos[] = preview.signImageInfos();
+                                    float infos[] = preview.signImageInfo();
                                     String signImagePath =
                                             getSignImagePath(
                                                     selectedCie.getCard().getSerialNumber());
