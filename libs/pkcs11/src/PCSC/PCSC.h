@@ -1,5 +1,7 @@
 #ifndef PCSC_H
 #define PCSC_H
+
+#include <PCSC/wintypes.h>
 #include <PCSC/winscard.h>
 
 #include <string>

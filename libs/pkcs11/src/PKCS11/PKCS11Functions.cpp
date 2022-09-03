@@ -2,6 +2,7 @@
 //
 #include "PKCS11Functions.h"
 
+#include <PCSC/wintypes.h>
 #include <PCSC/winscard.h>
 #include <cryptopp/misc.h>
 #include <pwd.h>
