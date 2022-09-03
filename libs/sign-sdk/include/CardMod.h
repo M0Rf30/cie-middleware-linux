@@ -25,7 +25,8 @@
 #pragma warning(disable:4201)
 // Disable error C4201 in public header
 //  nonstandard extension used : nameless struct/union
-#include <winscard.h>
+#include <PCSC/wintypes.h>
+#include <PCSC/winscard.h>
 #pragma warning(pop)
 #include <specstrings.h>
 #include <bcrypt.h>

@@ -14,7 +14,7 @@
 #include <stdafx.h>
 #define STRICMP stricmp
 #else
-#include <wintypes.h>
+#include <PCSC/wintypes.h>
 #define STRICMP strcasecmp
 
 #include <memory.h>

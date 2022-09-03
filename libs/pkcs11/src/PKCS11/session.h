@@ -8,7 +8,9 @@
 #include "Mechanism.h"
 #include "Slot.h"
 #include "../PCSC/Token.h"
-#include <winscard.h>
+
+#include <PCSC/wintypes.h>
+#include <PCSC/winscard.h>
 #include "P11Object.h"
 #include <memory>
 
