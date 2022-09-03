@@ -595,13 +595,9 @@ void* mythread(void* thr_data) {
 }
 
 int sendMessage(const char* szCommand, const char* szParam) {
-  const char* file = "java";
+  const char* file = "cieid";
 
-  const char* arg =
-      "-Xms1G -Xmx1G -Djna.library.path=\".:/usr/lib\" -classpath "
-      "\"/usr/share/cieid/cieid.jar\" it.ipzs.cieid.MainApplication";
-
-  snprintf(command, 1000, "%s %s %s", file, arg, szCommand);
+  snprintf(command, 1000, "%s %s", file, szCommand);
 
   pthread_t thr;
   pthread_create(&thr, NULL, mythread, (void*)command);
