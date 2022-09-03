@@ -9,7 +9,7 @@
 #ifndef __UTILITYTYPES_H
 #define __UTILITYTYPES_H
 
-#include <wintypes.h>
+#include <PCSC/wintypes.h>
 #define STRICMP strcasecmp
 
 #include <memory.h>

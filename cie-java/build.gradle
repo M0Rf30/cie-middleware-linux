@@ -4,7 +4,7 @@ plugins {
 
 // Apply the application plugin to add support for building a CLI application.
 	id 'application'
-	id "com.diffplug.spotless" version "6.8.0"
+	id "com.diffplug.spotless" version "6.10.0"
 }
 
 repositories {
@@ -31,18 +31,18 @@ dependencies {
 	// This dependency is used by the application.
 	implementation fileTree(dir: 'lib', include: ['*.jar'])
 	implementation 'commons-io:commons-io:2.11.0'
-	implementation 'com.dorkbox:ObjectPool:3.5'
+	implementation 'com.dorkbox:ObjectPool:4.0'
 	implementation 'com.dorkbox:Notify:3.7'
 	implementation 'com.dorkbox:ShellExecutor:1.1'
 	implementation 'com.dorkbox:SystemTray:4.1'
 	implementation 'com.dorkbox:TweenEngine:8.3'
 	implementation 'com.google.code.gson:gson:2.9.0'
 	implementation 'com.jgoodies:jgoodies-forms:1.9.0'
-	implementation 'net.java.dev.jna:jna:5.11.0'
-	implementation 'net.java.dev.jna:jna-platform:5.11.0'
+	implementation 'net.java.dev.jna:jna:5.12.1'
+	implementation 'net.java.dev.jna:jna-platform:5.12.1'
 	implementation 'org.ghost4j:ghost4j:1.0.1'
-	implementation 'org.javassist:javassist:3.29.0-GA'
-	implementation 'org.slf4j:slf4j-api:1.7.36'
+	implementation 'org.javassist:javassist:3.29.1-GA'
+	implementation 'org.slf4j:slf4j-api:2.0.0'
 }
 
 mainClassName = 'it.ipzs.cieid.MainApplicationn'
@@ -73,8 +73,19 @@ task standalone(type: Jar) {
 	manifest {
 		attributes 'Implementation-Title': 'CIEID Desktop Application',
 				'Built-By': System.getProperty('user.name'),
-				'Built-Date': new Date(),
 				'Built-JDK': System.getProperty('java.version'),
 				'Main-Class': 'it.ipzs.cieid.MainApplication'
+	}
+}
+
+task fetchDeps {
+	description "Force gradle to cache all dependencies"
+	doLast { sourceSets.main.runtimeClasspath.files }
+}
+
+allprojects {
+	tasks.withType(AbstractArchiveTask).configureEach {
+		preserveFileTimestamps = false
+		reproducibleFileOrder = true
 	}
 }

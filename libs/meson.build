@@ -23,9 +23,7 @@ podofo_dep = dependency('libpodofo')
 libxml2_dep = dependency('libxml-2.0', required : false)
 xml2_dep = dependency('xml2', required : false)
 
-inc_so = include_directories('/usr/include/PCSC',
-                          '/usr/include',
-                          'pkcs11/src/.',
+inc_so = include_directories('pkcs11/src/.',
                           'pkcs11/src/Crypto',
                           'pkcs11/src/CSP',
                           'pkcs11/src/LOGGER',
@@ -42,10 +40,7 @@ inc_a = include_directories('sign-sdk/include',
                           'sign-sdk/src/Crypto',
                           'sign-sdk/src/CSP',
                           'sign-sdk/src/PCSC',
-                          'sign-sdk/src/Util',
-                          '/usr/include/PCSC',
-                          '/usr/include/libxml2',
-                          '/usr/include')
+                          'sign-sdk/src/Util')
 
 cie_pkcs11_sources = ['pkcs11/src/Util/UUCByteArray.cpp',
                       'pkcs11/src/Util/UtilException.cpp',

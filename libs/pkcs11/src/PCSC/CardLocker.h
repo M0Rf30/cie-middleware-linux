@@ -1,4 +1,5 @@
 #pragma once
+#include <PCSC/wintypes.h>
 #include <PCSC/winscard.h>
 
 #include "../Util/SyncroMutex.h"
