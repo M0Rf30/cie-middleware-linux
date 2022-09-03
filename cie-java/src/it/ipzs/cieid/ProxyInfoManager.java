@@ -17,74 +17,74 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 public class ProxyInfoManager {
-  private Cipher aesCipher;
-  private byte[] key;
-  private byte[] iv;
+    private Cipher aesCipher;
+    private byte[] key;
+    private byte[] iv;
 
-  public ProxyInfoManager() {
-    String hostName;
-    try {
-      hostName = InetAddress.getLocalHost().getHostName();
+    public ProxyInfoManager() {
+        String hostName;
+        try {
+            hostName = InetAddress.getLocalHost().getHostName();
 
-      String uuid = UUID.nameUUIDFromBytes(hostName.getBytes()).toString();
+            String uuid = UUID.nameUUIDFromBytes(hostName.getBytes()).toString();
 
-      MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
 
-      iv = "9/\\~V).A,lY&=t2b".getBytes(StandardCharsets.UTF_8);
-      key = digest.digest(uuid.getBytes(StandardCharsets.UTF_8));
+            iv = "9/\\~V).A,lY&=t2b".getBytes(StandardCharsets.UTF_8);
+            key = digest.digest(uuid.getBytes(StandardCharsets.UTF_8));
 
-      aesCipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
+            aesCipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
 
-    } catch (UnknownHostException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (NoSuchAlgorithmException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (NoSuchPaddingException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-  }
-
-  public String encrypt(String plaintext) {
-    IvParameterSpec ivspec = new IvParameterSpec(iv);
-    SecretKeySpec skeySpec = new SecretKeySpec(key, "AES");
-    try {
-      aesCipher.init(Cipher.ENCRYPT_MODE, skeySpec, ivspec);
-      return Base64.getEncoder()
-          .encodeToString(aesCipher.doFinal(plaintext.getBytes(StandardCharsets.UTF_8)));
-    } catch (InvalidKeyException | InvalidAlgorithmParameterException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (IllegalBlockSizeException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (BadPaddingException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+        } catch (UnknownHostException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (NoSuchPaddingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
-    return "";
-  }
+    public String encrypt(String plaintext) {
+        IvParameterSpec ivspec = new IvParameterSpec(iv);
+        SecretKeySpec skeySpec = new SecretKeySpec(key, "AES");
+        try {
+            aesCipher.init(Cipher.ENCRYPT_MODE, skeySpec, ivspec);
+            return Base64.getEncoder()
+                    .encodeToString(aesCipher.doFinal(plaintext.getBytes(StandardCharsets.UTF_8)));
+        } catch (InvalidKeyException | InvalidAlgorithmParameterException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IllegalBlockSizeException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (BadPaddingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
-  public String decrypt(String ciphertext) {
-    IvParameterSpec ivspec = new IvParameterSpec(iv);
-    SecretKeySpec skeySpec = new SecretKeySpec(key, "AES");
-    try {
-      aesCipher.init(Cipher.DECRYPT_MODE, skeySpec, ivspec);
-      return new String(aesCipher.doFinal(Base64.getDecoder().decode(ciphertext)));
-    } catch (InvalidKeyException | InvalidAlgorithmParameterException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (IllegalBlockSizeException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (BadPaddingException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+        return "";
     }
 
-    return "";
-  }
+    public String decrypt(String ciphertext) {
+        IvParameterSpec ivspec = new IvParameterSpec(iv);
+        SecretKeySpec skeySpec = new SecretKeySpec(key, "AES");
+        try {
+            aesCipher.init(Cipher.DECRYPT_MODE, skeySpec, ivspec);
+            return new String(aesCipher.doFinal(Base64.getDecoder().decode(ciphertext)));
+        } catch (InvalidKeyException | InvalidAlgorithmParameterException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IllegalBlockSizeException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (BadPaddingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return "";
+    }
 }
