@@ -1,6 +1,9 @@
 #!/bin/bash
-exec java -Xms1G \
--Xmx1G \
--Djna.library.path=".:/usr/lib" \
--classpath "/usr/share/cieid/cieid.jar:/usr/lib" \
-it.ipzs.cieid.MainApplication
+
+exec java \
+  -Xms1G \
+  -Xmx1G \
+  -Djna.library.path="/usr/lib" \
+  -Dawt.useSystemAAFontSettings=on \
+  -classpath /usr/share/cieid/cieid.jar \
+  it.ipzs.cieid.MainApplication "${@}"
