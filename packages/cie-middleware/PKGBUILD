@@ -16,11 +16,11 @@ license=("BSD-3")
 section="utils"
 priority="optional"
 sources=(
-    "https://github.com/M0Rf30/cie-middleware-linux/archive/main.tar.gz"
+    "https://github.com/M0Rf30/cie-middleware-linux/archive/podofo-vanilla.tar.gz"
     "https://downloads.gradle-dn.com/distributions/gradle-7.4.2-bin.zip"
 )
 sources:archlinux=(
-    "https://github.com/M0Rf30/cie-middleware-linux/archive/main.tar.gz"
+    "https://github.com/M0Rf30/cie-middleware-linux/archive/podofo-vanilla.tar.gz"
 )
 
 hashsums=(
@@ -120,7 +120,7 @@ makedepends:yum=(
 build:archlinux() {
     export JAVA_HOME=/usr/lib/jvm/default/
 
-    cd "${srcdir}/${pkgname}-linux-main"
+    cd "${srcdir}/${pkgname}-linux-podofo-vanilla"
     gradle -b cie-java/build.gradle standalone
     meson builddir libs
     meson configure -Dprefix=/usr builddir
@@ -130,7 +130,7 @@ build:archlinux() {
 build:fedora() {
     export JAVA_HOME=/usr/lib/jvm/java-11-openjdk/
 
-    cd "${srcdir}/${pkgname}-linux-main"
+    cd "${srcdir}/${pkgname}-linux-podofo-vanilla"
     ../gradle-7.4.2/bin/gradle -b cie-java/build.gradle standalone
     meson builddir libs
     meson configure -Dprefix=/usr builddir
@@ -141,7 +141,7 @@ build:ubuntu() {
     export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
     pip3 install ninja==1.10.2.3 meson==0.61.1
 
-    cd "${srcdir}/${pkgname}-linux-main"
+    cd "${srcdir}/${pkgname}-linux-podofo-vanilla"
     ../gradle-7.4.2/bin/gradle -b cie-java/build.gradle standalone
 
     meson builddir libs
@@ -150,7 +150,7 @@ build:ubuntu() {
 }
 
 package() {
-    cd "${srcdir}/${pkgname}-linux-main"
+    cd "${srcdir}/${pkgname}-linux-podofo-vanilla"
 
     # Java Application
     install -Dm755 cie-java/build/libs/CIEID-standalone.jar \
