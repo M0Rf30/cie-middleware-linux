@@ -5,7 +5,7 @@ targets=(
     "ubuntu"
 )
 pkgname="cie-middleware"
-pkgver="1.4.3.1"
+pkgver="1.4.3.2"
 pkgrel="1"
 pkgdesc="A fork of Middleware della CIE (Carta di Identità Elettronica) per Linux"
 pkgdesclong=("A fork of Middleware della CIE (Carta di Identità Elettronica) per Linux")

@@ -1,7 +1,7 @@
 project('libcie-pkcs11',
   'cpp',
   'c',
-  version : '1.4.2',
+  version : '1.4.3.2',
   license : 'MIT')
 
 add_project_arguments('-fPIC', language : 'cpp')
@@ -219,7 +219,7 @@ libcie_pkcs11 = library(
 pkg_mod = import('pkgconfig')
 pkg_mod.generate(
   libraries : libcie_pkcs11,
-  version : '1.4.2',
+  version : '1.4.3.2',
   name : 'libcie-pkcs11',
   filebase : 'cie-pkcs11',
   description : 'A library to enable CIE authentication.'
