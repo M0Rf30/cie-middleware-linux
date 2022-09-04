@@ -1,11 +1,10 @@
 targets=(
-    "archlinux"
+    "arch"
     "fedora"
-    "opensuse"
     "ubuntu"
 )
 pkgname="cie-middleware"
-pkgver="1.4.3.2"
+pkgver="1.4.3.3"
 pkgrel="1"
 pkgdesc="A fork of Middleware della CIE (Carta di Identità Elettronica) per Linux"
 pkgdesclong=("A fork of Middleware della CIE (Carta di Identità Elettronica) per Linux")
@@ -19,7 +18,7 @@ sources=(
     "https://github.com/M0Rf30/cie-middleware-linux/archive/podofo-vanilla.tar.gz"
     "https://downloads.gradle-dn.com/distributions/gradle-7.4.2-bin.zip"
 )
-sources:archlinux=(
+sources:pacman=(
     "https://github.com/M0Rf30/cie-middleware-linux/archive/podofo-vanilla.tar.gz"
 )
 
@@ -27,7 +26,7 @@ hashsums=(
     "skip"
     "skip"
 )
-hashsums:archlinux=(
+hashsums:pacman=(
     "skip"
 )
 depends:apt=(
@@ -65,7 +64,7 @@ depends:pacman=(
     "curl"
     "fontconfig"
     "freetype2"
-    "java-runtime"
+    "jre11-openjdk"
     "libpng"
     "libxml2"
     "openssl"
@@ -117,7 +116,7 @@ makedepends:yum=(
     "podofo-devel"
 )
 
-build:archlinux() {
+build:pacman() {
     export JAVA_HOME=/usr/lib/jvm/default/
 
     cd "${srcdir}/${pkgname}-linux-podofo-vanilla"
@@ -127,7 +126,7 @@ build:archlinux() {
     meson compile -C builddir
 }
 
-build:fedora() {
+build:yum() {
     export JAVA_HOME=/usr/lib/jvm/java-11-openjdk/
 
     cd "${srcdir}/${pkgname}-linux-podofo-vanilla"
@@ -137,7 +136,7 @@ build:fedora() {
     meson compile -C builddir
 }
 
-build:ubuntu() {
+build:apt() {
     export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
     pip3 install ninja==1.10.2.3 meson==0.61.1
 
