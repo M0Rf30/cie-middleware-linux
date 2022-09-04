@@ -1,11 +1,10 @@
 targets=(
-    "archlinux"
+    "arch"
     "fedora"
-    "opensuse"
     "ubuntu"
 )
 pkgname="cie-middleware"
-pkgver="1.4.3.2"
+pkgver="1.4.3.3"
 pkgrel="1"
 pkgdesc="A fork of Middleware della CIE (Carta di Identità Elettronica) per Linux"
 pkgdesclong=("A fork of Middleware della CIE (Carta di Identità Elettronica) per Linux")
@@ -20,7 +19,7 @@ sources=(
     "https://github.com/M0Rf30/cie-middleware-linux/releases/download/podofo-1.4.2/libpodofo-1.4.2.tar.gz"
     "https://downloads.gradle-dn.com/distributions/gradle-7.4.2-bin.zip"
 )
-sources:archlinux=(
+sources:pacman=(
     "https://github.com/M0Rf30/cie-middleware-linux/archive/main.tar.gz"
     "https://github.com/M0Rf30/cie-middleware-linux/releases/download/podofo-1.4.2/libpodofo-1.4.2.tar.gz"
 )
@@ -30,7 +29,7 @@ hashsums=(
     "ef81e439b12aa2ff309b353399c033bd62b027e7bd4cbf649c025226f1de5287"
     "skip"
 )
-hashsums:archlinux=(
+hashsums:pacman=(
     "skip"
     "ef81e439b12aa2ff309b353399c033bd62b027e7bd4cbf649c025226f1de5287"
 )
@@ -67,7 +66,7 @@ depends:pacman=(
     "curl"
     "fontconfig"
     "freetype2"
-    "java-runtime"
+    "jre11-openjdk"
     "libpng"
     "libxml2"
     "openssl"
@@ -80,6 +79,7 @@ makedepends:pacman=(
     "fontconfig"
     "freetype2"
     "gradle"
+    "jdk11-openjdk"
     "libpng"
     "libxml2"
     "meson"
@@ -115,7 +115,7 @@ makedepends:yum=(
     "pkgconf-pkg-config"
 )
 
-build:archlinux() {
+build:pacman() {
     export JAVA_HOME=/usr/lib/jvm/default/
     cp "${srcdir}/libpodofo.a" \
       "${srcdir}/${pkgname}-linux-main/libs/lib"
@@ -127,7 +127,7 @@ build:archlinux() {
     meson compile -C builddir
 }
 
-build:fedora() {
+build:yum() {
     export JAVA_HOME=/usr/lib/jvm/java-11-openjdk/
     cp "${srcdir}/libpodofo.a" \
       "${srcdir}/${pkgname}-linux-main/libs/lib"
@@ -139,7 +139,7 @@ build:fedora() {
     meson compile -C builddir
 }
 
-build:ubuntu() {
+build:apt() {
     export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
     pip3 install ninja==1.10.2.3 meson==0.61.1
     cp "${srcdir}/libpodofo.a" \
