@@ -43,7 +43,6 @@ Sono necessarie le seguenti librerie:
 * openssl
 * pcsclite
 * pkgconf (make)
-* podofo
 
 ### Istruzioni
 
