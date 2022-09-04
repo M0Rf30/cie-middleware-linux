@@ -20,8 +20,9 @@ La parte di [interfaccia grafica](cie-java) è sviluppata in Java.
 [Qui](https://github.com/M0Rf30/cie-middleware-linux/releases) puoi trovare i
 binari generati da questo repo, per le seguenti distro GNU/Linux:
 
-* Arch Linux
-* Ubuntu
+* Arch Linux [qui](https://aur.archlinux.org/packages/cie-middleware-git)
+* Rocky 8
+* Ubuntu 20.04
 
 ## Compilazione
 
