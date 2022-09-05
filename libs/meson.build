@@ -13,6 +13,7 @@ podofo_dep = cpp.find_library('libpodofo', dirs : libdir)
 crypto_dep = dependency('libcrypto')
 cryptop_dep = dependency('libcrypto++', required : false)
 cryptopp_dep = dependency('libcryptopp', required : false)
+cryptoppp_dep = dependency('cryptopp', required : false)
 pcsclite_dep = dependency('libpcsclite')
 thread_dep = dependency('threads')
 
@@ -203,7 +204,7 @@ libcie_sign_sdk = static_library(
   'cie-sign-sdk',
   cie_sign_sdk_sources,
   include_directories : inc_a,
-  dependencies : [ crypto_dep, cryptop_dep, cryptopp_dep, libxml2_dep, pcsclite_dep, thread_dep, curl_dep, fontconfig_dep, freetype_dep, png_dep, podofo_dep, xml2_dep ],
+  dependencies : [ crypto_dep, cryptop_dep, cryptopp_dep, cryptoppp_dep, libxml2_dep, pcsclite_dep, thread_dep, curl_dep, fontconfig_dep, freetype_dep, png_dep, podofo_dep, xml2_dep ],
   install : true
 )
 
@@ -211,7 +212,7 @@ libcie_pkcs11 = library(
   'cie-pkcs11',
   cie_pkcs11_sources,
   include_directories : inc_so,
-  dependencies : [ crypto_dep, cryptop_dep, cryptopp_dep, libxml2_dep, pcsclite_dep, png_dep, thread_dep, curl_dep, fontconfig_dep, freetype_dep, xml2_dep ],
+  dependencies : [ crypto_dep, cryptop_dep, cryptopp_dep, cryptoppp_dep, libxml2_dep, pcsclite_dep, png_dep, thread_dep, curl_dep, fontconfig_dep, freetype_dep, xml2_dep ],
   link_with: libcie_sign_sdk,
   install : true,
 )
