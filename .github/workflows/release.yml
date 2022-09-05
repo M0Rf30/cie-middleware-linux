@@ -30,8 +30,8 @@ jobs:
 
       - name: Build
         run: |
-          docker run -v $(pwd)/.ccache:/ccache -v $(pwd):/project -e CCACHE_DIR=/ccache packagefoundation/yap-ubuntu-focal:latest build ubuntu-focal packages
-          docker run -v $(pwd)/.ccache:/ccache -v $(pwd):/project -e CCACHE_DIR=/ccache packagefoundation/yap-rocky-8:latest build rocky-8 packages
+          docker run -v $(pwd)/.ccache:/ccache -v $(pwd):/project -e CCACHE_DIR=/ccache packagefoundation/yap-ubuntu-focal:latest build ubuntu-focal packages/deb
+          docker run -v $(pwd)/.ccache:/ccache -v $(pwd):/project -e CCACHE_DIR=/ccache packagefoundation/yap-rocky-8:latest build rocky-8 packages/rpm
 
           mkdir artifacts_ci
           sudo mv artifacts/*.deb artifacts_ci

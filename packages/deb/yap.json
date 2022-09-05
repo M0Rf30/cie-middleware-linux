@@ -1,0 +1,15 @@
+{
+    "name": "cie-middleware",
+    "Description": "CIE middleware",
+    "build_dir": "/tmp/",
+    "output": "artifacts",
+    "Projects": [
+        {
+            "name": "../cryptopp",
+            "install": true
+        },
+        {
+            "name": "../cie-middleware"
+        }
+    ]
+}

@@ -5,11 +5,7 @@
     "output": "artifacts",
     "Projects": [
         {
-            "name": "cryptopp",
-            "install": true
-        },
-        {
-            "name": "cie-middleware"
+            "name": "../cie-middleware"
         }
     ]
 }
