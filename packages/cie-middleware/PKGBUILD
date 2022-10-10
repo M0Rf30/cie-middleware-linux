@@ -1,16 +1,10 @@
-targets=(
-    "arch"
-    "fedora"
-    "ubuntu"
-)
 pkgname="cie-middleware"
 pkgver="1.4.3.3"
 pkgrel="1"
 pkgdesc="A fork of Middleware della CIE (Carta di Identità Elettronica) per Linux"
-pkgdesclong=("A fork of Middleware della CIE (Carta di Identità Elettronica) per Linux")
-maintainer="boiano.gianluca@gmail.com"
+maintainer="M0Rf30"
 url="https://github.com/italia/cie-middleware-linux"
-arch="amd64"
+arch=("amd64")
 license=("BSD-3")
 section="utils"
 priority="optional"
@@ -19,7 +13,7 @@ sources=(
     "https://github.com/M0Rf30/cie-middleware-linux/releases/download/podofo-1.4.2/libpodofo-1.4.2.tar.gz"
     "https://downloads.gradle-dn.com/distributions/gradle-7.4.2-bin.zip"
 )
-sources:pacman=(
+sources__pacman=(
     "https://github.com/M0Rf30/cie-middleware-linux/archive/main.tar.gz"
     "https://github.com/M0Rf30/cie-middleware-linux/releases/download/podofo-1.4.2/libpodofo-1.4.2.tar.gz"
 )
@@ -29,11 +23,11 @@ hashsums=(
     "ef81e439b12aa2ff309b353399c033bd62b027e7bd4cbf649c025226f1de5287"
     "skip"
 )
-hashsums:pacman=(
+hashsums__pacman=(
     "skip"
     "ef81e439b12aa2ff309b353399c033bd62b027e7bd4cbf649c025226f1de5287"
 )
-depends:apt=(
+depends__apt=(
     "cryptopp"
     "libcurl4"
     "libfreetype6"
@@ -45,7 +39,7 @@ depends:apt=(
     "openjdk-11-jre-headless"
     "pcscd"
 )
-makedepends:apt=(
+makedepends__apt=(
     "ccache"
     "g++"
     "libcurl4-openssl-dev"
@@ -61,7 +55,7 @@ makedepends:apt=(
     "unzip"
 )
 
-depends:pacman=(
+depends__pacman=(
     "crypto++"
     "curl"
     "fontconfig"
@@ -72,7 +66,7 @@ depends:pacman=(
     "openssl"
     "pcsclite"
 )
-makedepends:pacman=(
+makedepends__pacman=(
     "ccache"
     "crypto++"
     "curl"
@@ -90,7 +84,7 @@ makedepends:pacman=(
     "unzip"
 )
 
-depends:yum=(
+depends__yum=(
     "cryptopp"
     "fontconfig"
     "freetype"
@@ -101,7 +95,7 @@ depends:yum=(
     "openssl"
     "pcsc-lite"
 )
-makedepends:yum=(
+makedepends__yum=(
     "ccache"
     "cryptopp-devel"
     "fontconfig-devel"
@@ -117,7 +111,7 @@ makedepends:yum=(
     "pkgconf-pkg-config"
 )
 
-build:pacman() {
+build__pacman() {
     export JAVA_HOME=/usr/lib/jvm/default/
     cp "${srcdir}/libpodofo.a" \
       "${srcdir}/${pkgname}-linux-main/libs/lib"
@@ -129,7 +123,7 @@ build:pacman() {
     meson compile -C builddir
 }
 
-build:yum() {
+build__yum() {
     export JAVA_HOME=/usr/lib/jvm/java-11-openjdk/
     cp "${srcdir}/libpodofo.a" \
       "${srcdir}/${pkgname}-linux-main/libs/lib"
@@ -141,7 +135,7 @@ build:yum() {
     meson compile -C builddir
 }
 
-build:apt() {
+build__apt() {
     export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
     pip3 install ninja==1.10.2.3 meson==0.61.1
     cp "${srcdir}/libpodofo.a" \
