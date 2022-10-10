@@ -1,15 +1,8 @@
-targets=(
-  "centos"
-  "ubuntu"
-)
 pkgname="cryptopp"
 pkgver="8.6.0"
 pkgrel="1"
 pkgdesc="A free C++ class library of cryptographic schemes"
-pkgdesclong=(
-  "A free C++ class library of cryptographic schemes"
-)
-arch="amd64"
+arch=("amd64")
 maintainer="M0Rf30"
 url="https://www.cryptopp.com/"
 section="libs"
@@ -21,7 +14,7 @@ hashsums=(
   "SKIP"
 )
 
-build:apt() {
+build__apt() {
   cd "${srcdir}"
   export CXXFLAGS="$CXXFLAGS -DNDEBUG -fPIC"
   make PREFIX=/usr -C cryptopp-69bf6b53052b59ccb57ce068ce741988ae087317 dynamic cryptest.exe libcryptopp.pc
