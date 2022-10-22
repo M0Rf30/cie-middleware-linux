@@ -40,7 +40,7 @@ dependencies {
 	implementation 'com.jgoodies:jgoodies-forms:1.9.0'
 	implementation 'net.java.dev.jna:jna:5.12.1'
 	implementation 'net.java.dev.jna:jna-platform:5.12.1'
-	implementation 'org.apache.pdfbox:pdfbox:2.0.26'
+	implementation 'org.apache.pdfbox:pdfbox:2.0.27'
 	implementation 'org.javassist:javassist:3.29.1-GA'
 	implementation 'org.slf4j:slf4j-api:2.0.3'
 }
