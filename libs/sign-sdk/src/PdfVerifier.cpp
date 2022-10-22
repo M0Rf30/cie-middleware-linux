@@ -292,14 +292,9 @@ int PDFVerifier::VerifySignature(const PdfMemDocument* pDoc, const PdfObject *co
 
         const char* szEntry = strtok((char*)byteRange.c_str(), " []");
 
-        int start	= atoi(szEntry);
         int len		= atoi(strtok(NULL, " []"));
         int start1	= atoi(strtok(NULL, " []"));
         int len1	= atoi(strtok(NULL, " []"));
-
-        int fulllen = start1 + len1;
-
-        //NSLog(@"content %d, %d, %d, %d, %d", start, len, start1, len1, fulllen);
 
         const char* szSignedData = strtok((char*)signdData.c_str(), "<>");
 

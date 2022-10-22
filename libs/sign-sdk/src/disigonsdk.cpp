@@ -110,9 +110,7 @@ long sign_xml(DISIGON_SIGN_CONTEXT* pContext, UUCByteArray& data);
 
 long HTTPRequest(UUCByteArray& data, const char* szUrl, const char* szContentType, UUCByteArray& response);
 
-static xmlChar nl[] = "\n";
-
-char* FILETYPE[] = {"PKCS7 file", "PDF file", "M7M file", "TSR file", "TST file", "TSD file", "XML file"};
+const char* FILETYPE[] = {"PKCS7 file", "PDF file", "M7M file", "TSR file", "TST file", "TSD file", "XML file"};
 
 
 long disigon_set(int option, void* value) {
@@ -179,10 +177,10 @@ DISIGON_CTX disigon_sign_init(void) {
     strcpy(pContext->szPdfSubfilter, DISIGON_PDF_SUBFILTER_PKCS_DETACHED);
     pContext->szOutputFile[0] = 0;
     pContext->szInputFile[0] = 0;
-    pContext->szPdfLocation[0] = NULL;
-    pContext->szPdfReason[0] = NULL;
-    pContext->szPdfName[0] = NULL;
-    pContext->szPIN[0] = NULL;
+    pContext->szPdfLocation[0] = '\0';
+    pContext->szPdfReason[0] = '\0';
+    pContext->szPdfName[0] = '\0';
+    pContext->szPIN[0] = '\0';
     pContext->nSlot = -1;
     pContext->nHashAlgo = CKM_SHA256_RSA_PKCS;
     pContext->fPdfBottom = 0;
@@ -984,7 +982,6 @@ long verify_xml(DISIGON_VERIFY_CONTEXT* pContext, VERIFY_INFO* pVerifyInfo) {
     LOG_MSG((0, "--> verify_xml", "Context: %p", pContext));
 
     UUCByteArray data;
-    int nRead = 0;
 
     CXAdESVerifier verifier;
 
@@ -1006,7 +1003,7 @@ long verify_xml(DISIGON_VERIFY_CONTEXT* pContext, VERIFY_INFO* pVerifyInfo) {
 
         pSI->pCounterSignatures = NULL;
         pSI->nCounterSignatureCount = 0;
-        pSI->szSigningTime[0] = NULL;
+        pSI->szSigningTime[0] = '\0';
         pSI->pRevocationInfo = NULL;
         pSI->pTimeStamp = NULL;
         pSI->b2011Error = false;
@@ -1417,7 +1414,6 @@ SIGNER_INFO* verify_countersignature(DISIGON_VERIFY_CONTEXT* pContext, CSignerIn
                 CASN1OctetString mimprint = messageImprint.elementAt(1);
                 const UUCByteArray* val = mimprint.getValue();
 
-                size_t encLen = base64_encoded_size(val->getLength());
                 char* szEncoded = base64_encode((char*)val->getContent(), val->getLength());
 
                 strcpy(pTSInfo->szTimeStampMessageImprint, szEncoded);
@@ -1663,7 +1659,6 @@ long verify_signed_document(int index, DISIGON_VERIFY_CONTEXT* pContext, CSigned
             CASN1OctetString mimprint = messageImprint.elementAt(1);
             const UUCByteArray* val = mimprint.getValue();
 
-            size_t encLen = base64_encoded_size(val->getLength());
             char* szEncoded = base64_encode((char*)val->getContent(), val->getLength());
 
             strcpy(pTSInfo->szTimeStampMessageImprint, szEncoded);
@@ -2362,7 +2357,6 @@ long verifyTST(CTimeStampToken& tst, TS_INFO* pTSInfo, BOOL bVerifyCRL) {
     CASN1OctetString mimprint = messageImprint.elementAt(1);
     const UUCByteArray* val = mimprint.getValue();
 
-    size_t encLen = base64_encoded_size(val->getLength());
     char* szEncoded = base64_encode((char*)val->getContent(), val->getLength());
 
     strcpy(pTSInfo->szTimeStampMessageImprint, szEncoded);

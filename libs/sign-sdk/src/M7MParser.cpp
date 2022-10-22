@@ -66,7 +66,7 @@ int M7MParser::Load(const char* m7m, int m7mlen) {
     char* secondPart = (char*)begin;
     int secondPartLen = end - begin;
 
-    char* toFind = "\r\n\r\n";
+    const char* toFind = "\r\n\r\n";
 
     begin = strstr(firstPart, toFind);
     if(begin == NULL)

@@ -32,7 +32,7 @@
 
 /* Library Copyright Message */
 
-BYTE *Copyright[] = { "Copyright (c) J.S.A.Kapp 94-96." };
+const char *Copyright[] = { "Copyright (c) J.S.A.Kapp 94-96." };
 
 #ifndef USE_ANSI
 /* Secure memset routine */

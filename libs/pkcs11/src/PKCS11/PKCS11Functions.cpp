@@ -42,7 +42,7 @@ CK_MECHANISM_TYPE P11mechanisms[] = {
     CKM_SHA256,      CKM_SHA1_RSA_PKCS, CKM_SHA256_RSA_PKCS,
     CKM_MD5_RSA_PKCS};
 
-char *getAttributeName(unsigned long dwId);
+const char *getAttributeName(unsigned long dwId);
 // extern CModuleInfo moduleInfo; // informazioni sulla dll (o so)
 bool bModuleInit = false;
 
@@ -284,10 +284,11 @@ CK_RV CK_ENTRY C_Initialize(CK_VOID_PTR pReserved) {
       if ((iargs->CreateMutex) || (iargs->DestroyMutex) || (iargs->LockMutex) ||
           (iargs->UnlockMutex))
         throw p11_error(CKR_CANT_LOCK);
-    } else if (iargs->flags & CKF_LIBRARY_CANT_CREATE_OS_THREADS)
-      throw p11_error(CKR_NEED_TO_CREATE_THREADS);
-    else
+    } else if (iargs->flags & CKF_LIBRARY_CANT_CREATE_OS_THREADS) {
+        throw p11_error(CKR_NEED_TO_CREATE_THREADS);
+    } else {
       throw p11_error(CKR_ARGUMENTS_BAD);
+    }
   }
 
   if (CCardTemplate::g_mCardTemplates.size() == 0)
@@ -314,12 +315,11 @@ CK_RV CK_ENTRY C_Finalize(CK_VOID_PTR pReserved) {
 
   bP11Initialized = false;
 
-  // TODO verificare thread "vuoto"
   if (CSlot::Thread.joinable()) {
     CCardContext *tc = CSlot::ThreadContext;
     if (tc != nullptr) {
       SCARDCONTEXT hC = tc->hContext;
-      if (hC != NULL) SCardCancel(hC);
+      if (hC != '\0') SCardCancel(hC);
     }
     p11Mutex.unlock();
     CSlot::Thread.join();
@@ -1579,7 +1579,7 @@ CK_RV CK_ENTRY C_InitToken(CK_SLOT_ID slotID, CK_CHAR_PTR pPin,
     C_GetFunctionStatus(CK_SESSION_HANDLE hSession) unsupported CK_RV CK_ENTRY
     C_CancelFunction(CK_SESSION_HANDLE hSession) unsupported
 
-    char *getAttributeName(unsigned long dwId) {
+    const char *getAttributeName(unsigned long dwId) {
   switch (dwId) {
     case 0x00000000:
       return ("CKA_CLASS");
