@@ -236,7 +236,7 @@ void IAS::readfile(uint16_t id, ByteDynArray &content) {
 
   ByteDynArray resp;
   uint8_t selectFile[] = {0x00, 0xa4, 0x02, 0x04};
-  uint8_t fileId[] = {HIBYTE(id), LOBYTE(id)};
+  uint8_t fileId[] = {static_cast<uint8_t>(HIBYTE(id)), static_cast<uint8_t>(LOBYTE(id))};
   StatusWord sw;
   if ((sw = SendAPDU(VarToByteArray(selectFile), VarToByteArray(fileId),
                      resp)) != 0x9000)
@@ -246,7 +246,7 @@ void IAS::readfile(uint16_t id, ByteDynArray &content) {
   uint8_t chunk = 128;
   while (true) {
     ByteDynArray chn;
-    uint8_t readFile[] = {0x00, 0xb0, HIBYTE(cnt), LOBYTE(cnt)};
+    uint8_t readFile[] = {0x00, 0xb0, static_cast<uint8_t>(HIBYTE(cnt)), static_cast<uint8_t>(LOBYTE(cnt))};
     sw = SendAPDU(VarToByteArray(readFile), ByteArray(), chn, &chunk);
     if ((sw >> 8) == 0x6c) {
       uint8_t le = sw & 0xff;
@@ -272,7 +272,7 @@ void IAS::readfile_SM(uint16_t id, ByteDynArray &content) {
 
       ByteDynArray resp;
   uint8_t selectFile[] = {0x00, 0xa4, 0x02, 0x04};
-  uint8_t fileId[] = {HIBYTE(id), LOBYTE(id)};
+  uint8_t fileId[] = {static_cast<uint8_t>(HIBYTE(id)), static_cast<uint8_t>(LOBYTE(id))};
   StatusWord sw;
   if ((sw = SendAPDU_SM(VarToByteArray(selectFile), VarToByteArray(fileId),
                         resp)) != 0x9000)
@@ -680,11 +680,11 @@ ByteDynArray IAS::SM(ByteArray &keyEnc, ByteArray &keySig, ByteArray &apdu,
   init_func
 
       std::string dmp;
-  ODS(dumpHexData(seq, dmp).c_str());
+  ODS("%s", dumpHexData(seq, dmp).c_str());
 
   increment(seq);
 
-  ODS(dumpHexData(seq, dmp).c_str());
+  ODS("%s", dumpHexData(seq, dmp).c_str());
 
   ByteDynArray smHead;
   smHead = apdu.left(4);

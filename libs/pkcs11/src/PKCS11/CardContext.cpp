@@ -14,7 +14,7 @@ void CCardContext::getContext() {
 }
 
 CCardContext::CCardContext(void) {
-    hContext = NULL;
+    hContext = 0;
     getContext();
 }
 
@@ -31,7 +31,7 @@ CCardContext::operator SCARDCONTEXT() {
 void CCardContext::validate() {
     if (hContext)
         if (SCardIsValidContext(hContext) != SCARD_S_SUCCESS)
-            hContext = NULL;
+            hContext = 0;
 
     if (hContext == 0) {
         getContext();
@@ -45,8 +45,7 @@ void CCardContext::renew() {
     if (hContext)
         if ((ris=SCardReleaseContext(hContext)) != SCARD_S_SUCCESS)
             throw windows_error(ris);
-    hContext = NULL;
+    hContext = 0;
 
     getContext();
-
 }

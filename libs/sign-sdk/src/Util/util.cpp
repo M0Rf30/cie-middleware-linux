@@ -1,8 +1,5 @@
-
 #include "util.h"
-//#include <conio.h>
 #include <vector>
-//#include <dbghelp.h>
 #include <iomanip>
 #include <sstream>
 
@@ -168,7 +165,7 @@ std::string dumpHexData(ByteArray data) {
 void Debug(ByteArray ba) {
     std::string out;
     dumpHexData(ba,out);
-    OutputDebugString(out.c_str());
+    OutputDebugString("%s", out.c_str());
     OutputDebugString("\n");
 }
 
@@ -350,8 +347,8 @@ long ByteArrayToInt(ByteArray &ba) {
 //    return std::string(szWinErrBuffer);
 //}
 
-char *  CardErr(DWORD dwSW) {
-    char *msg;
+const char *CardErr(DWORD dwSW) {
+    const char *msg;
 
     switch (dwSW) {
     case ERR_CARD_FILE_DEACTIVATED		:
@@ -611,7 +608,7 @@ SYSTEMTIME convertStringToSystemTime(const char *dateTimeString) {
 
     memset(&systime,0,sizeof(systime));
     // Date string should be "yyyyMMddhhmm"
-    sscanf(dateTimeString, "%04i%02i%02iT%02i%02i%02iZ",
+    sscanf(dateTimeString, "%04hi%02hi%02hiT%02hi%02hi%02hiZ",
            &systime.wYear,
            &systime.wMonth,
            &systime.wDay,

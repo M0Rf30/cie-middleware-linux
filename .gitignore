@@ -3,10 +3,12 @@
 *.a
 *.d
 *.o
+*.orig
 *.so
 .idea/
 .trunk
 .vscode
+.vscode-ctags
 /cie-java/.gradle
 /cie-java/bin
 CMakeCache.txt
