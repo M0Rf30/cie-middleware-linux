@@ -155,7 +155,7 @@ long CXAdESGenerator::Generate(UUCByteArray& xadesData, BOOL bDetached, BOOL bVe
 
     // generate ID
     time_t t = time(NULL);
-    sprintf(m_szID, "signature_%d", t);
+    sprintf(m_szID, "signature_%ld", t);
 
     // hash del documento
     //string strDocHashB64;
@@ -178,43 +178,30 @@ long CXAdESGenerator::Generate(UUCByteArray& xadesData, BOOL bDetached, BOOL bVe
 
         xmlDocSetRootElement(doc1, rootNode);
 
-        //xmlNsPtr ns0 = xmlNewNs(rootNode, BAD_CAST NAMESPACE_XADES_132, NULL);
-
         std::map<const xmlChar*, xmlNsPtr*>::iterator it;
 
         for (it = nsPtrMap.begin(); it != nsPtrMap.end(); ++it) {
             xmlNsPtr* nsPtr = it->second;
             while (nsPtr) {
-                xmlNsPtr ns0 = xmlNewNs(rootNode, BAD_CAST nsPtr[0]->href, BAD_CAST nsPtr[0]->prefix);
                 nsPtr = nsPtr[0]->next ? &(nsPtr[0]->next) : NULL;
             }
         }
-
-        xmlNsPtr ns = xmlNewNs(rootNode, BAD_CAST NAMESPACE_XML_DSIG, BAD_CAST "ds");
-        xmlNsPtr ns1 = xmlNewNs(rootNode, BAD_CAST NAMESPACE_XADES_1410, BAD_CAST "xadesv1410");
-        xmlNsPtr ns2 = xmlNewNs(rootNode, BAD_CAST NAMESPACE_XADES_132, BAD_CAST "xades");
-
 
         CanonicalizeAndHashBase64(doc1, strQualifPropsHashB64, strCanonicalForm);
 
         xmlFreeDoc(doc0);
         xmlFreeDoc(doc1);
-        //xmlFreeNs(ns0);
-        //xmlFreeNs(ns);
-        //xmlFreeNs(ns1);
-        //xmlFreeNs(ns2);
     }
 
     // SignedInfo
     xmlDocPtr docSignedInfo = CreateSignedInfo(pDoc, strQualifPropsHashB64, bDetached, m_szFileName);
 
-    xmlNodePtr rootNode1 = xmlDocGetRootElement(docSignedInfo);
+    // xmlNodePtr rootNode1 = xmlDocGetRootElement(docSignedInfo);
 
     std::map<const xmlChar*, xmlNsPtr*>::iterator it;
     for (it = nsPtrMap.begin(); it != nsPtrMap.end(); ++it) {
         xmlNsPtr* nsPtr = it->second;
         while (nsPtr) {
-            xmlNsPtr ns0 = xmlNewNs(rootNode1, BAD_CAST nsPtr[0]->href, BAD_CAST nsPtr[0]->prefix);
             nsPtr = nsPtr[0]->next ? &(nsPtr[0]->next) : NULL;
         }
     }
@@ -222,7 +209,7 @@ long CXAdESGenerator::Generate(UUCByteArray& xadesData, BOOL bDetached, BOOL bVe
     string strSignedInfoHashB64;
     string strSigInfoCanonicalForm;
     xmlDocPtr doc0 = xmlCopyDoc(docSignedInfo, TRUE);
-    xmlNodePtr root0 = xmlDocGetRootElement(doc0);
+    // xmlNodePtr root0 = xmlDocGetRootElement(doc0);
 
     //map<const xmlChar*, xmlNsPtr*> nsPtrMap0;
     //extractNs(doc0, root0, &nsPtrMap0);
@@ -236,25 +223,9 @@ long CXAdESGenerator::Generate(UUCByteArray& xadesData, BOOL bDetached, BOOL bVe
     for (it = nsPtrMap.begin(); it != nsPtrMap.end(); ++it) {
         xmlNsPtr* nsPtr = it->second;
         while (nsPtr) {
-            xmlNsPtr ns0 = xmlNewNs(rootNode, BAD_CAST nsPtr[0]->href, BAD_CAST nsPtr[0]->prefix);
             nsPtr = nsPtr[0]->next ? &(nsPtr[0]->next) : NULL;
         }
     }
-
-    /*for (it = nsPtrMap0.begin(); it != nsPtrMap0.end(); ++it)
-    {
-    	xmlNsPtr* nsPtr = it->second;
-    	while (nsPtr)
-    	{
-    		xmlNsPtr ns0 = xmlNewNs(rootNode, BAD_CAST nsPtr[0]->href, BAD_CAST nsPtr[0]->prefix);
-    		nsPtr = nsPtr[0]->next ? &(nsPtr[0]->next) : NULL;
-    	}
-    }*/
-
-    xmlNsPtr ns = xmlNewNs(rootNode, BAD_CAST NAMESPACE_XML_DSIG, BAD_CAST "ds");
-    xmlNsPtr ns1 = xmlNewNs(rootNode, BAD_CAST NAMESPACE_XADES_1410, BAD_CAST "xadesv1410");
-    xmlNsPtr ns2 = xmlNewNs(rootNode, BAD_CAST NAMESPACE_XADES_132, BAD_CAST "xades");
-
 
     CanonicalizeAndHashBase64(doc1, strSignedInfoHashB64, strSigInfoCanonicalForm);
 
@@ -301,7 +272,7 @@ long CXAdESGenerator::Generate(UUCByteArray& xadesData, BOOL bDetached, BOOL bVe
     if(rv)
         return rv;
 
-    static xmlChar nl[] = "\n";
+    // static xmlChar nl[] = "\n";
 
     // base64
     const string in2((char*)signature.getContent(), signature.getLength());
@@ -318,7 +289,7 @@ long CXAdESGenerator::Generate(UUCByteArray& xadesData, BOOL bDetached, BOOL bVe
     pSignatureRoot = xmlDocGetRootElement(docSignedInfo);
 
     // SignatureValue
-    xmlNodePtr pSignatureValue = xmlNewChild(pSignatureRoot, NULL, BAD_CAST "ds:SignatureValue", BAD_CAST strSignatureB64.c_str());
+    // xmlNodePtr pSignatureValue = xmlNewChild(pSignatureRoot, NULL, BAD_CAST "ds:SignatureValue", BAD_CAST strSignatureB64.c_str());
 
     // new line
     //xmlNodeAddContent(pSignatureRoot, nl);
@@ -327,7 +298,7 @@ long CXAdESGenerator::Generate(UUCByteArray& xadesData, BOOL bDetached, BOOL bVe
     xmlNodePtr pKeyInfo = xmlNewChild(pSignatureRoot, NULL, BAD_CAST "ds:KeyInfo", NULL);
 
     // X509Data
-    xmlNodePtr pX509Data = xmlNewChild(pKeyInfo, NULL, BAD_CAST "ds:X509Data", NULL);
+    // xmlNodePtr pX509Data = xmlNewChild(pKeyInfo, NULL, BAD_CAST "ds:X509Data", NULL);
 
     // certificate in B64
     UUCByteArray baCert;
@@ -340,7 +311,7 @@ long CXAdESGenerator::Generate(UUCByteArray& xadesData, BOOL bDetached, BOOL bVe
     string strCertB64 = out1.c_str();// base64_encode((char*)baCert.getContent(), baCert.getLength());
 
     //X509Certificate
-    xmlNodePtr pX509Certificate = xmlNewChild(pX509Data, NULL, BAD_CAST "ds:X509Certificate", BAD_CAST strCertB64.c_str());
+    //xmlNodePtr pX509Certificate = xmlNewChild(pX509Data, NULL, BAD_CAST "ds:X509Certificate", BAD_CAST strCertB64.c_str());
     //xmlNodeAddContent(pX509Data, nl);
     //xmlNodeAddContent(pKeyInfo, nl);
     //xmlNodeAddContent(pKeyInfo->parent, nl);
@@ -424,40 +395,27 @@ void CXAdESGenerator::CanonicalizeAndHashBase64(xmlDocPtr pDoc, string& strDocHa
         hashaux.load(szAux);
     }
 
-    const char* hex = hashaux.toHexString();
+    // const char* hex = hashaux.toHexString();
 
-    //strDocHashB64 = szAux;
 
-    /*
-    BYTE docHash[32];
-
-    SHA256_CTX	ctx256;
-    SHA256_Init(&ctx256);
-    SHA256_Update(&ctx256, pCanonicalDoc, docLen);
-    SHA256_Final(docHash, &ctx256);
-    */
     const string in((char*)hashaux.getContent(), hashaux.getLength());
     string out;
     Base64::Encode(in, &out);
 
     strDocHashB64 = out.c_str();
-    //strDocHashB64 = base64_encode((char*)hashaux.getContent(), hashaux.getLength());
 }
 
 
 xmlDocPtr CXAdESGenerator::CreateSignedInfo(xmlDocPtr pDocument, string& strQualifyingPropertiesB64Hash, bool bDetached, char* szFileName) {
-    // xml signed doc
-    static xmlChar nl[] = "\n";
-
     // XML doc
     xmlDocPtr doc = xmlNewDoc((const xmlChar*)"1.0");
     doc->children = xmlNewDocNode(doc, NULL, BAD_CAST "ds:Signature", NULL);
 
-    xmlNodePtr pSignatureNode = doc->children;// xmlNewChild(doc->children, NULL, BAD_CAST "ds:Signature", nl);
+    xmlNodePtr pSignatureNode = doc->children;  // xmlNewChild(doc->children, NULL, BAD_CAST "ds:Signature", nl);
     xmlNewProp(pSignatureNode, BAD_CAST "Id", BAD_CAST m_szID);
-    xmlNsPtr ns = xmlNewNs(pSignatureNode, BAD_CAST NAMESPACE_XML_DSIG, BAD_CAST "ds");
-    xmlNsPtr ns1 = xmlNewNs(pSignatureNode, BAD_CAST NAMESPACE_XADES_1410, BAD_CAST "xadesv1410");
-    xmlNsPtr ns2 = xmlNewNs(pSignatureNode, BAD_CAST NAMESPACE_XADES_132, BAD_CAST "xades");
+    // xmlNsPtr ns = xmlNewNs(pSignatureNode, BAD_CAST NAMESPACE_XML_DSIG, BAD_CAST "ds");
+    // xmlNsPtr ns1 = xmlNewNs(pSignatureNode, BAD_CAST NAMESPACE_XADES_1410, BAD_CAST "xadesv1410");
+    // xmlNsPtr ns2 = xmlNewNs(pSignatureNode, BAD_CAST NAMESPACE_XADES_132, BAD_CAST "xades");
 
     // <SignedInfo>
     xmlNodePtr pSignedInfo = xmlNewChild(pSignatureNode, NULL, (const xmlChar*)"ds:SignedInfo", NULL);
@@ -478,8 +436,6 @@ xmlDocPtr CXAdESGenerator::CreateSignedInfo(xmlDocPtr pDocument, string& strQual
         xmlSetProp(pN1, (const xmlChar*)"Algorithm", (const xmlChar*)"http://www.w3.org/2000/09/xmldsig#rsa-sha1");
     }
 
-    //xmlNodeAddContent(pSignedInfo, nl);
-
     // <Reference>
     pN1 = xmlNewChild(pSignedInfo, NULL, (const xmlChar*)"ds:Reference", NULL);
     if (bDetached) {
@@ -497,37 +453,17 @@ xmlDocPtr CXAdESGenerator::CreateSignedInfo(xmlDocPtr pDocument, string& strQual
         xmlSetProp(pN3, (const xmlChar*)"Algorithm", (const xmlChar*)"http://www.w3.org/2002/06/xmldsig-filter2");
 
         xmlNodePtr pN31 = xmlNewChild(pN3, NULL, (const xmlChar*)"dsig-xpath:XPath", (const xmlChar*)"/descendant::ds:Signature");
-        xmlNsPtr ns1 = xmlNewNs(pN31, BAD_CAST "http://www.w3.org/2002/06/xmldsig-filter2", BAD_CAST "dsig-xpath");
+        // xmlNsPtr ns1 = xmlNewNs(pN31, BAD_CAST "http://www.w3.org/2002/06/xmldsig-filter2", BAD_CAST "dsig-xpath");
         xmlSetProp(pN31, (const xmlChar*)"Filter", (const xmlChar*)"subtract");
 
         // c14N
         xmlNodePtr pN4 = xmlNewChild(pN2, NULL, (const xmlChar*)"ds:Transform", NULL);
         xmlSetProp(pN4, (const xmlChar*)"Algorithm", (const xmlChar*)"http://www.w3.org/TR/2001/REC-xml-c14n-20010315");
-
-        /*<ds:Transform Algorithm = "http://www.w3.org/2002/06/xmldsig-filter2">
-        	<dsig - xpath:XPath xmlns : dsig - xpath = "http://www.w3.org/2002/06/xmldsig-filter2" Filter = "subtract"> / descendant::ds:Signature< / dsig - xpath : XPath>
-        </ ds : Transform>
-        <ds : Transform Algorithm = "http://www.w3.org/TR/2001/REC-xml-c14n-20010315" / >*/
-
-        //xmlSetProp(pN3, (const xmlChar*)"Algorithm", (const xmlChar*)"http://www.w3.org/2000/09/xmldsig#enveloped-signature");
-
-        //xmlNodeAddContent(pN2, nl);
-        //xmlNodeAddContent(pN1, nl);
     }
 
     // documents digest
     xmlNodePtr pN2 = xmlNewChild(pN1, NULL, (const xmlChar*)"ds:DigestMethod", NULL);
-
-//	if(m_bXAdES)
-//	{
     xmlSetProp(pN2, (const xmlChar*)"Algorithm", (const xmlChar*)"http://www.w3.org/2001/04/xmlenc#sha256");
-//	}
-//	else
-//	{
-//		xmlSetProp(pN2, (const xmlChar*)"Algorithm", (const xmlChar*)"http://www.w3.org/2000/09/xmldsig#sha1");
-//	}
-
-    //xmlNodeAddContent(pN1, nl);
 
     // digest value
     // hash del documento
@@ -537,12 +473,10 @@ xmlDocPtr CXAdESGenerator::CreateSignedInfo(xmlDocPtr pDocument, string& strQual
     CanonicalizeAndHashBase64(pDocument, strDocHashB64, strCanonicalDoc);
 
     pN2 = xmlNewChild(pN1, NULL, (const xmlChar*)"ds:DigestValue", (const xmlChar*)strDocHashB64.c_str());
-    //xmlNodeAddContent(pN1, nl);
-    //xmlNodeAddContent(pSignedInfo, nl);
 
     if(!strQualifyingPropertiesB64Hash.empty()) {
         // XAdES xadesSignedProperties
-        //Type="http://www.w3.org/2000/09/xmldsig#SignatureProperties
+        // Type="http://www.w3.org/2000/09/xmldsig#SignatureProperties
         // <Reference>
         pN1 = xmlNewChild(pSignedInfo, NULL, (const xmlChar*)"ds:Reference", NULL);
         xmlSetProp(pN1, (const xmlChar*)"URI", (const xmlChar*)"#xadesSignedProperties");
@@ -556,103 +490,14 @@ xmlDocPtr CXAdESGenerator::CreateSignedInfo(xmlDocPtr pDocument, string& strQual
 
         // documents digest
         pN2 = xmlNewChild(pN1, NULL, (const xmlChar*)"ds:DigestMethod", NULL);
-        /*
-        if(m_bXAdES)
-        {*/
         xmlSetProp(pN2, (const xmlChar*)"Algorithm", (const xmlChar*)"http://www.w3.org/2001/04/xmlenc#sha256");
-        /*		}
-        		else
-        		{
-        			xmlSetProp(pN2, (const xmlChar*)"Algorithm", (const xmlChar*)"http://www.w3.org/2000/09/xmldsig#sha1");
-        		}
-        */
-        //xmlSetProp(pN2, (const xmlChar*)"Algorithm", (const xmlChar*)DIGEST_METHOD_SHA1);
-
-        //xmlNodeAddContent(pN1, nl);
-
         pN2 = xmlNewChild(pN1, NULL, (const xmlChar*)"ds:DigestValue", (const xmlChar*)strQualifyingPropertiesB64Hash.c_str());
-        //xmlNodeAddContent(pN1, nl);
-        //xmlNodeAddContent(pSignedInfo, nl);
     }
 
-    //xmlNodeAddContent(pSignatureNode, nl);
-
     return doc;
-
-    // altri eventuali reference
-    /*
-    for(i = 0; i < m_refecenceVect.size(); i++)
-    {
-    	char buf1[100];
-
-    	char szID[100];
-
-    	// generate reference ID
-    	time_t t = time(NULL);
-    	sprintf(szID, "%d", t);
-
-    	// documents digest
-    	xmlNodePtr pN1 = xmlNewChild(pnSigInfo, NULL, (const xmlChar*)"Reference", nl);
-
-    	Reference* pRef = m_refecenceVect[i];
-
-    	if(pRef->nType == REFTYPE_CONTENT)
-    	{
-    		//snprintf(buf1, sizeof(buf1), "#%s", szID);
-    		xmlSetProp(pN1, (const xmlChar*)"URI", (const xmlChar*)"#");
-
-    	"http://www.w3.org/2000/09/xmldsig#Object"
-
-    	xmlNodePtr pN2 = xmlNewChild(pN1, NULL, (const xmlChar*)"DigestMethod", nl);
-    	xmlSetProp(pN2, (const xmlChar*)"Algorithm", (const xmlChar*)"http://www.w3.org/2000/09/xmldsig#sha256");
-    	xmlNodeAddContent(pN1, nl);
-
-    	// in ver 1.0 we use Transforms
-    	if(!strcmp(pSigDoc->szFormatVer, SK_XML_1_VER))
-    	{
-    		pN2 = xmlNewChild(pN1, NULL, (const xmlChar*)"Transforms", NULL);
-    		pN3 = xmlNewChild(pN2, NULL, (const xmlChar*)"Transform", NULL);
-    		xmlSetProp(pN3, (const xmlChar*)"Algorithm", (const xmlChar*)"http://www.w3.org/2000/09/xmldsig#enveloped-signature");
-    		xmlNodeAddContent(pN1, nl);
-    	}
-
-    	l1 = sizeof(buf1);
-    	encode(pSigInfo->pDocs[i]->szDigest, pSigInfo->pDocs[i]->nDigestLen, (byte*)buf1, &l1);
-    	pN2 = xmlNewChild(pN1, NULL, (const xmlChar*)"DigestValue", (const xmlChar*)buf1);
-    	xmlNodeAddContent(pN1, nl);
-    	xmlNodeAddContent(pnSigInfo, nl);
-    	/*
-    	// in ver 1.1 we don't use mime digest Reference blocks
-    	if(!strcmp(pSigDoc->szFormatVer, SK_XML_1_VER)) {
-    	  // document mime type digest
-    	  pN1 = xmlNewChild(pnSigInfo, NULL, (const xmlChar*)"Reference", nl);
-    	  if(!strcmp(pSigDoc->szFormatVer, "1.0"))
-    	snprintf(buf1, sizeof(buf1), "#%s-MIME", pSigInfo->pDocs[i]->szDocId);
-    	  else // current version is 1.1
-    	snprintf(buf1, sizeof(buf1), "#%s@MimeType", pSigInfo->pDocs[i]->szDocId);
-    	  xmlSetProp(pN1, (const xmlChar*)"URI", (const xmlChar*)buf1);
-    	  pN2 = xmlNewChild(pN1, NULL, (const xmlChar*)"DigestMethod", nl);
-    	  xmlSetProp(pN2, (const xmlChar*)"Algorithm", (const xmlChar*)DIGEST_METHOD_SHA1);
-    	  xmlNodeAddContent(pN1, nl);
-    	  pN2 = xmlNewChild(pN1, NULL, (const xmlChar*)"Transforms", NULL);
-    	  pN3 = xmlNewChild(pN2, NULL, (const xmlChar*)"Transform", NULL);
-    	  xmlSetProp(pN3, (const xmlChar*)"Algorithm", (const xmlChar*)"http://www.w3.org/2000/09/xmldsig#enveloped-signature");
-    	  xmlNodeAddContent(pN1, nl);
-    	  l1 = sizeof(buf1);
-    	  encode(pSigInfo->pDocs[i]->szMimeDigest,
-    		 pSigInfo->pDocs[i]->nMimeDigestLen, (byte*)buf1, &l1);
-    	  pN2 = xmlNewChild(pN1, NULL, (const xmlChar*)"DigestValue", (const xmlChar*)buf1);
-    	  xmlNodeAddContent(pN1, nl);
-    	}
-    	*/
-
-    //}
 }
 
 xmlDocPtr CXAdESGenerator::CreateQualifyingProperties(xmlDocPtr pDocument, CCertificate* pCertificate) {
-    // xml signed doc
-    static xmlChar nl[] = "\n";
-
     // XML doc
     xmlDocPtr doc = xmlNewDoc((const xmlChar*)"1.0");
     doc->children = xmlNewDocNode(doc, NULL, BAD_CAST "xades:QualifyingProperties", NULL);
@@ -679,7 +524,7 @@ xmlDocPtr CXAdESGenerator::CreateQualifyingProperties(xmlDocPtr pDocument, CCert
 
     strftime (szTime,100,"%Y-%m-%dT%H:%M:%SZ",pCurTime);
 
-    xmlNodePtr pSigningTime = xmlNewChild(pSignedSignatureProperties, NULL, (const xmlChar*)"xades:SigningTime", BAD_CAST szTime);
+    // xmlNodePtr pSigningTime = xmlNewChild(pSignedSignatureProperties, NULL, (const xmlChar*)"xades:SigningTime", BAD_CAST szTime);
     //xmlNodeAddContent(pSignedSignatureProperties, nl);
 
     // SigningCertificate
@@ -728,26 +573,22 @@ xmlDocPtr CXAdESGenerator::CreateQualifyingProperties(xmlDocPtr pDocument, CCert
     string strHashB64 = out.c_str();// base64_encode((char*)hashaux.getContent(), hashaux.getLength());
 
     // DigestValue
-    xmlNodePtr pDigestValue = xmlNewChild(pCertDigest, NULL, (const xmlChar*)"ds:DigestValue", (const xmlChar*)strHashB64.c_str());
+    // xmlNodePtr pDigestValue = xmlNewChild(pCertDigest, NULL, (const xmlChar*)"ds:DigestValue", (const xmlChar*)strHashB64.c_str());
     //ns = xmlNewNs(pDigestValue, BAD_CAST NAMESPACE_XML_DSIG, NULL);
     //xmlNodeAddContent(pCertDigest, nl);
 
     //xmlNodeAddContent(pCert, nl);
 
     // IssuerSerial
-    xmlNodePtr pIssuerSerial = xmlNewChild(pCert, NULL, (const xmlChar*)"xades:IssuerSerial", NULL);
+    // xmlNodePtr pIssuerSerial = xmlNewChild(pCert, NULL, (const xmlChar*)"xades:IssuerSerial", NULL);
 
     // X509IssuerName
     UUCByteArray strIssuerName;
     pCertificate->getIssuer().getNameAsString(strIssuerName);
-    xmlNodePtr pX509IssuerName = xmlNewChild(pIssuerSerial, NULL, (const xmlChar*)"ds:X509IssuerName", (const xmlChar*)strIssuerName.getContent());
-    //ns = xmlNewNs(pX509IssuerName, BAD_CAST NAMESPACE_XML_DSIG, NULL);
-    //xmlNodeAddContent(pIssuerSerial, nl);
 
     // X509SerialNumber
     CASN1Integer serialNumber(pCertificate->getSerialNumber());
     UUCByteArray* pSerialNumber = (UUCByteArray*)serialNumber.getValue();
-    const BYTE* content = pSerialNumber->getContent();
 
     BigInteger sernum = dataToBigInteger<const BYTE>(pSerialNumber->getContent(), pSerialNumber->getLength(), BigInteger::positive);
 
@@ -774,7 +615,7 @@ xmlDocPtr CXAdESGenerator::CreateQualifyingProperties(xmlDocPtr pDocument, CCert
     /*char szSerNum[200];
     sprintf(szSerNum, "%.0lf", dSerVal);
     */
-    xmlNodePtr pX509SerialNumber = xmlNewChild(pIssuerSerial, NULL, (const xmlChar*)"ds:X509SerialNumber", (const xmlChar*)strSerNum.c_str());
+    // xmlNodePtr pX509SerialNumber = xmlNewChild(pIssuerSerial, NULL, (const xmlChar*)"ds:X509SerialNumber", (const xmlChar*)strSerNum.c_str());
     //xmlNodePtr pX509SerialNumber = xmlNewChild(pIssuerSerial, NULL, (const xmlChar*)"X509SerialNumber", (const xmlChar*)szSerNum);
     //ns = xmlNewNs(pX509SerialNumber, BAD_CAST NAMESPACE_XML_DSIG, NULL);
     //xmlNodeAddContent(pIssuerSerial, nl);
@@ -790,10 +631,7 @@ xmlDocPtr CXAdESGenerator::CreateQualifyingProperties(xmlDocPtr pDocument, CCert
     //xmlNodeAddContent(pQualifyingProperties, nl);
 
     // UnsignedProperties
-    xmlNodePtr pUnsignedProperties = xmlNewChild(pQualifyingProperties, NULL, (const xmlChar*)"xades:UnsignedProperties", NULL);
-
-    // UnsignedSignatureProperties
-    xmlNodePtr pUnsignedSignatureProperties = xmlNewChild(pUnsignedProperties, NULL, (const xmlChar*)"xades:UnsignedSignatureProperties", NULL);
+    // xmlNodePtr pUnsignedProperties = xmlNewChild(pQualifyingProperties, NULL, (const xmlChar*)"xades:UnsignedProperties", NULL);
 
     //xmlNodeAddContent(pUnsignedProperties, nl);
 

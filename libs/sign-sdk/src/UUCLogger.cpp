@@ -66,21 +66,7 @@ void UUCLogger::log(const unsigned int nType, const char* szMsg, const unsigned 
 void UUCLogger::log(const unsigned int nType, const char *szMsg, const unsigned int nID, const char *szModuleName) {
     if(nType > m_nLogLevel)
         return;
-
-#ifdef __ANDROID__
-    __android_log_print(ANDROID_LOG_DEBUG, "DigitSign", "%d, %X, %s, %s%", nType, nID, szModuleName, szMsg);
-#else
-    /*
-    if(m_szLogFileName[0] == NULL)
-    	return;
-
-    FILE* f = fopen(m_szLogFileName, "a+t");
-    if(f == NULL)
-    {
-    	return;
-    }
-
-    /* Get UNIX-style time and display as number and string. */
+    // Get UNIX-style time and display as number and string.
     time_t ltime;
     time( &ltime );
     tm* pCurTime = localtime(&ltime);
@@ -92,15 +78,10 @@ void UUCLogger::log(const unsigned int nType, const char *szMsg, const unsigned 
 
     char szLogMsg[5000];
     sprintf(szLogMsg, "[%s], %d, %X, %s, %s\n", szTime, nType, nID, szModuleName, szMsg);
-    printf(szLogMsg);
+    printf("%s", szLogMsg);
     if(pfnCrashliticsLog != NULL)
         pfnCrashliticsLog(szLogMsg);
 
-//    fprintf(f, "[%s], %d, %X, %s, %s\n", szTime, nType, nID, szModuleName, szMsg);
-//
-//	fclose(f);
-
-#endif
 }
 
 

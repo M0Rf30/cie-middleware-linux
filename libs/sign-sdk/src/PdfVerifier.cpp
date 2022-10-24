@@ -299,8 +299,6 @@ int PDFVerifier::VerifySignature(const PdfMemDocument* pDoc, const PdfObject *co
 
         int fulllen = start1 + len1;
 
-        //NSLog(@"content %d, %d, %d, %d, %d", start, len, start1, len1, fulllen);
-
         const char* szSignedData = strtok((char*)signdData.c_str(), "<>");
 
         UUCByteArray baSignedData(szSignedData);

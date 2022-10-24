@@ -284,7 +284,7 @@ ByteDynArray ISOPad(const ByteArray &data);
 ByteDynArray ISOPad16(const ByteArray &data);
 
 std::string WinErr(HRESULT ris);
-char *CardErr(DWORD dwSW);
+const char *CardErr(DWORD dwSW);
 char *SystemErr(DWORD dwExcept);
 
 void Debug(ByteArray ba);

@@ -316,8 +316,8 @@ long ByteArrayToInt(ByteArray &ba) {
   exit_func
 }
 
-char *CardErr(DWORD dwSW) {
-  char *msg;
+const char *CardErr(DWORD dwSW) {
+  const char *msg;
 
   switch (dwSW) {
     case ERR_CARD_FILE_DEACTIVATED:

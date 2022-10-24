@@ -20,7 +20,7 @@ long  GetTSAResponse(char* szTsaURL, char* szTsaUsername, char* szTsaPassword, U
 static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp);
 
 CTSAClient::CTSAClient(void) {
-    m_szTSAUsername[0] = NULL;
+    m_szTSAUsername[0] = '\0';
 }
 
 CTSAClient::~CTSAClient(void) {

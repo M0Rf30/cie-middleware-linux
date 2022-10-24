@@ -16,24 +16,6 @@ CCertificateInfo::CCertificateInfo(UUCBufferedReader& reader)
 
 }
 
-/*
-CCertificateInfo::CCertificateInfo(const CASN1Integer& certSerNum, const CAlgorithmIdentifier& sigAlgo, const CName& issuer, const CValidity& validity, const CName& subject, const CSubjectPublicKeyInfo& pubKeyInfo)
-{
-	/*
-	addElement(new CASN1OptionalField(new CVersion(0), 0x00));
-	addElement(new CASN1Integer(certSerNum));
-	addElement(new CAlgorithmIdentifier(sigAlgo));
-	addElement(new CName(issuer));
-	addElement(new CValidity(validity));
-	addElement(new CName(subject));
-	addElement(new CSubjectPublicKeyInfo(pubKeyInfo));
-	addElement(NULL); // Optional
-	addElement(NULL); // Optional
-	addElement(NULL); // Optional
-	 */ /*
-}
-*/
-
 CCertificateInfo::CCertificateInfo(const CASN1Object& certInfo)
     : CASN1Sequence(certInfo) {
 
@@ -78,6 +60,6 @@ CSubjectPublicKeyInfo CCertificateInfo::getSubjectPublicKeyInfo() {
 
 CASN1Sequence CCertificateInfo::getExtensions() {
     int count = size();
-    return elementAt(count - 1);//).elementAt(1);
+    return elementAt(count - 1);
 }
 
