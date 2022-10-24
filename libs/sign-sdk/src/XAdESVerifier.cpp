@@ -186,7 +186,7 @@ long CXAdESVerifier::Load(char *szFilename) {
 
 XAdESDoc* CXAdESVerifier::parseXAdESFile(char *szFilename) {
     xmlDocPtr doc;
-    XAdESDoc* pXAdESDoc;
+    XAdESDoc* pXAdESDoc = nullptr;
     xmlNodePtr curNode;
 
 
@@ -227,7 +227,8 @@ XAdESDoc* CXAdESVerifier::parseXAdESFile(char *szFilename) {
         return NULL;
     }
 
-    int r = xmlXPathRegisterNs(xpathCtx,  BAD_CAST "ds", BAD_CAST "http://www.w3.org/2000/09/xmldsig#");
+    int r;
+    r = xmlXPathRegisterNs(xpathCtx,  BAD_CAST "ds", BAD_CAST "http://www.w3.org/2000/09/xmldsig#");
 
     r = xmlXPathRegisterNs(xpathCtx, BAD_CAST  "xs", BAD_CAST  "http://uri.etsi.org/01903/v1.3.2#");
 

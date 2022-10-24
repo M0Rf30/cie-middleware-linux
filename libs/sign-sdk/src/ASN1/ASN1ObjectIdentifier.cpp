@@ -131,7 +131,7 @@ string CASN1ObjectIdentifier::ToOidString()
 				}
 
 				objId.append(".");
-				sprintf(szValue, "%d", value);
+				sprintf(szValue, "%ld", value);
 				objId.append(szValue);
 				value = 0;
 			}
@@ -177,7 +177,7 @@ void CASN1ObjectIdentifier::ToOidString(UUCByteArray& objId) {
             }
 
             objId.append('.');
-            sprintf(szValue, "%d", value);
+            sprintf(szValue, "%ld", value);
             objId.append((BYTE*)szValue, strlen(szValue));
             value = 0;
         }

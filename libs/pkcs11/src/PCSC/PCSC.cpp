@@ -18,7 +18,7 @@ safeTransaction::safeTransaction(safeConnection &conn, DWORD dwDisposition) {
   locked = false;
 
   if (SCardBeginTransaction(hCard) != SCARD_S_SUCCESS) {
-    this->hCard = NULL;
+    this->hCard = 0;
     this->dwDisposition = 0;
     return;
   } else {
@@ -27,14 +27,14 @@ safeTransaction::safeTransaction(safeConnection &conn, DWORD dwDisposition) {
 }
 
 void safeTransaction::unlock() {
-  if (hCard != NULL && locked) {
+  if (hCard != 0 && locked) {
     SCardEndTransaction(hCard, dwDisposition);
     locked = false;
   }
 }
 
 safeTransaction::~safeTransaction() {
-  if (hCard != NULL && locked) {
+  if (hCard != 0 && locked) {
     SCardEndTransaction(hCard, dwDisposition);
   }
 }
@@ -47,7 +47,7 @@ safeConnection::safeConnection(SCARDCONTEXT hContext, LPCSTR szReader,
   this->hContext = hContext;
   if (SCardConnect(hContext, szReader, dwShareMode, SCARD_PROTOCOL_T1, &hCard,
                    &dwProtocol) != SCARD_S_SUCCESS)
-    hCard = NULL;
+    hCard = 0;
 }
 
 safeConnection::~safeConnection() {
