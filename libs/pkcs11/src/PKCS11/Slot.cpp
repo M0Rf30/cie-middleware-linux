@@ -56,7 +56,7 @@ CSlot::CSlot(const char *szReader) {
     pTemplate = NULL;
     //slotMutex.Create(mutexName(szReader));
     pSerialTemplate = NULL;
-    hCard = NULL;
+    hCard = 0;
 }
 
 CSlot::~CSlot() {

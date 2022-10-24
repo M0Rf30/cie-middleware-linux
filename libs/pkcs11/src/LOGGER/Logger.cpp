@@ -166,12 +166,12 @@ int Logger::getLogConfig() throw() {
       unlock();
 
       sscanf(sConfig.data(), "LIB_LOG_LEVEL=%d", &log_level);
-      if (log_level < 0 && log_level > 3) {
-        log_level = 0;
-        sConfig = "LIB_LOG_LEVEL=2";
-        string stConfig = string(pbConfig);
-        writeConfigFile(stConfig, sConfig);
-      }
+      // if (log_level < 0 && log_level > 3) {
+      //   log_level = 0;
+      //   sConfig = "LIB_LOG_LEVEL=2";
+      //   string stConfig = string(pbConfig);
+      //   writeConfigFile(stConfig, sConfig);
+      // }
 
       m_LogLevel = static_cast<LogLevel>(log_level);
     }

@@ -52,8 +52,7 @@
 #define HANDLE void*
 #define ODS printf
 
-#define MAX_PATH 256
-
+#define MAX_PATH 1024
 #define MAKEWORD(lo, hi) lo + (hi * 256)
 
 void SetLastError(unsigned long nErr);
