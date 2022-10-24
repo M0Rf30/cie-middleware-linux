@@ -1336,10 +1336,9 @@ public class MainFrame extends JFrame {
         panel_8.add(lblAiuto);
 
         MiniWebView webView = new MiniWebView();
-        webView.setBounds(12, 99, 571, 362);
+        webView.setBounds(12, 99, 571, 440);
         panel_8.add(webView);
-        // webView.showPage(
-        //         "https://idserver.servizicie.interno.gov.it/idp/tutorial/computer/lettoreusb/linux/tutorial_linux_firefox.jsp");
+        webView.showPage(MainFrame.class.getResource("/it/ipzs/cieid/res/html/tutorial.html"));
 
         panel_9 = new JPanel();
         panel_9.setLayout(null);
@@ -1353,9 +1352,9 @@ public class MainFrame extends JFrame {
         panel_9.add(label_11);
 
         miniWebView = new MiniWebView();
-        miniWebView.setBounds(12, 99, 571, 362);
+        miniWebView.setBounds(12, 99, 571, 440);
         panel_9.add(miniWebView);
-        // miniWebView.showPage("https://idserver.servizicie.interno.gov.it/idp/aiuto.jsp");
+        miniWebView.showPage(MainFrame.class.getResource("/it/ipzs/cieid/res/html/aiuto.html"));
 
         panel_10 = new JPanel();
         panel_10.setLayout(null);
@@ -1369,9 +1368,9 @@ public class MainFrame extends JFrame {
         panel_10.add(lblInformazioni);
 
         miniWebView_1 = new MiniWebView();
-        miniWebView_1.setBounds(12, 99, 571, 362);
+        miniWebView_1.setBounds(12, 99, 571, 440);
         panel_10.add(miniWebView_1);
-        // miniWebView_1.showPage("https://idserver.servizicie.interno.gov.it/idp/privacy.jsp");
+        miniWebView_1.showPage(MainFrame.class.getResource("/it/ipzs/cieid/res/html/privacy.html"));
 
         StyledDocument doc = textPane_1.getStyledDocument();
         SimpleAttributeSet center = new SimpleAttributeSet();
