@@ -68,12 +68,11 @@ long UUCProperties::load(const char* szFilePath) {
     long nRes = textFileReader.readLine(line);
 
     char* szLine = (char*)line.getContent();
-    char* szSavePtr;
 
     while (nRes != nEOF) {
       if (szLine[0] != '#' && szLine[0] != '[') {  // salta i commenti
-        szName = strtok_r(szLine, "=", &szSavePtr);
-        szValue = strtok_r(NULL, "\n", &szSavePtr);
+        szName = strtok(szLine, "=");
+        szValue = strtok(NULL, "\n");
         putProperty(szName, szValue);
       }
 
@@ -94,9 +93,8 @@ long UUCProperties::load(const UUCByteArray& props) {
   char* szName;
   char* szValue;
   char* szEqual;
-  char* szSavePtr;
   char* szProps = (char*)props.getContent();
-  char* szLine = strtok_r(szProps, "\r\n", &szSavePtr);
+  char* szLine = strtok(szProps, "\r\n");
 
   while (szLine) {
     if (szLine[0] != '#' && szLine[0] != '[') {  // salta i commenti
@@ -105,9 +103,9 @@ long UUCProperties::load(const UUCByteArray& props) {
       szName = szLine;
       szValue = szEqual + 1;
       putProperty(szName, szValue);
-      szLine = strtok_r(NULL, "\r\n", &szSavePtr);
+      szLine = strtok(NULL, "\r\n");
     } else {
-      szLine = strtok_r(NULL, "\r\n", &szSavePtr);  // strlen(szLine) + 1;
+      szLine = strtok(NULL, "\r\n");  // strlen(szLine) + 1;
       // szProps += strlen(szLine) + 1;
     }
   }

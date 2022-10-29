@@ -25,13 +25,12 @@ CASN1ObjectIdentifier::CASN1ObjectIdentifier(const char* strObjId)
   int nAux;
   char* szTok;
   char* szOID = new char[strlen(strObjId) + 2];
-  char* savePointer;
 
   strcpy(szOID, strObjId);
 
-  szTok = strtok_r(szOID, ".", &savePointer);
+  szTok = strtok(szOID, ".");
 
-  UINT nFirst = 40 * atoi(szTok) + atoi(strtok_r(NULL, ".", &savePointer));
+  UINT nFirst = 40 * atoi(szTok) + atoi(strtok(NULL, "."));
   if (nFirst > 0xff) {
     delete[] szOID;
     throw -1;

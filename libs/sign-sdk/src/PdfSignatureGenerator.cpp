@@ -12,7 +12,7 @@
 #include "PdfVerifier.h"
 #include "UUCLogger.h"
 
-#define SINGNATURE_SIZE 10000
+#define SIGNATURE_SIZE 10000
 
 #ifdef CreateFont
 #undef CreateFont
@@ -54,14 +54,12 @@ int PdfSignatureGenerator::Load(const char* pdf, int len) {
   if (m_pPdfMemDocument) delete m_pPdfMemDocument;
 
   try {
-    printf("PDF");
-    // printf("%s", (char *)pdf);
-    printf("LENGTH");
+    printf("PDF LENGTH");
     printf("%i", len);
     printf("STOP");
 
     m_pPdfMemDocument = new PdfMemDocument();
-    m_pPdfMemDocument->Load(pdf, len);
+    m_pPdfMemDocument->Load(pdf);
     printf("OK m_pPdfMemDocument");
     int nSigns = PDFVerifier::GetNumberOfSignatures(m_pPdfMemDocument);
     printf("OK nSigns: %d", nSigns);
@@ -170,9 +168,9 @@ void PdfSignatureGenerator::InitSignature(
 
   LOG_DBG((0, "InitSignature", "Date OK"));
 
-  m_pSignOutputDevice->PdfSignOutputDevice::SetSignatureSize(SINGNATURE_SIZE);
+  m_pSignOutputDevice->PdfSignOutputDevice::SetSignatureSize(SIGNATURE_SIZE);
 
-  LOG_DBG((0, "InitSignature", "SINGNATURE_SIZE OK"));
+  LOG_DBG((0, "InitSignature", "SIGNATURE_SIZE OK"));
 
   // if (width * height > 0) {
   //   try {
@@ -204,7 +202,7 @@ void PdfSignatureGenerator::InitSignature(
   // LOG_DBG((0, "InitSignature", "szGraphometricData OK"));
 
   //	// crea il nuovo doc con il campo di firma
-  //	int fulllen = m_actualLen * 3 + SINGNATURE_SIZE * 2;
+  //	int fulllen = m_actualLen * 3 + SIGNATURE_SIZE * 2;
   //	m_pMainDocbuffer = new char[fulllen];
   //	PdfOutputDevice pdfOutDevice(m_pMainDocbuffer, fulllen);
   //	m_pPdfMemDocument->Write(&pdfOutDevice);
@@ -212,7 +210,7 @@ void PdfSignatureGenerator::InitSignature(
 
   LOG_DBG((0, "InitSignature", "m_actualLen %d", m_actualLen));
   // crea il nuovo doc con il campo di firma
-  int fulllen = m_actualLen * 2 + SINGNATURE_SIZE * 2;
+  int fulllen = m_actualLen * 2 + SIGNATURE_SIZE * 2;
 
   int mainDoclen = 0;
   m_pMainDocbuffer = NULL;
@@ -247,9 +245,9 @@ void PdfSignatureGenerator::InitSignature(
   LOG_DBG((0, "InitSignature", "buffers OK %d", fulllen));
 
   // imposta la firma
-  m_pSignOutputDevice->SetSignatureSize(SINGNATURE_SIZE);
+  m_pSignOutputDevice->SetSignatureSize(SIGNATURE_SIZE);
 
-  LOG_DBG((0, "InitSignature", "SetSignatureSize OK %d", SINGNATURE_SIZE));
+  LOG_DBG((0, "InitSignature", "SetSignatureSize OK %d", SIGNATURE_SIZE));
 
   // Scrive il documento reale
   m_pSignOutputDevice->Write(m_pMainDocbuffer, mainDoclen);
@@ -262,7 +260,7 @@ void PdfSignatureGenerator::InitSignature(
 }
 
 void PdfSignatureGenerator::GetBufferForSignature(UUCByteArray& toSign) {
-  // int fulllen = m_actualLen * 2 + SINGNATURE_SIZE * 2;
+  // int fulllen = m_actualLen * 2 + SIGNATURE_SIZE * 2;
   int len = m_pSignOutputDevice->GetLength() * 2;
 
   char* buffer = new char[len];
@@ -274,7 +272,7 @@ void PdfSignatureGenerator::GetBufferForSignature(UUCByteArray& toSign) {
 
   toSign.append((BYTE*)buffer, nRead);
 
-  delete buffer;
+  delete[] buffer;
 }
 
 void PdfSignatureGenerator::SetSignature(const char* signature, int len) {

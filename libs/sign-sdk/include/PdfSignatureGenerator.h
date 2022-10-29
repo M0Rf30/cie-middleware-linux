@@ -9,8 +9,8 @@
 
 #ifndef _PDFSIGNATUREGENERATOR_H_
 #define _PDFSIGNATUREGENERATOR_H_
-
 #include <podofo/base/PdfWriter.h>
+#include <podofo/doc/PdfMemDocument.h>
 #include <podofo/doc/PdfSignOutputDevice.h>
 #include <podofo/doc/PdfSignatureField.h>
 #include <podofo/podofo.h>

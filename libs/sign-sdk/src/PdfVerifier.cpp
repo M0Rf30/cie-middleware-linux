@@ -316,10 +316,6 @@ int PDFVerifier::VerifySignature(const PdfMemDocument *pDoc,
 bool PDFVerifier::IsSignatureField(const PdfMemDocument *pDoc,
                                    const PdfObject *const pObj) {
   if (pObj == 0) return false;
-  /*
-      PdfField* pField = (PdfField*)pObj;
-      pField->GetPage()->GetPageNumber();
-  */
   if (!pObj->IsDictionary()) return false;
 
   const PdfObject *const keyFTValue =

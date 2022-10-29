@@ -126,7 +126,7 @@ public interface Middleware extends Library {
 
     int getNumberOfSign();
 
-    int getVerifyInfo(int index, verifyInfo vInfo);
+    int getVerifyInfo(long index, verifyInfo vInfo);
 
     int estraiP7m(String inFilePath, String outFilePath);
 }
