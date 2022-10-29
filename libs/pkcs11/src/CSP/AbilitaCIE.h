@@ -7,8 +7,8 @@
 //
 #include <string>
 
-#include "../PCSC/PCSC.h"
-#include "../PKCS11/cryptoki.h"
+#include "PCSC/PCSC.h"
+#include "PKCS11/cryptoki.h"
 
 #define SCARD_ATTR_VALUE(Class, Tag) \
   ((((uint32_t)(Class)) << 16) | ((uint32_t)(Tag)))

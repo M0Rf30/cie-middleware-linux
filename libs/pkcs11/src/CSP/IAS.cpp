@@ -1,24 +1,22 @@
-#include "IAS.h"
+#include "CSP/IAS.h"
 
 #include <cryptopp/asn.h>
 #include <cryptopp/cryptlib.h>
 #include <cryptopp/misc.h>
 #include <cryptopp/queue.h>
 
-#include "../Crypto/AES.h"
-#include "../Crypto/ASNParser.h"
-#include "../Crypto/DES3.h"
-#include "../Crypto/MAC.h"
-#include "../Crypto/RSA.h"
-#include "../Crypto/SHA1.h"
-#include "../Crypto/sha256.h"
-#include "../Crypto/sha512.h"
-#include "../Util/ModuleInfo.h"
+#include "Crypto/AES.h"
+#include "Crypto/ASNParser.h"
+#include "Crypto/DES3.h"
+#include "Crypto/MAC.h"
+#include "Crypto/RSA.h"
+#include "Crypto/SHA1.h"
+#include "Crypto/sha256.h"
+#include "Crypto/sha512.h"
+#include "Util/ModuleInfo.h"
 
-//#include "../res/resource.h"
-#include "../Util/CacheLib.h"
-//#include <intsafe.h>
-#include "../LOGGER/Logger.h"
+#include "Util/CacheLib.h"
+#include "LOGGER/Logger.h"
 
 using namespace CieIDLogger;
 
@@ -236,7 +234,8 @@ void IAS::readfile(uint16_t id, ByteDynArray &content) {
 
   ByteDynArray resp;
   uint8_t selectFile[] = {0x00, 0xa4, 0x02, 0x04};
-  uint8_t fileId[] = {static_cast<uint8_t>(HIBYTE(id)), static_cast<uint8_t>(LOBYTE(id))};
+  uint8_t fileId[] = {static_cast<uint8_t>(HIBYTE(id)),
+                      static_cast<uint8_t>(LOBYTE(id))};
   StatusWord sw;
   if ((sw = SendAPDU(VarToByteArray(selectFile), VarToByteArray(fileId),
                      resp)) != 0x9000)
@@ -246,7 +245,8 @@ void IAS::readfile(uint16_t id, ByteDynArray &content) {
   uint8_t chunk = 128;
   while (true) {
     ByteDynArray chn;
-    uint8_t readFile[] = {0x00, 0xb0, static_cast<uint8_t>(HIBYTE(cnt)), static_cast<uint8_t>(LOBYTE(cnt))};
+    uint8_t readFile[] = {0x00, 0xb0, static_cast<uint8_t>(HIBYTE(cnt)),
+                          static_cast<uint8_t>(LOBYTE(cnt))};
     sw = SendAPDU(VarToByteArray(readFile), ByteArray(), chn, &chunk);
     if ((sw >> 8) == 0x6c) {
       uint8_t le = sw & 0xff;
@@ -272,7 +272,8 @@ void IAS::readfile_SM(uint16_t id, ByteDynArray &content) {
 
       ByteDynArray resp;
   uint8_t selectFile[] = {0x00, 0xa4, 0x02, 0x04};
-  uint8_t fileId[] = {static_cast<uint8_t>(HIBYTE(id)), static_cast<uint8_t>(LOBYTE(id))};
+  uint8_t fileId[] = {static_cast<uint8_t>(HIBYTE(id)),
+                      static_cast<uint8_t>(LOBYTE(id))};
   StatusWord sw;
   if ((sw = SendAPDU_SM(VarToByteArray(selectFile), VarToByteArray(fileId),
                         resp)) != 0x9000)
@@ -1265,7 +1266,7 @@ void IAS::VerificaSODPSS(ByteArray &SOD,
   temp3.Child(0, 02).Verify(VarToByteArray(val1));
 
   CASNTag &issuerName = temp3.Child(1, 0x30).Child(0, 0x30);
-  CASNTag &signerCertSerialNumber = temp3.Child(1, 0x30).Child(1, 02);
+  temp3.Child(1, 0x30).Child(1, 02);
 
   temp3.Child(2, 0x30).Child(0, 06).Verify(VarToByteArray(OID_SHA512));
 

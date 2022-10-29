@@ -13,10 +13,7 @@ class CASN1OptionalField : public CASN1Object {
 
     ~CASN1OptionalField();
 
-    // CASN1Object getObject() const;
-
     BYTE getTag() const;
-    // static BOOL isOptionaField(const BYTE& btClass, UUCBufferedReader& reader);
 
   private:
     static const BYTE TAG;

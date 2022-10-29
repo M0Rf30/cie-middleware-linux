@@ -1,6 +1,5 @@
 // SignerInfo.h: interface for the CSignerInfo class.
 //
-//////////////////////////////////////////////////////////////////////
 
 #if !defined(AFX_SIGNERINFO_H__ED6FFA3F_0A25_4A42_A3E5_BC704B9C25B3__INCLUDED_)
 #define AFX_SIGNERINFO_H__ED6FFA3F_0A25_4A42_A3E5_BC704B9C25B3__INCLUDED_
@@ -13,7 +12,7 @@
 #include "ASN1Sequence.h"
 #include "ASN1UTCTime.h"
 #include "AlgorithmIdentifier.h"
-#include "IssuerAndSerialNumber.h"
+#include "ASN1/IssuerAndSerialNumber.h"
 #include "TimeStampToken.h"
 #include "disigonsdk.h"
 

@@ -4,7 +4,7 @@
 #include <sstream>
 #include <vector>
 
-#include "../LOGGER/Logger.h"
+#include "LOGGER/Logger.h"
 
 extern CLog Log;
 using namespace CieIDLogger;

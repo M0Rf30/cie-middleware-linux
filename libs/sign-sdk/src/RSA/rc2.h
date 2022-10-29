@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2004 Kungliga Tekniska Högskolan
+ * Copyright (c) 2004 Kungliga Tekniska Hï¿½gskolan
  * (Royal Institute of Technology, Stockholm, Sweden).
  * All rights reserved.
  *
@@ -51,7 +51,7 @@
 #define RC2_KEY_LENGTH 16
 
 typedef struct rc2_key {
-    unsigned int data[64];
+  unsigned int data[64];
 } RC2_KEY;
 
 #ifdef __cplusplus

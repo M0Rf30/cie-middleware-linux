@@ -29,11 +29,13 @@
  * @ingroup base64
  */
 
+#include "Base64.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include "disigonsdk.h"
-#include "Base64.h"
 
 #define XX 100
 
@@ -67,26 +69,24 @@
       16 Q            33 h            50 y
     \endverbatim
  */
-static const char base64_list[] = \
-                                  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+static const char base64_list[] =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 static const int base64_index[256] = {
-    XX,XX,XX,XX, XX,XX,XX,XX, XX,XX,XX,XX, XX,XX,XX,XX,
-    XX,XX,XX,XX, XX,XX,XX,XX, XX,XX,XX,XX, XX,XX,XX,XX,
-    XX,XX,XX,XX, XX,XX,XX,XX, XX,XX,XX,62, XX,XX,XX,63,
-    52,53,54,55, 56,57,58,59, 60,61,XX,XX, XX,XX,XX,XX,
-    XX, 0, 1, 2,  3, 4, 5, 6,  7, 8, 9,10, 11,12,13,14,
-    15,16,17,18, 19,20,21,22, 23,24,25,XX, XX,XX,XX,XX,
-    XX,26,27,28, 29,30,31,32, 33,34,35,36, 37,38,39,40,
-    41,42,43,44, 45,46,47,48, 49,50,51,XX, XX,XX,XX,XX,
-    XX,XX,XX,XX, XX,XX,XX,XX, XX,XX,XX,XX, XX,XX,XX,XX,
-    XX,XX,XX,XX, XX,XX,XX,XX, XX,XX,XX,XX, XX,XX,XX,XX,
-    XX,XX,XX,XX, XX,XX,XX,XX, XX,XX,XX,XX, XX,XX,XX,XX,
-    XX,XX,XX,XX, XX,XX,XX,XX, XX,XX,XX,XX, XX,XX,XX,XX,
-    XX,XX,XX,XX, XX,XX,XX,XX, XX,XX,XX,XX, XX,XX,XX,XX,
-    XX,XX,XX,XX, XX,XX,XX,XX, XX,XX,XX,XX, XX,XX,XX,XX,
-    XX,XX,XX,XX, XX,XX,XX,XX, XX,XX,XX,XX, XX,XX,XX,XX,
-    XX,XX,XX,XX, XX,XX,XX,XX, XX,XX,XX,XX, XX,XX,XX,XX,
+    XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX,
+    XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX,
+    XX, XX, XX, XX, XX, 62, XX, XX, XX, 63, 52, 53, 54, 55, 56, 57, 58, 59, 60,
+    61, XX, XX, XX, XX, XX, XX, XX, 0,  1,  2,  3,  4,  5,  6,  7,  8,  9,  10,
+    11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, XX, XX, XX, XX,
+    XX, XX, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42,
+    43, 44, 45, 46, 47, 48, 49, 50, 51, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX,
+    XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX,
+    XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX,
+    XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX,
+    XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX,
+    XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX,
+    XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX, XX,
+    XX, XX, XX, XX, XX, XX, XX, XX, XX,
 };
 
 /** Encode a minimal memory block. This function encodes a minimal memory area
@@ -103,11 +103,14 @@ static const int base64_index[256] = {
  *
  * @ingroup base64
  */
-void base64_encode_block(unsigned char out[4], const unsigned char in[3], int len) {
-    out[0] = base64_list[ in[0] >> 2 ];
-    out[1] = base64_list[ ((in[0] & 0x03) << 4) | ((in[1] & 0xf0) >> 4) ];
-    out[2] = (unsigned char) (len > 1 ? base64_list[ ((in[1] & 0x0f) << 2) | ((in[2] & 0xc0) >> 6) ] : '=');
-    out[3] = (unsigned char) (len > 2 ? base64_list[in[2] & 0x3f] : '=');
+void base64_encode_block(unsigned char out[4], const unsigned char in[3],
+                         int len) {
+  out[0] = base64_list[in[0] >> 2];
+  out[1] = base64_list[((in[0] & 0x03) << 4) | ((in[1] & 0xf0) >> 4)];
+  out[2] = (unsigned char)(len > 1 ? base64_list[((in[1] & 0x0f) << 2) |
+                                                 ((in[2] & 0xc0) >> 6)]
+                                   : '=');
+  out[3] = (unsigned char)(len > 2 ? base64_list[in[2] & 0x3f] : '=');
 }
 
 /** Decode a minimal memory block. This function decodes a minimal memory area
@@ -124,26 +127,25 @@ void base64_encode_block(unsigned char out[4], const unsigned char in[3], int le
  * @ingroup base64
  */
 int base64_decode_block(unsigned char out[3], const unsigned char in[4]) {
-    int i, numbytes = 3;
-    char tmp[4];
+  int i, numbytes = 3;
+  char tmp[4];
 
-    for(i = 3; i >= 0; i--) {
-        if(in[i] == '=') {
-            tmp[i] = 0;
-            numbytes = i - 1;
-        } else {
-            tmp[i] = base64_index[ (unsigned char)in[i] ];
-        }
-
-        if(tmp[i] == XX)
-            return(-1);
+  for (i = 3; i >= 0; i--) {
+    if (in[i] == '=') {
+      tmp[i] = 0;
+      numbytes = i - 1;
+    } else {
+      tmp[i] = base64_index[(unsigned char)in[i]];
     }
 
-    out[0] = (unsigned char) (  tmp[0] << 2 | tmp[1] >> 4);
-    out[1] = (unsigned char) (  tmp[1] << 4 | tmp[2] >> 2);
-    out[2] = (unsigned char) (((tmp[2] << 6) & 0xc0) | tmp[3]);
+    if (tmp[i] == XX) return (-1);
+  }
 
-    return(numbytes);
+  out[0] = (unsigned char)(tmp[0] << 2 | tmp[1] >> 4);
+  out[1] = (unsigned char)(tmp[1] << 4 | tmp[2] >> 2);
+  out[2] = (unsigned char)(((tmp[2] << 6) & 0xc0) | tmp[3]);
+
+  return (numbytes);
 }
 
 /** Compute size of needed storage for encoding. This function computes the
@@ -155,9 +157,7 @@ int base64_decode_block(unsigned char out[3], const unsigned char in[4]) {
  *
  * @ingroup base64
  */
-int base64_encoded_size(int len) {
-    return(((len + 2) / 3) * 4);
-}
+int base64_encoded_size(int len) { return (((len + 2) / 3) * 4); }
 
 /** Compute size of needed storage for decoding. This function computes the
  *  \e estimated size of a memory area needed to hold the result of a decoding
@@ -169,9 +169,7 @@ int base64_encoded_size(int len) {
  *
  * @ingroup base64
  */
-int base64_decoded_size(int  len) {
-    return((len / 4) * 3);
-}
+int base64_decoded_size(int len) { return ((len / 4) * 3); }
 
 /** Encode an arbitrary size memory area. This function encodes the first
  *  \c len bytes of the contents of the memory area pointed to by \c in and
@@ -189,20 +187,20 @@ int base64_decoded_size(int  len) {
  * @ingroup base64
  */
 void base64_encode_binary(char *out, const unsigned char *in, int len) {
-    int size;
-    size_t i = 0;
+  int size;
+  size_t i = 0;
 
-    while(i < len) {
-        size = (len-i < 4) ? len-i : 4;
+  while (i < len) {
+    size = (len - i < 4) ? len - i : 4;
 
-        base64_encode_block((unsigned char *)out, in, size);
+    base64_encode_block((unsigned char *)out, in, size);
 
-        out += 4;
-        in  += 3;
-        i   += 3;
-    }
+    out += 4;
+    in += 3;
+    i += 3;
+  }
 
-    *out = '\0';
+  *out = '\0';
 }
 
 /** Decode an arbitrary size memory area. This function decodes the
@@ -219,19 +217,19 @@ void base64_encode_binary(char *out, const unsigned char *in, int len) {
  * @ingroup base64
  */
 int base64_decode_binary(unsigned char *out, const char *in) {
-    size_t len = strlen(in), i = 0;
-    int numbytes = 0;
+  size_t len = strlen(in), i = 0;
+  int numbytes = 0;
 
-    while(i < len) {
-        if((numbytes += base64_decode_block(out, (unsigned char *)in)) < 0)
-            return(-1);
+  while (i < len) {
+    if ((numbytes += base64_decode_block(out, (unsigned char *)in)) < 0)
+      return (-1);
 
-        out += 3;
-        in  += 4;
-        i   += 4;
-    }
+    out += 3;
+    in += 4;
+    i += 4;
+  }
 
-    return(numbytes);
+  return (numbytes);
 }
 
 /** Encode a string. This is a convenience function. It encodes the first
@@ -247,24 +245,22 @@ int base64_decode_binary(unsigned char *out, const char *in) {
  *
  * @ingroup base64
  */
-char * base64_encode(const char *in, int size) {
-    char *out;
-    size_t outlen;
+char *base64_encode(const char *in, int size) {
+  char *out;
+  size_t outlen;
 
-    if(in == NULL)
-        return(NULL);
+  if (in == NULL) return (NULL);
 
-    if(size == 0)
-        size = strlen(in);
+  if (size == 0) size = strlen(in);
 
-    outlen = base64_encoded_size(size);
+  outlen = base64_encoded_size(size);
 
-    if((out = (char *)malloc(sizeof(char) * (outlen + 1))) == NULL)
-        return(NULL);
+  if ((out = (char *)malloc(sizeof(char) * (outlen + 1))) == NULL)
+    return (NULL);
 
-    base64_encode_binary(out, (unsigned char *)in, size);
+  base64_encode_binary(out, (unsigned char *)in, size);
 
-    return(out);
+  return (out);
 }
 
 /** Decode a string. This is a convenience function. It decodes the
@@ -280,23 +276,22 @@ char * base64_encode(const char *in, int size) {
  *
  * @ingroup base64
  */
-char * base64_decode(const char *in) {
-    char *out;
-    size_t outlen;
-    int numbytes;
+char *base64_decode(const char *in) {
+  char *out;
+  size_t outlen;
+  int numbytes;
 
-    outlen = base64_decoded_size(strlen(in));
+  outlen = base64_decoded_size(strlen(in));
 
-    if((out = (char *)malloc(sizeof(char) * (outlen + 1))) == NULL)
-        return(NULL);
+  if ((out = (char *)malloc(sizeof(char) * (outlen + 1))) == NULL)
+    return (NULL);
 
-    if((numbytes = base64_decode_binary((unsigned char *)out, in)) < 0) {
-        free(out);
-        return(NULL);
-    }
+  if ((numbytes = base64_decode_binary((unsigned char *)out, in)) < 0) {
+    free(out);
+    return (NULL);
+  }
 
-    *(out + numbytes) = '\0';
+  *(out + numbytes) = '\0';
 
-    return(out);
+  return (out);
 }
-

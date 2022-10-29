@@ -1,23 +1,20 @@
-#include "IAS.h"
+#include "CSP/IAS.h"
 
 #include <cryptopp/asn.h>
 #include <cryptopp/cryptlib.h>
 #include <cryptopp/misc.h>
 #include <cryptopp/queue.h>
 
-#include "../Crypto/AES.h"
-#include "../Crypto/ASNParser.h"
-#include "../Crypto/DES3.h"
-#include "../Crypto/MAC.h"
-#include "../Crypto/RSA.h"
-#include "../Crypto/SHA1.h"
-#include "../Crypto/sha256.h"
-#include "../Crypto/sha512.h"
-#include "../Util/ModuleInfo.h"
-
-//#include "../res/resource.h"
-#include "../Util/CacheLib.h"
-//#include <intsafe.h>
+#include "Crypto/AES.h"
+#include "Crypto/ASNParser.h"
+#include "Crypto/DES3.h"
+#include "Crypto/MAC.h"
+#include "Crypto/RSA.h"
+#include "Crypto/SHA1.h"
+#include "Crypto/sha256.h"
+#include "Crypto/sha512.h"
+#include "Util/CacheLib.h"
+#include "Util/ModuleInfo.h"
 
 #define CIE_KEY_DH_ID 0x81
 #define CIE_KEY_ExtAuth_ID 0x84
@@ -197,7 +194,8 @@ void IAS::readfile(uint16_t id, ByteDynArray &content) {
 
   ByteDynArray resp;
   uint8_t selectFile[] = {0x00, 0xa4, 0x02, 0x04};
-  uint8_t fileId[] = {static_cast<uint8_t>(HIBYTE(id)), static_cast<uint8_t>(LOBYTE(id))};
+  uint8_t fileId[] = {static_cast<uint8_t>(HIBYTE(id)),
+                      static_cast<uint8_t>(LOBYTE(id))};
   StatusWord sw;
   if ((sw = SendAPDU(VarToByteArray(selectFile), VarToByteArray(fileId),
                      resp)) != 0x9000)
@@ -207,7 +205,8 @@ void IAS::readfile(uint16_t id, ByteDynArray &content) {
   uint8_t chunk = 128;
   while (true) {
     ByteDynArray chn;
-    uint8_t readFile[] = {0x00, 0xb0, static_cast<uint8_t>(HIBYTE(cnt)), static_cast<uint8_t>(LOBYTE(cnt))};
+    uint8_t readFile[] = {0x00, 0xb0, static_cast<uint8_t>(HIBYTE(cnt)),
+                          static_cast<uint8_t>(LOBYTE(cnt))};
     sw = SendAPDU(VarToByteArray(readFile), ByteArray(), chn, &chunk);
     if ((sw >> 8) == 0x6c) {
       uint8_t le = sw & 0xff;
@@ -233,7 +232,8 @@ void IAS::readfile_SM(uint16_t id, ByteDynArray &content) {
 
       ByteDynArray resp;
   uint8_t selectFile[] = {0x00, 0xa4, 0x02, 0x04};
-  uint8_t fileId[] = {static_cast<uint8_t>(HIBYTE(id)), static_cast<uint8_t>(LOBYTE(id))};
+  uint8_t fileId[] = {static_cast<uint8_t>(HIBYTE(id)),
+                      static_cast<uint8_t>(LOBYTE(id))};
   StatusWord sw;
   if ((sw = SendAPDU_SM(VarToByteArray(selectFile), VarToByteArray(fileId),
                         resp)) != 0x9000)
@@ -243,7 +243,8 @@ void IAS::readfile_SM(uint16_t id, ByteDynArray &content) {
   uint8_t chunk = 128;
   while (true) {
     ByteDynArray chn;
-    uint8_t readFile[] = {0x00, 0xb0, static_cast<uint8_t>(HIBYTE(cnt)), static_cast<uint8_t>(LOBYTE(cnt))};
+    uint8_t readFile[] = {0x00, 0xb0, static_cast<uint8_t>(HIBYTE(cnt)),
+                          static_cast<uint8_t>(LOBYTE(cnt))};
     sw = SendAPDU_SM(VarToByteArray(readFile), ByteArray(), chn, &chunk);
     if ((sw >> 8) == 0x6c) {
       uint8_t le = sw & 0xff;
@@ -252,10 +253,6 @@ void IAS::readfile_SM(uint16_t id, ByteDynArray &content) {
     if (sw == 0x9000) {
       content.append(chn);
       cnt = content.size();
-      //            WORD chnSize;
-      //            if (FAILED(SizeTToWord(chn.size(), &chnSize)) ||
-      //            FAILED(WordAdd(cnt, chnSize, &cnt)))
-      //                throw logged_error("File troppo grande");
       chunk = 128;
     } else {
       if (sw == 0x6282)
@@ -401,7 +398,7 @@ void IAS::DAPP() {
   CSHA256 sha256;
 
   if (DappPubKey.isEmpty()) {
-    throw logged_error("La chiave DAPP non e' diponibile");
+    throw logged_error("DAPP - DAPP key not available");
   }
 
   ByteDynArray module = VarToByteArray(defModule);
@@ -847,21 +844,8 @@ StatusWord IAS::SendAPDU_SM(ByteArray head, ByteArray data, ByteDynArray &resp,
     smApdu.set(&head, (uint8_t)data.size(), &data,
                (le == nullptr) ? &emptyBa : &leBa);
 
-    ODS("%s", std::string()
-                  .append("\nClear APDU:")
-                  .append(dumpHexData(smApdu, str))
-                  .append("\n")
-                  .c_str());
     smApdu = SM(sessENC, sessMAC, smApdu, sessSSC);
-
-    //        ODS("%s",
-    //        std::string().append("\nAPDU:").append(dumpHexData(smApdu)).append("\n").c_str());
-
     sw = token.Transmit(smApdu, &curresp);
-
-    //        ODS("%s",
-    //        std::string().append("RESP:").append(dumpHexData(curresp)).append("\n").c_str());
-
     sw = getResp_SM(curresp, sw, resp);
 
     ODS("%s", std::string()
@@ -1238,7 +1222,7 @@ void IAS::VerificaSODPSS(ByteArray &SOD,
   temp3.Child(0, 02).Verify(VarToByteArray(val1));
 
   CASNTag &issuerName = temp3.Child(1, 0x30).Child(0, 0x30);
-  CASNTag &signerCertSerialNumber = temp3.Child(1, 0x30).Child(1, 02);
+  temp3.Child(1, 0x30).Child(1, 02);
 
   temp3.Child(2, 0x30).Child(0, 06).Verify(VarToByteArray(OID_SHA512));
 

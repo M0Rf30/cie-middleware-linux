@@ -1,6 +1,6 @@
 #pragma once
 
-#include "definitions.h"
+#include "Sign/definitions.h"
 #include "cryptoki.h"
 
 #include "ASN1/SignerInfo.h"
@@ -40,7 +40,7 @@ protected:
 	char			m_szAlias[MAX_PATH];
 	CTSAClient*		m_pTSAClient;
 
-	
+
 };
 
 

@@ -29,8 +29,6 @@ Logger* Logger::m_Instance = 0;
 static const char* level_strings[] = {"", "[DEBUG]", "[INFO]", "[ERROR]"};
 
 Logger::Logger() {
-  char pProcessInfo[PATH_MAX];
-
   string sConfig;
   char cTime[80];
   timeval curTime;

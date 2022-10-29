@@ -46,115 +46,76 @@
  */
 
 #include "OCSPRequest.h"
-#include "ASN1OptionalField.h"
-#include "AlgorithmIdentifier.h"
-#include "sha1.h"
+
 #include <CertStore.h>
 
-//#import <UIKit/UIKit.h>
+#include "ASN1OptionalField.h"
+#include "AlgorithmIdentifier.h"
+#include "RSA/sha1.h"
 
-COCSPRequest::COCSPRequest(UUCBufferedReader& reader)
-    : CASN1Sequence(reader) {
-
-}
+COCSPRequest::COCSPRequest(UUCBufferedReader& reader) : CASN1Sequence(reader) {}
 
 COCSPRequest::COCSPRequest(const CASN1Object& ocspRequest)
-    : CASN1Sequence(ocspRequest) {
-}
+    : CASN1Sequence(ocspRequest) {}
 
 COCSPRequest::COCSPRequest(CCertificate& certificate) {
-    CASN1Sequence tbsRequest;
+  CASN1Sequence tbsRequest;
 
-    CASN1Sequence requestList;
+  CASN1Sequence requestList;
 
-    CASN1Sequence request;
+  CASN1Sequence request;
 
-    CASN1Sequence certId;
+  CASN1Sequence certId;
 
-    CASN1Integer serialNumber(certificate.getSerialNumber());
+  CASN1Integer serialNumber(certificate.getSerialNumber());
 
-    CAlgorithmIdentifier hashAlgorithm(szSHA1OID);
+  CAlgorithmIdentifier hashAlgorithm(szSHA1OID);
 
-    CName issuerName(certificate.getIssuer());
+  CName issuerName(certificate.getIssuer());
 
-    UUCByteArray baIssuerName;
-    issuerName.toByteArray(baIssuerName);
+  UUCByteArray baIssuerName;
+  issuerName.toByteArray(baIssuerName);
 
+  // calcola l'hash SHA1
+  SHA1Context sha;
 
-    // calcola l'hash SHA1
-    SHA1Context sha;
+  // hash issuername
+  SHA1Reset(&sha);
 
-    // hash issuername
-    SHA1Reset(&sha);
+  SHA1Input(&sha, baIssuerName.getContent(), baIssuerName.getLength());
 
-    SHA1Input(&sha, baIssuerName.getContent(), baIssuerName.getLength());
+  SHA1Result(&sha);
 
-    SHA1Result(&sha);
+  char szAux[100];
+  sprintf(szAux, "%08X%08X%08X%08X%08X ", sha.Message_Digest[0],
+          sha.Message_Digest[1], sha.Message_Digest[2], sha.Message_Digest[3],
+          sha.Message_Digest[4]);
 
-    char szAux[100];
-    sprintf(szAux, "%08X%08X%08X%08X%08X ", sha.Message_Digest[0], sha.Message_Digest[1], sha.Message_Digest[2], sha.Message_Digest[3], sha.Message_Digest[4]);
+  UUCByteArray baIssuerNameHash(szAux);
+  UUCByteArray baIssuerKeyHash;
 
-    UUCByteArray baIssuerNameHash(szAux);
-    UUCByteArray baIssuerKeyHash;
+  // hash public key
+  UUCByteArray baPubKey;
 
-    // hash public key
-    UUCByteArray baPubKey;
+  {
+    CASN1Sequence authorityKeyIdentifier(
+        certificate.getAuthorithyKeyIdentifier());
+    CASN1OctetString keyIdentifier(authorityKeyIdentifier.elementAt(0));
+    keyIdentifier.setTag(0x04);  // set the correct tag
 
-    /*
-    // trova il cert di CA
-    // estrae l'issuer cert
-    UUCByteArray issuer;
-    issuerName.getNameAsString(issuer);//getField(OID_COMMON_NAME);
-    CCertificate* pCACert = CCertStore::GetCertificate((char*)issuer.getContent());
-    if(pCACert)
-    {
-    	CSubjectPublicKeyInfo spki(pCACert->getCertificateInfo().getSubjectPublicKeyInfo());
+    baIssuerKeyHash.append(*keyIdentifier.getValue());
+  }
 
-    	CASN1BitString pubKey(spki.getPublicKey());
+  certId.addElement(hashAlgorithm);
+  certId.addElement(CASN1OctetString(baIssuerNameHash));
+  certId.addElement(CASN1OctetString(baIssuerKeyHash));
+  certId.addElement(serialNumber);
 
-    	UUCByteArray *pbaPubKey = (UUCByteArray*)pubKey.getValue();
-    	if(pbaPubKey->getContent()[0] == 0) // PAD bits
-    		baPubKey.append(pbaPubKey->getContent() + 1, pbaPubKey->getLength() - 1);
-    	else
-    		baPubKey.append(*pbaPubKey);
+  request.addElement(certId);
 
-    	//pubKey.toByteArray(baPubKey);
+  requestList.addElement(request);
 
-    	//ßNSLog(@"pubkey: %s", baPubKey.toHexString());
+  tbsRequest.addElement(requestList);
 
-    	SHA1Reset(&sha);
-
-    	SHA1Input(&sha, baPubKey.getContent(), baPubKey.getLength());
-
-    	SHA1Result(&sha);
-
-    	sprintf(szAux, "%08X%08X%08X%08X%08X ", sha.Message_Digest[0], sha.Message_Digest[1], sha.Message_Digest[2], sha.Message_Digest[3], sha.Message_Digest[4]);
-
-    	UUCByteArray baPubKeyHash(szAux);
-    	baIssuerKeyHash.append(baPubKeyHash);
-    }
-    else */
-    {
-        //NSLog(@"WARNING! CA Cert not found %s", issuer.c_str());
-
-        CASN1Sequence authorityKeyIdentifier(certificate.getAuthorithyKeyIdentifier());
-        CASN1OctetString keyIdentifier(authorityKeyIdentifier.elementAt(0));
-        keyIdentifier.setTag(0x04); // set the correct tag
-
-        baIssuerKeyHash.append(*keyIdentifier.getValue());
-    }
-
-
-    certId.addElement(hashAlgorithm);
-    certId.addElement(CASN1OctetString(baIssuerNameHash));
-    certId.addElement(CASN1OctetString(baIssuerKeyHash));
-    certId.addElement(serialNumber);
-
-    request.addElement(certId);
-
-    requestList.addElement(request);
-
-    tbsRequest.addElement(requestList);
-
-    addElement(tbsRequest);
+  addElement(tbsRequest);
 }

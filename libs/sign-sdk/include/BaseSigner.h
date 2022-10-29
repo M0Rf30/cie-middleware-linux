@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Certificate.h"
+#include "ASN1/Certificate.h"
 
 class CBaseSigner
 {

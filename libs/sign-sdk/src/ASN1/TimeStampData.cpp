@@ -61,9 +61,7 @@
 #include "TimeStampData.h"
 #include "ASN1OptionalField.h"
 
-//////////////////////////////////////////////////////////////////////
 // Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 CTimeStampData::CTimeStampData(UUCBufferedReader& reader)
     :CContentInfo(reader) {
 
@@ -126,4 +124,3 @@ CASN1OctetString CTimeStampData::getTimeStampDataContent() {
 
     return timeStampData.elementAt(size - 2);
 }
-

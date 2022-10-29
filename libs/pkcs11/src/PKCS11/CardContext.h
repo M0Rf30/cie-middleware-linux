@@ -5,15 +5,15 @@
 
 class CCardContext {
  public:
-    SCARDCONTEXT hContext;
+  SCARDCONTEXT hContext;
 
-    CCardContext(void);
-    ~CCardContext(void);
+  CCardContext(void);
+  ~CCardContext(void);
 
-    operator SCARDCONTEXT();
-    void validate();
-    void renew();
+  operator SCARDCONTEXT();
+  void validate();
+  void renew();
 
  private:
-    void getContext();
+  void getContext();
 };

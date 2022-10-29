@@ -1,15 +1,12 @@
 // TSTInfo.cpp: implementation of the CTSTInfo class.
 //
-//////////////////////////////////////////////////////////////////////
 
 #include "TSTInfo.h"
 #include "ASN1OptionalField.h"
 #include "ASN1Exception.h"
 #include "ASN1UTCTime.h"
 
-//////////////////////////////////////////////////////////////////////
 // Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CTSTInfo::CTSTInfo(UUCBufferedReader& reader)
     :CASN1Sequence(reader) {
@@ -52,4 +49,3 @@ CName CTSTInfo::getTSAName() {
 
     throw -1;
 }
-

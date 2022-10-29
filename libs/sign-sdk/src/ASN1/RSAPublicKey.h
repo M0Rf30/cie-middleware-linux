@@ -10,8 +10,6 @@ class CRSAPublicKey : public CASN1Sequence {
 
     CRSAPublicKey(const CASN1Object& obj);
 
-    // CRSAPublicKey(const UUCByteArray& content);
-
     CRSAPublicKey(const CASN1Integer& modulus, const CASN1Integer& exponent);
 
     virtual ~CRSAPublicKey();

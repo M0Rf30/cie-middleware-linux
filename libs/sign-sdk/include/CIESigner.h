@@ -1,10 +1,10 @@
 #pragma once
 
 
-#include "Certificate.h"
+#include "ASN1/Certificate.h"
 #include "BaseSigner.h"
-#include "RSAPrivateKey.h"
-#include "IAS.h"
+#include "ASN1/RSAPrivateKey.h"
+#include "CSP/IAS.h"
 
 class CCIESigner : public CBaseSigner
 {

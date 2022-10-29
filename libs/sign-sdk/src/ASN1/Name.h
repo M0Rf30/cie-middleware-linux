@@ -1,6 +1,5 @@
 // Name.h: interface for the CName class.
 //
-//////////////////////////////////////////////////////////////////////
 
 #if !defined(AFX_NAME_H__554A2FC6_1A7E_4639_8E45_487603ACB583__INCLUDED_)
 #define AFX_NAME_H__554A2FC6_1A7E_4639_8E45_487603ACB583__INCLUDED_

@@ -1,6 +1,5 @@
 // SignedData.h: interface for the CSignedData class.
 //
-//////////////////////////////////////////////////////////////////////
 
 #if !defined(AFX_SIGNEDDATA_H__C408FDA9_5C26_4F85_8073_EA7278527011__INCLUDED_)
 #define AFX_SIGNEDDATA_H__C408FDA9_5C26_4F85_8073_EA7278527011__INCLUDED_
@@ -11,7 +10,7 @@
 
 #include "ASN1Sequence.h"
 #include "AlgorithmIdentifier.h"
-#include "Certificate.h"
+#include "ASN1/Certificate.h"
 #include "ContentInfo.h"
 #include "disigonsdk.h"
 

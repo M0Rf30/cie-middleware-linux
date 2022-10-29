@@ -1,4 +1,3 @@
-
 #include "RSAPublicKey.h"
 
 CRSAPublicKey::CRSAPublicKey(UUCBufferedReader& reader)
@@ -9,13 +8,7 @@ CRSAPublicKey::CRSAPublicKey(const CASN1Object& obj)
     : CASN1Sequence(obj) {
 
 }
-/*
-CRSAPublicKey::CRSAPublicKey(const UUCByteArray& content)
-: CASN1Sequence(content)
-{
 
-}
- */
 CRSAPublicKey::CRSAPublicKey(const CASN1Integer& modulus, const CASN1Integer& exponent) {
     addElement(modulus);
     addElement(exponent);
@@ -32,4 +25,3 @@ CASN1Integer CRSAPublicKey::getModulus() {
 CASN1Integer CRSAPublicKey::getExponent() {
     return CASN1Integer(elementAt(1));
 }
-

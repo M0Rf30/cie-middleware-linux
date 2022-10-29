@@ -23,38 +23,9 @@
 #ifndef ___CRYPTOKI_H_INC___
 #define ___CRYPTOKI_H_INC___
 
-#if defined(WIN32) || defined(_WIN32)
-#pragma pack(push, cryptoki, 1)
-#endif
-
-#if !defined(WIN32) && !defined(_WIN32)
 #define CK_IMPORT_SPEC
 #define CK_EXPORT_SPEC
 #define CK_CALL_SPEC
-
-#else
-
-/* Specifies that the function is a DLL entry point. */
-#define CK_IMPORT_SPEC __declspec(dllimport)
-
-/* Define CRYPTOKI_EXPORTS during the build of cryptoki libraries. Do
- * not define it in applications.
- */
-#ifdef CRYPTOKI_EXPORTS
-/* Specified that the function is an exported DLL entry point. */
-#	if defined(_WIN32_WCE)
-#		define CK_EXPORT_SPEC
-#	else
-#		define CK_EXPORT_SPEC __declspec(dllexport)
-#	endif
-#else
-#define CK_EXPORT_SPEC CK_IMPORT_SPEC
-#endif
-
-/* Ensures the calling convention for Win32 builds */
-#define CK_CALL_SPEC __cdecl
-
-#endif
 
 #define CK_DEFINE_FUNCTION(returnType, name) \
   returnType CK_EXPORT_SPEC CK_CALL_SPEC name
@@ -63,19 +34,14 @@
   returnType CK_EXPORT_SPEC CK_CALL_SPEC name
 
 #define CK_DECLARE_FUNCTION_POINTER(returnType, name) \
-  returnType CK_IMPORT_SPEC (CK_CALL_SPEC* name)
+  returnType CK_IMPORT_SPEC(CK_CALL_SPEC* name)
 
-#define CK_CALLBACK_FUNCTION(returnType, name) \
-  returnType(* name)
+#define CK_CALLBACK_FUNCTION(returnType, name) returnType(*name)
 
 #ifndef NULL_PTR
 #define NULL_PTR 0
 #endif
 
 #include "pkcs11.h"
-
-#if defined(_WIN32) || defined(WIN32) || defined(_WIN32)
-#pragma pack(pop, cryptoki)
-#endif
 
 #endif /* ___CRYPTOKI_H_INC___ */

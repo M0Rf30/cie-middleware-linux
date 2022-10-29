@@ -1,6 +1,5 @@
 // IssuerAndSerialNumber.h: interface for the CIssuerAndSerialNumber class.
 //
-//////////////////////////////////////////////////////////////////////
 
 #if !defined( \
     AFX_ISSUERANDSERIALNUMBER_H__0AE18C2B_4100_4D86_98D3_167D05277E42__INCLUDED_)
