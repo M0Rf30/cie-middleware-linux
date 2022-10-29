@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Util/SyncroMutex.h"
-#include "cryptoki.h"
+#include "PKCS11/cryptoki.h"
 
 #pragma pack()
 #include <map>

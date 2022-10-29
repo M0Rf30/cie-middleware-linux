@@ -1,4 +1,4 @@
-#include "CIEP11Template.h"
+#include "PKCS11/CIEP11Template.h"
 
 #include <cryptopp/asn.h>
 #include <cryptopp/cryptlib.h>

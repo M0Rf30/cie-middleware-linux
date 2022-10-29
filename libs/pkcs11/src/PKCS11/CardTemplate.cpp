@@ -1,9 +1,9 @@
-#include "CardTemplate.h"
+#include "PKCS11/CardTemplate.h"
 
 #include <utility>
 
 #include "Util/ModuleInfo.h"
-#include "CIEP11Template.h"
+#include "PKCS11/CIEP11Template.h"
 
 extern CLog Log;
 

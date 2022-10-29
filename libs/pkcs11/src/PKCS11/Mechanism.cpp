@@ -1,9 +1,8 @@
-
-#include "Mechanism.h"
+#include "PKCS11/Mechanism.h"
 
 #include "Crypto/RSA.h"
 #include "Util/util.h"
-#include "P11Object.h"
+#include "PKCS11/P11Object.h"
 
 extern CLog Log;
 

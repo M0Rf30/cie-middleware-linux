@@ -6,7 +6,7 @@
 //  Copyright © 2018 IPZS. All rights reserved.
 //
 
-#include "PINManager.h"
+#include "CSP/PINManager.h"
 
 #include <cryptopp/misc.h>
 
@@ -21,7 +21,7 @@
 #include "PKCS11/Slot.h"
 #include "Sign/definitions.h"
 #include "Util/ModuleInfo.h"
-#include "AbilitaCIE.h"
+#include "CSP/AbilitaCIE.h"
 #include "CSP/IAS.h"
 
 using namespace CieIDLogger;

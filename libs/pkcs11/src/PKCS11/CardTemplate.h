@@ -4,7 +4,7 @@
 #include <string>
 
 #include "PCSC/Token.h"
-#include "session.h"
+#include "PKCS11/session.h"
 
 
 namespace p11 {

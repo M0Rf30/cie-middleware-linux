@@ -17,8 +17,8 @@
 #include "Util/SyncroEvent.h"
 #include "Util/UUCByteArray.h"
 #include "Util/util.h"
-#include "CardTemplate.h"
-#include "session.h"
+#include "PKCS11/CardTemplate.h"
+#include "PKCS11/session.h"
 #include <PCSC/wintypes.h>
 
 using namespace CieIDLogger;
@@ -51,7 +51,7 @@ bool bModuleInit = false;
 //
 // CK_FUNCTION_LIST pkcs11_function_list = {
 //    { LIBRARY_VERSION_MAJOR, LIBRARY_VERSION_MINOR },
-//#include "pkcs11f.h"
+//#include "PKCS11/pkcs11f.h"
 //};
 #undef CK_PKCS11_FUNCTION_INFO
 

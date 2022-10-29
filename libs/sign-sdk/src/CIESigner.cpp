@@ -4,11 +4,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef WIN32
-#include "pkcs11.h"
-#else
-#include "cryptoki.h"
-#endif
+#include "PKCS11/cryptoki.h"
+
 
 #include "UUCLogger.h"
 USE_LOG;

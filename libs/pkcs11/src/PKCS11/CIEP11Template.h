@@ -1,6 +1,6 @@
 #pragma once
-#include "CardTemplate.h"
-#include "Slot.h"
+#include "PKCS11/CardTemplate.h"
+#include "PKCS11/Slot.h"
 #include <PCSC/wintypes.h>
 
 

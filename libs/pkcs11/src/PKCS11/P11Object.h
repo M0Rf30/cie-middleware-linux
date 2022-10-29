@@ -1,9 +1,9 @@
 #pragma once
 
-#include "session.h"
+#include "PKCS11/session.h"
 #include <map>
 
-#include "cryptoki.h"
+#include "PKCS11/cryptoki.h"
 
 namespace p11 {
 
