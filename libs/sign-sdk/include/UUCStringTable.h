@@ -1,6 +1,5 @@
 // UUCStringTable.h: interface for the UUCStringTable class.
 //
-//////////////////////////////////////////////////////////////////////
 
 #if !defined(AFX_UUCSTRINGTABLE_H__4392B6C2_89AA_436D_8291_A3D22CFF877B__INCLUDED_)
 #define AFX_UUCSTRINGTABLE_H__4392B6C2_89AA_436D_8291_A3D22CFF877B__INCLUDED_

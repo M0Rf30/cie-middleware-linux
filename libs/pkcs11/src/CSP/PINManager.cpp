@@ -8,22 +8,21 @@
 
 #include "PINManager.h"
 
-#include "../PKCS11/PKCS11Functions.h"
-#include "../PKCS11/Slot.h"
-#include "../PKCS11/wintypes.h"
-#include "IAS.h"
-//#include "CSP.h"
 #include <cryptopp/misc.h>
 
 #include <functional>
 #include <string>
 
-#include "../Crypto/ASNParser.h"
-#include "../Crypto/sha256.h"
-#include "../LOGGER/Logger.h"
-#include "../PCSC/PCSC.h"
-#include "../Util/ModuleInfo.h"
+#include "Crypto/ASNParser.h"
+#include "Crypto/sha256.h"
+#include "LOGGER/Logger.h"
+#include "PCSC/PCSC.h"
+#include "PKCS11/PKCS11Functions.h"
+#include "PKCS11/Slot.h"
+#include "Sign/definitions.h"
+#include "Util/ModuleInfo.h"
 #include "AbilitaCIE.h"
+#include "CSP/IAS.h"
 
 using namespace CieIDLogger;
 

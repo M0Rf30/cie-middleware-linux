@@ -1,7 +1,6 @@
 // RelativeDistinguishedName.h: interface for the CRelativeDistinguishedName
 // class.
 //
-//////////////////////////////////////////////////////////////////////
 
 #if !defined( \
     AFX_RELATIVEDISTINGUISHEDNAME_H__6344EC52_BE52_4C57_AA1D_3D2790EDDD7E__INCLUDED_)

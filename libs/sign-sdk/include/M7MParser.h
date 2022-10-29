@@ -11,7 +11,7 @@
 #define _M7MPARSER_H_
 
 #include <string>
-#include "ASN1/UUCByteArray.h"
+#include "Util/UUCByteArray.h"
 
 using namespace std;
 

@@ -9,9 +9,9 @@
 
 #pragma once
 
-#include "definitions.h"
-#include "UUCByteArray.h"
-#include "IssuerAndSerialNumber.h"
+#include "Sign/definitions.h"
+#include "Util/UUCByteArray.h"
+#include "ASN1/IssuerAndSerialNumber.h"
 #include "ASN1/SignerInfo.h"
 
 class CSignerInfoGenerator 

@@ -12,13 +12,12 @@
 
 #include <mutex>
 
-#include "../LOGGER/Logger.h"
-#include "../Util/ModuleInfo.h"
-#include "../Util/SyncroEvent.h"
-#include "../Util/UUCByteArray.h"
-#include "../Util/util.h"
+#include "LOGGER/Logger.h"
+#include "Util/ModuleInfo.h"
+#include "Util/SyncroEvent.h"
+#include "Util/UUCByteArray.h"
+#include "Util/util.h"
 #include "CardTemplate.h"
-#include "InitP11.h"
 #include "session.h"
 #include "wintypes.h"
 
@@ -65,7 +64,6 @@ __attribute__((constructor)) void DllMainAttach() {
   bModuleInit = true;
   std::string configPath = std::string(homedir) + "/.CIEPKI/ciepki.ini";
   initLog("CIEPKC11", configPath.c_str(), __DATE__ " " __TIME__);
-  p11::InitP11(configPath.c_str());
 }
 
 __attribute__((destructor)) void DllMainDetach() {

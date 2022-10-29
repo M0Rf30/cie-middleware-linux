@@ -17,16 +17,14 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#include "definitions.h"
+#include "Sign/definitions.h"
 #include "UUCBufferedReader.h"
 #include <stdlib.h>
 
 #define MAX_BUF			2000
 #define MAX_STACK_SIZE	100
 
-//////////////////////////////////////////////////////////////////////
 // Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 UUCBufferedReader::UUCBufferedReader(const UUCByteArray& buffer) {
     m_pbtBuffer = (BYTE*)buffer.getContent();
     m_nBufLen	= buffer.getLength();

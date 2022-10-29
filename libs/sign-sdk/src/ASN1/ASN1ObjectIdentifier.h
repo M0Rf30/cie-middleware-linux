@@ -1,4 +1,3 @@
-
 #ifndef _ASN1OBJECTIDENTIFIER_H
 #define _ASN1OBJECTIDENTIFIER_H
 
@@ -9,23 +8,22 @@
 using namespace std;
 
 class CASN1ObjectIdentifier : public CASN1Object {
-  private:
-    const static BYTE TAG;
-    // UUCByteArray* m_pObjId;
+ private:
+  const static BYTE TAG;
 
-  public:
-    CASN1ObjectIdentifier(UUCBufferedReader& reader);
+ public:
+  CASN1ObjectIdentifier(UUCBufferedReader& reader);
 
-    CASN1ObjectIdentifier(const CASN1Object&);
+  CASN1ObjectIdentifier(const CASN1Object&);
 
-    CASN1ObjectIdentifier(const char* szObjId);
+  CASN1ObjectIdentifier(const char* szObjId);
 
-    // distruttore
-    ~CASN1ObjectIdentifier();
+  // distruttore
+  ~CASN1ObjectIdentifier();
 
-    void ToOidString(UUCByteArray& objId);
+  void ToOidString(UUCByteArray& objId);
 
-    bool equals(const CASN1ObjectIdentifier& objid);
+  bool equals(const CASN1ObjectIdentifier& objid);
 };
 
 #endif  // _ASN1OBJECTIDENTIFIER_H

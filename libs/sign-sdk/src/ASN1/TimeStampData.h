@@ -63,20 +63,20 @@ TimeStampAndCRL ::= SEQUENCE {
 */
 
 class CTimeStampData : public CContentInfo {
-  public:
-    CTimeStampData(UUCBufferedReader& reader);
+ public:
+  CTimeStampData(UUCBufferedReader& reader);
 
-    CTimeStampData(const CASN1Object& timeStampData);
+  CTimeStampData(const CASN1Object& timeStampData);
 
-    CTimeStampData(UUCByteArray& content, CTimeStampToken& tst);
+  CTimeStampData(UUCByteArray& content, CTimeStampToken& tst);
 
-    virtual ~CTimeStampData();
+  virtual ~CTimeStampData();
 
-    int verify(REVOCATION_INFO* pRevocationInfo);
+  int verify(REVOCATION_INFO* pRevocationInfo);
 
-    int verify(const char* szDateTime, REVOCATION_INFO* pRevocationInfo);
+  int verify(const char* szDateTime, REVOCATION_INFO* pRevocationInfo);
 
-    CTimeStampToken getTimeStampToken();
+  CTimeStampToken getTimeStampToken();
 
-    CASN1OctetString getTimeStampDataContent();
+  CASN1OctetString getTimeStampDataContent();
 };

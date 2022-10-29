@@ -13,14 +13,14 @@
 #include "TimeStampToken.h"
 
 class CPKIStatusInfo : public CASN1Sequence {
-  public:
-    CPKIStatusInfo(UUCBufferedReader& reader);
+ public:
+  CPKIStatusInfo(UUCBufferedReader& reader);
 
-    CPKIStatusInfo(const CASN1Object& PKIStatusInfo);
+  CPKIStatusInfo(const CASN1Object& PKIStatusInfo);
 
-    virtual ~CPKIStatusInfo();
+  virtual ~CPKIStatusInfo();
 
-    CASN1Integer getStatus();
+  CASN1Integer getStatus();
 };
 
 #endif

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "definitions.h"
+#include "Sign/definitions.h"
 #include "cryptoki.h"
 
 #include "ASN1/SignerInfo.h"

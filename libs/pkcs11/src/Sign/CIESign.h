@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../CSP/IAS.h"
+#include "CSP/IAS.h"
 #include "disigonsdk.h"
 
 class CIESign {

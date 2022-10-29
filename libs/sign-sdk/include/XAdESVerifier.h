@@ -1,7 +1,7 @@
 #pragma once
 
-#include "ASN1/UUCByteArray.h"
-#include "Certificate.h"
+#include "Util/UUCByteArray.h"
+#include "ASN1/Certificate.h"
 
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>

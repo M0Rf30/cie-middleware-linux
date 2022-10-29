@@ -7,8 +7,8 @@
  *
  */
 
-#include "definitions.h"
-#include "ASN1/UUCByteArray.h"
+#include "Sign/definitions.h"
+#include "Util/UUCByteArray.h"
 #include "ASN1/ContentInfo.h"
 #include "ASN1/SignedData.h"
 #include "ASN1/SignerInfo.h"

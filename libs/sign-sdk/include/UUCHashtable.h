@@ -31,7 +31,7 @@
 #define ERR_INDEX_OUT_OF_BOUND    0xC0001001L
 #define ERR_TABLE_IS_EMPTY		  0xC0001002L
 #include <stdlib.h>
-#include "definitions.h"
+#include "Sign/definitions.h"
 
 template<class KEY, class VALUE>
 class UUCHashtable

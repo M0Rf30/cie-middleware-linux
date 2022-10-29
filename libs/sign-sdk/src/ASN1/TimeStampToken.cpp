@@ -1,16 +1,11 @@
 // TimeStampToken.cpp: implementation of the CTimeStampToken class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "TimeStampToken.h"
 #include "ContentInfo.h"
 #include "ContentType.h"
 #include "SignedData.h"
 #include "ASN1Octetstring.h"
 
-//////////////////////////////////////////////////////////////////////
 // Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 CTimeStampToken::CTimeStampToken(UUCBufferedReader& reader)
     :CContentInfo(reader) {
 

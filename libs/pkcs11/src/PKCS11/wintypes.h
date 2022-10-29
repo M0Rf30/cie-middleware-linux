@@ -6,54 +6,33 @@
  *  Email
  ****************************************************************************/
 
-#ifndef __UTILITYTYPES_H
-#define __UTILITYTYPES_H
+#ifndef LIBS_PKCS11_SRC_PKCS11_WINTYPES_H_
+#define LIBS_PKCS11_SRC_PKCS11_WINTYPES_H_
 
 #include <memory.h>
+#include <sys/types.h>
 
 #define IN
 #define OUT
 
-#define BT0_PADDING   0
-#define BT1_PADDING   1
-#define BT2_PADDING   2
-#define CALG_MD2   1
-#define CALG_MD5   2
-#define CALG_SHA1  3
+#define BT0_PADDING 0
+#define BT1_PADDING 1
+#define BT2_PADDING 2
+#define CALG_MD2 1
+#define CALG_MD5 2
+#define CALG_SHA1 3
 
-#define ERROR_FILE_NOT_FOUND  0x02
-#define ERROR_MORE_DATA  0xE0
+#define ERROR_FILE_NOT_FOUND 0x02
+#define ERROR_MORE_DATA 0xE0
 #define ERROR_INVALID_DATA 0xE1
-#define ERROR_UNABLE_TO_ALLOCATE  0xE2
+#define ERROR_UNABLE_TO_ALLOCATE 0xE2
 
 #define NNULL 0
 #define UINT unsigned int
-//#ifndef LONG
-//#define LONG long
-//#endif
-//#ifndef LPCTSTR
-//typedef LPCTSTR const char*;
-//#endif
-//
-//#ifndef LPCSTR
-//typedef LPCSTR const char*;
-//#endif
 
 #ifndef BYTE
 #define BYTE unsigned char
 #endif
-
-//#ifndef
-//#define DWORD uint32_t
-//#endif
-
-//#ifndef WORD
-//#define WORD unsigned short
-//#endif
-
-//#ifndef BOOL
-//#define BOOL unsigned char
-//#endif
 
 #define HANDLE void*
 #define PCHAR char*
@@ -61,7 +40,7 @@
 #define VOID void
 
 #ifndef HRESULT
-#define HRESULT unsigned long
+#define HRESULT uint64_t
 #endif
 
 #ifndef LOWORD
@@ -78,10 +57,10 @@
 
 #define MAKEWORD(lo, hi) lo + (hi * 256)
 
-#define S_OK  0
+#define S_OK 0
 
-void SetLastError(unsigned long nErr);
-unsigned long GetLastError();
+void SetLastError(u_int64_t nErr);
+u_int64_t GetLastError();
 int atox(const char* szVal);
 
 #ifndef ERROR_INVALID_HANDLE
@@ -92,4 +71,4 @@ int atox(const char* szVal);
 #define ERROR_SUCCESS 0
 #endif
 #define ODS printf
-#endif //__UTILITYTYPES_H
+#endif  // LIBS_PKCS11_SRC_PKCS11_WINTYPES_H_

@@ -1,6 +1,5 @@
 // SubjectPublicKeyInfo.h: interface for the CSubjectPublicKeyInfo class.
 //
-//////////////////////////////////////////////////////////////////////
 
 #if !defined( \
     AFX_SUBJECTPUBLICKEYINFO_H__93E2619B_704A_49A2_8DEA_DCCC521605CE__INCLUDED_)

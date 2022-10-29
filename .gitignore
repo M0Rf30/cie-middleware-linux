@@ -2,6 +2,7 @@
 *.VC.opendb
 *.a
 *.d
+*.log
 *.o
 *.orig
 *.so

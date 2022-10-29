@@ -40,15 +40,15 @@ CertID ::= SEQUENCE {
 
 #include "ASN1Integer.h"
 #include "ASN1Sequence.h"
-#include "Certificate.h"
+#include "ASN1/Certificate.h"
 
 class COCSPRequest : public CASN1Sequence {
-  public:
-    COCSPRequest(UUCBufferedReader& reader);
+ public:
+  COCSPRequest(UUCBufferedReader& reader);
 
-    COCSPRequest(const CASN1Object& contentInfo);
+  COCSPRequest(const CASN1Object& contentInfo);
 
-    COCSPRequest(CCertificate& certificate);
+  COCSPRequest(CCertificate& certificate);
 };
 
 #endif  //_OCSPRequest

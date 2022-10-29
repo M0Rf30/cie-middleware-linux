@@ -12,7 +12,7 @@
 #include <cryptopp/modes.h>
 #include <cryptopp/aes.h>
 #include <cryptopp/filters.h>
-#include "../keys.h"
+#include "keys.h"
 #include <cryptopp/sha.h>
 #include <string>
 
@@ -52,9 +52,7 @@ int decrypt(std::string& ciphertext, std::string& message) {
     CryptoPP::SHA1().CalculateDigest(digest, (byte*)enckey.c_str(), enckey.length());
     memcpy(key, digest, CryptoPP::AES::DEFAULT_KEYLENGTH );
 
-    //
     // Decrypt
-    //
     CryptoPP::AES::Decryption aesDecryption(key, CryptoPP::AES::DEFAULT_KEYLENGTH);
     CryptoPP::CBC_Mode_ExternalCipher::Decryption cbcDecryption( aesDecryption, iv );
 
