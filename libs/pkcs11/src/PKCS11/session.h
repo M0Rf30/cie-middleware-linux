@@ -1,14 +1,14 @@
 #pragma once
 
-#include "cryptoki.h"
+#include "PKCS11/cryptoki.h"
 
-#include "Mechanism.h"
-#include "Slot.h"
+#include "PKCS11/Mechanism.h"
+#include "PKCS11/Slot.h"
 #include "PCSC/Token.h"
 
 #include <PCSC/wintypes.h>
 #include <PCSC/winscard.h>
-#include "P11Object.h"
+#include "PKCS11/P11Object.h"
 #include <memory>
 
 namespace p11 {

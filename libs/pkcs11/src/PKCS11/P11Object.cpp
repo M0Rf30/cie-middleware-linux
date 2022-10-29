@@ -1,6 +1,6 @@
 
-#include "P11Object.h"
-#include "CardTemplate.h"
+#include "PKCS11/P11Object.h"
+#include "PKCS11/CardTemplate.h"
 
 extern CLog Log;
 

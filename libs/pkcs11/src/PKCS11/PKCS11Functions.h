@@ -3,7 +3,7 @@
 #include <PCSC/wintypes.h>
 #include <PCSC/winscard.h>
 
-#include "./cryptoki.h"
+#include "PKCS11/cryptoki.h"
 
 #define MAXVAL 0xffffff
 #define MAXSESSIONS MAXVAL

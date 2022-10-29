@@ -1,9 +1,9 @@
 
-#include "Slot.h"
+#include "PKCS11/Slot.h"
 #include "PKCS11Functions.h"
 #include "PCSC/Token.h"
 
-#include "CardTemplate.h"
+#include "PKCS11/CardTemplate.h"
 #include "Util/util.h"
 #include "Util/SyncroEvent.h"
 #include <mutex>

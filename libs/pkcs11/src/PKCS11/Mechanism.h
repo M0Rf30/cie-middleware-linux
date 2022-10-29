@@ -1,14 +1,10 @@
 #pragma once
+#include <memory>
+
 #include "Crypto/MD5.h"
 #include "Crypto/SHA1.h"
 #include "Crypto/sha256.h"
-#include "cryptoki.h"
-
-//#pragma pack(1)
-//#include "pkcs11.h"
-//#pragma pack()
-
-#include <memory>
+#include "PKCS11/cryptoki.h"
 
 namespace p11 {
 

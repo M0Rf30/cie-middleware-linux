@@ -223,7 +223,7 @@ extern "C" {
 
 /* All the various Cryptoki types and #define'd values are in the
  * file pkcs11t.h. */
-#include "pkcs11t.h"
+#include "PKCS11/pkcs11t.h"
 
 #define __PASTE(x,y)      x##y
 
@@ -239,7 +239,7 @@ extern "C" {
 
 /* pkcs11f.h has all the information about the Cryptoki
  * function prototypes. */
-#include "pkcs11f.h"
+#include "PKCS11/pkcs11f.h"
 
 #undef CK_NEED_ARG_LIST
 #undef CK_PKCS11_FUNCTION_INFO
@@ -258,7 +258,7 @@ extern "C" {
 
 /* pkcs11f.h has all the information about the Cryptoki
  * function prototypes. */
-#include "pkcs11f.h"
+#include "PKCS11/pkcs11f.h"
 
 #undef CK_NEED_ARG_LIST
 #undef CK_PKCS11_FUNCTION_INFO
@@ -278,12 +278,12 @@ extern "C" {
 
 struct CK_FUNCTION_LIST {
 
-    CK_VERSION    version;  /* Cryptoki version */
+  CK_VERSION    version;  /* Cryptoki version */
 
-    /* Pile all the function pointers into the CK_FUNCTION_LIST. */
-    /* pkcs11f.h has all the information about the Cryptoki
-     * function prototypes. */
-#include "pkcs11f.h"
+/* Pile all the function pointers into the CK_FUNCTION_LIST. */
+/* pkcs11f.h has all the information about the Cryptoki
+ * function prototypes. */
+#include "PKCS11/pkcs11f.h"
 
 };
 
