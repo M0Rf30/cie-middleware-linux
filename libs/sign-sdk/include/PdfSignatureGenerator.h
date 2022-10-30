@@ -9,13 +9,13 @@
 
 #ifndef _PDFSIGNATUREGENERATOR_H_
 #define _PDFSIGNATUREGENERATOR_H_
-
 #include <podofo/base/PdfWriter.h>
+#include <podofo/doc/PdfMemDocument.h>
 #include <podofo/doc/PdfSignOutputDevice.h>
 #include <podofo/doc/PdfSignatureField.h>
 #include <podofo/podofo.h>
 
-#include "ASN1/UUCByteArray.h"
+#include "Util/UUCByteArray.h"
 
 using namespace PoDoFo;
 using namespace std;
@@ -63,7 +63,9 @@ class PdfSignatureGenerator {
   const double getHeight(int pageIndex);
 
  private:
-  PdfMemDocument* m_pPdfDocument;
+  PdfDocument* m_pPdfDocument;
+
+  PdfMemDocument* m_pPdfMemDocument;
 
   PdfWriter* m_pPdfWriter;
 

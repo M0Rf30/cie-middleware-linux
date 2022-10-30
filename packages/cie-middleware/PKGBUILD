@@ -9,156 +9,156 @@ license=("BSD-3")
 section="utils"
 priority="optional"
 sources=(
-    "https://github.com/M0Rf30/cie-middleware-linux/archive/podofo-vanilla.tar.gz"
-    "https://downloads.gradle-dn.com/distributions/gradle-7.4.2-bin.zip"
+  "https://github.com/M0Rf30/cie-middleware-linux/archive/podofo-vanilla.tar.gz"
+  "https://downloads.gradle-dn.com/distributions/gradle-7.4.2-bin.zip"
 )
 sources__pacman=(
-    "https://github.com/M0Rf30/cie-middleware-linux/archive/podofo-vanilla.tar.gz"
+  "https://github.com/M0Rf30/cie-middleware-linux/archive/podofo-vanilla.tar.gz"
 )
 
 hashsums=(
-    "skip"
-    "skip"
+  "skip"
+  "skip"
 )
 hashsums__pacman=(
-    "skip"
+  "skip"
 )
 depends__apt=(
-    "cryptopp"
-    "libcurl4"
-    "libfreetype6"
-    "libfontconfig1"
-    "libpcsclite1"
-    "libpodofo"
-    "libpng16-16"
-    "libssl1.1"
-    "libxml2"
-    "openjdk-11-jre-headless"
-    "pcscd"
+  "cryptopp"
+  "libcurl4"
+  "libfreetype6"
+  "libfontconfig1"
+  "libpcsclite1"
+  "libpodofo"
+  "libpng16-16"
+  "libssl1.1"
+  "libxml2"
+  "openjdk-11-jre-headless"
+  "pcscd"
 )
 makedepends__apt=(
-    "ccache"
-    "g++"
-    "libcurl4-openssl-dev"
-    "libfontconfig1-dev"
-    "libfreetype6-dev"
-    "libpcsclite-dev"
-    "libpng-dev"
-    "libpodofo-dev"
-    "libssl-dev"
-    "libxml2-dev"
-    "openjdk-11-jre-headless"
-    "pkg-config"
-    "python3-pip"
-    "unzip"
+  "ccache"
+  "g++"
+  "libcurl4-openssl-dev"
+  "libfontconfig1-dev"
+  "libfreetype6-dev"
+  "libpcsclite-dev"
+  "libpng-dev"
+  "libpodofo-dev"
+  "libssl-dev"
+  "libxml2-dev"
+  "openjdk-11-jre-headless"
+  "pkg-config"
+  "python3-pip"
+  "unzip"
 )
 
 depends__pacman=(
-    "crypto++"
-    "curl"
-    "fontconfig"
-    "freetype2"
-    "jre11-openjdk"
-    "libpng"
-    "libxml2"
-    "openssl"
-    "pcsclite"
-    "podofo"
+  "crypto++"
+  "curl"
+  "fontconfig"
+  "freetype2"
+  "jre11-openjdk"
+  "libpng"
+  "libxml2"
+  "openssl"
+  "pcsclite"
+  "podofo"
 )
 makedepends__pacman=(
-    "ccache"
-    "crypto++"
-    "curl"
-    "fontconfig"
-    "freetype2"
-    "gradle"
-    "libpng"
-    "libxml2"
-    "meson"
-    "ninja"
-    "openssl"
-    "pcsclite"
-    "pkgconf"
-    "podofo"
-    "unzip"
+  "ccache"
+  "crypto++"
+  "curl"
+  "fontconfig"
+  "freetype2"
+  "gradle"
+  "libpng"
+  "libxml2"
+  "meson"
+  "ninja"
+  "openssl"
+  "pcsclite"
+  "pkgconf"
+  "podofo"
+  "unzip"
 )
 
 depends__yum=(
-    "cryptopp"
-    "fontconfig"
-    "freetype"
-    "java-11-openjdk-headless"
-    "libcurl"
-    "libpng"
-    "libxml2"
-    "openssl"
-    "pcsc-lite"
-    "podofo-libs"
+  "cryptopp"
+  "fontconfig"
+  "freetype"
+  "java-11-openjdk-headless"
+  "libcurl"
+  "libpng"
+  "libxml2"
+  "openssl"
+  "pcsc-lite"
+  "podofo-libs"
 )
 makedepends__yum=(
-    "ccache"
-    "cryptopp-devel"
-    "fontconfig-devel"
-    "freetype-devel"
-    "gcc-c++"
-    "java-11-openjdk-devel"
-    "libcurl-devel"
-    "libpng-devel"
-    "libxml2-devel"
-    "meson"
-    "openssl-devel"
-    "pcsc-lite-devel"
-    "pkgconf-pkg-config"
-    "podofo-devel"
+  "ccache"
+  "cryptopp-devel"
+  "fontconfig-devel"
+  "freetype-devel"
+  "gcc-c++"
+  "java-11-openjdk-devel"
+  "libcurl-devel"
+  "libpng-devel"
+  "libxml2-devel"
+  "meson"
+  "openssl-devel"
+  "pcsc-lite-devel"
+  "pkgconf-pkg-config"
+  "podofo-devel"
 )
 
 build__pacman() {
-    export JAVA_HOME=/usr/lib/jvm/default/
+  export JAVA_HOME=/usr/lib/jvm/default/
 
-    cd "${srcdir}/${pkgname}-linux-podofo-vanilla"
-    gradle -b cie-java/build.gradle standalone
-    meson builddir libs
-    meson configure -Dprefix=/usr builddir
-    meson compile -C builddir
+  cd "${srcdir}/${pkgname}-linux-podofo-vanilla"
+  gradle -b cie-java/build.gradle standalone
+  meson builddir libs
+  meson configure -Dprefix=/usr builddir
+  meson compile -C builddir
 }
 
 build__yum() {
-    export JAVA_HOME=/usr/lib/jvm/java-11-openjdk/
+  export JAVA_HOME=/usr/lib/jvm/java-11-openjdk/
 
-    cd "${srcdir}/${pkgname}-linux-podofo-vanilla"
-    ../gradle-7.4.2/bin/gradle -b cie-java/build.gradle standalone
-    meson builddir libs
-    meson configure -Dprefix=/usr builddir
-    meson compile -C builddir
+  cd "${srcdir}/${pkgname}-linux-podofo-vanilla"
+  ../gradle-7.4.2/bin/gradle -b cie-java/build.gradle standalone
+  meson builddir libs
+  meson configure -Dprefix=/usr builddir
+  meson compile -C builddir
 }
 
 build__apt() {
-    export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
-    pip3 install ninja==1.10.2.3 meson==0.61.1
+  export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+  pip3 install ninja==1.10.2.3 meson==0.61.1
 
-    cd "${srcdir}/${pkgname}-linux-podofo-vanilla"
-    ../gradle-7.4.2/bin/gradle -b cie-java/build.gradle standalone
+  cd "${srcdir}/${pkgname}-linux-podofo-vanilla"
+  ../gradle-7.4.2/bin/gradle -b cie-java/build.gradle standalone
 
-    meson builddir libs
-    meson configure -Dprefix=/usr builddir
-    meson compile -C builddir
+  meson builddir libs
+  meson configure -Dprefix=/usr builddir
+  meson compile -C builddir
 }
 
 package() {
-    cd "${srcdir}/${pkgname}-linux-podofo-vanilla"
+  cd "${srcdir}/${pkgname}-linux-podofo-vanilla"
 
-    # Java Application
-    install -Dm755 cie-java/build/libs/CIEID-standalone.jar \
+  # Java Application
+  install -Dm755 cie-java/build/libs/CIEID-standalone.jar \
     "${pkgdir}/usr/share/cieid/cieid.jar"
-    install -Dm644 "data/cieid.desktop" \
+  install -Dm644 "data/cieid.desktop" \
     "${pkgdir}/usr/share/applications/cieid.desktop"
-    install -Dm755 data/logo.png \
+  install -Dm755 data/logo.png \
     "${pkgdir}/usr/share/pixmaps/cieid.png"
-    install -Dm755 "data/cieid.sh" \
+  install -Dm755 "data/cieid.sh" \
     "${pkgdir}/usr/bin/cieid"
-    install -Dm644 LICENSE \
+  install -Dm644 LICENSE \
     "${pkgdir}/usr/share/licenses/cieid/LICENSE"
 
-    # Lib
-    DESTDIR="${pkgdir}" meson install -C builddir
+  # Lib
+  DESTDIR="${pkgdir}" meson install -C builddir
 }

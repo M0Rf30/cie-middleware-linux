@@ -3,7 +3,7 @@
 #include <PCSC/wintypes.h>
 #include <PCSC/winscard.h>
 
-#include "./cryptoki.h"
+#include "PKCS11/cryptoki.h"
 
 #define MAXVAL 0xffffff
 #define MAXSESSIONS MAXVAL
@@ -15,7 +15,7 @@
 #define PIN_LEN 8
 #define USER_PIN_ID 0x10
 
-#include "../LOGGER/Logger.h"
+#include "LOGGER/Logger.h"
 
 using namespace CieIDLogger;
 

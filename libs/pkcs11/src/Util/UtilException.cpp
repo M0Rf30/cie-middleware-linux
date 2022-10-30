@@ -1,10 +1,10 @@
 
-#include "UtilException.h"
+#include "Util/UtilException.h"
 
 #include <stdio.h>
 
-#include "../LOGGER/Logger.h"
-#include "./util.h"
+#include "LOGGER/Logger.h"
+#include "Util/util.h"
 
 using namespace CieIDLogger;
 

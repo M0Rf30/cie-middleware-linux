@@ -1,22 +1,26 @@
 #pragma once
 
-#include "cryptoki.h"
-#include "../Util/SyncroMutex.h"
-//#include "../Util/Thread.h"
+#include "Util/SyncroMutex.h"
+#include "PKCS11/cryptoki.h"
+
 #pragma pack()
-#include "CardContext.h"
 #include <map>
-#include <vector>
 #include <memory>
 #include <thread>
+#include <vector>
+
+#include "CardContext.h"
+
 
 namespace p11 {
 
-typedef std::map<CK_SLOT_ID,std::shared_ptr<class CSlot>> SlotMap;
-typedef std::map<CK_OBJECT_HANDLE,std::shared_ptr<class CP11Object>> HandleObjMap;
-typedef std::map<std::shared_ptr<class CP11Object>,CK_OBJECT_HANDLE> ObjHandleMap;
+typedef std::map<CK_SLOT_ID, std::shared_ptr<class CSlot>> SlotMap;
+typedef std::map<CK_OBJECT_HANDLE, std::shared_ptr<class CP11Object>>
+    HandleObjMap;
+typedef std::map<std::shared_ptr<class CP11Object>, CK_OBJECT_HANDLE>
+    ObjHandleMap;
 
-typedef std::vector<std::shared_ptr<class CP11Object> > P11ObjectVector;
+typedef std::vector<std::shared_ptr<class CP11Object>> P11ObjectVector;
 
 // lo slot contiene la mappa degli oggetti della carta che ci
 // sta dentro; quindi ogni sessione su quella carta condivide
@@ -26,98 +30,95 @@ typedef std::vector<std::shared_ptr<class CP11Object> > P11ObjectVector;
 
 class CCardTemplate;
 
-#define CKU_NOBODY	0xffffff
+#define CKU_NOBODY 0xffffff
 
-enum SlotEvent {
-    SE_NoEvent,
-    SE_Removed,
-    SE_Inserted
-};
+enum SlotEvent { SE_NoEvent, SE_Removed, SE_Inserted };
 
 class CSlot {
-  private:
-    static DWORD dwSlotCnt; //counter degli slot (ID P11)
-    ByteDynArray GetATR();
+ private:
+  static DWORD dwSlotCnt;  // counter degli slot (ID P11)
+  ByteDynArray GetATR();
 
-  public:
-    SCARDHANDLE hCard;
-    void Connect();
-    DWORD dwSessionCount; // numero di session aperte su questo slot
+ public:
+  SCARDHANDLE hCard;
+  void Connect();
+  DWORD dwSessionCount;  // numero di session aperte su questo slot
 
-    static SlotMap g_mSlots; //mappa globale degli slot
-    static bool bMonitorUpdate; //mappa globale degli slot
+  static SlotMap g_mSlots;     // mappa globale degli slot
+  static bool bMonitorUpdate;  // mappa globale degli slot
 
-    CK_SLOT_ID hSlot; // ID P11 dello slot
+  CK_SLOT_ID hSlot;  // ID P11 dello slot
 
-    std::string szName; // nome del lettore associato
+  std::string szName;  // nome del lettore associato
 
-    bool bUpdated;	// flag: la mappa degli oggetti è aggiornata alla carta
-    // che attualmente è nel lettore?
+  bool bUpdated;  // flag: la mappa degli oggetti è aggiornata alla carta
+  // che attualmente è nel lettore?
 
-    ByteDynArray baSerial;
-    std::shared_ptr<CCardTemplate> pSerialTemplate;
+  ByteDynArray baSerial;
+  std::shared_ptr<CCardTemplate> pSerialTemplate;
 
-    ByteDynArray baATR;
-    void GetATR(ByteArray &ATR);
+  ByteDynArray baATR;
+  void GetATR(ByteArray &ATR);
 
-    DWORD dwP11ObjCnt;			//counter degli oggetti (ID P11)
-    HandleObjMap HandleP11Map;	// mi servono due mappe per gestire correttamente
-    ObjHandleMap ObjP11Map;		// gli ID oggetti specifici per uno slot
-    // una per tradurre gli ID passati dall'applicazione,
-    // un'altra per sapere se un oggetto restituito
-    // ha già un ID o meno
+  DWORD dwP11ObjCnt;          // counter degli oggetti (ID P11)
+  HandleObjMap HandleP11Map;  // mi servono due mappe per gestire correttamente
+  ObjHandleMap ObjP11Map;     // gli ID oggetti specifici per uno slot
+  // una per tradurre gli ID passati dall'applicazione,
+  // un'altra per sapere se un oggetto restituito
+  // ha già un ID o meno
 
-    CK_OBJECT_HANDLE GetNewObjectID();
-    CK_OBJECT_HANDLE GetIDFromObject(const std::shared_ptr<CP11Object>& pObject);
-    // restituisce l'handle di sessione dell'oggetto corrispondente
-    // pObject, e lo crea se non esiste
-    void DelObjectHandle(const std::shared_ptr<CP11Object>& pObject);
-    // cancella l'handle dell'oggetto pObject
-    std::shared_ptr<CP11Object> GetObjectFromID(CK_OBJECT_HANDLE hObjectHandle);
+  CK_OBJECT_HANDLE GetNewObjectID();
+  CK_OBJECT_HANDLE GetIDFromObject(const std::shared_ptr<CP11Object> &pObject);
+  // restituisce l'handle di sessione dell'oggetto corrispondente
+  // pObject, e lo crea se non esiste
+  void DelObjectHandle(const std::shared_ptr<CP11Object> &pObject);
+  // cancella l'handle dell'oggetto pObject
+  std::shared_ptr<CP11Object> GetObjectFromID(CK_OBJECT_HANDLE hObjectHandle);
 
+  CK_USER_TYPE User;
 
-    CK_USER_TYPE User;
+  CSlot(const char *szName);
+  ~CSlot();
+  static CK_SLOT_ID GetNewSlotID();
+  static void InitSlotList();
+  static void DeleteSlotList();
+  static std::shared_ptr<CSlot> GetSlotFromID(CK_SLOT_ID hSlotId);
+  static std::shared_ptr<CSlot> GetSlotFromReaderName(const char *name);
+  static CK_SLOT_ID AddSlot(std::shared_ptr<CSlot> pSlot);
+  static void DeleteSlot(CK_SLOT_ID hSlotId);
+  void Init();
+  void Final();
 
-    CSlot(const char *szName);
-    ~CSlot();
-    static CK_SLOT_ID GetNewSlotID();
-    static void InitSlotList();
-    static void DeleteSlotList();
-    static std::shared_ptr<CSlot> GetSlotFromID(CK_SLOT_ID hSlotId);
-    static std::shared_ptr<CSlot> GetSlotFromReaderName(const char *name);
-    static CK_SLOT_ID AddSlot(std::shared_ptr<CSlot> pSlot);
-    static void DeleteSlot(CK_SLOT_ID hSlotId);
-    void Init();
-    void Final();
+  void AddP11Object(std::shared_ptr<CP11Object> object);
+  std::shared_ptr<CP11Object> FindP11Object(CK_OBJECT_CLASS objClass,
+                                            CK_ATTRIBUTE_TYPE attr,
+                                            CK_BYTE *val, int valLen);
+  void DelP11Object(const std::shared_ptr<CP11Object> &pObject);
+  void ClearP11Objects();
+  bool IsTokenPresent();
 
-    void AddP11Object(std::shared_ptr<CP11Object> object);
-    std::shared_ptr<CP11Object> FindP11Object(CK_OBJECT_CLASS objClass, CK_ATTRIBUTE_TYPE attr, CK_BYTE *val, int valLen);
-    void DelP11Object(const std::shared_ptr<CP11Object>& pObject);
-    void ClearP11Objects();
-    bool IsTokenPresent();
+  P11ObjectVector P11Objects;  // vettore degli oggetti
 
-    P11ObjectVector P11Objects; // vettore degli oggetti
+  std::shared_ptr<CCardTemplate> pTemplate;  // template della carta
+  // (aggiornato se bUpdated=true
 
-    std::shared_ptr<CCardTemplate> pTemplate;	// template della carta
-    // (aggiornato se bUpdated=true
+  void *pTemplateData;
+  // i dati specifici del template della carta,
+  // gestiti dalla DLL manager
 
-    void *pTemplateData;
-    // i dati specifici del template della carta,
-    // gestiti dalla DLL manager
+  static std::thread Thread;           // thread monitor degli eventi
+  static CCardContext *ThreadContext;  // context del monitor degli eventi
 
-    static std::thread Thread;		// thread monitor degli eventi
-    static CCardContext *ThreadContext; // context del monitor degli eventi
+  SlotEvent lastEvent;
 
-    SlotEvent lastEvent;
+  void GetInfo(CK_SLOT_INFO_PTR pInfo);
+  void GetTokenInfo(CK_TOKEN_INFO_PTR pInfo);
+  void CloseAllSessions();
 
-    void GetInfo(CK_SLOT_INFO_PTR pInfo);
-    void GetTokenInfo(CK_TOKEN_INFO_PTR pInfo);
-    void CloseAllSessions();
+  size_t SessionCount();
+  size_t RWSessionCount();
 
-    size_t  SessionCount();
-    size_t  RWSessionCount();
-
-    CCardContext Context;
+  CCardContext Context;
 };
 
-}
+}  // namespace p11

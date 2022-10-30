@@ -1,6 +1,5 @@
 // UUCStringTable.h: interface for the UUCStringTable class.
 //
-//////////////////////////////////////////////////////////////////////
 
 #if !defined(AFX_UUCSTRINGTABLE_H__4392B6C2_89AA_436D_8291_A3D22CFF877B__INCLUDED_)
 #define AFX_UUCSTRINGTABLE_H__4392B6C2_89AA_436D_8291_A3D22CFF877B__INCLUDED_
@@ -9,7 +8,7 @@
 
 #include "UUCHashtable.h"
 
-class UUCStringTable : public UUCHashtable<char*, char*>  
+class UUCStringTable : public UUCHashtable<char*, char*>
 {
 public:
 	void remove();
@@ -22,7 +21,7 @@ public:
 	virtual bool remove(char* const& szKey);
 
 	static unsigned long getHash(const char* szKey);
-	
+
 	// destructor
 	virtual ~UUCStringTable();
 

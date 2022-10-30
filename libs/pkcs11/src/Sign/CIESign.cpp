@@ -1,8 +1,8 @@
-#include "CIESign.h"
+#include "Sign/CIESign.h"
 
 #include <string.h>
 
-#include "../LOGGER/Logger.h"
+#include "LOGGER/Logger.h"
 #include "disigonsdk.h"
 
 using namespace CieIDLogger;

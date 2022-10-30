@@ -14,7 +14,7 @@
 
 #define MAX_LEN 256
 
-#include "definitions.h"
+#include "Sign/definitions.h"
 
 #define VERIFIED_CERT_VALIDITY 0x000001
 #define VERIFIED_CERT_REVOKED 0x000002

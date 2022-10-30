@@ -1,21 +1,20 @@
 // SignerInfo.cpp: implementation of the CSignerInfo class.
 //
-//////////////////////////////////////////////////////////////////////
 
 #include "SignerInfo.h"
 #include "ASN1OptionalField.h"
 #include "ASN1Exception.h"
 #include "RSAPublicKey.h"
-#include "../RSA/rsaeuro.h"
-#include "../RSA/rsa.h"
+#include "RSA/rsaeuro.h"
+#include "RSA/rsa.h"
 #include "CertStore.h"
 #include "DigestInfo.h"
 #include <sys/types.h>
-#include "Certificate.h"
+#include "ASN1/Certificate.h"
 #include "Crl.h"
 #include <map>
-#include "../RSA/sha1.h"
-#include "../RSA/sha2.h"
+#include "RSA/sha1.h"
+#include "RSA/sha2.h"
 #include "UUCLogger.h"
 
 #include <stdio.h>
@@ -28,9 +27,7 @@
 
 USE_LOG;
 
-//////////////////////////////////////////////////////////////////////
 // Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 
 CSignerInfo::~CSignerInfo() {
@@ -698,4 +695,3 @@ CCertificate CSignerInfo::getSignatureCertificate(CSignerInfo& signature, CASN1S
 
     throw -1;
 }
-

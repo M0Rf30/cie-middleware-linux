@@ -6,10 +6,11 @@
 //  Copyright © 2021 IPZS. All rights reserved.
 //
 
-#include "VerificaConCIE.h"
+#include "CSP/VerificaConCIE.h"
+#include <sys/types.h>
 
-#include "../LOGGER/Logger.h"
-#include "../PKCS11/PKCS11Functions.h"
+#include "LOGGER/Logger.h"
+#include "PKCS11/PKCS11Functions.h"
 
 using namespace CieIDLogger;
 
@@ -19,7 +20,7 @@ extern "C" {
 CK_RV CK_ENTRY verificaConCIE(const char* inFilePath, const char* proxyAddress,
                               int proxyPort, const char* usrPass);
 CK_RV CK_ENTRY getNumberOfSign(void);
-CK_RV CK_ENTRY getVerifyInfo(int index, struct verifyInfo_t* vInfos);
+CK_RV CK_ENTRY getVerifyInfo(u_int64_t index, struct verifyInfo_t* vInfos);
 CK_RV CK_ENTRY estraiP7m(const char* inFilePath, const char* outFilePath);
 }
 
@@ -43,7 +44,7 @@ CK_RV CK_ENTRY getNumberOfSign(void) {
   return (CK_RV)verifyResult.verifyInfo.pSignerInfos->nCount;
 }
 
-CK_RV CK_ENTRY getVerifyInfo(int index, struct verifyInfo_t* vInfos) {
+CK_RV CK_ENTRY getVerifyInfo(u_int64_t index, struct verifyInfo_t* vInfos) {
   if (index >= 0 && index < getNumberOfSign()) {
     SIGNER_INFO tmpSignerInfo =
         (verifyResult.verifyInfo.pSignerInfos->pSignerInfo)[index];

@@ -9,37 +9,37 @@
 
 #pragma once
 
-#include "definitions.h"
-#include "UUCByteArray.h"
-#include "IssuerAndSerialNumber.h"
+#include "Sign/definitions.h"
+#include "Util/UUCByteArray.h"
+#include "ASN1/IssuerAndSerialNumber.h"
 #include "ASN1/SignerInfo.h"
 
-class CSignerInfoGenerator 
+class CSignerInfoGenerator
 {
 public:
 	CSignerInfoGenerator();
-	
+
 	virtual ~CSignerInfoGenerator();
-	
-	
+
+
 	void setContent(const BYTE* content, int len);
-	
+
 	void setContentHash(const BYTE* hash, int hashlen);
-	
+
 	void setSigningCertificate(const BYTE* certificate, int certlen, const BYTE* certHash, int certHashLen);
-	
+
 	void setSignature(const BYTE* signature, int siglen);
-	
+
 	void setTimestampToken(const BYTE* timestampToken, int tstlen);
 
 	void setTimestampToken(const CTimeStampToken* pTimestampToken);
-	
+
 	void getSignedAttributes(UUCByteArray& signedAttribute, bool countersignature, bool signingTime);
-	
+
 	void toByteArray(UUCByteArray& signerInfo);
-	
+
 	CSignerInfo getSignerInfo();
-	
+
 private:
 	UUCByteArray m_content;
 	UUCByteArray m_contentHash;
@@ -53,5 +53,5 @@ private:
 	void buildUnsignedAttributes();
 	CName* m_pIssuer;
 	CASN1Integer* m_pSerialNumber;
-	
+
 };

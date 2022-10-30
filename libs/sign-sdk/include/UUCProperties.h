@@ -1,6 +1,5 @@
 // UUCProperties.h: interface for the UUCProperties class.
 //
-//////////////////////////////////////////////////////////////////////
 
 #if !defined(AFX_UUCPROPERTIES_H__715BAE3B_069E_4D31_9FBF_54EA38AAEFEC__INCLUDED_)
 #define AFX_UUCPROPERTIES_H__715BAE3B_069E_4D31_9FBF_54EA38AAEFEC__INCLUDED_
@@ -8,16 +7,16 @@
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
-#include "UUCByteArray.h"
+#include "Util/UUCByteArray.h"
 #include "UUCStringTable.h"
 #include <stdio.h>
 
-class UUCProperties  
+class UUCProperties
 {
-public:	
+public:
 	UUCProperties();
 	UUCProperties(const UUCProperties& defaults);
-	
+
 	virtual ~UUCProperties();
 
 	long load(const char* szFilePath);
@@ -37,7 +36,7 @@ public:
 	int size() const;
 
 protected:
-	UUCStringTable* m_pStringTable;	
+	UUCStringTable* m_pStringTable;
 
 	bool m_bAllocated;
 };

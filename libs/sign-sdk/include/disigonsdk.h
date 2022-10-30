@@ -1,24 +1,10 @@
-
 #ifndef __DISIGON_H
 #define __DISIGON_H
 
-#ifndef WIN32
 #define DISIGON_API //__declspec(dllexport)
-#else
-#ifdef DISIGON_STATIC
-#define DISIGON_API
-#else
-#ifdef DISIGON_EXPORTS
-#define DISIGON_API //__declspec(dllexport)
-#else
-#define DISIGON_API //__declspec(dllimport)
-#endif
-#endif
-#endif
-
 #define MAX_LEN							256
 
-#include "definitions.h"
+#include "Sign/definitions.h"
 
 #define VERIFIED_CERT_VALIDITY			0x000001
 #define VERIFIED_CERT_REVOKED			0x000002
@@ -156,7 +142,7 @@
 #define  DISIGON_ERROR_WRONG_PIN     DISIGON_ERROR_BASE + 40
 #define  DISIGON_ERROR_PIN_LOCKED  DISIGON_ERROR_BASE + 41
 
-    
+
 #define DISIGON_FILETYPE_PLAINTEXT	0
 #define DISIGON_FILETYPE_P7M			1
 #define DISIGON_FILETYPE_PDF			2
@@ -167,15 +153,6 @@
 #define DISIGON_FILETYPE_XML			7
 #define DISIGON_FILETYPE_AUTO		8
 
-/*
-#define DISIGON_VERIFYTYPE_P7M		1
-#define DISIGON_VERIFYTYPE_TSD		2
-#define DISIGON_VERIFYTYPE_TST		3
-#define DISIGON_VERIFYTYPE_TSR		4
-#define DISIGON_VERIFYTYPE_PDF		5
-#define DISIGON_VERIFYTYPE_XML		6
-#define DISIGON_VERIFYTYPE_M7M        7
-*/
 #define DISIGON_ALGO_SHA1			1
 #define DISIGON_ALGO_SHA256			2
 #define DISIGON_ALGO_SHA512			3
@@ -184,7 +161,7 @@
 #define LOG_TYPE_ERROR			1
 #define LOG_TYPE_WARNING		2
 #define LOG_TYPE_MESSAGE		3
-#define LOG_TYPE_DEBUG			4  
+#define LOG_TYPE_DEBUG			4
 
 #define TYPE_OCSP 1
 #define TYPE_CRL 2
@@ -233,14 +210,14 @@ typedef struct _SIGNER_INFO
 typedef struct _TS_INFO
 {
 	SIGNER_INFO signerInfo;
-	char szTimestamp[MAX_LEN];  
+	char szTimestamp[MAX_LEN];
 	char szTimeStampImprintAlgorithm[MAX_LEN];
 	char szTimeStampMessageImprint[MAX_LEN];
 	char szTimeStampSerial[MAX_LEN];
 } TS_INFO;
- 
 
-typedef struct _SIGNER_INFOS 
+
+typedef struct _SIGNER_INFOS
 {
 	SIGNER_INFO* pSignerInfo;
 	int nCount;
@@ -277,7 +254,7 @@ typedef struct _CERTIFICATE
 } CERTIFICATE;
 
 
-typedef struct _CERTIFICATES 
+typedef struct _CERTIFICATES
 {
 	CERTIFICATE* pCertificate;
 	int nCount;
@@ -358,4 +335,3 @@ DISIGON_API long disigon_get_file_from_p7m(DISIGON_CTX ctx);
 #endif
 */
 #endif // __DISIGON_H
-

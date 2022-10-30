@@ -5,27 +5,27 @@
 #include "ContentType.h"
 
 class CContentInfo : public CASN1Sequence {
-    // Defined as
-    // ContentInfo ::= SEQUENCE {
-    // 		contentType ContentType,
-    //		content [0] EXPLICIT ANY DEFINED BY contentType OPTIONAL}
+  // Defined as
+  // ContentInfo ::= SEQUENCE {
+  // 		contentType ContentType,
+  //		content [0] EXPLICIT ANY DEFINED BY contentType OPTIONAL}
 
-  public:
-    CContentInfo(const CContentType& contentType, const CASN1Object& content);
+ public:
+  CContentInfo(const CContentType& contentType, const CASN1Object& content);
 
-    CContentInfo(const CContentType& contentType);
+  CContentInfo(const CContentType& contentType);
 
-    CContentInfo(UUCBufferedReader& reader);
+  CContentInfo(UUCBufferedReader& reader);
 
-    CContentInfo(const CASN1Object& contentInfo);
+  CContentInfo(const CASN1Object& contentInfo);
 
-    virtual ~CContentInfo();
+  virtual ~CContentInfo();
 
-    void setContent(const CASN1Object& content);
+  void setContent(const CASN1Object& content);
 
-    CContentType getContentType();
+  CContentType getContentType();
 
-    CASN1Object getContent();
+  CASN1Object getContent();
 };
 
 #endif  //_CONTENTINFO_H

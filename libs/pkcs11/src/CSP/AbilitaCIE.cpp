@@ -5,7 +5,7 @@
 //  Created by ugo chirico on 06/10/18. http://www.ugochirico.com
 //  Copyright © 2018 IPZS. All rights reserved.
 //
-#include "AbilitaCIE.h"
+#include "CSP/AbilitaCIE.h"
 
 #include <arpa/inet.h>
 #include <cryptopp/asn.h>
@@ -26,20 +26,20 @@
 #include <string>
 #include <vector>
 
-#include "../Crypto/AES.h"
-#include "../Crypto/ASNParser.h"
-#include "../Crypto/CryptoUtil.h"
-#include "../Crypto/sha256.h"
-#include "../Crypto/sha512.h"
-#include "../LOGGER/Logger.h"
-#include "../PKCS11/PKCS11Functions.h"
-#include "../PKCS11/Slot.h"
-#include "../PKCS11/wintypes.h"
-#include "../Sign/CIESign.h"
-#include "../Sign/CIEVerify.h"
-#include "../Util/CryptoppUtils.h"
-#include "../Util/ModuleInfo.h"
-#include "IAS.h"
+#include "Crypto/AES.h"
+#include "Crypto/ASNParser.h"
+#include "Crypto/CryptoUtil.h"
+#include "Crypto/sha256.h"
+#include "Crypto/sha512.h"
+#include "LOGGER/Logger.h"
+#include "PKCS11/PKCS11Functions.h"
+#include "PKCS11/Slot.h"
+#include "Sign/definitions.h"
+#include "Sign/CIESign.h"
+#include "Sign/CIEVerify.h"
+#include "Util/CryptoppUtils.h"
+#include "Util/ModuleInfo.h"
+#include "CSP/IAS.h"
 
 using namespace CieIDLogger;
 

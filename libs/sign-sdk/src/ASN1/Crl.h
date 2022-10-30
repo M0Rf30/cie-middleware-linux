@@ -15,13 +15,13 @@
 #include "disigonsdk.h"
 
 class CCrl : public CASN1Sequence {
-  public:
-    CCrl(UUCBufferedReader& reader);
+ public:
+  CCrl(UUCBufferedReader& reader);
 
-    CCrl(const CASN1Object& contentInfo);
+  CCrl(const CASN1Object& contentInfo);
 
-    bool isRevoked(const CASN1Integer& serialNumber, const char* szDateTime,
-                   int* pReason, REVOCATION_INFO* pRevocationInfo);
+  bool isRevoked(const CASN1Integer& serialNumber, const char* szDateTime,
+                 int* pReason, REVOCATION_INFO* pRevocationInfo);
 };
 
 #endif  //_CRL_H

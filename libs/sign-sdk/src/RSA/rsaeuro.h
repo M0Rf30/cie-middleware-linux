@@ -161,53 +161,53 @@ extern "C" {
 /* RSAEuro Info Structure */
 
 typedef struct {
-    unsigned short int Version;       /* RSAEuro Version */
-    unsigned int flags;               /* Version Flags */
-    unsigned char ManufacturerID[32]; /* Toolkit ID */
-    unsigned int Algorithms;          /* Algorithms Supported */
+  unsigned short int Version;       /* RSAEuro Version */
+  unsigned int flags;               /* Version Flags */
+  unsigned char ManufacturerID[32]; /* Toolkit ID */
+  unsigned int Algorithms;          /* Algorithms Supported */
 } RSAEUROINFO;
 
 /* Random structure. */
 
 typedef struct {
-    unsigned int bytesNeeded;     /* seed bytes required */
-    unsigned char state[16];      /* state of object */
-    unsigned int outputAvailable; /* number byte available */
-    unsigned char output[16];     /* output bytes */
+  unsigned int bytesNeeded;     /* seed bytes required */
+  unsigned char state[16];      /* state of object */
+  unsigned int outputAvailable; /* number byte available */
+  unsigned char output[16];     /* output bytes */
 } R_RANDOM_STRUCT;
 
 /* RSA public and private key. */
 
 typedef struct {
-    unsigned short int bits;                     /* length in bits of modulus */
-    unsigned char modulus[MAX_RSA_MODULUS_LEN];  /* modulus */
-    unsigned char exponent[MAX_RSA_MODULUS_LEN]; /* public exponent */
+  unsigned short int bits;                     /* length in bits of modulus */
+  unsigned char modulus[MAX_RSA_MODULUS_LEN];  /* modulus */
+  unsigned char exponent[MAX_RSA_MODULUS_LEN]; /* public exponent */
 } R_RSA_PUBLIC_KEY;
 
 typedef struct {
-    unsigned short int bits;                    /* length in bits of modulus */
-    unsigned char modulus[MAX_RSA_MODULUS_LEN]; /* modulus */
-    unsigned char publicExponent[MAX_RSA_MODULUS_LEN]; /* public exponent */
-    unsigned char exponent[MAX_RSA_MODULUS_LEN];       /* private exponent */
-    unsigned char prime[2][MAX_RSA_PRIME_LEN];         /* prime factors */
-    unsigned char primeExponent[2][MAX_RSA_PRIME_LEN]; /* exponents for CRT */
-    unsigned char coefficient[MAX_RSA_PRIME_LEN];      /* CRT coefficient */
+  unsigned short int bits;                    /* length in bits of modulus */
+  unsigned char modulus[MAX_RSA_MODULUS_LEN]; /* modulus */
+  unsigned char publicExponent[MAX_RSA_MODULUS_LEN]; /* public exponent */
+  unsigned char exponent[MAX_RSA_MODULUS_LEN];       /* private exponent */
+  unsigned char prime[2][MAX_RSA_PRIME_LEN];         /* prime factors */
+  unsigned char primeExponent[2][MAX_RSA_PRIME_LEN]; /* exponents for CRT */
+  unsigned char coefficient[MAX_RSA_PRIME_LEN];      /* CRT coefficient */
 } R_RSA_PRIVATE_KEY;
 
 /* RSA prototype key. */
 
 typedef struct {
-    unsigned int bits; /* length in bits of modulus */
-    int useFermat4;    /* public exponent (1 = F4, 0 = 3) */
+  unsigned int bits; /* length in bits of modulus */
+  int useFermat4;    /* public exponent (1 = F4, 0 = 3) */
 } R_RSA_PROTO_KEY;
 
 /* Diffie-Hellman parameters. */
 
 typedef struct {
-    unsigned char *prime;      /* prime */
-    unsigned int primeLen;     /* length of prime */
-    unsigned char *generator;  /* generator */
-    unsigned int generatorLen; /* length of generator */
+  unsigned char *prime;      /* prime */
+  unsigned int primeLen;     /* length of prime */
+  unsigned char *generator;  /* generator */
+  unsigned int generatorLen; /* length of generator */
 } R_DH_PARAMS;
 
 #ifdef __cplusplus

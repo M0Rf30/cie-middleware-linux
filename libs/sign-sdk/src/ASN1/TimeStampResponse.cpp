@@ -12,9 +12,7 @@
 #include "ContentInfo.h"
 #include "ContentType.h"
 
-//////////////////////////////////////////////////////////////////////
 // Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CTimeStampResponse::CTimeStampResponse(UUCBufferedReader& reader)
     : CASN1Sequence(reader) {
@@ -51,4 +49,3 @@ int CTimeStampResponse::verify(const char* szDateTime) {
     CTimeStampToken tst(elementAt(1));
     return tst.verify(szDateTime, NULL);
 }
-

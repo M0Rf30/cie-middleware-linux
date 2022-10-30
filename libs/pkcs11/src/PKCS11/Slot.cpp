@@ -1,14 +1,14 @@
 
-#include "Slot.h"
+#include "PKCS11/Slot.h"
 #include "PKCS11Functions.h"
-#include "../PCSC/Token.h"
+#include "PCSC/Token.h"
 
-#include "CardTemplate.h"
-#include "../Util/util.h"
-#include "../Util/SyncroEvent.h"
+#include "PKCS11/CardTemplate.h"
+#include "Util/util.h"
+#include "Util/SyncroEvent.h"
 #include <mutex>
 #include <cryptopp/misc.h>
-#include "../LOGGER/Logger.h"
+#include "LOGGER/Logger.h"
 
 using namespace CieIDLogger;
 
@@ -262,7 +262,7 @@ void CSlot::InitSlotList() {
         std::shared_ptr<CSlot> pSlot = GetSlotFromReaderName(szReaderName);
         if (pSlot == nullptr) {
             auto pSlot = std::make_shared<CSlot>(szReaderName);
-            CK_SLOT_ID hSlotID = AddSlot(pSlot);
+            AddSlot(pSlot);
             bMapChanged = true;
         }
         szReaderName = szReaderName + strnlen(szReaderName, readersLen) + 1;

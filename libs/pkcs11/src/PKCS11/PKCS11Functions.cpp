@@ -1,5 +1,4 @@
 // P11Emissione.cpp : Defines the entry point for the DLL application.
-//
 #include "PKCS11Functions.h"
 
 #include <PCSC/winscard.h>
@@ -12,15 +11,13 @@
 
 #include <mutex>
 
-#include "../LOGGER/Logger.h"
-#include "../Util/ModuleInfo.h"
-#include "../Util/SyncroEvent.h"
-#include "../Util/UUCByteArray.h"
-#include "../Util/util.h"
-#include "CardTemplate.h"
-#include "InitP11.h"
-#include "session.h"
-#include "wintypes.h"
+#include "LOGGER/Logger.h"
+#include "PKCS11/CardTemplate.h"
+#include "PKCS11/session.h"
+#include "Util/ModuleInfo.h"
+#include "Util/SyncroEvent.h"
+#include "Util/UUCByteArray.h"
+#include "Util/util.h"
 
 using namespace CieIDLogger;
 
@@ -49,11 +46,6 @@ bool bModuleInit = false;
 /* ---- GENERATE CK_FUNCTION_LIST */
 
 #define CK_PKCS11_FUNCTION_INFO(name) name,
-//
-// CK_FUNCTION_LIST pkcs11_function_list = {
-//    { LIBRARY_VERSION_MAJOR, LIBRARY_VERSION_MINOR },
-//#include "pkcs11f.h"
-//};
 #undef CK_PKCS11_FUNCTION_INFO
 
 __attribute__((constructor)) void DllMainAttach() {
@@ -65,7 +57,6 @@ __attribute__((constructor)) void DllMainAttach() {
   bModuleInit = true;
   std::string configPath = std::string(homedir) + "/.CIEPKI/ciepki.ini";
   initLog("CIEPKC11", configPath.c_str(), __DATE__ " " __TIME__);
-  p11::InitP11(configPath.c_str());
 }
 
 __attribute__((destructor)) void DllMainDetach() {

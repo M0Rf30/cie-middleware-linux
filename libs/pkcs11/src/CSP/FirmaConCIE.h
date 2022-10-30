@@ -12,9 +12,9 @@
 
 #include <string>
 
-#include "../PKCS11/cryptoki.h"
-#include "../Sign/CIESign.h"
-#include "AbilitaCIE.h"
+#include "PKCS11/cryptoki.h"
+#include "Sign/CIESign.h"
+#include "CSP/AbilitaCIE.h"
 
 typedef CK_CALLBACK_FUNCTION(CK_RV, SIGN_COMPLETED_CALLBACK)(const int ret);
 

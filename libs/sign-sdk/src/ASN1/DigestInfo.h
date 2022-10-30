@@ -6,22 +6,22 @@
 #include "AlgorithmIdentifier.h"
 
 class CDigestInfo : public CASN1Sequence {
-    // Defined as
-    // DigestInfo ::= SEQUENCE {
-    // 		digestAlgorithm DigestAlgorithmIdentifier,
-    //		digest Digest}
+  // Defined as
+  // DigestInfo ::= SEQUENCE {
+  // 		digestAlgorithm DigestAlgorithmIdentifier,
+  //		digest Digest}
 
-  public:
-    CDigestInfo(UUCBufferedReader& reader);
+ public:
+  CDigestInfo(UUCBufferedReader& reader);
 
-    CDigestInfo(const CAlgorithmIdentifier& algoId,
-                const CASN1OctetString& digest);
+  CDigestInfo(const CAlgorithmIdentifier& algoId,
+              const CASN1OctetString& digest);
 
-    CDigestInfo(const CASN1Object& digestInfo);
+  CDigestInfo(const CASN1Object& digestInfo);
 
-    CAlgorithmIdentifier getDigestAlgorithm();
+  CAlgorithmIdentifier getDigestAlgorithm();
 
-    CASN1OctetString getDigest();
+  CASN1OctetString getDigest();
 };
 
 #endif  //_DIGESTINFO_H

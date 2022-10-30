@@ -1,6 +1,5 @@
 // TimeStampToken.h: interface for the CTimeStampToken class.
 //
-//////////////////////////////////////////////////////////////////////
 #ifndef _TIMESTAMPTOKEN_H
 #define _TIMESTAMPTOKEN_H
 

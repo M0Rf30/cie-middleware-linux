@@ -1,14 +1,11 @@
 // IssuerAndSerialNumber.cpp: implementation of the CIssuerAndSerialNumber class.
 //
-//////////////////////////////////////////////////////////////////////
 
 
-#include "IssuerAndSerialNumber.h"
+#include "ASN1/IssuerAndSerialNumber.h"
 #include "ASN1OptionalField.h"
 
-//////////////////////////////////////////////////////////////////////
 // Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CIssuerAndSerialNumber::CIssuerAndSerialNumber(UUCBufferedReader& reader)
     : CASN1Sequence(reader) {
