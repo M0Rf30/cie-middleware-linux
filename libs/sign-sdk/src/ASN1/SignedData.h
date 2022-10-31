@@ -8,11 +8,11 @@
 #pragma once
 #endif  // _MSC_VER > 1000
 
-#include "ASN1Sequence.h"
-#include "AlgorithmIdentifier.h"
+#include "ASN1/ASN1Sequence.h"
+#include "ASN1/AlgorithmIdentifier.h"
 #include "ASN1/Certificate.h"
-#include "ContentInfo.h"
-#include "disigonsdk.h"
+#include "ASN1/ContentInfo.h"
+#include "Sign/disigonsdk.h"
 
 class CSignedData : public CASN1Sequence {
   public:

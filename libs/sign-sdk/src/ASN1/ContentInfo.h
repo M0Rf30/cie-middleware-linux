@@ -1,7 +1,7 @@
 #ifndef _CONTENTINFO_H
 #define _CONTENTINFO_H
 
-#include "ASN1Sequence.h"
+#include "ASN1/ASN1Sequence.h"
 #include "ContentType.h"
 
 class CContentInfo : public CASN1Sequence {

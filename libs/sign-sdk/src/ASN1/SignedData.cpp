@@ -10,7 +10,7 @@
 #include "DigestInfo.h"
 #include <sys/types.h>
 #include "ASN1/Certificate.h"
-#include "Crl.h"
+#include "ASN1/Crl.h"
 #include <map>
 #include "RSA/sha1.h"
 

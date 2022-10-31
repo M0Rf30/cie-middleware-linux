@@ -38,8 +38,8 @@ CertID ::= SEQUENCE {
 #ifndef _OCSPRequest_H
 #define _OCSPRequest_H
 
-#include "ASN1Integer.h"
-#include "ASN1Sequence.h"
+#include "ASN1/ASN1Integer.h"
+#include "ASN1/ASN1Sequence.h"
 #include "ASN1/Certificate.h"
 
 class COCSPRequest : public CASN1Sequence {

@@ -1,5 +1,4 @@
-
-#include "MD5.h"
+#include "Crypto/MD5.h"
 
 CMD5::CMD5() : isInit(false) {}
 

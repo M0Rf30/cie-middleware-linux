@@ -13,7 +13,7 @@
 #include "ASN1/SignedData.h"
 #include "ASN1/SignerInfo.h"
 #include <map>
-#include "disigonsdk.h"
+#include "Sign/disigonsdk.h"
 
 
 class CSignedDocument

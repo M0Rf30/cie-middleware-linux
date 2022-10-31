@@ -201,13 +201,6 @@ void PdfSignatureGenerator::InitSignature(
 
   // LOG_DBG((0, "InitSignature", "szGraphometricData OK"));
 
-  //	// crea il nuovo doc con il campo di firma
-  //	int fulllen = m_actualLen * 3 + SIGNATURE_SIZE * 2;
-  //	m_pMainDocbuffer = new char[fulllen];
-  //	PdfOutputDevice pdfOutDevice(m_pMainDocbuffer, fulllen);
-  //	m_pPdfMemDocument->Write(&pdfOutDevice);
-  //	int mainDoclen = pdfOutDevice.GetLength();
-
   LOG_DBG((0, "InitSignature", "m_actualLen %d", m_actualLen));
   // crea il nuovo doc con il campo di firma
   int fulllen = m_actualLen * 2 + SIGNATURE_SIZE * 2;

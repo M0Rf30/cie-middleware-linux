@@ -9,7 +9,7 @@
 #include <thread>
 #include <vector>
 
-#include "CardContext.h"
+#include "PKCS11/CardContext.h"
 
 
 namespace p11 {

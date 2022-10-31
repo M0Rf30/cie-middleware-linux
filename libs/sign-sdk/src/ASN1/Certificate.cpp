@@ -13,7 +13,7 @@
 #include "ASN1OptionalField.h"
 #include "Base64.h"
 #include "CertStore.h"
-#include "Crl.h"
+#include "ASN1/Crl.h"
 #include "DigestInfo.h"
 #include "LdapCrl.h"
 #include "OCSPRequest.h"

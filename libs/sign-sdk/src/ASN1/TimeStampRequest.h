@@ -7,7 +7,7 @@
  *
  */
 
-#include "TimeStampToken.h"
+#include "ASN1/TimeStampToken.h"
 
 class CTimeStampRequest : public CASN1Sequence {
   public:

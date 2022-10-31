@@ -1,7 +1,7 @@
 #ifndef _ASN1BOOLEAN_H
 #define _ASN1BOOLEAN_H
 
-#include "ASN1Integer.h"
+#include "ASN1/ASN1Integer.h"
 
 class CASN1Boolean : public CASN1Object {
  private:

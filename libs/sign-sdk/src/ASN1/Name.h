@@ -10,7 +10,7 @@
 
 #include <string>
 
-#include "ASN1Sequence.h"
+#include "ASN1/ASN1Sequence.h"
 #include "RelativeDistinguishedName.h"
 
 #define OID_EMAIL_ADDRESS "1.2.840.113549.1.9.1"

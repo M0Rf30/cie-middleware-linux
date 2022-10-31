@@ -9,8 +9,8 @@
 
 #include "ASN1Octetstring.h"
 #include "PKIStatusInfo.h"
-#include "TimeStampToken.h"
-#include "disigonsdk.h"
+#include "ASN1/TimeStampToken.h"
+#include "Sign/disigonsdk.h"
 
 /*
  ContentInfo ::= SEQUENCE {

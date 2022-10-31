@@ -9,12 +9,12 @@
 #endif  // _MSC_VER > 1000
 
 #include "ASN1Octetstring.h"
-#include "ASN1Sequence.h"
-#include "ASN1UTCTime.h"
-#include "AlgorithmIdentifier.h"
+#include "ASN1/ASN1Sequence.h"
+#include "ASN1/ASN1UTCTime.h"
+#include "ASN1/AlgorithmIdentifier.h"
 #include "ASN1/IssuerAndSerialNumber.h"
-#include "TimeStampToken.h"
-#include "disigonsdk.h"
+#include "ASN1/TimeStampToken.h"
+#include "Sign/disigonsdk.h"
 
 class CSignerInfo : public CASN1Sequence {
   public:

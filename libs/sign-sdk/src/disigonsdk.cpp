@@ -1,7 +1,7 @@
 // DigitSign.cpp : Defines the exported functions for the DLL application.
 //
 
-#include "disigonsdk.h"
+#include "Sign/disigonsdk.h"
 
 #include <libxml/tree.h>
 #include <libxml/xmlmemory.h>
@@ -145,10 +145,6 @@ void disigon_cleanup() { CCertStore::CleanUp(); }
 
 DISIGON_CTX disigon_sign_init(void) {
   LOG_MSG((0, "--> disigon_sign_init", ""));
-
-#ifdef WIN32
-  // checkLicense();
-#endif
 
   DISIGON_SIGN_CONTEXT* pContext = new DISIGON_SIGN_CONTEXT;
 
