@@ -4,7 +4,7 @@ plugins {
 
 // Apply the application plugin to add support for building a CLI application.
 	id 'application'
-	id "com.diffplug.spotless" version "6.10.0"
+	id "com.diffplug.spotless" version "6.11.0"
 }
 
 repositories {
@@ -36,13 +36,13 @@ dependencies {
 	implementation 'com.dorkbox:ShellExecutor:1.1'
 	implementation 'com.dorkbox:SystemTray:4.1'
 	implementation 'com.dorkbox:TweenEngine:8.3'
-	implementation 'com.google.code.gson:gson:2.9.0'
+	implementation 'com.google.code.gson:gson:2.10'
 	implementation 'com.jgoodies:jgoodies-forms:1.9.0'
 	implementation 'net.java.dev.jna:jna:5.12.1'
 	implementation 'net.java.dev.jna:jna-platform:5.12.1'
-	implementation 'org.apache.pdfbox:pdfbox:2.0.26'
-	implementation 'org.javassist:javassist:3.29.1-GA'
-	implementation 'org.slf4j:slf4j-api:2.0.0'
+	implementation 'org.apache.pdfbox:pdfbox:2.0.27'
+	implementation 'org.javassist:javassist:3.29.2-GA'
+	implementation 'org.slf4j:slf4j-api:2.0.3'
 }
 
 mainClassName = 'it.ipzs.cieid.MainApplicationn'
