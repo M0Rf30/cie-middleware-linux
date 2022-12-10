@@ -1,7 +1,7 @@
 #pragma once
-#include "ASN1Integer.h"
+#include "ASN1/ASN1Integer.h"
 #include "ASN1Object.h"
-#include "ASN1Sequence.h"
+#include "ASN1/ASN1Sequence.h"
 
 class CRSAPublicKey : public CASN1Sequence {
   public:

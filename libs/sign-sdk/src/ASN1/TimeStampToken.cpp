@@ -1,6 +1,6 @@
 // TimeStampToken.cpp: implementation of the CTimeStampToken class.
-#include "TimeStampToken.h"
-#include "ContentInfo.h"
+#include "ASN1/TimeStampToken.h"
+#include "ASN1/ContentInfo.h"
 #include "ContentType.h"
 #include "SignedData.h"
 #include "ASN1Octetstring.h"

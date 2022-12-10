@@ -10,7 +10,7 @@
 #ifndef _PKISTATUSINFO_H
 #define _PKISTATUSINFO_H
 
-#include "TimeStampToken.h"
+#include "ASN1/TimeStampToken.h"
 
 class CPKIStatusInfo : public CASN1Sequence {
  public:

@@ -4,7 +4,7 @@
 #include "TSTInfo.h"
 #include "ASN1OptionalField.h"
 #include "ASN1Exception.h"
-#include "ASN1UTCTime.h"
+#include "ASN1/ASN1UTCTime.h"
 
 // Construction/Destruction
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "disigonsdk.h"
+#include "Sign/disigonsdk.h"
 #include <stdarg.h>
 
 #define MAX_LOG_SIZE			5000

@@ -8,8 +8,8 @@
  */
 
 #include "TimeStampResponse.h"
-#include "TimeStampToken.h"
-#include "ContentInfo.h"
+#include "ASN1/TimeStampToken.h"
+#include "ASN1/ContentInfo.h"
 #include "ContentType.h"
 
 // Construction/Destruction

@@ -10,9 +10,9 @@
 #ifndef _CRL_H
 #define _CRL_H
 
-#include "ASN1Integer.h"
-#include "ASN1Sequence.h"
-#include "disigonsdk.h"
+#include "ASN1/ASN1Integer.h"
+#include "ASN1/ASN1Sequence.h"
+#include "Sign/disigonsdk.h"
 
 class CCrl : public CASN1Sequence {
  public:

@@ -2,7 +2,7 @@
 #define _ALGORITHMIDENTIFIER_H
 
 #include "ASN1ObjectIdentifier.h"
-#include "ASN1Sequence.h"
+#include "ASN1/ASN1Sequence.h"
 
 class CAlgorithmIdentifier : public CASN1Sequence {
  public:

@@ -1,4 +1,4 @@
-#include "ASN1Sequence.h"
+#include "ASN1/ASN1Sequence.h"
 
 const BYTE CASN1Sequence::TAG = 0x30;
 

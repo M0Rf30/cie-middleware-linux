@@ -4,10 +4,10 @@
     AFX_CERTIFICATEINFO_H__BC0C3782_D000_44C9_B3CE_532326CA26F6__INCLUDED_)
 #define AFX_CERTIFICATEINFO_H__BC0C3782_D000_44C9_B3CE_532326CA26F6__INCLUDED_
 
-#include "ASN1Integer.h"
-#include "ASN1Sequence.h"
-#include "ASN1UTCTime.h"
-#include "AlgorithmIdentifier.h"
+#include "ASN1/ASN1Integer.h"
+#include "ASN1/ASN1Sequence.h"
+#include "ASN1/ASN1UTCTime.h"
+#include "ASN1/AlgorithmIdentifier.h"
 #include "Name.h"
 #include "SubjectPublicKeyInfo.h"
 

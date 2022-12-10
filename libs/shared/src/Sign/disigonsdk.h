@@ -1,4 +1,3 @@
-
 #ifndef __DISIGON_H
 #define __DISIGON_H
 
@@ -159,15 +158,6 @@
 #define DISIGON_FILETYPE_XML 7
 #define DISIGON_FILETYPE_AUTO 8
 
-/*
-#define DISIGON_VERIFYTYPE_P7M		1
-#define DISIGON_VERIFYTYPE_TSD		2
-#define DISIGON_VERIFYTYPE_TST		3
-#define DISIGON_VERIFYTYPE_TSR		4
-#define DISIGON_VERIFYTYPE_PDF		5
-#define DISIGON_VERIFYTYPE_XML		6
-#define DISIGON_VERIFYTYPE_M7M        7
-*/
 #define DISIGON_ALGO_SHA1 1
 #define DISIGON_ALGO_SHA256 2
 #define DISIGON_ALGO_SHA512 3
@@ -330,7 +320,7 @@ DISIGON_API long disigon_verify_cleanup_result(VERIFY_RESULT* pVerifyResult);
 DISIGON_API long disigon_verify_cleanup(DISIGON_CTX ctx);
 // operazione di sbustamento veloce
 
-// estra il documento originale da un file p7m
+// estrae il documento originale da un file p7m
 DISIGON_API long disigon_get_file_from_p7m(DISIGON_CTX ctx);
 
 /*

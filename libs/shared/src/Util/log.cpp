@@ -6,9 +6,9 @@
 #include <vector>
 #include <sstream>
 #include <iomanip>
-#include "log.h"
+#include "Util/log.h"
 #include "Util/UtilException.h"
-#include "IniSettings.h"
+#include "Util/IniSettings.h"
 #include <thread>
 #include <stdio.h>
 #include <unistd.h>

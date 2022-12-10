@@ -50,7 +50,7 @@
 #include <CertStore.h>
 
 #include "ASN1OptionalField.h"
-#include "AlgorithmIdentifier.h"
+#include "ASN1/AlgorithmIdentifier.h"
 #include "RSA/sha1.h"
 
 COCSPRequest::COCSPRequest(UUCBufferedReader& reader) : CASN1Sequence(reader) {}

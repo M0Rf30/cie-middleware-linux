@@ -2,8 +2,8 @@
 #define _DIGESTINFO_H
 
 #include "ASN1Octetstring.h"
-#include "ASN1Sequence.h"
-#include "AlgorithmIdentifier.h"
+#include "ASN1/ASN1Sequence.h"
+#include "ASN1/AlgorithmIdentifier.h"
 
 class CDigestInfo : public CASN1Sequence {
   // Defined as

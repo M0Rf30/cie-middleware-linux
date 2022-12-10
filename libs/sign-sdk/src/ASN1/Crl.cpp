@@ -7,10 +7,10 @@
  *
  */
 
-#include "Crl.h"
+#include "ASN1/Crl.h"
 
 #include "ASN1Octetstring.h"
-#include "ASN1UTCTime.h"
+#include "ASN1/ASN1UTCTime.h"
 #include "UUCLogger.h"
 
 USE_LOG;

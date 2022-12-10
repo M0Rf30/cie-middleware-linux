@@ -4,7 +4,7 @@
 
 #include "Util/Array.h"
 #include "Sign/definitions.h"
-#include "log.h"
+#include "Util/log.h"
 
 #define ERR_BAD_POINTER "Puntatore non valido"
 #define ERR_CANT_CREATE_MUTEX "Impossibile creare il mutex"

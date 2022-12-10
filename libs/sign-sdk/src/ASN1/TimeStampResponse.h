@@ -8,7 +8,7 @@
  */
 
 #include "PKIStatusInfo.h"
-#include "TimeStampToken.h"
+#include "ASN1/TimeStampToken.h"
 
 class CTimeStampResponse : public CASN1Sequence {
   public:

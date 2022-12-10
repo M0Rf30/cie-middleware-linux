@@ -1,6 +1,6 @@
 // ASN1UTCTime.cpp: implementation of the CASN1UTCTime class.
 //
-#include "ASN1UTCTime.h"
+#include "ASN1/ASN1UTCTime.h"
 
 // Construction/Destruction
 

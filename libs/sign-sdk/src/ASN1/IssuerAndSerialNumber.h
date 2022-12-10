@@ -9,8 +9,8 @@
 #pragma once
 #endif  // _MSC_VER > 1000
 
-#include "ASN1Integer.h"
-#include "ASN1Sequence.h"
+#include "ASN1/ASN1Integer.h"
+#include "ASN1/ASN1Sequence.h"
 #include "Name.h"
 
 class CIssuerAndSerialNumber : public CASN1Sequence {
