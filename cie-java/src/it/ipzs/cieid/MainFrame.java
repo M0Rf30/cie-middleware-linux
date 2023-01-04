@@ -402,7 +402,6 @@ public class MainFrame extends JFrame {
                                             MainFrame.class.getResource(
                                                     "/it/ipzs/cieid/res/Logo_Cie_ID_Windowed@2x.png")))));
         } catch (IOException e2) {
-            // TODO Auto-generated catch block
             e2.printStackTrace();
         }
         label_2.setHorizontalAlignment(SwingConstants.CENTER);
@@ -692,7 +691,6 @@ public class MainFrame extends JFrame {
         btnAbbina.setForeground(Color.WHITE);
         btnAbbina.setBackground(new Color(30, 144, 255));
         btnAbbina.setBounds(258, 524, 114, 25);
-        // panel_1.add(btnAbbina);
         passwordFields[0] = passwordField = new JPasswordField();
         passwordField.setHorizontalAlignment(SwingConstants.CENTER);
         passwordField.setFont(new Font("Dialog", Font.BOLD, 25));
@@ -829,7 +827,7 @@ public class MainFrame extends JFrame {
                             passwordField_6.requestFocus();
                         } else if (e.getKeyChar() < '0' || e.getKeyChar() > '9') {
                             e.consume();
-                        } else if (passwordField_7.getText().length() > 0) {
+                        } else if (passwordField_7.getPassword().length > 0) {
                             e.consume();
                         }
                     }
@@ -1967,7 +1965,6 @@ public class MainFrame extends JFrame {
         panel_19.add(imgPdf);
 
         lblPadesTitle = new JLabel("Firma PADES");
-        // lblPadesTitle.addMouseListener(panel_19.getMouseListeners()[0]);
         lblPadesTitle.setForeground(SystemColor.activeCaptionBorder);
         lblPadesTitle.setFont(new Font("Dialog", Font.PLAIN, 17));
         lblPadesTitle.setBounds(60, 11, 126, 31);
@@ -2495,7 +2492,7 @@ public class MainFrame extends JFrame {
                             passwordField_10.requestFocus();
                         } else if (e.getKeyChar() < '0' || e.getKeyChar() > '9') {
                             e.consume();
-                        } else if (passwordField_11.getText().length() > 0) {
+                        } else if (passwordField_11.getPassword().length > 0) {
                             e.consume();
                         }
                     }
@@ -3115,9 +3112,10 @@ public class MainFrame extends JFrame {
 
                         SaveLogConfigToFile();
 
-                        if ((txtUsername.getText().equals("") && !txtPassword.getText().equals(""))
+                        if ((txtUsername.getText().equals("")
+                                        && txtPassword.getPassword().length != 0)
                                 || (!txtUsername.getText().equals("")
-                                        && txtPassword.getText().equals(""))) {
+                                        && txtPassword.getPassword().length == 0)) {
                             JOptionPane.showMessageDialog(
                                     btnSalva.getParent(),
                                     "Campo username o password mancante",
@@ -3143,7 +3141,7 @@ public class MainFrame extends JFrame {
                             String credentials =
                                     String.format(
                                             "cred=%s:%s",
-                                            txtUsername.getText(), txtPassword.getText());
+                                            txtUsername.getText(), txtPassword.getPassword());
                             ProxyInfoManager proxyInfoManager = new ProxyInfoManager();
                             String encryptedCredentials = proxyInfoManager.encrypt(credentials);
                             Utils.setProperty("credentials", encryptedCredentials);
@@ -3273,13 +3271,6 @@ public class MainFrame extends JFrame {
 
             text = toFirstCharUpperAll(toTitleCase(text).toLowerCase());
 
-            /*
-            System.out.println(MainFrame.class.getResource("/it/ipzs/cieid/res/Allura-Regular.ttf").toExternalForm());
-            File file = new File(MainFrame.class.getResource("/it/ipzs/cieid/res/Allura-Regular.ttf").toExternalForm());
-            //File file = new File("/usr/share/CIEID/cieid.jar/it/ipzs/cieid/res/Allura-Regular.ttf");
-            InputStream is = new FileInputStream(file);
-             */
-
             File file = null;
             String resource = "/it/ipzs/cieid/res/Allura-Regular.ttf";
             URL res = getClass().getResource(resource);
@@ -3346,7 +3337,7 @@ public class MainFrame extends JFrame {
 
         for (i = 0; i < passwordSignFields.length; i++) {
             JPasswordField field = passwordSignFields[i];
-            pin += field.getText();
+            pin += new String(field.getPassword());
         }
 
         if (pin.length() != 4) {
@@ -3626,7 +3617,7 @@ public class MainFrame extends JFrame {
         int i;
         for (i = 0; i < passwordFields.length; i++) {
             JPasswordField field = passwordFields[i];
-            pin += field.getText();
+            pin += String.valueOf(field.getPassword());
         }
 
         if (pin.length() != 8) {
@@ -3836,9 +3827,9 @@ public class MainFrame extends JFrame {
 
     private void cambiaPIN() {
         logger.Info("Inizia - cambiaPIN()");
-        final String pin = oldpin.getText();
-        final String pin1 = newpin1.getText();
-        final String pin2 = newpin2.getText();
+        final String pin = new String(oldpin.getPassword());
+        final String pin1 = new String(newpin1.getPassword());
+        final String pin2 = new String(newpin2.getPassword());
 
         int i;
 
@@ -4083,9 +4074,9 @@ public class MainFrame extends JFrame {
 
     private void sbloccaPIN() {
         logger.Info("Inizia - sbloccaPIN()");
-        final String puk = puk01.getText();
-        final String pin1 = pin01.getText();
-        final String pin2 = pin02.getText();
+        final String puk = new String(puk01.getPassword());
+        final String pin1 = new String(pin01.getPassword());
+        final String pin2 = new String(pin02.getPassword());
 
         int i;
 
@@ -4470,44 +4461,6 @@ public class MainFrame extends JFrame {
 
     private void selectHome() {
         logger.Info("Inizia - selectHome()");
-        /*
-        if(Utils.getProperty("ef_seriale", "").equals("") && !Utils.getProperty("cardholder", "").equals("") )
-        {
-
-        	labelSerial.setText("<html>Per visualizzarlo<br/>occorre riabilitare la CIE<html>");
-        	labelCardholder.setText(Utils.getProperty("cardholder", ""));
-
-        	if(JOptionPane.showConfirmDialog(this.getContentPane(), "E' necessario effettuare un nuovo abbinamento. Procedere?", "Abbinare nuovamente la CIE", JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION)
-        	{
-        		tabbedPane.setSelectedIndex(2);
-        	}
-        	else
-        	{
-        		tabbedPane.setSelectedIndex(0);
-
-        	}
-        }
-        else if(!Utils.getProperty("ef_seriale", "").equals(""))
-        {
-        	labelSerial.setText(Utils.getProperty("ef_seriale", ""));
-        	labelCardholder.setText(Utils.getProperty("cardholder", ""));
-
-        	tabbedPane.setSelectedIndex(2);
-        }
-        else
-        {
-        	tabbedPane.setSelectedIndex(0);
-        	EventQueue.invokeLater(new Runnable()
-            {
-        		public void run()
-        		{
-        			passwordField.requestFocus();
-        		}
-            });
-        }*/
-
-        // Utils.setProperty("cieDictionary", "");
-
         txtpnCieAbbinataCon.setText("Carta di Identità Elettronica abbinata correttamente");
         txtpnCieAbbinataCon.setHighlighter(null);
         lblCieId.setText("CIE ID");
@@ -4605,7 +4558,6 @@ public class MainFrame extends JFrame {
 
     private void selectCardholder() {
         logger.Info("Inizia - selectCardholder()");
-        // tabbedPane.setSelectedIndex(2);
         selectHome();
         configureHomeButtons(cieDictionary);
         selectButton(btnHome);
