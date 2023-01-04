@@ -3617,7 +3617,7 @@ public class MainFrame extends JFrame {
         int i;
         for (i = 0; i < passwordFields.length; i++) {
             JPasswordField field = passwordFields[i];
-            pin += field.getPassword();
+            pin += String.valueOf(field.getPassword());
         }
 
         if (pin.length() != 8) {
