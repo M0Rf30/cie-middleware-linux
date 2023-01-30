@@ -34,7 +34,7 @@ dependencies {
 	implementation 'com.dorkbox:ObjectPool:4.1'
 	implementation 'com.dorkbox:Notify:3.7'
 	implementation 'com.dorkbox:ShellExecutor:1.1'
-	implementation 'com.dorkbox:SystemTray:4.2'
+	implementation 'com.dorkbox:SystemTray:4.2.1'
 	implementation 'com.dorkbox:TweenEngine:8.3'
 	implementation 'com.google.code.gson:gson:2.10.1'
 	implementation 'com.jgoodies:jgoodies-forms:1.9.0'
