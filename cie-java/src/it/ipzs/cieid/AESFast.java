@@ -1204,6 +1204,7 @@ public class AESFast {
             xoredblock[i + offserxored] = (byte) (block[i + offsetblok] ^ iv[i + offsetiv]);
         }
     }
+
     //        /**
     //     * Encrypt a palintext.
     //     *
@@ -1237,6 +1238,7 @@ public class AESFast {
 
         return aes.decryptECB(ciphertext, nOffset);
     }
+
     //
     //    public static byte[] encryptCBC(byte[] plaintext, int nOffset, byte[] key, int keylen,
     // byte[] iv, int nBlockLen)

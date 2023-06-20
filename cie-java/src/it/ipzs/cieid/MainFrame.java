@@ -1672,48 +1672,36 @@ public class MainFrame extends JFrame {
                                                 "Verifica con CIE - Url: %s, Port: %s, credentials: %s",
                                                 proxyAddress, proxyPort, proxyCredentials);
 
-                                        final long ret =
+                                        final int ret =
                                                 Middleware.INSTANCE.verificaConCIE(
                                                         filePath,
                                                         proxyAddress,
                                                         proxyPort,
                                                         proxyCredentials);
 
-                                        if (ret == 0) {
-                                            int nSign = Middleware.INSTANCE.getNumberOfSign();
-                                            if (nSign == 0) {
-                                                logger.Info("Verifica completata");
-                                                JOptionPane.showMessageDialog(
-                                                        MainFrame.this.getContentPane(),
-                                                        "Il file selezionato non contiene firme",
-                                                        "Verifica completata",
-                                                        JOptionPane.INFORMATION_MESSAGE);
-                                                tabbedPane.setSelectedIndex(10);
-                                            } else {
-                                                VerifyTable vTable =
-                                                        new VerifyTable(verificaScrollPane);
-                                                verifyInfo vInfo = new verifyInfo();
-                                                verifyInfo[] vInfos =
-                                                        (verifyInfo[]) vInfo.toArray(nSign);
+                                        if (ret > 0 && ret != (long) INVALID_FILE_TYPE) {
+                                            VerifyTable vTable =
+                                                    new VerifyTable(verificaScrollPane);
+                                            verifyInfo vInfo = new verifyInfo();
+                                            verifyInfo[] vInfos = (verifyInfo[]) vInfo.toArray(ret);
 
-                                                for (int i = 0; i < nSign; i++) {
-                                                    Middleware.INSTANCE.getVerifyInfo(i, vInfos[i]);
-                                                    vInfos[i].printVerifyInfo();
-                                                    vTable.addDataToModel(
-                                                            verificaScrollPane, vInfos[i]);
-                                                }
-
-                                                verificaScrollPane.repaint();
-
-                                                if (FilenameUtils.getExtension(filePath)
-                                                        .equals("p7m")) {
-                                                    btnEstrai.setEnabled(true);
-                                                } else {
-                                                    btnEstrai.setEnabled(false);
-                                                }
-
-                                                tabbedPane.setSelectedIndex(16);
+                                            for (int i = 0; i < ret; i++) {
+                                                Middleware.INSTANCE.getVerifyInfo(i, vInfos[i]);
+                                                vInfos[i].printVerifyInfo();
+                                                vTable.addDataToModel(
+                                                        verificaScrollPane, vInfos[i]);
                                             }
+                                            verificaScrollPane.repaint();
+
+                                            if (FilenameUtils.getExtension(filePath)
+                                                    .equals("p7m")) {
+                                                btnEstrai.setEnabled(true);
+                                            } else {
+                                                btnEstrai.setEnabled(false);
+                                            }
+
+                                            tabbedPane.setSelectedIndex(16);
+
                                         } else if (ret == (long) INVALID_FILE_TYPE) {
                                             logger.Error(
                                                     "Il file selezionato non è un file valido");
@@ -1723,6 +1711,14 @@ public class MainFrame extends JFrame {
                                                             + " file con estensione .p7m o .pdf",
                                                     "Errore nella verifica",
                                                     JOptionPane.ERROR_MESSAGE);
+                                            tabbedPane.setSelectedIndex(10);
+                                        } else if (ret == 0) {
+                                            logger.Info("Verifica completata");
+                                            JOptionPane.showMessageDialog(
+                                                    MainFrame.this.getContentPane(),
+                                                    "Il file selezionato non contiene firme.",
+                                                    "Verifica completata",
+                                                    JOptionPane.INFORMATION_MESSAGE);
                                             tabbedPane.setSelectedIndex(10);
                                         } else {
                                             logger.Error("Errore generico durante la verifica");
@@ -3787,7 +3783,7 @@ public class MainFrame extends JFrame {
                                                         logger.Info("CIE abilitata con successo");
                                                         JOptionPane.showMessageDialog(
                                                                 MainFrame.this.getContentPane(),
-                                                                "L'abilitazione della CIE è avvennuta con successo",
+                                                                "L'abilitazione della CIE è avvenuta con successo",
                                                                 "CIE abilitata",
                                                                 JOptionPane.INFORMATION_MESSAGE);
 
