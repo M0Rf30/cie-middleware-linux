@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 public class MoveablePicture extends JPanel implements MouseListener, MouseMotionListener {
 
     private int x, y;
+
     // private JPanel picturePanel;
 
     public MoveablePicture(String signFilePath) {

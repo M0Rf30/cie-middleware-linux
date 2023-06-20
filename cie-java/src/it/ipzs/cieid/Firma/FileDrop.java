@@ -428,6 +428,7 @@ public class FileDrop {
         }
         return new File[0];
     }
+
     // END 2007-09-12 Nathan Blomquist -- Linux (KDE/Gnome) support added.
 
     private void makeDropTarget(

@@ -41,6 +41,7 @@ public class MainApplication {
         MainApplication window = new MainApplication(args);
         window.frame.setVisible(true);
     }
+
     /** Create the application. */
     public MainApplication(String[] args) {
         initialize(args);
