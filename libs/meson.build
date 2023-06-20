@@ -16,14 +16,14 @@ curl_dep = dependency('libcurl')
 fontconfig_dep = dependency('fontconfig')
 freetype_dep = dependency('freetype2')
 png_dep = dependency('libpng')
-podofo_dep = dependency('libpodofo')
+podofo_dep = cpp.find_library('podofo', dirs: '/usr/lib/podofo-0.9/', required: true)
 libxml2_dep = dependency('libxml-2.0', required: false)
 xml2_dep = dependency('xml2', required: false)
 zlib_dep = dependency('zlib')
 
-inc_so = include_directories('pkcs11/src/.', 'shared/src/')
+inc_so = include_directories('pkcs11/src/.', 'shared/src/', '/usr/include/podofo-0.9')
 
-inc_a = include_directories('sign-sdk/include', 'sign-sdk/src', 'shared/src/')
+inc_a = include_directories('sign-sdk/include', 'sign-sdk/src', 'shared/src/', '/usr/include/podofo-0.9')
 
 cie_pkcs11_sources = [
     'shared/src/Util/log.cpp',
