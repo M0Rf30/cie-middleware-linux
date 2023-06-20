@@ -5,6 +5,7 @@
 #include <errno.h>
 #include <pthread.h>
 
+#include <cstdint>
 #include <fstream>
 #include <iostream>
 #include <sstream>

@@ -63,7 +63,7 @@ depends__pacman=(
   "libxml2"
   "openssl"
   "pcsclite"
-  "podofo"
+  "podofo-0.9"
 )
 makedepends__pacman=(
   "ccache"
@@ -79,7 +79,7 @@ makedepends__pacman=(
   "openssl"
   "pcsclite"
   "pkgconf"
-  "podofo"
+  "podofo-0.9"
   "unzip"
 )
 
