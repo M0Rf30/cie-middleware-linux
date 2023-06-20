@@ -98,7 +98,7 @@ CK_RV CK_ENTRY firmaConCIE(const char* inFilePath, const char* type,
 
       ByteArray atrBa((BYTE*)ATR, atrLen);
 
-      progressCallBack(20, "");
+      progressCallBack(20, "Getting certificate from CIE...");
 
       IAS* ias =
           new IAS((CToken::TokenTransmitCallback)TokenTransmitCallback, atrBa);
@@ -130,7 +130,7 @@ CK_RV CK_ENTRY firmaConCIE(const char* inFilePath, const char* type,
       FullPIN.append(LastPIN);
       ias->token.Reset();
 
-      progressCallBack(40, "");
+      progressCallBack(40, "Starting signature...");
 
       char fullPinCStr[9];
       memcpy(fullPinCStr, FullPIN.data(), 8);
@@ -146,7 +146,7 @@ CK_RV CK_ENTRY firmaConCIE(const char* inFilePath, const char* type,
         return CKR_PIN_LOCKED;
       }
 
-      progressCallBack(100, "");
+      progressCallBack(100, "OK!");
 
       LOG_INFO("firmaConCIE - completed, res: %d", ret);
 
