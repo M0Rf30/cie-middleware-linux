@@ -5,7 +5,6 @@
 
 #include <libxml/tree.h>
 #include <libxml/xmlmemory.h>
-#include <podofo/podofo.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -25,6 +24,7 @@
 #include "UUCProperties.h"
 #include "XAdESGenerator.h"
 #include "XAdESVerifier.h"
+#include "podofo/podofo.h"
 
 DECLARE_LOG;
 
