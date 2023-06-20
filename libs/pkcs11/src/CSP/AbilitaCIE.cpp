@@ -9,6 +9,7 @@
 
 #include <arpa/inet.h>
 #include <cryptopp/asn.h>
+#include <cryptopp/config_int.h>
 #include <cryptopp/cryptlib.h>
 #include <cryptopp/misc.h>
 #include <math.h>
@@ -185,6 +186,7 @@ CK_RV CK_ENTRY AbilitaCIE(const char* szPAN, const char* szPIN, int* attempts,
 
       progressCallBack(10, "Verifica carta esistente");
 
+      LOG_DEBUG("AbbinaCIE - Checking if card has been activated yet...");
       IAS ias((CToken::TokenTransmitCallback)TokenTransmitCallback, atrBa);
       ias.SetCardContext(&conn);
 
@@ -238,7 +240,7 @@ CK_RV CK_ENTRY AbilitaCIE(const char* szPAN, const char* szPIN, int* attempts,
       free(ATR);
       ATR = NULL;
 
-      DWORD rs = CardAuthenticateEx(&ias, ROLE_USER, FULL_PIN, (BYTE*)(szPIN),
+      DWORD rs = CardAuthenticateEx(&ias, ROLE_USER, FULL_PIN, (BYTE*)szPIN,
                                     (DWORD)strnlen(szPIN, sizeof(szPIN)),
                                     nullptr, 0, progressCallBack, attempts);
       if (rs == SCARD_W_WRONG_CHV) {
@@ -330,12 +332,12 @@ CK_RV CK_ENTRY AbilitaCIE(const char* szPAN, const char* szPIN, int* attempts,
           {
             OID oid(attributes);
             if (oid == OID_GIVENNAME) {
-              byte tag = 0;
+              CryptoPP::byte tag = 0;
               attributes.Peek(tag);
 
               CryptoPP::BERDecodeTextString(attributes, name, tag);
             } else if (oid == OID_SURNAME) {
-              byte tag = 0;
+              CryptoPP::byte tag = 0;
               attributes.Peek(tag);
 
               CryptoPP::BERDecodeTextString(attributes, surname, tag);
@@ -371,7 +373,7 @@ CK_RV CK_ENTRY AbilitaCIE(const char* szPAN, const char* szPIN, int* attempts,
   if (readers) free(readers);
 
   LOG_INFO("AbbinaCIE - CIE paired successfully");
-  progressCallBack(100, "");
+  progressCallBack(100, "OK!");
   LOG_INFO("***** AbbinaCIE Ended *****");
 
   return SCARD_S_SUCCESS;
@@ -445,6 +447,7 @@ DWORD CardAuthenticateEx(IAS* ias, DWORD PinId, DWORD dwFlags, BYTE* pbPinData,
   }
   if (sw >= 0x63C0 && sw <= 0x63CF) {
     if (pcAttemptsRemaining != nullptr) *pcAttemptsRemaining = sw - 0x63C0;
+    LOG_ERROR("CardAuthenticateEx - Wrong Pin");
     return SCARD_W_WRONG_CHV;
   }
   if (sw == 0x6700) {

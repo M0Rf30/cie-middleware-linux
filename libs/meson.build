@@ -54,6 +54,7 @@ cie_pkcs11_sources = [
     'shared/src/Crypto/Base64.cpp',
     'shared/src/Crypto/ASNParser.cpp',
     'shared/src/Crypto/AES.cpp',
+    'shared/src/CSP/ATR.cpp',
     'shared/src/CSP/ExtAuthKey.cpp',
     'pkcs11/src/Util/util.cpp',
     'pkcs11/src/Util/UtilException.cpp',
@@ -178,6 +179,7 @@ cie_sign_sdk_sources = [
     'shared/src/Crypto/Base64.cpp',
     'shared/src/Crypto/ASNParser.cpp',
     'shared/src/Crypto/AES.cpp',
+    'shared/src/CSP/ATR.cpp',
     'shared/src/CSP/ExtAuthKey.cpp',
 ]
 
