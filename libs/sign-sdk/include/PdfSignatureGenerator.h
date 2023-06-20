@@ -9,8 +9,9 @@
 
 #ifndef _PDFSIGNATUREGENERATOR_H_
 #define _PDFSIGNATUREGENERATOR_H_
-
-#include <podofo/podofo.h>
+#include "podofo/podofo.h"
+#include "podofo/doc/PdfSignOutputDevice.h"
+#include "podofo/doc/PdfSignatureField.h"
 
 #include "Util/UUCByteArray.h"
 
@@ -60,11 +61,7 @@ class PdfSignatureGenerator {
   const double getHeight(int pageIndex);
 
  private:
-  PdfDocument* m_pPdfDocument;
-
-  PdfMemDocument* m_pPdfMemDocument;
-
-  PdfWriter* m_pPdfWriter;
+  PdfMemDocument* m_pPdfDocument;
 
   PdfSignatureField* m_pSignatureField;
 
