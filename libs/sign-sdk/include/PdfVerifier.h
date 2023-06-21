@@ -10,8 +10,6 @@
 #ifndef _PDFVERIFIER_H_
 #define _PDFVERIFIER_H_
 
-#include <podofo/doc/PdfSignOutputDevice.h>
-#include <podofo/doc/PdfSignatureField.h>
 #include <podofo/podofo.h>
 
 #include "Util/UUCByteArray.h"
