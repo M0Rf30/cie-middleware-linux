@@ -7,10 +7,12 @@
  *
  */
 
-#include "PdfSignatureGenerator.h"
-
-#include "PdfVerifier.h"
-#include "UUCLogger.h"
+#include "../include/PdfSignatureGenerator.h"
+#include <podofo/auxiliary/basetypes.h>
+#include <podofo/main/PdfSignature.h>
+#include <cmath>
+#include "../include/PdfVerifier.h"
+#include "../include/UUCLogger.h"
 
 #define SIGNATURE_SIZE 10000
 
@@ -33,7 +35,7 @@ PdfSignatureGenerator::PdfSignatureGenerator()
       m_pFinalOutDevice(NULL),
       m_pMainDocbuffer(NULL),
       m_pSignDocbuffer(NULL) {
-  PoDoFo::PdfError::EnableLogging(false);
+  PdfCommon::SetMaxLoggingSeverity(PdfLogSeverity::None);
 }
 
 PdfSignatureGenerator::~PdfSignatureGenerator() {
@@ -61,7 +63,7 @@ int PdfSignatureGenerator::Load(const char* pdf, int len) {
     m_pPdfMemDocument = new PdfMemDocument();
     m_pPdfMemDocument->Load(pdf);
     printf("OK m_pPdfMemDocument");
-    int nSigns = PDFVerifier::GetNumberOfSignatures(m_pPdfMemDocument);
+    int nSigns = PDFVerifier::GetNumberOfSignatures(m_pPdfDocument);
     printf("OK nSigns: %d", nSigns);
 
     if (nSigns > 0) {
@@ -77,17 +79,14 @@ int PdfSignatureGenerator::Load(const char* pdf, int len) {
   }
 }
 
-void PdfSignatureGenerator::AddFont(const char* szFontName,
+void PdfSignatureGenerator::AddFont(const std::string_view& szFontName,
                                     const char* szFontPath) {
   // printf(szFontName);
   // printf(szFontPath);
-
-  m_pPdfDocument->PoDoFo::PdfDocument::CreateFont(
-      szFontName, false, PdfEncodingFactory::GlobalWinAnsiEncodingInstance(),
-      PdfFontCache::eFontCreationFlags_AutoSelectBase14, true);
-  m_pPdfDocument->PoDoFo::PdfDocument::CreateFont(
-      szFontName, true, PdfEncodingFactory::GlobalWinAnsiEncodingInstance(),
-      PdfFontCache::eFontCreationFlags_AutoSelectBase14, true);
+  m_pPdfDocument->PoDoFo::PdfDocument::GetFonts().GetOrCreateFont(
+      szFontName, false);
+  m_pPdfDocument->PoDoFo::PdfDocument::GetFonts().GetOrCreateFont(
+      szFontName, true);
 }
 
 void PdfSignatureGenerator::InitSignature(
@@ -128,22 +127,24 @@ void PdfSignatureGenerator::InitSignature(
 
   if (m_pSignatureField) delete m_pSignatureField;
 
-  PdfPage* pPage = m_pPdfMemDocument->GetPage(pageIndex);
-  PdfRect cropBox = pPage->GetCropBox();
+  auto& pPage = m_pPdfDocument->GetPages().GetPageAt(pageIndex);
 
-  float left0 = left * cropBox.GetWidth();
-  float bottom0 = cropBox.GetHeight() - (bottom * cropBox.GetHeight());
+  Rect cropBox = pPage.GetCropBox();
 
-  float width0 = width * cropBox.GetWidth();
-  float height0 = height * cropBox.GetHeight();
+  float left0 = left * cropBox.Width;
+  float bottom0 = cropBox.Height - (bottom * cropBox.Height);
+
+  float width0 = width * cropBox.Width;
+  float height0 = height * cropBox.Height;
 
   printf("pdf rect: %f, %f, %f, %f\n", left0, bottom0, width0, height0);
 
-  PdfRect rect(left0, bottom0, width0, height0);
+  Rect rect(left0, bottom0, width0, height0);
 
   LOG_DBG((0, "InitSignature", "PdfSignatureField"));
 
-  m_pSignatureField = new PdfSignatureField(pPage, rect, m_pPdfMemDocument);
+
+  auto m_pSignatureField = &pPage.CreateField<PdfSignature>(szName, rect);
 
   LOG_DBG((0, "InitSignature", "PdfSignatureField OK"));
 
@@ -168,31 +169,23 @@ void PdfSignatureGenerator::InitSignature(
 
   LOG_DBG((0, "InitSignature", "Date OK"));
 
-  m_pSignOutputDevice->PdfSignOutputDevice::SetSignatureSize(SIGNATURE_SIZE);
+  //FIXME
+  // m_pSignOutputDevice->PdfSignOutputDevice::SetSignatureSize(SIGNATURE_SIZE);
 
   LOG_DBG((0, "InitSignature", "SIGNATURE_SIZE OK"));
 
-  // if (width * height > 0) {
-  //   try {
-  //     m_pSignatureField->SetAppearance(szImagePath, szDescription);
-  //     LOG_DBG((0, "InitSignature", "SetAppearance OK"));
-  //   } catch (PdfError& error) {
-  //     LOG_ERR((0, "InitSignature", "SetAppearance error: %s, %s",
-  //              PdfError::ErrorMessage(error.GetError()), error.what()));
-  //   } catch (PdfError* perror) {
-  //     LOG_ERR((0, "InitSignature", "SetAppearance error2: %s, %s",
-  //              PdfError::ErrorMessage(perror->GetError()), perror->what()));
-  //   } catch (std::exception& ex) {
-  //     LOG_ERR(
-  //         (0, "InitSignature", "SetAppearance std exception, %s",
-  //         ex.what()));
-  //   } catch (std::exception* pex) {
-  //     LOG_ERR((0, "InitSignature", "SetAppearance std exception2, %s",
-  //              pex->what()));
-  //   } catch (...) {
-  //     LOG_ERR((0, "InitSignature", "SetAppearance unknown error"));
-  //   }
-  // }
+  if (width * height >0) {
+    Rect annotSize(0.0, 0.0, rect.Width, rect.Height);
+    auto sigXObject = m_pPdfDocument->CreateXObjectForm(annotSize);
+    try
+    {
+      m_pSignatureField->SetAppearanceStream(*sigXObject);
+      LOG_DBG((0, "InitSignature", "SetAppearance OK"));
+    } catch (...) {
+      LOG_ERR((0, "InitSignature", "SetAppearance error: %s, %s",
+               PdfError::ErrorMessage(error.GetError()), error.what()));
+    }
+  }
 
   // if (szGraphometricData && szGraphometricData[0])
   //   m_pSignatureField->SetGraphometricData(
@@ -206,18 +199,21 @@ void PdfSignatureGenerator::InitSignature(
   int fulllen = m_actualLen * 2 + SIGNATURE_SIZE * 2;
 
   int mainDoclen = 0;
-  m_pMainDocbuffer = NULL;
-  while (!m_pMainDocbuffer) {
+  charbuff outputBuffer;
+  m_pMainDocbuffer = new char[fulllen];
+
+  while (sizeof(m_pMainDocbuffer)!= 0) {
     try {
       LOG_DBG((0, "InitSignature", "fulllen %d", fulllen));
-      m_pMainDocbuffer = new char[fulllen];
-      PdfOutputDevice pdfOutDevice(m_pMainDocbuffer, fulllen);
-      m_pPdfMemDocument->Write(&pdfOutDevice);
+      auto input = std::make_shared<SpanStreamDevice>(m_pMainDocbuffer);
+      BufferStreamDevice pdfOutDevice(outputBuffer);
+      input->CopyTo(pdfOutDevice);
       mainDoclen = pdfOutDevice.GetLength();
-    } catch (::PoDoFo::PdfError err) {
-      if (m_pMainDocbuffer) {
+    } catch (...) {
+      if (!iszero(m_pMainDocbuffer)) {
+        // FIXME
         delete m_pMainDocbuffer;
-        m_pMainDocbuffer = NULL;
+        m_pMainDocbuffer = "";
       }
 
       LOG_DBG((0, "PdfError", "what %s", err.what()));
@@ -232,24 +228,26 @@ void PdfSignatureGenerator::InitSignature(
 
   LOG_DBG((0, "InitSignature", "m_pSignDocbuffer %d", fulllen));
 
-  m_pFinalOutDevice = new PdfOutputDevice(m_pSignDocbuffer, fulllen);
-  m_pSignOutputDevice = new PdfSignOutputDevice(m_pFinalOutDevice);
+  auto input = std::make_shared<SpanStreamDevice>(m_pSignDocbuffer);
+  BufferStreamDevice m_pFinalOutDevice(outputBuffer);
+  input->CopyTo(m_pFinalOutDevice);
 
   LOG_DBG((0, "InitSignature", "buffers OK %d", fulllen));
 
   // imposta la firma
-  m_pSignOutputDevice->SetSignatureSize(SIGNATURE_SIZE);
 
-  LOG_DBG((0, "InitSignature", "SetSignatureSize OK %d", SIGNATURE_SIZE));
+  // m_pSignOutputDevice->SetSignatureSize(SIGNATURE_SIZE);
+
+  // LOG_DBG((0, "InitSignature", "SetSignatureSize OK %d", SIGNATURE_SIZE));
 
   // Scrive il documento reale
   m_pSignOutputDevice->Write(m_pMainDocbuffer, mainDoclen);
 
   LOG_DBG((0, "InitSignature", "Write OK %d", mainDoclen));
 
-  m_pSignOutputDevice->AdjustByteRange();
+  // m_pSignOutputDevice->AdjustByteRange();
 
-  LOG_DBG((0, "InitSignature", "AdjustByteRange OK"));
+  // LOG_DBG((0, "InitSignature", "AdjustByteRange OK"));
 }
 
 void PdfSignatureGenerator::GetBufferForSignature(UUCByteArray& toSign) {
@@ -260,17 +258,16 @@ void PdfSignatureGenerator::GetBufferForSignature(UUCByteArray& toSign) {
 
   m_pSignOutputDevice->Seek(0);
 
-  int nRead = m_pSignOutputDevice->ReadForSignature(buffer, len);
-  if (nRead == -1) throw nRead;
+  // int nRead = m_pSignOutputDevice->ReadForSignature(buffer, len);
+  // if (nRead == -1) throw nRead;
 
-  toSign.append((BYTE*)buffer, nRead);
+  toSign.append((BYTE*)buffer, sizeof(buffer));
 
   delete[] buffer;
 }
 
-void PdfSignatureGenerator::SetSignature(const char* signature, int len) {
-  PdfData signatureData(signature, len);
-  m_pSignOutputDevice->SetSignature(signatureData);
+void PdfSignatureGenerator::SetSignature(const char* signature, size_t len) {
+  m_pSignOutputDevice->Write(signature, len);
 }
 
 void PdfSignatureGenerator::GetSignedPdf(UUCByteArray& signedPdf) {
@@ -278,25 +275,24 @@ void PdfSignatureGenerator::GetSignedPdf(UUCByteArray& signedPdf) {
   char* szSignedPdf = new char[finalLength];
 
   m_pSignOutputDevice->Seek(0);
-  int nRead = m_pSignOutputDevice->Read(szSignedPdf, finalLength);
 
-  signedPdf.append((BYTE*)szSignedPdf, nRead);
+  signedPdf.append((BYTE*)szSignedPdf, sizeof(szSignedPdf));
 
   delete[] szSignedPdf;
 }
 
 const double PdfSignatureGenerator::getWidth(int pageIndex) {
-  if (m_pPdfMemDocument) {
-    PdfPage* pPage = m_pPdfMemDocument->GetPage(pageIndex);
-    return pPage->GetPageSize().GetWidth();
+  if (m_pPdfDocument) {
+    auto& pPage = m_pPdfDocument->GetPages().GetPageAt(pageIndex);
+    return pPage.GetMediaBox(false).Width;
   }
   return 0;
 }
 
 const double PdfSignatureGenerator::getHeight(int pageIndex) {
-  if (m_pPdfMemDocument) {
-    PdfPage* pPage = m_pPdfMemDocument->GetPage(pageIndex);
-    return pPage->GetPageSize().GetHeight();
+  if (m_pPdfDocument) {
+    auto& pPage = m_pPdfDocument->GetPages().GetPageAt(pageIndex);
+    return pPage.GetMediaBox(false).Height;
   }
   return 0;
 }
@@ -304,14 +300,14 @@ const double PdfSignatureGenerator::getHeight(int pageIndex) {
 const double PdfSignatureGenerator::lastSignatureY(int left, int bottom) {
   if (!m_pPdfMemDocument) return -1;
   /// Find the document catalog dictionary
-  const PdfObject* const trailer = m_pPdfMemDocument->GetTrailer();
-  if (!trailer->IsDictionary()) return -1;
+  PdfObject trailer = m_pPdfDocument->GetTrailer().GetObject();
+  if (!trailer.IsDictionary()) return -1;
   const PdfObject* const catalogRef =
-      trailer->GetDictionary().GetKey(PdfName("Root"));
+      trailer.GetDictionary().GetKey(PdfName("Root"));
   if (catalogRef == 0 || !catalogRef->IsReference())
     return -2;  // throw std::invalid_argument("Invalid /Root entry");
   const PdfObject* const catalog =
-      m_pPdfMemDocument->GetObjects().GetObject(catalogRef->GetReference());
+      m_pPdfDocument->GetObjects().GetObject(catalogRef->GetReference());
   if (catalog == 0 || !catalog->IsDictionary())
     return -3;  // throw std::invalid_argument("Invalid or non-dictionary
   // referenced by /Root entry");
@@ -321,7 +317,7 @@ const double PdfSignatureGenerator::lastSignatureY(int left, int bottom) {
       catalog->GetDictionary().GetKey(PdfName("AcroForm"));
   if (acroFormValue == 0) return bottom;
   if (acroFormValue->IsReference())
-    acroFormValue = m_pPdfMemDocument->GetObjects().GetObject(
+    acroFormValue = m_pPdfDocument->GetObjects().GetObject(
         acroFormValue->GetReference());
 
   if (!acroFormValue->IsDictionary()) return bottom;
@@ -331,7 +327,7 @@ const double PdfSignatureGenerator::lastSignatureY(int left, int bottom) {
   if (fieldsValue == 0) return bottom;
 
   if (fieldsValue->IsReference())
-    fieldsValue = m_pPdfMemDocument->GetObjects().GetObject(
+    fieldsValue = m_pPdfDocument->GetObjects().GetObject(
         acroFormValue->GetReference());
 
   if (!fieldsValue->IsArray()) return bottom;
@@ -345,15 +341,15 @@ const double PdfSignatureGenerator::lastSignatureY(int left, int bottom) {
 
   for (unsigned int i = 0; i < array.size(); i++) {
     const PdfObject* pObj =
-        m_pPdfMemDocument->GetObjects().GetObject(array[i].GetReference());
-    if (IsSignatureField(m_pPdfMemDocument, pObj)) {
+        m_pPdfDocument->GetObjects().GetObject(array[i].GetReference());
+    if (IsSignatureField(m_pPdfDocument, pObj)) {
       const PdfObject* const keyRect =
           pObj->GetDictionary().GetKey(PdfName("Rect"));
       if (keyRect == 0) {
         return bottom;
       }
       PdfArray rectArray = keyRect->GetArray();
-      PdfRect rect;
+      Rect rect;
       rect.FromArray(rectArray);
 
       if (rect.GetLeft() == left) {
@@ -366,7 +362,7 @@ const double PdfSignatureGenerator::lastSignatureY(int left, int bottom) {
   return minY;
 }
 
-bool PdfSignatureGenerator::IsSignatureField(const PdfMemDocument* pDoc,
+bool PdfSignatureGenerator::IsSignatureField(const PdfDocument* pDoc,
                                              const PdfObject* const pObj) {
   if (pObj == 0) return false;
 
@@ -389,4 +385,5 @@ bool PdfSignatureGenerator::IsSignatureField(const PdfMemDocument* pDoc,
     return true;
   else
     return false;
+  return true;
 }

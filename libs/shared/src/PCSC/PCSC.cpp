@@ -82,7 +82,7 @@ readerMonitor::readerMonitor(void (*eventHandler)(std::string &reader,
 
         auto loadReaderList = [&]() -> void {
           char *readers = nullptr;
-          unsigned long int len = 0;
+          DWORD len = 0;
 
           if (SCardListReaders(rm->hContext, NULL, NULL, &len))
             throw logged_error("Nessun lettore installato");

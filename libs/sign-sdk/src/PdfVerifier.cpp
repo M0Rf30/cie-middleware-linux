@@ -9,7 +9,7 @@
 
 #ifndef HP_UX
 
-#include "PdfVerifier.h"
+#include "../include/PdfVerifier.h"
 
 #include <string>
 
@@ -34,7 +34,7 @@ int PDFVerifier::Load(const char *pdf, int len) {
 
   try {
     m_pPdfMemDocument = new PdfMemDocument();
-    m_pPdfMemDocument->Load(pdf, len);
+    m_pPdfMemDocument->Load(pdf);
     m_actualLen = len;
     m_szDocBuffer = (char *)pdf;
 
@@ -98,17 +98,17 @@ int PDFVerifier::GetNumberOfSignatures(const char *szFilePath) {
   }
 }
 
-int PDFVerifier::GetNumberOfSignatures(PdfMemDocument *pPdfDocument) {
+int PDFVerifier::GetNumberOfSignatures(PdfDocument *pPdfDocument) {
   printf("GetNumberOfSignatures");
 
   /// Find the document catalog dictionary
-  const PdfObject *const trailer = pPdfDocument->GetTrailer();
-  if (!trailer->IsDictionary()) return -1;
+  PdfObject trailer = pPdfDocument->GetTrailer().GetObject();
+  if (!trailer.IsDictionary()) return -1;
 
   printf("trailer ok");
 
   const PdfObject *const catalogRef =
-      trailer->GetDictionary().GetKey(PdfName("Root"));
+      trailer.GetDictionary().GetKey(PdfName("Root"));
   if (catalogRef == 0 || !catalogRef->IsReference()) return -2;
 
   printf("Catalogref ok");
@@ -160,13 +160,13 @@ int PDFVerifier::GetNumberOfSignatures(PdfMemDocument *pPdfDocument) {
   /// Verify if each object of the array is a signature field
   int n = 0;
   const PdfArray &array = fieldsValue->GetArray();
-  for (unsigned int i = 0; i < array.size(); i++) {
-    const PdfObject *const obj =
-        pPdfDocument->GetObjects().GetObject(array[i].GetReference());
-    if (IsSignatureField(pPdfDocument, obj)) {
-      n++;
-    }
-  }
+  // for (unsigned int i = 0; i < array.size(); i++) {
+  //   const PdfObject *const pObj =
+  //       m_pPdfDocument->GetObjects().GetObject(array[i].GetReference());
+  //   if (IsSignatureField(m_pPdfDocument, pObj)) {
+  //     n++;
+  //   }
+  // }
 
   return n;
 }
@@ -180,18 +180,18 @@ int PDFVerifier::GetNumberOfSignatures() {
 int PDFVerifier::VerifySignature(int index, const char *szDate,
                                  char *signatureType,
                                  REVOCATION_INFO *pRevocationInfo) {
-  if (!m_pPdfMemDocument) return -1;
+  if (!m_pPdfDocument) return -1;
 
   /// Find the document catalog dictionary
-  const PdfObject *const trailer = m_pPdfMemDocument->GetTrailer();
-  if (!trailer->IsDictionary()) return -1;
+  PdfObject trailer = m_pPdfDocument->GetTrailer().GetObject();
+  if (!trailer.IsDictionary()) return -1;
 
   const PdfObject *const catalogRef =
-      trailer->GetDictionary().GetKey(PdfName("Root"));
+      trailer.GetDictionary().GetKey(PdfName("Root"));
   if (catalogRef == 0 || !catalogRef->IsReference()) return -2;
 
   const PdfObject *const catalog =
-      m_pPdfMemDocument->GetObjects().GetObject(catalogRef->GetReference());
+      m_pPdfDocument->GetObjects().GetObject(catalogRef->GetReference());
   if (catalog == 0 || !catalog->IsDictionary()) return -3;
 
   /// Find the Fields array in catalog dictionary
@@ -200,7 +200,7 @@ int PDFVerifier::VerifySignature(int index, const char *szDate,
   if (acroFormValue == 0) return 0;
 
   if (acroFormValue->IsReference())
-    acroFormValue = m_pPdfMemDocument->GetObjects().GetObject(
+    acroFormValue = m_pPdfDocument->GetObjects().GetObject(
         acroFormValue->GetReference());
 
   if (!acroFormValue->IsDictionary()) return 0;
@@ -211,7 +211,7 @@ int PDFVerifier::VerifySignature(int index, const char *szDate,
 
   if (fieldsValue->IsReference())
     fieldsValue =
-        m_pPdfMemDocument->GetObjects().GetObject(fieldsValue->GetReference());
+        m_pPdfDocument->GetObjects().GetObject(fieldsValue->GetReference());
 
   if (!fieldsValue->IsArray()) return 0;
 
@@ -221,8 +221,8 @@ int PDFVerifier::VerifySignature(int index, const char *szDate,
   const PdfArray &array = fieldsValue->GetArray();
   for (unsigned int i = 0; i < array.size(); i++) {
     const PdfObject *pObj =
-        m_pPdfMemDocument->GetObjects().GetObject(array[i].GetReference());
-    if (IsSignatureField(m_pPdfMemDocument, pObj)) {
+        m_pPdfDocument->GetObjects().GetObject(array[i].GetReference());
+    if (IsSignatureField(m_pPdfDocument, pObj)) {
       signatureVector.push_back(pObj);
     }
   }
@@ -339,14 +339,14 @@ bool PDFVerifier::IsSignatureField(const PdfMemDocument *pDoc,
 
 int PDFVerifier::GetSignature(int index, UUCByteArray &signedDocument,
                               SignatureAppearanceInfo &signatureInfo) {
-  if (!m_pPdfMemDocument) return -1;
+  if (!m_pPdfDocument) return -1;
 
   /// Find the document catalog dictionary
-  const PdfObject *const trailer = m_pPdfMemDocument->GetTrailer();
-  if (!trailer->IsDictionary()) return -1;
+  PdfObject trailer = m_pPdfDocument->GetTrailer().GetObject();
+  if (!trailer.IsDictionary()) return -1;
 
   const PdfObject *const catalogRef =
-      trailer->GetDictionary().GetKey(PdfName("Root"));
+      trailer.GetDictionary().GetKey(PdfName("Root"));
   if (catalogRef == 0 || !catalogRef->IsReference())
     return -2;  // throw std::invalid_argument("Invalid /Root entry");
 
@@ -362,7 +362,7 @@ int PDFVerifier::GetSignature(int index, UUCByteArray &signedDocument,
   if (acroFormValue == 0) return -4;
 
   if (acroFormValue->IsReference())
-    acroFormValue = m_pPdfMemDocument->GetObjects().GetObject(
+    acroFormValue = m_pPdfDocument->GetObjects().GetObject(
         acroFormValue->GetReference());
 
   if (!acroFormValue->IsDictionary()) return -5;
@@ -373,7 +373,7 @@ int PDFVerifier::GetSignature(int index, UUCByteArray &signedDocument,
 
   if (fieldsValue->IsReference())
     fieldsValue =
-        m_pPdfMemDocument->GetObjects().GetObject(fieldsValue->GetReference());
+        m_pPdfDocument->GetObjects().GetObject(fieldsValue->GetReference());
 
   if (!fieldsValue->IsArray()) return -7;
 
@@ -383,7 +383,7 @@ int PDFVerifier::GetSignature(int index, UUCByteArray &signedDocument,
   const PdfArray &array = fieldsValue->GetArray();
   for (unsigned int i = 0; i < array.size(); i++) {
     const PdfObject *pObj =
-        m_pPdfMemDocument->GetObjects().GetObject(array[i].GetReference());
+        m_pPdfDocument->GetObjects().GetObject(array[i].GetReference());
     if (IsSignatureField(m_pPdfMemDocument, pObj)) {
       signatureVector.push_back(pObj);
     }
@@ -423,13 +423,13 @@ int PDFVerifier::GetSignature(const PdfMemDocument *pDoc,
   }
 
   PdfArray rectArray = keyRect->GetArray();
-  PdfRect rect;
+  Rect rect;
   rect.FromArray(rectArray);
 
   appearanceInfo.left = rect.GetLeft();
   appearanceInfo.bottom = rect.GetBottom();
-  appearanceInfo.width = rect.GetWidth();
-  appearanceInfo.heigth = rect.GetHeight();
+  appearanceInfo.width = rect.Width;
+  appearanceInfo.heigth = rect.Height;
 
   const PdfObject *const signature =
       pDoc->GetObjects().GetObject(keyVValue->GetReference());

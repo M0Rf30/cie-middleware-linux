@@ -42,7 +42,7 @@ class PDFVerifier {
   int GetSignature(int index, UUCByteArray& signedDocument,
                    SignatureAppearanceInfo& appearanceInfo);
 
-  static int GetNumberOfSignatures(PdfMemDocument* pPdfDocument);
+  static int GetNumberOfSignatures(PdfDocument* pPdfDocument);
   static int GetNumberOfSignatures(const char* szFilePath);
 
  private:
@@ -59,6 +59,7 @@ class PDFVerifier {
                    SignatureAppearanceInfo& appearanceInfo);
 
   PdfMemDocument* m_pPdfMemDocument;
+  PdfMemDocument* m_pPdfDocument;
 
   int m_actualLen;
 

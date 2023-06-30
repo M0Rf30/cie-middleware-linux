@@ -10,9 +10,11 @@
 #ifndef _PDFSIGNATUREGENERATOR_H_
 #define _PDFSIGNATUREGENERATOR_H_
 
+#include <string_view>
+#include <podofo/auxiliary/OutputDevice.h>
 #include <podofo/podofo.h>
 
-#include "Util/UUCByteArray.h"
+#include "../../shared/src/Util/UUCByteArray.h"
 
 using namespace PoDoFo;
 using namespace std;
@@ -49,11 +51,11 @@ class PdfSignatureGenerator {
 
   void GetBufferForSignature(UUCByteArray& toSign);
 
-  void SetSignature(const char* signature, int len);
+  void SetSignature(const char* signature, size_t len);
 
   void GetSignedPdf(UUCByteArray& signature);
 
-  void AddFont(const char* szFontName, const char* szFontPath);
+  void AddFont(const std::string_view& szFontName, const char* szFontPath);
 
   const double getWidth(int pageIndex);
 
@@ -66,21 +68,21 @@ class PdfSignatureGenerator {
 
   PdfWriter* m_pPdfWriter;
 
-  PdfSignatureField* m_pSignatureField;
+  PdfField* m_pSignatureField;
 
-  PdfSignOutputDevice* m_pSignOutputDevice;
+  OutputStreamDevice* m_pSignOutputDevice;
 
-  PdfOutputDevice* m_pFinalOutDevice;
+  OutputStreamDevice* m_pFinalOutDevice;
 
-  char* m_pMainDocbuffer;
+  const char* m_pMainDocbuffer;
 
-  char* m_pSignDocbuffer;
+  const char* m_pSignDocbuffer;
 
   const double lastSignatureY(int left, int bottom);
 
   int m_actualLen;
 
-  static bool IsSignatureField(const PdfMemDocument* pDoc,
+  static bool IsSignatureField(const PdfDocument* pDoc,
                                const PdfObject* const pObj);
 };
 
