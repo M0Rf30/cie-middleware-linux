@@ -32,7 +32,7 @@ dependencies {
 	implementation fileTree(dir: 'lib', include: ['*.jar'])
 	implementation 'commons-io:commons-io:2.13.0'
 	implementation 'com.dorkbox:ObjectPool:4.3'
-	implementation 'com.dorkbox:Notify:3.7'
+	implementation 'com.dorkbox:Notify:4.2'
 	implementation 'com.dorkbox:ShellExecutor:1.1'
 	implementation 'com.dorkbox:SystemTray:4.2.1'
 	implementation 'com.dorkbox:TweenEngine:9.1'
