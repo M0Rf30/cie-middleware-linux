@@ -30,7 +30,7 @@ spotless {
 dependencies {
 	// This dependency is used by the application.
 	implementation fileTree(dir: 'lib', include: ['*.jar'])
-	implementation 'commons-io:commons-io:2.13.0'
+	implementation 'commons-io:commons-io:2.14.0'
 	implementation 'com.dorkbox:ObjectPool:4.3'
 	implementation 'com.dorkbox:Notify:3.7'
 	implementation 'com.dorkbox:ShellExecutor:1.1'
