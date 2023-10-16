@@ -4,6 +4,7 @@
 // C++ Header File(s)
 #include <errno.h>
 #include <pthread.h>
+#include <stdint.h>
 
 #include <fstream>
 #include <iostream>
