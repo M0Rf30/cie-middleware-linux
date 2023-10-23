@@ -1,0 +1,19 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/libs/shared/src",
+                "${workspaceFolder}/libs/sign-sdk/include",
+                "${workspaceFolder}/libs/sign-sdk/src"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/clang",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "linux-clang-x64",
+            "compileCommands": "${workspaceFolder}/libs/builddir/compile_commands.json"
+        }
+    ],
+    "version": 4
+}
