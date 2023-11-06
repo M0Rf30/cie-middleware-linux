@@ -7,9 +7,10 @@
  *
  */
 
-#ifndef HP_UX
-
 #include "PdfVerifier.h"
+
+#include <podofo/auxiliary/Rect.h>
+#include <podofo/main/PdfTrailer.h>
 
 #include <string>
 
@@ -34,7 +35,7 @@ int PDFVerifier::Load(const char *pdf, int len) {
 
   try {
     m_pPdfMemDocument = new PdfMemDocument();
-    m_pPdfMemDocument->Load(pdf, len);
+    m_pPdfMemDocument->Load(pdf);
     m_actualLen = len;
     m_szDocBuffer = (char *)pdf;
 
@@ -102,13 +103,12 @@ int PDFVerifier::GetNumberOfSignatures(PdfMemDocument *pPdfDocument) {
   printf("GetNumberOfSignatures");
 
   /// Find the document catalog dictionary
-  const PdfObject *const trailer = pPdfDocument->GetTrailer();
-  if (!trailer->IsDictionary()) return -1;
+  const PdfTrailer &trailer = pPdfDocument->GetTrailer();
 
   printf("trailer ok");
 
   const PdfObject *const catalogRef =
-      trailer->GetDictionary().GetKey(PdfName("Root"));
+      trailer.GetDictionary().GetKey(PdfName("Root"));
   if (catalogRef == 0 || !catalogRef->IsReference()) return -2;
 
   printf("Catalogref ok");
@@ -183,11 +183,10 @@ int PDFVerifier::VerifySignature(int index, const char *szDate,
   if (!m_pPdfMemDocument) return -1;
 
   /// Find the document catalog dictionary
-  const PdfObject *const trailer = m_pPdfMemDocument->GetTrailer();
-  if (!trailer->IsDictionary()) return -1;
+  const PdfTrailer &trailer = m_pPdfMemDocument->GetTrailer();
 
   const PdfObject *const catalogRef =
-      trailer->GetDictionary().GetKey(PdfName("Root"));
+      trailer.GetDictionary().GetKey(PdfName("Root"));
   if (catalogRef == 0 || !catalogRef->IsReference()) return -2;
 
   const PdfObject *const catalog =
@@ -342,11 +341,10 @@ int PDFVerifier::GetSignature(int index, UUCByteArray &signedDocument,
   if (!m_pPdfMemDocument) return -1;
 
   /// Find the document catalog dictionary
-  const PdfObject *const trailer = m_pPdfMemDocument->GetTrailer();
-  if (!trailer->IsDictionary()) return -1;
+  const PdfTrailer &trailer = m_pPdfMemDocument->GetTrailer();
 
   const PdfObject *const catalogRef =
-      trailer->GetDictionary().GetKey(PdfName("Root"));
+      trailer.GetDictionary().GetKey(PdfName("Root"));
   if (catalogRef == 0 || !catalogRef->IsReference())
     return -2;  // throw std::invalid_argument("Invalid /Root entry");
 
@@ -423,13 +421,13 @@ int PDFVerifier::GetSignature(const PdfMemDocument *pDoc,
   }
 
   PdfArray rectArray = keyRect->GetArray();
-  PdfRect rect;
+  Rect rect;
   rect.FromArray(rectArray);
 
   appearanceInfo.left = rect.GetLeft();
   appearanceInfo.bottom = rect.GetBottom();
-  appearanceInfo.width = rect.GetWidth();
-  appearanceInfo.heigth = rect.GetHeight();
+  appearanceInfo.width = rect.GetRight();
+  appearanceInfo.heigth = rect.GetTop();
 
   const PdfObject *const signature =
       pDoc->GetObjects().GetObject(keyVValue->GetReference());
@@ -447,5 +445,3 @@ int PDFVerifier::GetSignature(const PdfMemDocument *pDoc,
   } else
     return -6;
 }
-
-#endif

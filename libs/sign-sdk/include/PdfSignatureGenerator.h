@@ -10,6 +10,12 @@
 #ifndef _PDFSIGNATUREGENERATOR_H_
 #define _PDFSIGNATUREGENERATOR_H_
 
+#include <podofo/auxiliary/InputStream.h>
+#include <podofo/auxiliary/OutputDevice.h>
+#include <podofo/auxiliary/OutputStream.h>
+#include <podofo/auxiliary/Rect.h>
+#include <podofo/main/PdfFontManager.h>
+#include <podofo/main/PdfSignature.h>
 #include <podofo/podofo.h>
 
 #include "Util/UUCByteArray.h"
@@ -24,6 +30,10 @@ class PdfSignatureGenerator {
   virtual ~PdfSignatureGenerator();
 
   int Load(const char* pdf, int len);
+
+  void AdjustByteRange(OutputStreamDevice& device, size_t byteRangeOffset,
+                       size_t conentsBeaconOffset, size_t conentsBeaconSize,
+                       charbuff& buffer);
 
   void InitSignature(int pageIndex, const char* szReason,
                      const char* szReasonLabel, const char* szName,
@@ -49,6 +59,14 @@ class PdfSignatureGenerator {
 
   void GetBufferForSignature(UUCByteArray& toSign);
 
+  size_t ReadForSignature(StreamDevice& device, size_t conentsBeaconOffset,
+                          size_t conentsBeaconSize, char* buffer, size_t size);
+
+  void SetGraphometricData(PdfSignature* pSignatureField,
+                           nullable<const PdfString&> vendor,
+                           nullable<const PdfString&> szGraphometricData,
+                           nullable<const PdfString&> szVersion);
+
   void SetSignature(const char* signature, int len);
 
   void GetSignedPdf(UUCByteArray& signature);
@@ -60,17 +78,19 @@ class PdfSignatureGenerator {
   const double getHeight(int pageIndex);
 
  private:
+  PdfSignatureBeacons* m_beacons;
+
   PdfDocument* m_pPdfDocument;
 
   PdfMemDocument* m_pPdfMemDocument;
 
   PdfWriter* m_pPdfWriter;
 
-  PdfSignatureField* m_pSignatureField;
+  PdfSignature* m_pSignatureField;
 
-  PdfSignOutputDevice* m_pSignOutputDevice;
+  StreamDevice* m_pSignOutputDevice;
 
-  PdfOutputDevice* m_pFinalOutDevice;
+  OutputStreamDevice* m_pFinalOutDevice;
 
   char* m_pMainDocbuffer;
 
