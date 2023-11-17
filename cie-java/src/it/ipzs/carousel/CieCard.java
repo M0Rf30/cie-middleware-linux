@@ -86,7 +86,6 @@ public class CieCard extends JPanel {
                                                     MainFrame.class.getResource(
                                                             "/it/ipzs/cieid/res/cie.jpg"))));
                 } catch (IOException e2) {
-                    // TODO Auto-generated catch block
                     e2.printStackTrace();
                 }
 
@@ -131,7 +130,6 @@ public class CieCard extends JPanel {
                 lblName.setEnabled(false);
                 this.add(lblName);
 
-                // TODO sostituire l'immagine
                 try {
                     imageIcon1 =
                             new ImageIcon(
@@ -143,7 +141,6 @@ public class CieCard extends JPanel {
                                                             "/it/ipzs/cieid/res/cie.jpg"))));
 
                 } catch (IOException e2) {
-                    // TODO Auto-generated catch block
                     e2.printStackTrace();
                 }
                 lblCieImage = new JLabel();

@@ -55,7 +55,6 @@ public class PdfPreview {
             showPreview();
             document.close();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             System.out.println("PDF File not found");
             e.printStackTrace();
         }

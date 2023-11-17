@@ -135,7 +135,6 @@ public class PINNoticeDialog extends JDialog {
                                                     MainFrame.class.getResource(
                                                             "/it/ipzs/cieid/res/Logo_Cie_ID_Windowed@2x.png")))));
                 } catch (IOException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
                 label.setHorizontalAlignment(SwingConstants.CENTER);

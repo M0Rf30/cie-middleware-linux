@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+        "algorithm": "cpp",
+        "string_view": "cpp",
+        "functional": "cpp",
+        "array": "cpp",
+        "hash_map": "cpp",
+        "any": "cpp",
+        "ranges": "cpp",
+        "span": "cpp",
+        "regex": "cpp"
+    }
+}

@@ -2107,8 +2107,6 @@ public class MainFrame extends JFrame {
 
                             btnProseguiOp.setEnabled(true);
                             signOperation = SignOp.PADES;
-
-                            // TODO salvare tipo di operazione
                         }
                     }
                 });
@@ -3317,11 +3315,9 @@ public class MainFrame extends JFrame {
 
             ImageIO.write(bufferedImage, "png", new File(path));
         } catch (FontFormatException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
 
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -3382,7 +3378,6 @@ public class MainFrame extends JFrame {
 
                     @Override
                     public void run() {
-                        // TODO Auto-generated method stub
 
                         try {
                             final int[] attempts = new int[1];
@@ -3410,7 +3405,6 @@ public class MainFrame extends JFrame {
                                     new Middleware.SignCompletedCallBack() {
                                         @Override
                                         public void invoke(int retValue) {
-                                            // TODO Auto-generated method stub
 
                                             System.out.println("Sign Completed!!");
                                             logger.Info("Firma completata");
@@ -3660,7 +3654,6 @@ public class MainFrame extends JFrame {
 
                     @Override
                     public void run() {
-                        // TODO Auto-generated method stub
 
                         try {
                             final int[] attempts = new int[1];
@@ -3691,7 +3684,6 @@ public class MainFrame extends JFrame {
                                         @Override
                                         public void invoke(
                                                 String pan, String cardholder, String ef_seriale) {
-                                            // TODO Auto-generated method stub
                                             /*
                                              * MainFrame.this.serialNumber = pan;
                                              * MainFrame.this.cardHolder = cardholder;

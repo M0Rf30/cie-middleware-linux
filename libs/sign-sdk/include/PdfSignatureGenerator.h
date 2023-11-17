@@ -49,7 +49,18 @@ class PdfSignatureGenerator {
 
   void GetBufferForSignature(UUCByteArray& toSign);
 
+  void SetAppearance(PoDoFo::PdfSignatureField* pSignatureField,
+                     const char* szImagePath, const PdfString& szDescription, const bool showData);
+
   void SetSignature(const char* signature, int len);
+
+  void SetSignatureName(PoDoFo::PdfSignatureField* pSignatureField,
+                        const PdfString& szName);
+
+  void SetGraphometricData(PoDoFo::PdfSignatureField* pSignatureField,
+                           const PdfString& vendor,
+                           const PdfString& szGraphometricData,
+                           const PdfString& szVersion);
 
   void GetSignedPdf(UUCByteArray& signature);
 
@@ -60,11 +71,7 @@ class PdfSignatureGenerator {
   const double getHeight(int pageIndex);
 
  private:
-  PdfDocument* m_pPdfDocument;
-
-  PdfMemDocument* m_pPdfMemDocument;
-
-  PdfWriter* m_pPdfWriter;
+  PdfMemDocument* m_pPdfDocument;
 
   PdfSignatureField* m_pSignatureField;
 

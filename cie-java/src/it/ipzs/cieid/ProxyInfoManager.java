@@ -36,13 +36,10 @@ public class ProxyInfoManager {
             aesCipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
 
         } catch (UnknownHostException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (NoSuchAlgorithmException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (NoSuchPaddingException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -55,13 +52,10 @@ public class ProxyInfoManager {
             return Base64.getEncoder()
                     .encodeToString(aesCipher.doFinal(plaintext.getBytes(StandardCharsets.UTF_8)));
         } catch (InvalidKeyException | InvalidAlgorithmParameterException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (IllegalBlockSizeException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (BadPaddingException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -75,13 +69,10 @@ public class ProxyInfoManager {
             aesCipher.init(Cipher.DECRYPT_MODE, skeySpec, ivspec);
             return new String(aesCipher.doFinal(Base64.getDecoder().decode(ciphertext)));
         } catch (InvalidKeyException | InvalidAlgorithmParameterException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (IllegalBlockSizeException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (BadPaddingException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 

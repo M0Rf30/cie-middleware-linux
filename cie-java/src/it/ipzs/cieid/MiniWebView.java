@@ -28,7 +28,6 @@ public class MiniWebView extends JPanel implements HyperlinkListener {
         try {
             showPage(new URL(url));
         } catch (MalformedURLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

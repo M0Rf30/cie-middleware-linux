@@ -20,7 +20,6 @@ public class MoveablePicture extends JPanel implements MouseListener, MouseMotio
     // private JPanel picturePanel;
 
     public MoveablePicture(String signFilePath) {
-        // TODO Auto-generated constructor stub
         this.setSize(90, 25);
         this.setBackground(Color.white);
         this.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -36,7 +35,6 @@ public class MoveablePicture extends JPanel implements MouseListener, MouseMotio
                                             Image.SCALE_SMOOTH)));
             this.add(imgLabel);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -46,7 +44,6 @@ public class MoveablePicture extends JPanel implements MouseListener, MouseMotio
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        // TODO Auto-generated method stub
 
         int tmpX = (e.getX() + e.getComponent().getX() - x);
         int tmpY = (e.getY() + e.getComponent().getY() - y);
@@ -70,39 +67,23 @@ public class MoveablePicture extends JPanel implements MouseListener, MouseMotio
     }
 
     @Override
-    public void mouseMoved(MouseEvent e) {
-        // TODO Auto-generated method stub
-
-    }
+    public void mouseMoved(MouseEvent e) {}
 
     @Override
-    public void mouseClicked(MouseEvent e) {
-        // TODO Auto-generated method stub
-
-    }
+    public void mouseClicked(MouseEvent e) {}
 
     @Override
-    public void mouseEntered(MouseEvent e) {
-        // TODO Auto-generated method stub
-
-    }
+    public void mouseEntered(MouseEvent e) {}
 
     @Override
-    public void mouseExited(MouseEvent e) {
-        // TODO Auto-generated method stub
-
-    }
+    public void mouseExited(MouseEvent e) {}
 
     @Override
     public void mousePressed(MouseEvent e) {
-        // TODO Auto-generated method stub
         x = e.getX();
         y = e.getY();
     }
 
     @Override
-    public void mouseReleased(MouseEvent e) {
-        // TODO Auto-generated method stub
-
-    }
+    public void mouseReleased(MouseEvent e) {}
 }

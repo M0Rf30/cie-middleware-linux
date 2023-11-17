@@ -104,7 +104,6 @@ public class IntroFrame extends JFrame {
                                             IntroFrame.class.getResource(
                                                     "/it/ipzs/cieid/res/flusso_intro_01.png")))));
         } catch (IOException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         }
         lblNewLabel.setBounds(111, 152, 563, 335);
@@ -141,7 +140,6 @@ public class IntroFrame extends JFrame {
                                             IntroFrame.class.getResource(
                                                     "/it/ipzs/cieid/res/flusso_intro_02.png")))));
         } catch (IOException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         }
 
@@ -159,7 +157,6 @@ public class IntroFrame extends JFrame {
                     public void actionPerformed(ActionEvent e) {
                         if (chckbxNoMore.isSelected()) Utils.setProperty("nomore", "true");
 
-                        // TODO open main frame
                         JFrame frame = new MainFrame(new String[] {});
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
