@@ -32,7 +32,7 @@ dependencies {
 	implementation fileTree(dir: 'lib', include: ['*.jar'])
 	implementation 'commons-io:commons-io:2.15.1'
 	implementation 'com.google.code.gson:gson:2.10.1'
-	implementation 'net.java.dev.jna:jna:5.13.0'
+	implementation 'net.java.dev.jna:jna:5.14.0'
 	implementation 'org.apache.pdfbox:pdfbox:2.0.29'
 }
 
