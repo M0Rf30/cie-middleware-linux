@@ -71,6 +71,8 @@ import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
@@ -79,8 +81,8 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
 public class MainFrame extends JFrame {
-    private final Logger logger;
-    private final LogLevelConfig logConfig;
+    private Logger logger;
+    private LogLevelConfig logConfig;
     private static final String LOG_CONFIG_PREFIX_APP = "APP_LOG_LEVEL";
     private static final String LOG_CONFIG_PREFIX_LIB = "LIB_LOG_LEVEL";
 
@@ -101,235 +103,240 @@ public class MainFrame extends JFrame {
     public static final int CKR_PIN_EXPIRED = 0x000000A3;
     public static final int CKR_PIN_LOCKED = 0x000000A4;
 
-    private final JPanel contentPane;
+    private JPanel contentPane;
     private CardLayout cardLayout;
-    private final JTabbedPane tabbedPane;
-    private final JButton btnHome;
-    private final JButton btnCambiaPin;
-    private final JButton btnSbloccaCarta;
-    private final JButton btnTutorial;
-    private final JButton btnAiuto;
-    private final JButton btnInformazioni;
-    private final JPasswordField passwordField;
-    private final JPasswordField passwordField_1;
-    private final JPasswordField passwordField_2;
-    private final JPasswordField passwordField_3;
-    private final JPasswordField passwordField_4;
-    private final JPasswordField passwordField_5;
-    private final JPasswordField passwordField_6;
-    private final JPasswordField passwordField_7;
+    private JTabbedPane tabbedPane;
+    private JButton btnHome;
+    private JButton btnChangePIN;
+    private JButton btnUnlockCard;
+    private JButton btnTutorial;
+    private JButton btnHelp;
+    private JButton btnInformation;
+    private JPasswordField passwordField;
+    private JPasswordField passwordField_1;
+    private JPasswordField passwordField_2;
+    private JPasswordField passwordField_3;
+    private JPasswordField passwordField_4;
+    private JPasswordField passwordField_5;
+    private JPasswordField passwordField_6;
+    private JPasswordField passwordField_7;
 
-    private final JPasswordField[] passwordFields = new JPasswordField[8];
-    private final JPasswordField[] passwordSignFields = new JPasswordField[4];
-    private final JPanel panel_2;
-    private final JLabel label;
-    private final JTextPane textPane_1;
-    private final JLabel label_1;
-    private final JCheckBox checkBox;
-    private final JPanel panel_3;
-    private final JLabel lblCieId;
-    private final JTextPane txtpnCieAbbinataCon;
+    private JPasswordField passwordFields[] = new JPasswordField[8];
+    private JPasswordField passwordSignFields[] = new JPasswordField[8];
+    private JPanel panel_PairCIE;
+    private JLabel label;
+    private JTextPane textPane_1;
+    private JLabel label_1;
+    private JCheckBox checkBox;
+    private JPanel pnCIEHomeSelector_Index_3;
+    private JLabel lblCieId;
+    private JTextPane txtpnCIEPanelsSubtitle;
     private JLabel label_4;
     private JCheckBox checkBox_1;
     private JButton buttonRemove;
-    private JLabel lblNumeroCarta;
+    private JLabel lblCardNumber;
     private JLabel labelSerial;
-    private JLabel lblIntestatario;
     private JLabel labelCardholder;
-    private final JButton btnAbbina;
+    private JButton btnPair;
 
     private String serialNumber;
     private String cardHolder;
     private String ef_seriale;
-    private final JProgressBar progressBar;
-    private final JLabel lblProgress;
-    private final JPanel panel_4;
-    private final JLabel lblCambiaPin;
-    private final JTextPane txtpnIlPinDella;
-    private final JLabel label_5;
-    private final JCheckBox checkBox_2;
-    private final JLabel lblInserisciIlVecchio;
-    private final JLabel lblInserisciIlNuovo;
-    private final JLabel lblRipetiIlNuovo;
-    private final JPasswordField oldpin;
-    private final JPasswordField newpin1;
-    private final JPasswordField newpin2;
-    private final JButton btnDoCambiaPin;
-    private final JPanel panel_5;
-    private final JLabel lblCambiaPin_1;
-    private final JTextPane txtpnIlPinDella_1;
-    private final JLabel label_6;
-    private final JCheckBox checkBox_3;
-    private final JLabel labelProgressChangePIN;
-    private final JProgressBar progressBarChangePIN;
-    private final JPanel panel_6;
-    private final JLabel lblSbloccoCarta;
-    private final JTextPane txtpnUtilizzaIlCodice;
-    private final JLabel label_7;
-    private final JCheckBox checkBox_4;
-    private final JButton btnSblocca;
-    private final JLabel lblInserisciIlPuk;
-    private final JLabel label_9;
-    private final JPasswordField pin01;
-    private final JLabel label_10;
-    private final JPasswordField pin02;
-    private final JTextPane textPane_2;
-    private final JPasswordField puk01;
-    private final JPanel panel_7;
-    private final JLabel lblSbloccaCarta;
-    private final JTextPane txtpnUtilizzaIlCodice_1;
-    private final JLabel label_8;
-    private final JCheckBox checkBox_5;
-    private final JLabel labelProgressUnlock;
-    private final JProgressBar progressBarUnlock;
-    private final JPanel panel_8;
-    private final JLabel lblAiuto;
-    private final JPanel panel_9;
-    private final JLabel label_11;
-    private final MiniWebView miniWebView;
-    private final JPanel panel_10;
-    private final JLabel lblInformazioni;
-    private final MiniWebView miniWebView_1;
-    private final JPanel btnPanel;
-    private final JButton btnRemoveAll;
-    private final JButton btnRemoveSelected;
-    private final JButton btnNewButton;
-    private final JButton btnAnnulla;
-    private final carousel cieCarousel;
+    private JProgressBar progressBar;
+    private JLabel lblProgress;
+    private JPanel pnChangePINTypingScreen_Index_4;
+    private JLabel lblChangePIN;
+    private JTextPane txtpnThePINOfYourCard;
+    private JLabel label_5;
+    private JCheckBox checkBox_2;
+    private JLabel lblTypeTheOldValue;
+    private JLabel lblTypeTheNewValue;
+    private JLabel lblTypeAgainTheNewValue;
+    private JPasswordField oldPIN;
+    private JPasswordField newPIN;
+    private JPasswordField repeatNewPIN;
+    private JButton btnPerformChangePIN;
+    private JPanel panel_5;
+    private JLabel lblChangePINText;
+    private JTextPane txtpnThePINOfYourCIE;
+    private JLabel label_6;
+    private JCheckBox checkBox_3;
+    private JLabel labelProgressChangePIN;
+    private JProgressBar progressBarChangePIN;
+    private JPanel panel_6;
+    private JTextPane txtpnUseYourPUK;
+    private JLabel label_7;
+    private JCheckBox checkBox_4;
+    private JButton btnUnlockPIN;
+    private JLabel lblInsertYourPUK;
+    private JLabel label_9;
+    private JPasswordField pin01;
+    private JLabel label_10;
+    private JPasswordField pin02;
+    private JTextPane textPane_2;
+    private JPasswordField puk01;
+    private JPanel panel_7;
+    private JLabel lblUnlockCard;
+    private JTextPane txtpnTypeThePUKOfYourCIE;
+    private JLabel label_8;
+    private JCheckBox checkBox_5;
+    private JLabel labelProgressUnlock;
+    private JProgressBar progressBarUnlock;
+    private JPanel panel_8;
+    private JLabel lblHelp;
+    private JPanel panel_9;
+    private JLabel label_11;
+    private MiniWebView miniWebView;
+    private JPanel panel_10;
+    private JLabel lblInformation;
+    private MiniWebView miniWebView_1;
+    private JPanel btnPanel;
+    private JButton btnRemoveAll;
+    private JButton btnRemoveSelected;
+    private JButton btnNewButton;
+    private JButton btnCancel;
+    private carousel cieCarousel;
     private Map<String, Cie> cieDictionary;
-    private final JButton btnFirma;
+    private JButton btnDigitalSignature;
 
     private String filePath;
-    private final JPanel selectFile;
-    private final JLabel lblFirmaElettronica;
-    private final JPanel panelLoadFile;
-    private final JLabel lblNewLabel;
-    private final JTextArea txtrTrascinaITuoi;
-    private final JTextArea txtrOppure;
-    private final JButton btnSelezionaUnDocumento;
-    private final JPanel panel_11;
-    private final JTextArea lblSFP;
-    private final JLabel lblPersonalizza;
-    private final JLabel lblNewLabel_2;
-    private final JPanel selectOperation;
-    private final JLabel lblFirmaElettronica_1;
-    private final JPanel panel;
-    private final JLabel lblNewLabel_1;
-    private final JTextArea lblPathOp;
-    private final JPanel panel_12;
-    private final JLabel lblNewLabel_3;
-    private final JLabel lblNewLabel_4;
-    private final JLabel lblNewLabel_5;
-    private final JLabel lblNewLabel_6;
-    private final JButton btnAnnullaOp;
-    private final JPanel panel_13;
-    private final JPanel panel_14;
-    private final JPanel selectFirmaOperation;
-    private final JLabel lblFirmaElettronica_2;
-    private final JPanel panel_15;
-    private final JLabel lblNewLabel_7;
-    private final JTextArea lblPathSignOp;
-    private final JLabel imgP7m;
-    private final JLabel lblCadesTitle;
-    private final JTextArea lblCadesSub;
-    private final JPanel panel_18;
-    private final JPanel panel_19;
-    private final JLabel imgPdf;
-    private final JLabel lblPadesTitle;
-    private final JTextArea lblPadesSub;
-    private final JPanel panel_20;
-    private final JCheckBox cbGraphicSig;
-    private final JPanel pdfPreview;
-    private final JLabel lblFirmaElettronica_3;
-    private final JPanel panel_21;
-    private final JLabel lblNewLabel_9;
-    private final JTextArea lblPathPreview;
-    private final JLabel lblNewLabel_10;
-    private final JButton btnAnnullaOp_3;
-    private final JPanel panelPdfPreview;
-    private final JPanel panel_23;
-    private final JPanel panel_24;
-    private final JPanel panel_25;
-    private final JButton btnUp;
-    private final JButton btnDown;
-    private final JPanel panel_22;
+    private JPanel selectFile;
+    private JLabel lblDigitalSignature;
+    private JPanel panelLoadFile;
+    private JLabel lblNewLabel;
+    private JTextArea txtrDragAndDropDocuments;
+    private JTextArea txtrOtherwise;
+    private JButton btnSelectDocument;
+    private JPanel panel_11;
+    private JTextArea lblSFP;
+    private JLabel lblCustomize;
+    private JLabel lblNewLabel_2;
+    private JPanel selectOperation;
+    private JLabel lblFirmaElettronica_1;
+    private JPanel panel;
+    private JLabel lblNewLabel_1;
+    private JTextArea lblPathOp;
+    private JPanel panel_12;
+    private JLabel lblNewLabel_3;
+    private JLabel lblNewLabel_4;
+    private JLabel lblNewLabel_5;
+    private JLabel lblNewLabel_6;
+    private JButton btnCancelOp;
+    private JPanel panel_13;
+    private JPanel panel_14;
+    private JPanel selectSignatureOperation;
+    private JLabel lblFirmaElettronica_2;
+    private JPanel panel_15;
+    private JLabel lblNewLabel_7;
+    private JTextArea lblPathSignOp;
+    private JLabel imgP7m;
+    private JLabel lblCadesTitle;
+    private JTextArea lblCadesSub;
+    private JPanel panel_18;
+    private JPanel panel_19;
+    private JLabel imgPdf;
+    private JLabel lblPadesTitle;
+    private JTextArea lblPadesSub;
+    private JPanel panel_20;
+    private JCheckBox cbGraphicSig;
+    private JPanel pdfPreview;
+    private JLabel lblFirmaElettronica_3;
+    private JPanel panel_21;
+    private JLabel lblNewLabel_9;
+    private JTextArea lblPathPreview;
+    private JLabel lblNewLabel_10;
+    private JButton btnAnnullaOp_3;
+    private JPanel panelPdfPreview;
+    private JPanel panel_23;
+    private JPanel panel_24;
+    private JPanel panel_25;
+    private JButton btnUp;
+    private JButton btnDown;
+    private JPanel panel_22;
     protected SignOp signOperation;
-    private final JPanel panel_16;
-    private final JPanel firmaPin;
-    private final JLabel lblFirmaElettronica_4;
-    private final JPanel panel_26;
-    private final JPanel panel_27;
-    private final JLabel lblNewLabel_11;
-    private final JTextArea lblPathPin;
-    private final JButton btnAnnullaPin;
-    private final JLabel lblNewLabel_12;
-    private final JButton btnFirmaPin;
-    private final JPanel panel_28;
-    private final JLabel lblNewLabel1_1;
-    private final JLabel lblProgressFirmaPin;
-    private final JPasswordField passwordField_8;
-    private final JPasswordField passwordField_9;
-    private final JPasswordField passwordField_10;
-    private final JPasswordField passwordField_11;
-    private final JLabel lblEsitoFirma;
-    private final JLabel imgEsitoFirma;
-    private final JPanel panel_29;
-    private final JPanel personalizzaFirma;
-    private final JLabel lblFirmaElettronica_5;
-    private final JButton btnAnnullaOp_6;
-    private final JPanel panel_31;
-    private final JProgressBar progressFirmaPin;
-    private final JButton btnConcludiFirma;
+    private JPanel panel_16;
+    private JPanel firmaPin;
+    private JLabel lblFirmaElettronica_4;
+    private JPanel panel_26;
+    private JPanel panel_27;
+    private JLabel lblNewLabel_11;
+    private JTextArea lblPathPin;
+    private JButton btnUndoPINTyping;
+    private JLabel lblNewLabel_12;
+    private JButton btnSignInPINTypingScreen;
+    private JPanel panel_28;
+    private JLabel lblNewLabel1_1;
+    private JLabel lblProgressSignPIN;
+    private JPasswordField passwordField_8;
+    private JPasswordField passwordField_9;
+    private JPasswordField passwordField_10;
+    private JPasswordField passwordField_11;
+    private JPasswordField passwordField_12;
+    private JPasswordField passwordField_13;
+    private JPasswordField passwordField_14;
+    private JPasswordField passwordField_15;
+    private JLabel lblSignatureResult;
+    private JLabel imgSignatureResult;
+    private JPanel panel_29;
+    private JPanel customizeGraphicSignature;
+    private JLabel lblFirmaElettronica_5;
+    private JButton btnAnnullaOp_6;
+    private JPanel panel_31;
+    private JProgressBar progressSignPIN;
+    private JButton btnSignCompleted;
     PdfPreview preview;
-    private final JButton btnSelezionaCIE;
-    private final JLabel lblFirmaPersonalizzata;
-    private final JTextArea lblHint;
-    private final JLabel lblFPOK;
-    private final JPanel verifica;
-    private final JLabel lblFirmaElettronica_6;
-    private final JScrollPane verificaScrollPane;
-    private final JPanel panel_32;
-    private final JButton btnConcludiVerifica;
-    private final JTextArea lblPathVerifica;
-    private final JButton btnProseguiOp;
-    private final JButton btnCreaFirma;
-    private final JPanel Impostazioni;
-    private final JLabel lblConfigProxyTitle;
-    private final JPanel configProxyBodyPanel;
-    private final JButton btnSalva;
-    private final JLabel lblConfigProxyCaption;
-    private final JTextField txtProxyAddr;
-    private final JTextField txtUsername;
-    private final JPasswordField txtPassword;
-    private final JTextField txtPorta;
-    private final JButton btnImpostazioni;
-    private final JButton btnModificaProxy;
-    private final JCheckBox chckbxMostraPassword;
-    private final JButton btnEstrai;
-    private final JPanel configButtonsPanel;
-    private final Component verticalGlue;
-    private final Component verticalGlue_1;
-    private final Component verticalGlue_2;
-    private final Component verticalGlue_3;
-    private final Component verticalGlue_4;
-    private final Component verticalGlue_5;
-    private final Component verticalGlue_6;
-    private final Component verticalGlue_7;
-    private final Component verticalGlue_8;
-    private final Component verticalGlue_9;
-    private final JPanel panelConfigLoggingApp;
-    private final JPanel panelConfigLoggingLib;
-    private final JRadioButton rdbtnLoggingAppNone;
-    private final JRadioButton rdbtnLoggingAppError;
-    private final JRadioButton rdbtnLoggingAppInfo;
-    private final JRadioButton rdbtnLoggingAppDebug;
-    private final JRadioButton rdbtnLoggingLibError;
-    private final JRadioButton rdbtnLoggingLibInfo;
-    private final JRadioButton rdbtnLoggingLibDebug;
-    private final JRadioButton rdbtnLoggingLibNone;
+    private JButton btnSelectCIE;
+    private JButton btnSignWithoutPairing;
+    private JLabel lblCustomizedGraphicSignature;
+    private JTextArea lblHint;
+    private JLabel lblFPOK;
+    private JPanel pnVerify;
+    private JLabel lblFirmaElettronica_6;
+    private JScrollPane verifyScrollPane;
+    private JPanel panel_32;
+    private JButton btnConcludiVerifica;
+    private JTextArea lblPathVerifica;
+    private JButton btnProseguiOp;
+    private JButton btnGenerateGraphicSignature;
+    private JPanel pnSettings;
+    private JLabel lblConfigProxyTitle;
+    private JPanel configProxyBodyPanel;
+    private JButton btnSave;
+    private JLabel lblConfigProxyCaption;
+    private JTextField txtProxyAddr;
+    private JTextField txtUsername;
+    private JPasswordField txtPassword;
+    private JTextField txtPort;
+    private JButton btnSettings;
+    private JButton btnChangeProxy;
+    private JCheckBox chckbxShowPassword;
+    private JButton btnExtractP7M;
+    private JPanel configButtonsPanel;
+    private Component verticalGlue;
+    private Component verticalGlue_1;
+    private Component verticalGlue_2;
+    private Component verticalGlue_3;
+    private Component verticalGlue_4;
+    private Component verticalGlue_5;
+    private Component verticalGlue_6;
+    private Component verticalGlue_7;
+    private Component verticalGlue_8;
+    private Component verticalGlue_9;
+    private JPanel panelConfigLoggingApp;
+    private JPanel panelConfigLoggingLib;
+    private JRadioButton rdbtnLoggingAppNone;
+    private JRadioButton rdbtnLoggingAppError;
+    private JRadioButton rdbtnLoggingAppInfo;
+    private JRadioButton rdbtnLoggingAppDebug;
+    private JRadioButton rdbtnLoggingLibError;
+    private JRadioButton rdbtnLoggingLibInfo;
+    private JRadioButton rdbtnLoggingLibDebug;
+    private JRadioButton rdbtnLoggingLibNone;
     private final ButtonGroup buttonGroupLoggingApp = new ButtonGroup();
     private final ButtonGroup buttonGroupLoggingLib = new ButtonGroup();
-    private final JButton btnVerifica;
+    private JButton btnDigitalSignatureVerify;
+    private boolean shouldSignWithoutPairing = false;
+    private String signingCIEPAN = "";
 
     private enum SignOp {
         OP_NONE,
@@ -371,7 +378,7 @@ public class MainFrame extends JFrame {
     public MainFrame(String[] args) {
         logger = Logger.getInstance();
         logConfig = new LogLevelConfig();
-        LoadLogConfigFromFile();
+        loadLogConfigFromFile();
         logger.Info("Inizializza frame principale");
 
         signOperation = SignOp.OP_NONE;
@@ -390,8 +397,8 @@ public class MainFrame extends JFrame {
         leftPanel.setBounds(0, 0, 200, 600);
         contentPane.add(leftPanel);
         leftPanel.setLayout(null);
-
         JLabel label_2 = new JLabel("");
+
         try {
             label_2.setIcon(
                     new ImageIcon(
@@ -426,45 +433,45 @@ public class MainFrame extends JFrame {
         btnHome.setBorderPainted(false);
         leftPanel.add(btnHome);
 
-        btnCambiaPin = new JButton("   Cambia PIN");
-        btnCambiaPin.addActionListener(
+        btnChangePIN = new JButton("   Cambia PIN");
+        btnChangePIN.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         logger.Info("Inizia  'Cambia PIN'");
-                        selectButton(btnCambiaPin);
-                        oldpin.setText("");
-                        newpin1.setText("");
-                        newpin2.setText("");
+                        selectButton(btnChangePIN);
+                        oldPIN.setText("");
+                        newPIN.setText("");
+                        repeatNewPIN.setText("");
                         tabbedPane.setSelectedIndex(3);
                     }
                 });
-        btnCambiaPin.setIcon(
+        btnChangePIN.setIcon(
                 new ImageIcon(MainFrame.class.getResource("/it/ipzs/cieid/res/Risorsa 24.png")));
-        btnCambiaPin.setHorizontalAlignment(SwingConstants.LEFT);
-        btnCambiaPin.setBorderPainted(false);
-        btnCambiaPin.setBackground(SystemColor.control);
-        btnCambiaPin.setBounds(0, 265, 200, 45);
-        leftPanel.add(btnCambiaPin);
+        btnChangePIN.setHorizontalAlignment(SwingConstants.LEFT);
+        btnChangePIN.setBorderPainted(false);
+        btnChangePIN.setBackground(SystemColor.control);
+        btnChangePIN.setBounds(0, 265, 200, 45);
+        leftPanel.add(btnChangePIN);
 
-        btnSbloccaCarta = new JButton("   Sblocca Carta");
-        btnSbloccaCarta.addActionListener(
+        btnUnlockCard = new JButton("   Sblocca Carta");
+        btnUnlockCard.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         logger.Info("Inizia  'Sblocca Carta'");
-                        selectButton(btnSbloccaCarta);
+                        selectButton(btnUnlockCard);
                         pin01.setText("");
                         pin02.setText("");
                         puk01.setText("");
                         tabbedPane.setSelectedIndex(5);
                     }
                 });
-        btnSbloccaCarta.setIcon(
+        btnUnlockCard.setIcon(
                 new ImageIcon(MainFrame.class.getResource("/it/ipzs/cieid/res/Risorsa 23.png")));
-        btnSbloccaCarta.setHorizontalAlignment(SwingConstants.LEFT);
-        btnSbloccaCarta.setBorderPainted(false);
-        btnSbloccaCarta.setBackground(SystemColor.control);
-        btnSbloccaCarta.setBounds(0, 310, 200, 45);
-        leftPanel.add(btnSbloccaCarta);
+        btnUnlockCard.setHorizontalAlignment(SwingConstants.LEFT);
+        btnUnlockCard.setBorderPainted(false);
+        btnUnlockCard.setBackground(SystemColor.control);
+        btnUnlockCard.setBounds(0, 310, 200, 45);
+        leftPanel.add(btnUnlockCard);
 
         btnTutorial = new JButton("   Tutorial");
         btnTutorial.addActionListener(
@@ -483,48 +490,46 @@ public class MainFrame extends JFrame {
         btnTutorial.setBounds(0, 355, 200, 45);
         leftPanel.add(btnTutorial);
 
-        btnAiuto = new JButton("   Aiuto");
-        btnAiuto.addActionListener(
+        btnHelp = new JButton("   Aiuto");
+        btnHelp.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         logger.Info("Inizia  'Aiuto'");
-                        selectButton(btnAiuto);
+                        selectButton(btnHelp);
                         tabbedPane.setSelectedIndex(8);
                     }
                 });
-        btnAiuto.setIcon(
+        btnHelp.setIcon(
                 new ImageIcon(MainFrame.class.getResource("/it/ipzs/cieid/res/Risorsa 21.png")));
-        btnAiuto.setHorizontalAlignment(SwingConstants.LEFT);
-        btnAiuto.setBorderPainted(false);
-        btnAiuto.setBackground(SystemColor.control);
-        btnAiuto.setBounds(0, 400, 200, 45);
-        leftPanel.add(btnAiuto);
+        btnHelp.setHorizontalAlignment(SwingConstants.LEFT);
+        btnHelp.setBorderPainted(false);
+        btnHelp.setBackground(SystemColor.control);
+        btnHelp.setBounds(0, 400, 200, 45);
+        leftPanel.add(btnHelp);
 
-        btnInformazioni = new JButton("   Informazioni");
-        btnInformazioni.addActionListener(
+        btnInformation = new JButton("   Informazioni");
+        btnInformation.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         logger.Info("Inizia  'Informazioni'");
-                        selectButton(btnInformazioni);
+                        selectButton(btnInformation);
                         tabbedPane.setSelectedIndex(9);
                     }
                 });
-        btnInformazioni.setIcon(
+        btnInformation.setIcon(
                 new ImageIcon(MainFrame.class.getResource("/it/ipzs/cieid/res/Risorsa 20.png")));
-        btnInformazioni.setHorizontalAlignment(SwingConstants.LEFT);
-        btnInformazioni.setBorderPainted(false);
-        btnInformazioni.setBackground(SystemColor.control);
-        btnInformazioni.setBounds(0, 445, 200, 45);
-        leftPanel.add(btnInformazioni);
+        btnInformation.setHorizontalAlignment(SwingConstants.LEFT);
+        btnInformation.setBorderPainted(false);
+        btnInformation.setBackground(SystemColor.control);
+        btnInformation.setBounds(0, 445, 200, 45);
+        leftPanel.add(btnInformation);
 
-        btnFirma = new JButton("   Firma Elettronica");
-        btnFirma.addActionListener(
+        btnDigitalSignature = new JButton("   Firma Elettronica");
+        btnDigitalSignature.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         logger.Info("Inizia  'Firma Elettronica'");
-
-                        selectButton(btnFirma);
-
+                        selectButton(btnDigitalSignature);
                         imgP7m.setIcon(
                                 new ImageIcon(
                                         MainFrame.class.getResource(
@@ -541,74 +546,71 @@ public class MainFrame extends JFrame {
                         lblCadesSub.setForeground(Color.gray);
                         signOperation = SignOp.OP_NONE;
                         btnProseguiOp.setEnabled(false);
+                        progressSignPIN.setVisible(false);
 
-                        progressFirmaPin.setVisible(false);
-                        lblProgressFirmaPin.setText("Inserisci le ultime 4 cifre del pin");
+                        showSigningPINInputFields();
 
-                        for (int i = 0; i < passwordSignFields.length; i++) {
-                            JPasswordField field = passwordSignFields[i];
-
-                            field.setVisible(true);
-                        }
-
-                        imgEsitoFirma.setVisible(false);
-                        lblEsitoFirma.setVisible(false);
-                        btnConcludiFirma.setVisible(false);
-                        btnAnnullaPin.setVisible(true);
-                        btnFirma.setVisible(true);
-
-                        txtpnCieAbbinataCon.setText("Seleziona la CIE da usare");
+                        imgSignatureResult.setVisible(false);
+                        lblSignatureResult.setVisible(false);
+                        btnSignCompleted.setVisible(false);
+                        btnUndoPINTyping.setVisible(true);
+                        btnSignInPINTypingScreen.setVisible(true);
+                        btnUndoPINTyping.setEnabled(true);
+                        btnSignInPINTypingScreen.setEnabled(true);
+                        btnDigitalSignature.setVisible(true);
+                        txtpnCIEPanelsSubtitle.setText("Seleziona la CIE da usare");
                         lblCieId.setText("Firma Elettronica");
-
-                        btnSelezionaCIE.setVisible(true);
+                        btnSelectCIE.setVisible(true);
+                        btnSignWithoutPairing.setVisible(true);
                         btnRemoveAll.setVisible(false);
                         btnRemoveSelected.setVisible(false);
                         btnNewButton.setVisible(false);
-                        lblFirmaElettronica.setText("Firma Elettronica");
+                        lblDigitalSignature.setText("Firma Elettronica");
                         lblSFP.setVisible(true);
                         lblNewLabel_2.setVisible(true);
-                        lblPersonalizza.setVisible(true);
-                        tabbedPane.setSelectedIndex(2);
+                        lblCustomize.setVisible(true);
+
+                        if (cieDictionary.size() != 0) tabbedPane.setSelectedIndex(2);
+                        else btnSignWithoutPairing.doClick();
                     }
                 });
-
-        btnFirma.setIcon(
+        btnDigitalSignature.setIcon(
                 new ImageIcon(
                         MainFrame.class.getResource("/it/ipzs/cieid/res/Firma/firma_gray.png")));
-        btnFirma.setHorizontalAlignment(SwingConstants.LEFT);
-        btnFirma.setBorderPainted(false);
-        btnFirma.setBackground(SystemColor.control);
-        btnFirma.setBounds(0, 175, 200, 45);
-        leftPanel.add(btnFirma);
-        btnVerifica = new JButton("   Verifica firma");
-        btnVerifica.addActionListener(
+        btnDigitalSignature.setHorizontalAlignment(SwingConstants.LEFT);
+        btnDigitalSignature.setBorderPainted(false);
+        btnDigitalSignature.setBackground(SystemColor.control);
+        btnDigitalSignature.setBounds(0, 175, 200, 45);
+        leftPanel.add(btnDigitalSignature);
+        btnDigitalSignatureVerify = new JButton("   Verifica firma");
+        btnDigitalSignatureVerify.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         logger.Info("Inizia  'Verifica Firma'");
-                        selectButton(btnVerifica);
+                        selectButton(btnDigitalSignatureVerify);
                         signOperation = SignOp.VERIFY;
-                        lblFirmaElettronica.setText("Verifica firma");
+                        lblDigitalSignature.setText("Verifica firma");
                         lblSFP.setVisible(false);
                         lblFPOK.setVisible(false);
                         lblNewLabel_2.setVisible(false);
-                        lblPersonalizza.setVisible(false);
+                        lblCustomize.setVisible(false);
                         tabbedPane.setSelectedIndex(10);
                     }
                 });
-        btnVerifica.setIcon(
+        btnDigitalSignatureVerify.setIcon(
                 new ImageIcon(
                         MainFrame.class.getResource("/it/ipzs/cieid/res/Firma/firma_gray.png")));
-        btnVerifica.setHorizontalAlignment(SwingConstants.LEFT);
-        btnVerifica.setBorderPainted(false);
-        btnVerifica.setBackground(SystemColor.control);
-        btnVerifica.setBounds(0, 220, 200, 45);
-        leftPanel.add(btnVerifica);
-        btnImpostazioni = new JButton("   Impostazioni");
-        btnImpostazioni.addActionListener(
+        btnDigitalSignatureVerify.setHorizontalAlignment(SwingConstants.LEFT);
+        btnDigitalSignatureVerify.setBorderPainted(false);
+        btnDigitalSignatureVerify.setBackground(SystemColor.control);
+        btnDigitalSignatureVerify.setBounds(0, 220, 200, 45);
+        leftPanel.add(btnDigitalSignatureVerify);
+        btnSettings = new JButton("   Impostazioni");
+        btnSettings.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent arg0) {
                         logger.Info("Inizia  'Impostazioni'");
-                        LoadLogConfigFromFile();
+                        loadLogConfigFromFile();
                         disableConfigurationPaneControls();
                         if (!Utils.getProperty("proxyURL", "").equals("")) {
                             logger.Debug("  Impostazione proxy presente");
@@ -620,7 +622,8 @@ public class MainFrame extends JFrame {
                                 ProxyInfoManager proxyInfoManager = new ProxyInfoManager();
                                 String credentials = proxyInfoManager.decrypt(encryptedCredentials);
                                 System.out.println("Credentials -> " + credentials);
-                                if (credentials.startsWith("cred=")) {
+
+                                if (credentials.substring(0, 5).equals("cred=")) {
                                     String[] infos = credentials.substring(5).split(":");
                                     txtUsername.setText(infos[0]);
                                     txtPassword.setText(infos[1]);
@@ -628,7 +631,7 @@ public class MainFrame extends JFrame {
                             }
 
                             txtProxyAddr.setText(Utils.getProperty("proxyURL", ""));
-                            txtPorta.setText(Utils.getProperty("proxyPort", ""));
+                            txtPort.setText(Utils.getProperty("proxyPort", ""));
                         }
 
                         rdbtnLoggingAppNone.setSelected(logConfig.app.equals(LogLevel.NONE));
@@ -640,38 +643,44 @@ public class MainFrame extends JFrame {
                         rdbtnLoggingLibDebug.setSelected(logConfig.lib.equals(LogLevel.DEBUG));
                         rdbtnLoggingLibInfo.setSelected(logConfig.lib.equals(LogLevel.INFO));
                         rdbtnLoggingLibError.setSelected(logConfig.lib.equals(LogLevel.ERROR));
-
-                        selectButton(btnImpostazioni);
+                        selectButton(btnSettings);
                         tabbedPane.setSelectedIndex(17);
                     }
                 });
-        btnImpostazioni.setIcon(
+        btnSettings.setIcon(
                 new ImageIcon(MainFrame.class.getResource("/it/ipzs/cieid/res/settings_icon.png")));
-        btnImpostazioni.setHorizontalAlignment(SwingConstants.LEFT);
-        btnImpostazioni.setBorderPainted(false);
-        btnImpostazioni.setBackground(SystemColor.window);
-        btnImpostazioni.setBounds(0, 490, 200, 45);
-        leftPanel.add(btnImpostazioni);
+        btnSettings.setHorizontalAlignment(SwingConstants.LEFT);
+        btnSettings.setBorderPainted(false);
+        btnSettings.setBackground(SystemColor.window);
+        btnSettings.setBounds(0, 490, 200, 45);
+        leftPanel.add(btnSettings);
         tabbedPane = new JTabbedPane(JTabbedPane.TOP);
         tabbedPane.setBounds(200, -65, 600, 635);
+        tabbedPane.addChangeListener(
+                new ChangeListener() {
+                    @Override
+                    public void stateChanged(ChangeEvent e) {
+                        System.out.println(
+                                "TabbedPan Selected Index: " + tabbedPane.getSelectedIndex());
+                    }
+                });
         contentPane.add(tabbedPane);
-        JPanel panel_1 = new JPanel();
-        tabbedPane.addTab("New tab", null, panel_1, null);
-        panel_1.setLayout(null);
-        panel_1.setBackground(Color.WHITE);
-        JLabel lblAbbinaLaTua = new JLabel("Abbina la tua CIE");
-        lblAbbinaLaTua.setHorizontalAlignment(SwingConstants.CENTER);
-        lblAbbinaLaTua.setFont(new Font("Dialog", Font.BOLD, 30));
-        lblAbbinaLaTua.setBounds(147, 36, 299, 36);
-        panel_1.add(lblAbbinaLaTua);
-        JTextPane txtpnDopoAverCollegato = new JTextPane();
-        txtpnDopoAverCollegato.setFont(new Font("Dialog", Font.PLAIN, 16));
-        txtpnDopoAverCollegato.setText(
-                "Dopo aver collegato e installato il lettore di smart card, posiziona la CIE sul lettore ed"
-                        + " inserisci il PIN");
-        txtpnDopoAverCollegato.setEditable(false);
-        txtpnDopoAverCollegato.setBounds(63, 84, 492, 46);
-        panel_1.add(txtpnDopoAverCollegato);
+        JPanel pnPairCIE_Index_1 = new JPanel();
+        tabbedPane.addTab("New tab", null, pnPairCIE_Index_1, null);
+        pnPairCIE_Index_1.setLayout(null);
+        pnPairCIE_Index_1.setBackground(Color.WHITE);
+        JLabel lblPairYourCIE = new JLabel("Abbina la tua CIE");
+        lblPairYourCIE.setHorizontalAlignment(SwingConstants.CENTER);
+        lblPairYourCIE.setFont(new Font("Dialog", Font.BOLD, 30));
+        lblPairYourCIE.setBounds(147, 36, 299, 36);
+        pnPairCIE_Index_1.add(lblPairYourCIE);
+        JTextPane txtpnConnectAndPlaceYourCIEOnTheReader = new JTextPane();
+        txtpnConnectAndPlaceYourCIEOnTheReader.setFont(new Font("Dialog", Font.PLAIN, 16));
+        txtpnConnectAndPlaceYourCIEOnTheReader.setText(
+                "Dopo aver collegato e installato il lettore di smart card, posiziona la CIE sul lettore ed inserisci il PIN");
+        txtpnConnectAndPlaceYourCIEOnTheReader.setEditable(false);
+        txtpnConnectAndPlaceYourCIEOnTheReader.setBounds(63, 84, 492, 46);
+        pnPairCIE_Index_1.add(txtpnConnectAndPlaceYourCIEOnTheReader);
         JLabel lblNewLabel1 = new JLabel("");
         lblNewLabel1.setHorizontalAlignment(SwingConstants.CENTER);
         lblNewLabel1.setIcon(
@@ -679,23 +688,23 @@ public class MainFrame extends JFrame {
                         MainFrame.class.getResource(
                                 "/it/ipzs/cieid/res/icona_lettore_card_white.png")));
         lblNewLabel1.setBounds(29, 194, 211, 205);
-        panel_1.add(lblNewLabel1);
-        btnAbbina = new JButton("Abbina");
-        btnAbbina.addActionListener(
+        pnPairCIE_Index_1.add(lblNewLabel1);
+        btnPair = new JButton("Abbina");
+        btnPair.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         logger.Info("Inizia  'Abbina'");
-                        abbinaCIE();
+                        pairCIE();
                     }
                 });
-        btnAbbina.setForeground(Color.WHITE);
-        btnAbbina.setBackground(new Color(30, 144, 255));
-        btnAbbina.setBounds(258, 524, 114, 25);
+        btnPair.setForeground(Color.WHITE);
+        btnPair.setBackground(new Color(30, 144, 255));
+        btnPair.setBounds(258, 524, 114, 25);
         passwordFields[0] = passwordField = new JPasswordField();
         passwordField.setHorizontalAlignment(SwingConstants.CENTER);
         passwordField.setFont(new Font("Dialog", Font.BOLD, 25));
-        passwordField.setBounds(258, 321, 25, 25);
-        panel_1.add(passwordField);
+        passwordField.setBounds(250, 321, 25, 25);
+        pnPairCIE_Index_1.add(passwordField);
         passwordField.addKeyListener(
                 new KeyAdapter() {
                     @Override
@@ -707,10 +716,10 @@ public class MainFrame extends JFrame {
                 });
 
         passwordFields[1] = passwordField_1 = new JPasswordField();
-        passwordField_1.setBounds(295, 321, 25, 25);
+        passwordField_1.setBounds(287, 321, 25, 25);
         passwordField_1.setHorizontalAlignment(SwingConstants.CENTER);
         passwordField_1.setFont(new Font("Dialog", Font.BOLD, 25));
-        panel_1.add(passwordField_1);
+        pnPairCIE_Index_1.add(passwordField_1);
         passwordField_1.addKeyListener(
                 new KeyAdapter() {
                     @Override
@@ -724,10 +733,10 @@ public class MainFrame extends JFrame {
                     }
                 });
         passwordFields[2] = passwordField_2 = new JPasswordField();
-        passwordField_2.setBounds(332, 321, 25, 25);
+        passwordField_2.setBounds(324, 321, 25, 25);
         passwordField_2.setHorizontalAlignment(SwingConstants.CENTER);
         passwordField_2.setFont(new Font("Dialog", Font.BOLD, 25));
-        panel_1.add(passwordField_2);
+        pnPairCIE_Index_1.add(passwordField_2);
         passwordField_2.addKeyListener(
                 new KeyAdapter() {
                     @Override
@@ -742,10 +751,10 @@ public class MainFrame extends JFrame {
                 });
 
         passwordFields[3] = passwordField_3 = new JPasswordField();
-        passwordField_3.setBounds(370, 321, 25, 25);
+        passwordField_3.setBounds(362, 321, 25, 25);
         passwordField_3.setHorizontalAlignment(SwingConstants.CENTER);
         passwordField_3.setFont(new Font("Dialog", Font.BOLD, 25));
-        panel_1.add(passwordField_3);
+        pnPairCIE_Index_1.add(passwordField_3);
         passwordField_3.addKeyListener(
                 new KeyAdapter() {
                     @Override
@@ -759,10 +768,10 @@ public class MainFrame extends JFrame {
                     }
                 });
         passwordFields[4] = passwordField_4 = new JPasswordField();
-        passwordField_4.setBounds(407, 321, 25, 25);
+        passwordField_4.setBounds(399, 321, 25, 25);
         passwordField_4.setHorizontalAlignment(SwingConstants.CENTER);
         passwordField_4.setFont(new Font("Dialog", Font.BOLD, 25));
-        panel_1.add(passwordField_4);
+        pnPairCIE_Index_1.add(passwordField_4);
         passwordField_4.addKeyListener(
                 new KeyAdapter() {
                     @Override
@@ -776,10 +785,10 @@ public class MainFrame extends JFrame {
                     }
                 });
         passwordFields[5] = passwordField_5 = new JPasswordField();
-        passwordField_5.setBounds(444, 321, 25, 25);
+        passwordField_5.setBounds(436, 321, 25, 25);
         passwordField_5.setHorizontalAlignment(SwingConstants.CENTER);
         passwordField_5.setFont(new Font("Dialog", Font.BOLD, 25));
-        panel_1.add(passwordField_5);
+        pnPairCIE_Index_1.add(passwordField_5);
         passwordField_5.addKeyListener(
                 new KeyAdapter() {
                     @Override
@@ -794,16 +803,16 @@ public class MainFrame extends JFrame {
                 });
 
         passwordFields[6] = passwordField_6 = new JPasswordField();
-        passwordField_6.setBounds(481, 321, 25, 25);
+        passwordField_6.setBounds(473, 321, 25, 25);
         passwordField_6.setHorizontalAlignment(SwingConstants.CENTER);
         passwordField_6.setFont(new Font("Dialog", Font.BOLD, 25));
-        panel_1.add(passwordField_6);
+        pnPairCIE_Index_1.add(passwordField_6);
         passwordField_6.addKeyListener(
                 new KeyAdapter() {
                     @Override
                     public void keyTyped(KeyEvent e) {
                         if (e.getKeyChar() == '\b') {
-                            passwordField_6.setText("");
+                            passwordField_5.setText("");
                             passwordField_5.requestFocus();
                         } else if (e.getKeyChar() < '0' || e.getKeyChar() > '9') {
                             e.consume();
@@ -812,75 +821,65 @@ public class MainFrame extends JFrame {
                 });
 
         passwordFields[7] = passwordField_7 = new JPasswordField();
-        passwordField_7.setBounds(518, 321, 25, 25);
+        passwordField_7.setBounds(510, 321, 25, 25);
         passwordField_7.setHorizontalAlignment(SwingConstants.CENTER);
         passwordField_7.setFont(new Font("Dialog", Font.BOLD, 25));
-        panel_1.add(passwordField_7);
+        pnPairCIE_Index_1.add(passwordField_7);
         passwordField_7.addKeyListener(
                 new KeyAdapter() {
                     @Override
                     public void keyTyped(KeyEvent e) {
                         if (e.getKeyChar() == '\n' || e.getKeyChar() == '\r') {
-                            abbinaCIE();
+                            pairCIE();
                         } else if (e.getKeyChar() == '\b') {
                             passwordField_6.setText("");
                             passwordField_6.requestFocus();
                         } else if (e.getKeyChar() < '0' || e.getKeyChar() > '9') {
                             e.consume();
-                        } else if (passwordField_7.getPassword().length > 0) {
+                        } else if (String.valueOf(passwordField_7.getPassword()).length() > 0) {
                             e.consume();
                         }
                     }
                 });
-
-        JLabel lblInserisciIlPin = new JLabel("Inserisci il PIN");
-        lblInserisciIlPin.setHorizontalAlignment(SwingConstants.CENTER);
-        lblInserisciIlPin.setFont(new Font("Dialog", Font.BOLD, 22));
-        lblInserisciIlPin.setBounds(252, 259, 299, 36);
-        panel_1.add(lblInserisciIlPin);
-
+        JLabel lblTypeYourCIEPIN = new JLabel("Inserisci il PIN");
+        lblTypeYourCIEPIN.setHorizontalAlignment(SwingConstants.CENTER);
+        lblTypeYourCIEPIN.setFont(new Font("Dialog", Font.BOLD, 22));
+        lblTypeYourCIEPIN.setBounds(252, 259, 299, 36);
+        pnPairCIE_Index_1.add(lblTypeYourCIEPIN);
         JPanel buttonsPanel = new JPanel();
         buttonsPanel.setBackground(new Color(255, 255, 255));
         FlowLayout flowLayout = (FlowLayout) buttonsPanel.getLayout();
         flowLayout.setHgap(100);
         buttonsPanel.setBounds(133, 500, 384, 36);
-
-        btnAnnulla = new JButton("Annulla");
-        btnAnnulla.addActionListener(
+        btnCancel = new JButton("Annulla");
+        btnCancel.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         logger.Info("Annulla abbinamento carta");
                         selectHome();
                     }
                 });
-
-        btnAnnulla.setForeground(Color.WHITE);
-        btnAnnulla.setBackground(new Color(30, 144, 255));
-        buttonsPanel.add(btnAnnulla);
-        buttonsPanel.add(btnAbbina);
-
-        panel_1.add(buttonsPanel);
-
-        panel_2 = new JPanel();
-        panel_2.setLayout(null);
-        panel_2.setBackground(Color.WHITE);
-        tabbedPane.addTab("New tab", null, panel_2, null);
-
+        btnCancel.setForeground(Color.WHITE);
+        btnCancel.setBackground(new Color(30, 144, 255));
+        buttonsPanel.add(btnCancel);
+        buttonsPanel.add(btnPair);
+        pnPairCIE_Index_1.add(buttonsPanel);
+        panel_PairCIE = new JPanel();
+        panel_PairCIE.setLayout(null);
+        panel_PairCIE.setBackground(Color.WHITE);
+        tabbedPane.addTab("New tab", null, panel_PairCIE, null);
         label = new JLabel("Abbina la tua CIE");
         label.setHorizontalAlignment(SwingConstants.CENTER);
         label.setFont(new Font("Dialog", Font.BOLD, 30));
         label.setBounds(147, 36, 299, 36);
-        panel_2.add(label);
-
+        panel_PairCIE.add(label);
         textPane_1 = new JTextPane();
         textPane_1.setFont(new Font("Dialog", Font.PLAIN, 16));
         textPane_1.setText(
-                "Dopo aver collegato e installato il lettore di smart card, posiziona la CIE sul lettore ed"
-                        + " inserisci il PIN");
+                "Dopo aver collegato e installato il lettore di smart card, posiziona la CIE sul lettore ed inserisci il PIN");
         textPane_1.setEditable(false);
         textPane_1.setBounds(63, 84, 492, 46);
-        panel_2.add(textPane_1);
-
+        panel_PairCIE.add(textPane_1);
         label_1 = new JLabel("");
         label_1.setIcon(
                 new ImageIcon(
@@ -888,28 +887,23 @@ public class MainFrame extends JFrame {
                                 "/it/ipzs/cieid/res/icona_lettore_card_white.png")));
         label_1.setHorizontalAlignment(SwingConstants.CENTER);
         label_1.setBounds(29, 194, 211, 205);
-        panel_2.add(label_1);
-
+        panel_PairCIE.add(label_1);
         checkBox = new JCheckBox("Non mostrare piÃ¹");
         checkBox.setBackground(Color.WHITE);
         checkBox.setBounds(591, 508, 157, 23);
-        panel_2.add(checkBox);
-
+        panel_PairCIE.add(checkBox);
         lblProgress = new JLabel("progress");
         lblProgress.setHorizontalAlignment(SwingConstants.CENTER);
         lblProgress.setFont(new Font("Dialog", Font.BOLD, 22));
         lblProgress.setBounds(252, 259, 299, 36);
-        panel_2.add(lblProgress);
-
+        panel_PairCIE.add(lblProgress);
         progressBar = new JProgressBar();
         progressBar.setBounds(258, 324, 293, 14);
-        panel_2.add(progressBar);
-
-        panel_3 = new JPanel();
-        panel_3.setLayout(null);
-        panel_3.setBackground(Color.WHITE);
-
-        tabbedPane.addTab("New tab", null, panel_3, null);
+        panel_PairCIE.add(progressBar);
+        pnCIEHomeSelector_Index_3 = new JPanel();
+        pnCIEHomeSelector_Index_3.setLayout(null);
+        pnCIEHomeSelector_Index_3.setBackground(Color.WHITE);
+        tabbedPane.addTab("New tab", null, pnCIEHomeSelector_Index_3, null);
         cieCarousel = new carousel();
         cieCarousel.cieLeft.getLblName().setLocation(15, 140);
         cieCarousel.cieRight.getLblName().setSize(130, 15);
@@ -927,8 +921,7 @@ public class MainFrame extends JFrame {
         cieCarousel.cieCenter.setLocation(190, 23);
         cieCarousel.setSize(595, 307);
         cieCarousel.setLocation(0, 170);
-        panel_3.add(cieCarousel);
-
+        pnCIEHomeSelector_Index_3.add(cieCarousel);
         btnPanel = new JPanel();
         btnPanel.setBounds(0, 500, 595, 46);
         btnPanel.setBackground(Color.WHITE);
@@ -940,8 +933,7 @@ public class MainFrame extends JFrame {
                         logger.Info("Inizia  Rimozione tutte le carte abbinate");
 
                         List<Cie> cieList = new ArrayList<Cie>(cieDictionary.values());
-
-                        disabilitaAllCIE(cieList);
+                        removeAllCIE(cieList);
                     }
                 });
         btnRemoveAll.setForeground(Color.WHITE);
@@ -956,7 +948,7 @@ public class MainFrame extends JFrame {
                     public void actionPerformed(ActionEvent e) {
                         logger.Info("Inizia  'Rimuovi carta selezionata'");
                         Cie cieToDelete = cieCarousel.getCardAtIndex();
-                        disabilitaCIE(cieToDelete.getPan(), cieToDelete.getName());
+                        removeCIE(cieToDelete.getPan(), cieToDelete.getName());
                     }
                 });
         btnRemoveSelected.setForeground(Color.WHITE);
@@ -976,30 +968,32 @@ public class MainFrame extends JFrame {
         btnNewButton.setForeground(Color.WHITE);
         btnNewButton.setBackground(new Color(30, 144, 255));
         btnPanel.add(btnNewButton);
+        pnCIEHomeSelector_Index_3.add(btnPanel);
 
-        panel_3.add(btnPanel);
-
-        btnSelezionaCIE = new JButton("Seleziona");
-        btnSelezionaCIE.addActionListener(
+        btnSelectCIE = new JButton("Firma con la CIE selezionata");
+        btnSelectCIE.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         logger.Info("Inizia  'Seleziona'");
                         CieCard selectedCIE = getSelectedCIE();
+                        shouldSignWithoutPairing = false;
+
+                        lblNewLabel_2.setVisible(true);
+                        showSigningPINInputFields();
 
                         if (selectedCIE.getCard().getIsCustomSign()) {
                             logger.Debug("Firma personalizzata presente");
-                            lblPersonalizza.setText("Aggiorna");
+                            lblCustomize.setText("Aggiorna");
                             lblHint.setText(
                                     "Un tua firma personalizzata è già stata caricata. Vuoi aggiornarla?");
                             lblFPOK.setVisible(true);
                             lblSFP.setVisible(false);
                         } else {
                             logger.Debug("Firma personalizzata assente - crea firma default");
-                            lblPersonalizza.setText("Personalizza");
+                            lblCustomize.setText("Personalizza");
                             lblHint.setText(
-                                    "Abbiamo creato per te una firma grafica, ma se preferisci puo personalizzarla."
-                                            + " Questo passaggio non è indispensabile, ma ti consentirà di dare un tocco"
-                                            + " personale ai documenti firmati.");
+                                    "Abbiamo creato per te una firma grafica, ma se preferisci puoi personalizzarla. "
+                                            + "Questo passaggio non è indispensabile, ma ti consentirà di dare un tocco personale ai documenti firmati.");
                             lblSFP.setVisible(true);
                             lblFPOK.setVisible(false);
                         }
@@ -1007,42 +1001,59 @@ public class MainFrame extends JFrame {
                         tabbedPane.setSelectedIndex(10);
                     }
                 });
-        btnSelezionaCIE.setForeground(Color.WHITE);
-        btnSelezionaCIE.setBackground(new Color(30, 144, 255));
-        btnSelezionaCIE.setVisible(false);
-        btnPanel.add(btnSelezionaCIE);
+        btnSelectCIE.setForeground(Color.WHITE);
+        btnSelectCIE.setBackground(new Color(30, 144, 255));
+        btnSelectCIE.setVisible(false);
+        btnPanel.add(btnSelectCIE);
+
+        btnSignWithoutPairing = new JButton("Firma con CIE non associata");
+        btnSignWithoutPairing.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        shouldSignWithoutPairing = true;
+
+                        lblNewLabel_2.setVisible(false);
+                        lblSFP.setVisible(false);
+                        lblFPOK.setVisible(false);
+                        lblCustomize.setVisible(false);
+
+                        lblProgressSignPIN.setText("Inserisci le 8 cifre del PIN");
+                        showSigningPINInputFields();
+                        tabbedPane.setSelectedIndex(10);
+                    }
+                });
+        btnSignWithoutPairing.setForeground(Color.WHITE);
+        btnSignWithoutPairing.setBackground(new Color(30, 144, 255));
+        btnSignWithoutPairing.setVisible(false);
+        btnPanel.add(btnSignWithoutPairing);
 
         lblCieId = new JLabel("CIE ID");
         lblCieId.setHorizontalAlignment(SwingConstants.CENTER);
         lblCieId.setFont(new Font("Dialog", Font.BOLD, 30));
         lblCieId.setBounds(147, 36, 299, 36);
-        panel_3.add(lblCieId);
-
-        txtpnCieAbbinataCon = new JTextPane();
-        txtpnCieAbbinataCon.setEditable(false);
-        txtpnCieAbbinataCon.setFont(new Font("Dialog", Font.PLAIN, 16));
-        txtpnCieAbbinataCon.setText("Carta di Identità Elettronica abbinata correttamente");
-        txtpnCieAbbinataCon.setBounds(63, 84, 492, 46);
-        panel_3.add(txtpnCieAbbinataCon);
-
-        panel_4 = new JPanel();
-        panel_4.setLayout(null);
-        panel_4.setBackground(Color.WHITE);
-        tabbedPane.addTab("New tab", null, panel_4, null);
-
-        lblCambiaPin = new JLabel("Cambia PIN");
-        lblCambiaPin.setHorizontalAlignment(SwingConstants.CENTER);
-        lblCambiaPin.setFont(new Font("Dialog", Font.BOLD, 30));
-        lblCambiaPin.setBounds(147, 36, 299, 36);
-        panel_4.add(lblCambiaPin);
-
-        txtpnIlPinDella = new JTextPane();
-        txtpnIlPinDella.setText("Il PIN della tua CIE è un dato sensibile,\ntrattalo con cautela.");
-        txtpnIlPinDella.setFont(new Font("Dialog", Font.PLAIN, 16));
-        txtpnIlPinDella.setEditable(false);
-        txtpnIlPinDella.setBounds(147, 84, 316, 46);
-        panel_4.add(txtpnIlPinDella);
-
+        pnCIEHomeSelector_Index_3.add(lblCieId);
+        txtpnCIEPanelsSubtitle = new JTextPane();
+        txtpnCIEPanelsSubtitle.setEditable(false);
+        txtpnCIEPanelsSubtitle.setFont(new Font("Dialog", Font.PLAIN, 16));
+        txtpnCIEPanelsSubtitle.setText("Carta di Identità Elettronica abbinata correttamente");
+        txtpnCIEPanelsSubtitle.setBounds(63, 84, 492, 46);
+        pnCIEHomeSelector_Index_3.add(txtpnCIEPanelsSubtitle);
+        pnChangePINTypingScreen_Index_4 = new JPanel();
+        pnChangePINTypingScreen_Index_4.setLayout(null);
+        pnChangePINTypingScreen_Index_4.setBackground(Color.WHITE);
+        tabbedPane.addTab("New tab", null, pnChangePINTypingScreen_Index_4, null);
+        lblChangePIN = new JLabel("Cambia PIN");
+        lblChangePIN.setHorizontalAlignment(SwingConstants.CENTER);
+        lblChangePIN.setFont(new Font("Dialog", Font.BOLD, 30));
+        lblChangePIN.setBounds(147, 36, 299, 36);
+        pnChangePINTypingScreen_Index_4.add(lblChangePIN);
+        txtpnThePINOfYourCard = new JTextPane();
+        txtpnThePINOfYourCard.setText(
+                "Il PIN della tua CIE è un dato sensibile,\ntrattalo con cautela.");
+        txtpnThePINOfYourCard.setFont(new Font("Dialog", Font.PLAIN, 16));
+        txtpnThePINOfYourCard.setEditable(false);
+        txtpnThePINOfYourCard.setBounds(147, 84, 316, 46);
+        pnChangePINTypingScreen_Index_4.add(txtpnThePINOfYourCard);
         label_5 = new JLabel("");
         label_5.setIcon(
                 new ImageIcon(
@@ -1050,107 +1061,97 @@ public class MainFrame extends JFrame {
                                 "/it/ipzs/cieid/res/icona_lettore_card_white.png")));
         label_5.setHorizontalAlignment(SwingConstants.CENTER);
         label_5.setBounds(29, 194, 211, 205);
-        panel_4.add(label_5);
-
+        pnChangePINTypingScreen_Index_4.add(label_5);
         checkBox_2 = new JCheckBox("Non mostrare piÃ¹");
         checkBox_2.setBackground(Color.WHITE);
         checkBox_2.setBounds(591, 508, 157, 23);
-        panel_4.add(checkBox_2);
-
-        btnDoCambiaPin = new JButton("Cambia PIN");
-        btnDoCambiaPin.addActionListener(
+        pnChangePINTypingScreen_Index_4.add(checkBox_2);
+        btnPerformChangePIN = new JButton("Cambia PIN");
+        btnPerformChangePIN.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         logger.Info("Inizia  'Cambia PIN'");
-                        cambiaPIN();
+                        changePIN();
                     }
                 });
-        btnDoCambiaPin.setForeground(Color.WHITE);
-        btnDoCambiaPin.setBackground(new Color(30, 144, 255));
-        btnDoCambiaPin.setBounds(206, 507, 114, 25);
-        panel_4.add(btnDoCambiaPin);
-
-        lblInserisciIlVecchio = new JLabel("Inserisci il vecchio PIN");
-        lblInserisciIlVecchio.setHorizontalAlignment(SwingConstants.LEFT);
-        lblInserisciIlVecchio.setFont(new Font("Dialog", Font.PLAIN, 14));
-        lblInserisciIlVecchio.setBounds(252, 201, 299, 36);
-        panel_4.add(lblInserisciIlVecchio);
-
-        oldpin = new JPasswordField();
-        oldpin.setBounds(252, 230, 234, 25);
-        oldpin.addKeyListener(
+        btnPerformChangePIN.setForeground(Color.WHITE);
+        btnPerformChangePIN.setBackground(new Color(30, 144, 255));
+        btnPerformChangePIN.setBounds(206, 507, 114, 25);
+        pnChangePINTypingScreen_Index_4.add(btnPerformChangePIN);
+        lblTypeTheOldValue = new JLabel("Inserisci il vecchio PIN");
+        lblTypeTheOldValue.setHorizontalAlignment(SwingConstants.LEFT);
+        lblTypeTheOldValue.setFont(new Font("Dialog", Font.PLAIN, 14));
+        lblTypeTheOldValue.setBounds(252, 201, 299, 36);
+        pnChangePINTypingScreen_Index_4.add(lblTypeTheOldValue);
+        oldPIN = new JPasswordField();
+        oldPIN.setBounds(252, 230, 234, 25);
+        oldPIN.addKeyListener(
                 new KeyAdapter() {
                     @Override
                     public void keyTyped(KeyEvent e) {
-                        if (e.getKeyChar() == KeyEvent.VK_ENTER) cambiaPIN();
+                        if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+                            changePIN();
+                        }
                     }
                 });
-        panel_4.add(oldpin);
-
-        lblInserisciIlNuovo = new JLabel("Inserisci il nuovo PIN");
-        lblInserisciIlNuovo.setHorizontalAlignment(SwingConstants.LEFT);
-        lblInserisciIlNuovo.setFont(new Font("Dialog", Font.PLAIN, 14));
-        lblInserisciIlNuovo.setBounds(252, 266, 299, 36);
-        panel_4.add(lblInserisciIlNuovo);
-
-        newpin1 = new JPasswordField();
-        newpin1.setBounds(252, 295, 234, 25);
-        newpin1.addKeyListener(
+        pnChangePINTypingScreen_Index_4.add(oldPIN);
+        lblTypeTheNewValue = new JLabel("Inserisci il nuovo PIN");
+        lblTypeTheNewValue.setHorizontalAlignment(SwingConstants.LEFT);
+        lblTypeTheNewValue.setFont(new Font("Dialog", Font.PLAIN, 14));
+        lblTypeTheNewValue.setBounds(252, 266, 299, 36);
+        pnChangePINTypingScreen_Index_4.add(lblTypeTheNewValue);
+        newPIN = new JPasswordField();
+        newPIN.setBounds(252, 295, 234, 25);
+        newPIN.addKeyListener(
                 new KeyAdapter() {
                     @Override
                     public void keyTyped(KeyEvent e) {
-                        if (e.getKeyChar() == KeyEvent.VK_ENTER) cambiaPIN();
+                        if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+                            changePIN();
+                        }
                     }
                 });
-        panel_4.add(newpin1);
-
-        lblRipetiIlNuovo = new JLabel("Ripeti il nuovo PIN");
-        lblRipetiIlNuovo.setHorizontalAlignment(SwingConstants.LEFT);
-        lblRipetiIlNuovo.setFont(new Font("Dialog", Font.PLAIN, 14));
-        lblRipetiIlNuovo.setBounds(252, 332, 299, 36);
-        panel_4.add(lblRipetiIlNuovo);
-
-        newpin2 = new JPasswordField();
-        newpin2.addKeyListener(
+        pnChangePINTypingScreen_Index_4.add(newPIN);
+        lblTypeAgainTheNewValue = new JLabel("Ripeti il nuovo PIN");
+        lblTypeAgainTheNewValue.setHorizontalAlignment(SwingConstants.LEFT);
+        lblTypeAgainTheNewValue.setFont(new Font("Dialog", Font.PLAIN, 14));
+        lblTypeAgainTheNewValue.setBounds(252, 332, 299, 36);
+        pnChangePINTypingScreen_Index_4.add(lblTypeAgainTheNewValue);
+        repeatNewPIN = new JPasswordField();
+        repeatNewPIN.addKeyListener(
                 new KeyAdapter() {
                     @Override
                     public void keyTyped(KeyEvent e) {
-                        if (e.getKeyChar() == KeyEvent.VK_ENTER) cambiaPIN();
+                        if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+                            changePIN();
+                        }
                     }
                 });
-        newpin2.setBounds(252, 361, 234, 25);
-        panel_4.add(newpin2);
-
-        JTextPane txtpnIlPinDella_2 = new JTextPane();
-        txtpnIlPinDella_2.setFont(new Font("Dialog", Font.PLAIN, 10));
-        txtpnIlPinDella_2.setText(
-                "Il PIN della CIE deve essere composto da 8 cifre numeriche, non sono ammessi altri tipi di"
-                        + " caratteri. Non sono ammessi PIN composti da tutti i numeri uguali (es: 11111111) o"
-                        + " da numeri consecutivi (es: 12345678).");
-        txtpnIlPinDella_2.setBounds(262, 398, 234, 76);
-        txtpnIlPinDella_2.setEditable(false);
-
-        panel_4.add(txtpnIlPinDella_2);
-
+        repeatNewPIN.setBounds(252, 361, 234, 25);
+        pnChangePINTypingScreen_Index_4.add(repeatNewPIN);
+        JTextPane txtpnThePINOfYourCIEMustContainEightDigits = new JTextPane();
+        txtpnThePINOfYourCIEMustContainEightDigits.setFont(new Font("Dialog", Font.PLAIN, 10));
+        txtpnThePINOfYourCIEMustContainEightDigits.setText(
+                "Il PIN della CIE deve essere composto da 8 cifre numeriche, non sono ammessi altri tipi di caratteri. Non sono ammessi PIN composti da tutti i numeri uguali (es: 11111111) o da numeri consecutivi (es: 12345678).");
+        txtpnThePINOfYourCIEMustContainEightDigits.setBounds(262, 398, 234, 76);
+        txtpnThePINOfYourCIEMustContainEightDigits.setEditable(false);
+        pnChangePINTypingScreen_Index_4.add(txtpnThePINOfYourCIEMustContainEightDigits);
         panel_5 = new JPanel();
         panel_5.setLayout(null);
         panel_5.setBackground(Color.WHITE);
         tabbedPane.addTab("New tab", null, panel_5, null);
-
-        lblCambiaPin_1 = new JLabel("Cambia PIN");
-        lblCambiaPin_1.setHorizontalAlignment(SwingConstants.CENTER);
-        lblCambiaPin_1.setFont(new Font("Dialog", Font.BOLD, 30));
-        lblCambiaPin_1.setBounds(147, 36, 299, 36);
-        panel_5.add(lblCambiaPin_1);
-
-        txtpnIlPinDella_1 = new JTextPane();
-        txtpnIlPinDella_1.setText(
-                "IL PIN della tua CIE è un dato sensibile,\ntrattalo con cautela.");
-        txtpnIlPinDella_1.setFont(new Font("Dialog", Font.PLAIN, 16));
-        txtpnIlPinDella_1.setEditable(false);
-        txtpnIlPinDella_1.setBounds(147, 84, 327, 46);
-        panel_5.add(txtpnIlPinDella_1);
-
+        lblChangePINText = new JLabel("Cambia PIN");
+        lblChangePINText.setHorizontalAlignment(SwingConstants.CENTER);
+        lblChangePINText.setFont(new Font("Dialog", Font.BOLD, 30));
+        lblChangePINText.setBounds(147, 36, 299, 36);
+        panel_5.add(lblChangePINText);
+        txtpnThePINOfYourCIE = new JTextPane();
+        txtpnThePINOfYourCIE.setText(
+                "Il PIN della tua CIE è un dato sensibile,\ntrattalo con cautela.");
+        txtpnThePINOfYourCIE.setFont(new Font("Dialog", Font.PLAIN, 16));
+        txtpnThePINOfYourCIE.setEditable(false);
+        txtpnThePINOfYourCIE.setBounds(147, 84, 327, 46);
+        panel_5.add(txtpnThePINOfYourCIE);
         label_6 = new JLabel("");
         label_6.setIcon(
                 new ImageIcon(
@@ -1179,19 +1180,16 @@ public class MainFrame extends JFrame {
         panel_6.setLayout(null);
         panel_6.setBackground(Color.WHITE);
         tabbedPane.addTab("New tab", null, panel_6, null);
-
-        lblSbloccoCarta = new JLabel("Sblocco Carta");
-        lblSbloccoCarta.setHorizontalAlignment(SwingConstants.CENTER);
-        lblSbloccoCarta.setFont(new Font("Dialog", Font.BOLD, 30));
-        lblSbloccoCarta.setBounds(147, 36, 299, 36);
-        panel_6.add(lblSbloccoCarta);
-
-        txtpnUtilizzaIlCodice = new JTextPane();
-        txtpnUtilizzaIlCodice.setText("Utilizza il codice PUK ricevuto con la CIE");
-        txtpnUtilizzaIlCodice.setFont(new Font("Dialog", Font.PLAIN, 16));
-        txtpnUtilizzaIlCodice.setEditable(false);
-        txtpnUtilizzaIlCodice.setBounds(126, 84, 334, 46);
-
+        lblUnlockCard = new JLabel("Sblocco Carta");
+        lblUnlockCard.setHorizontalAlignment(SwingConstants.CENTER);
+        lblUnlockCard.setFont(new Font("Dialog", Font.BOLD, 30));
+        lblUnlockCard.setBounds(147, 36, 299, 36);
+        panel_6.add(lblUnlockCard);
+        txtpnUseYourPUK = new JTextPane();
+        txtpnUseYourPUK.setText("Utilizza il codice PUK ricevuto con la CIE");
+        txtpnUseYourPUK.setFont(new Font("Dialog", Font.PLAIN, 16));
+        txtpnUseYourPUK.setEditable(false);
+        txtpnUseYourPUK.setBounds(126, 84, 334, 46);
         label_7 = new JLabel("");
         label_7.setIcon(
                 new ImageIcon(
@@ -1205,33 +1203,32 @@ public class MainFrame extends JFrame {
         checkBox_4.setBackground(Color.WHITE);
         checkBox_4.setBounds(591, 508, 157, 23);
         panel_6.add(checkBox_4);
-
-        btnSblocca = new JButton("Sblocca");
-        btnSblocca.addActionListener(
+        btnUnlockPIN = new JButton("Sblocca");
+        btnUnlockPIN.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         logger.Info("Inizia  'Sblocca'");
-                        sbloccaPIN();
+                        unlockPIN();
                     }
                 });
-        btnSblocca.setForeground(Color.WHITE);
-        btnSblocca.setBackground(new Color(30, 144, 255));
-        btnSblocca.setBounds(206, 507, 114, 25);
-        panel_6.add(btnSblocca);
-
-        lblInserisciIlPuk = new JLabel("Inserisci il PUK");
-        lblInserisciIlPuk.setHorizontalAlignment(SwingConstants.LEFT);
-        lblInserisciIlPuk.setFont(new Font("Dialog", Font.PLAIN, 14));
-        lblInserisciIlPuk.setBounds(252, 201, 299, 36);
-        panel_6.add(lblInserisciIlPuk);
-
+        btnUnlockPIN.setForeground(Color.WHITE);
+        btnUnlockPIN.setBackground(new Color(30, 144, 255));
+        btnUnlockPIN.setBounds(206, 507, 114, 25);
+        panel_6.add(btnUnlockPIN);
+        lblInsertYourPUK = new JLabel("Inserisci il PUK");
+        lblInsertYourPUK.setHorizontalAlignment(SwingConstants.LEFT);
+        lblInsertYourPUK.setFont(new Font("Dialog", Font.PLAIN, 14));
+        lblInsertYourPUK.setBounds(252, 201, 299, 36);
+        panel_6.add(lblInsertYourPUK);
         puk01 = new JPasswordField();
         puk01.setBounds(252, 230, 234, 25);
         puk01.addKeyListener(
                 new KeyAdapter() {
                     @Override
                     public void keyTyped(KeyEvent e) {
-                        if (e.getKeyChar() == KeyEvent.VK_ENTER) sbloccaPIN();
+                        if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+                            unlockPIN();
+                        }
                     }
                 });
         panel_6.add(puk01);
@@ -1248,7 +1245,9 @@ public class MainFrame extends JFrame {
                 new KeyAdapter() {
                     @Override
                     public void keyTyped(KeyEvent e) {
-                        if (e.getKeyChar() == KeyEvent.VK_ENTER) sbloccaPIN();
+                        if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+                            unlockPIN();
+                        }
                     }
                 });
         panel_6.add(pin01);
@@ -1264,7 +1263,9 @@ public class MainFrame extends JFrame {
                 new KeyAdapter() {
                     @Override
                     public void keyTyped(KeyEvent e) {
-                        if (e.getKeyChar() == KeyEvent.VK_ENTER) sbloccaPIN();
+                        if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+                            unlockPIN();
+                        }
                     }
                 });
         pin02.setBounds(252, 361, 234, 25);
@@ -1272,9 +1273,7 @@ public class MainFrame extends JFrame {
 
         textPane_2 = new JTextPane();
         textPane_2.setText(
-                "Il PIN della CIE deve essere composto da 8 cifre numeriche, non sono ammessi altri tipi di"
-                        + " caratteri. Non sono ammessi PIN composti da tutti i numeri uguali (es: 11111111) o"
-                        + " da numeri consecutivi (es: 12345678).");
+                "Il PIN della CIE deve essere composto da 8 cifre numeriche, non sono ammessi altri tipi di caratteri. Non sono ammessi PIN composti da tutti i numeri uguali (es: 11111111) o da numeri consecutivi (es: 12345678).");
         textPane_2.setFont(new Font("Dialog", Font.PLAIN, 10));
         textPane_2.setEditable(false);
         textPane_2.setBounds(262, 398, 234, 76);
@@ -1284,20 +1283,17 @@ public class MainFrame extends JFrame {
         panel_7.setLayout(null);
         panel_7.setBackground(Color.WHITE);
         tabbedPane.addTab("New tab", null, panel_7, null);
-
-        lblSbloccaCarta = new JLabel("Sblocca Carta");
-        lblSbloccaCarta.setHorizontalAlignment(SwingConstants.CENTER);
-        lblSbloccaCarta.setFont(new Font("Dialog", Font.BOLD, 30));
-        lblSbloccaCarta.setBounds(147, 36, 299, 36);
-        panel_7.add(lblSbloccaCarta);
-
-        txtpnUtilizzaIlCodice_1 = new JTextPane();
-        txtpnUtilizzaIlCodice_1.setText("Utilizza il codice PUK ricevuto con la CIE");
-        txtpnUtilizzaIlCodice_1.setFont(new Font("Dialog", Font.PLAIN, 16));
-        txtpnUtilizzaIlCodice_1.setEditable(false);
-        txtpnUtilizzaIlCodice_1.setBounds(132, 84, 355, 46);
-        panel_7.add(txtpnUtilizzaIlCodice_1);
-
+        lblUnlockCard = new JLabel("Sblocca Carta");
+        lblUnlockCard.setHorizontalAlignment(SwingConstants.CENTER);
+        lblUnlockCard.setFont(new Font("Dialog", Font.BOLD, 30));
+        lblUnlockCard.setBounds(147, 36, 299, 36);
+        panel_7.add(lblUnlockCard);
+        txtpnTypeThePUKOfYourCIE = new JTextPane();
+        txtpnTypeThePUKOfYourCIE.setText("Utilizza il codice PUK ricevuto con la CIE");
+        txtpnTypeThePUKOfYourCIE.setFont(new Font("Dialog", Font.PLAIN, 16));
+        txtpnTypeThePUKOfYourCIE.setEditable(false);
+        txtpnTypeThePUKOfYourCIE.setBounds(132, 84, 355, 46);
+        panel_7.add(txtpnTypeThePUKOfYourCIE);
         label_8 = new JLabel("");
         label_8.setIcon(
                 new ImageIcon(
@@ -1326,89 +1322,72 @@ public class MainFrame extends JFrame {
         panel_8.setLayout(null);
         panel_8.setBackground(Color.WHITE);
         tabbedPane.addTab("New tab", null, panel_8, null);
-
-        lblAiuto = new JLabel("Tutorial");
-        lblAiuto.setHorizontalAlignment(SwingConstants.CENTER);
-        lblAiuto.setFont(new Font("Dialog", Font.BOLD, 30));
-        lblAiuto.setBounds(147, 36, 299, 36);
-        panel_8.add(lblAiuto);
-
+        lblHelp = new JLabel("Tutorial");
+        lblHelp.setHorizontalAlignment(SwingConstants.CENTER);
+        lblHelp.setFont(new Font("Dialog", Font.BOLD, 30));
+        lblHelp.setBounds(147, 36, 299, 36);
+        panel_8.add(lblHelp);
         MiniWebView webView = new MiniWebView();
         webView.setBounds(12, 99, 571, 440);
         panel_8.add(webView);
         webView.showPage(MainFrame.class.getResource("/it/ipzs/cieid/res/html/tutorial.html"));
-
         panel_9 = new JPanel();
         panel_9.setLayout(null);
         panel_9.setBackground(Color.WHITE);
         tabbedPane.addTab("New tab", null, panel_9, null);
-
         label_11 = new JLabel("Aiuto");
         label_11.setHorizontalAlignment(SwingConstants.CENTER);
         label_11.setFont(new Font("Dialog", Font.BOLD, 30));
         label_11.setBounds(147, 36, 299, 36);
         panel_9.add(label_11);
-
         miniWebView = new MiniWebView();
         miniWebView.setBounds(12, 99, 571, 440);
         panel_9.add(miniWebView);
         miniWebView.showPage(MainFrame.class.getResource("/it/ipzs/cieid/res/html/aiuto.html"));
-
         panel_10 = new JPanel();
         panel_10.setLayout(null);
         panel_10.setBackground(Color.WHITE);
         tabbedPane.addTab("New tab", null, panel_10, null);
-
-        lblInformazioni = new JLabel("Informazioni");
-        lblInformazioni.setHorizontalAlignment(SwingConstants.CENTER);
-        lblInformazioni.setFont(new Font("Dialog", Font.BOLD, 30));
-        lblInformazioni.setBounds(147, 36, 299, 36);
-        panel_10.add(lblInformazioni);
-
+        lblInformation = new JLabel("Informazioni");
+        lblInformation.setHorizontalAlignment(SwingConstants.CENTER);
+        lblInformation.setFont(new Font("Dialog", Font.BOLD, 30));
+        lblInformation.setBounds(147, 36, 299, 36);
+        panel_10.add(lblInformation);
         miniWebView_1 = new MiniWebView();
         miniWebView_1.setBounds(12, 99, 571, 440);
         panel_10.add(miniWebView_1);
         miniWebView_1.showPage(MainFrame.class.getResource("/it/ipzs/cieid/res/html/privacy.html"));
-
         StyledDocument doc = textPane_1.getStyledDocument();
         SimpleAttributeSet center = new SimpleAttributeSet();
-
         StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
         doc.setParagraphAttributes(0, doc.getLength(), center, false);
-
-        doc = txtpnDopoAverCollegato.getStyledDocument();
+        doc = txtpnConnectAndPlaceYourCIEOnTheReader.getStyledDocument();
         center = new SimpleAttributeSet();
         StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
         doc.setParagraphAttributes(0, doc.getLength(), center, false);
-
-        doc = txtpnCieAbbinataCon.getStyledDocument();
+        doc = txtpnCIEPanelsSubtitle.getStyledDocument();
         center = new SimpleAttributeSet();
         StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
         doc.setParagraphAttributes(0, doc.getLength(), center, false);
-
-        doc = txtpnUtilizzaIlCodice.getStyledDocument();
+        doc = txtpnUseYourPUK.getStyledDocument();
         center = new SimpleAttributeSet();
         StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
         doc.setParagraphAttributes(0, doc.getLength(), center, false);
-        panel_6.add(txtpnUtilizzaIlCodice);
-
+        panel_6.add(txtpnUseYourPUK);
         selectFile = new JPanel();
         selectFile.setBackground(SystemColor.text);
         selectFile.setLayout(null);
         tabbedPane.addTab("New tab", null, selectFile, null);
-
-        lblFirmaElettronica = new JLabel("Firma Elettronica");
-        lblFirmaElettronica.setHorizontalAlignment(SwingConstants.CENTER);
-        lblFirmaElettronica.setFont(new Font("Dialog", Font.BOLD, 30));
-        lblFirmaElettronica.setBounds(165, 45, 302, 39);
-        selectFile.add(lblFirmaElettronica);
-
+        lblDigitalSignature = new JLabel("Firma Elettronica");
+        lblDigitalSignature.setHorizontalAlignment(SwingConstants.CENTER);
+        lblDigitalSignature.setFont(new Font("Dialog", Font.BOLD, 30));
+        lblDigitalSignature.setBounds(165, 45, 302, 39);
+        selectFile.add(lblDigitalSignature);
         panel_24 = new JPanel();
         panel_24.setBackground(SystemColor.text);
         panel_24.setBounds(28, 136, 540, 401);
         selectFile.add(panel_24);
         panel_24.setLayout(null);
-
         panelLoadFile = new JPanel();
         panelLoadFile.setBackground(SystemColor.text);
         panelLoadFile.setBounds(12, 12, 513, 300);
@@ -1432,35 +1411,31 @@ public class MainFrame extends JFrame {
                 new ImageIcon(MainFrame.class.getResource("/it/ipzs/cieid/res/Firma/upload.png")));
         lblNewLabel.setBounds(223, 12, 80, 104);
         panelLoadFile.add(lblNewLabel);
-
-        txtrTrascinaITuoi = new JTextArea();
-        txtrTrascinaITuoi.setHighlighter(null);
-        txtrTrascinaITuoi.setWrapStyleWord(true);
-        txtrTrascinaITuoi.setText(
-                "Trascina i tuoi documenti qui dentro per firmarli o per verificare una firma elettronica"
-                        + " esistente");
-        txtrTrascinaITuoi.setRows(3);
-        txtrTrascinaITuoi.setLineWrap(true);
-        txtrTrascinaITuoi.setFont(new Font("Dialog", Font.PLAIN, 15));
-        txtrTrascinaITuoi.setEditable(false);
-        txtrTrascinaITuoi.setBackground(SystemColor.text);
-        txtrTrascinaITuoi.setBounds(70, 141, 385, 47);
-        panelLoadFile.add(txtrTrascinaITuoi);
-
-        txtrOppure = new JTextArea();
-        txtrOppure.setHighlighter(null);
-        txtrOppure.setWrapStyleWord(true);
-        txtrOppure.setText("oppure");
-        txtrOppure.setRows(3);
-        txtrOppure.setLineWrap(true);
-        txtrOppure.setFont(new Font("Dialog", Font.PLAIN, 15));
-        txtrOppure.setEditable(false);
-        txtrOppure.setBackground(SystemColor.text);
-        txtrOppure.setBounds(239, 212, 64, 23);
-        panelLoadFile.add(txtrOppure);
-
-        btnSelezionaUnDocumento = new JButton("Seleziona un documento");
-        btnSelezionaUnDocumento.addActionListener(
+        txtrDragAndDropDocuments = new JTextArea();
+        txtrDragAndDropDocuments.setHighlighter(null);
+        txtrDragAndDropDocuments.setWrapStyleWord(true);
+        txtrDragAndDropDocuments.setText(
+                "Trascina i tuoi documenti qui dentro per firmarli o per verificare una firma elettronica esistente");
+        txtrDragAndDropDocuments.setRows(3);
+        txtrDragAndDropDocuments.setLineWrap(true);
+        txtrDragAndDropDocuments.setFont(new Font("Dialog", Font.PLAIN, 15));
+        txtrDragAndDropDocuments.setEditable(false);
+        txtrDragAndDropDocuments.setBackground(SystemColor.text);
+        txtrDragAndDropDocuments.setBounds(70, 141, 385, 47);
+        panelLoadFile.add(txtrDragAndDropDocuments);
+        txtrOtherwise = new JTextArea();
+        txtrOtherwise.setHighlighter(null);
+        txtrOtherwise.setWrapStyleWord(true);
+        txtrOtherwise.setText("oppure");
+        txtrOtherwise.setRows(3);
+        txtrOtherwise.setLineWrap(true);
+        txtrOtherwise.setFont(new Font("Dialog", Font.PLAIN, 15));
+        txtrOtherwise.setEditable(false);
+        txtrOtherwise.setBackground(SystemColor.text);
+        txtrOtherwise.setBounds(239, 212, 64, 23);
+        panelLoadFile.add(txtrOtherwise);
+        btnSelectDocument = new JButton("Seleziona un documento");
+        btnSelectDocument.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         logger.Info("Inizia  'Seleziona un documento'");
@@ -1473,11 +1448,10 @@ public class MainFrame extends JFrame {
                         }
                     }
                 });
-        btnSelezionaUnDocumento.setForeground(Color.WHITE);
-        btnSelezionaUnDocumento.setBackground(new Color(30, 144, 255));
-        btnSelezionaUnDocumento.setBounds(161, 265, 209, 23);
-        panelLoadFile.add(btnSelezionaUnDocumento);
-
+        btnSelectDocument.setForeground(Color.WHITE);
+        btnSelectDocument.setBackground(new Color(30, 144, 255));
+        btnSelectDocument.setBounds(161, 265, 209, 23);
+        panelLoadFile.add(btnSelectDocument);
         panel_11 = new JPanel();
         panel_11.setBackground(SystemColor.text);
         panel_11.setBounds(0, 336, 540, 65);
@@ -1487,9 +1461,7 @@ public class MainFrame extends JFrame {
         lblSFP = new JTextArea();
         lblSFP.setWrapStyleWord(true);
         lblSFP.setText(
-                "Abbiamo creato per te una firma grafica, ma se preferisci puo personalizzarla. Questo"
-                        + " passaggio non \u00E8 indispensabile, ma ti consentir\u00E0 di dare un tocco"
-                        + " personale ai documenti firmati.");
+                "Abbiamo creato per te una firma grafica, ma se preferisci puoi personalizzarla. Questo passaggio non \u00E8 indispensabile, ma ti consentir\u00E0 di dare un tocco personale ai documenti firmati.");
         lblSFP.setRows(3);
         lblSFP.setLineWrap(true);
         lblSFP.setFont(new Font("Dialog", Font.PLAIN, 12));
@@ -1498,16 +1470,15 @@ public class MainFrame extends JFrame {
         lblSFP.setBounds(80, 1, 346, 64);
         lblSFP.setHighlighter(null);
         panel_11.add(lblSFP);
-
-        lblPersonalizza = new JLabel("Personalizza");
-        lblPersonalizza.addMouseListener(
+        lblCustomize = new JLabel("Personalizza");
+        lblCustomize.addMouseListener(
                 new MouseAdapter() {
                     @Override
                     public void mouseEntered(MouseEvent arg0) {
-                        Font font = lblPersonalizza.getFont();
+                        Font font = lblCustomize.getFont();
                         Map attributes = font.getAttributes();
                         attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
-                        lblPersonalizza.setFont(font.deriveFont(attributes));
+                        lblCustomize.setFont(font.deriveFont(attributes));
                     }
 
                     @Override
@@ -1528,20 +1499,20 @@ public class MainFrame extends JFrame {
 
                             imageIcon.setImage(
                                     signImage.getScaledInstance(
-                                            lblFirmaPersonalizzata.getWidth(),
-                                            lblFirmaPersonalizzata.getHeight(),
+                                            lblCustomizedGraphicSignature.getWidth(),
+                                            lblCustomizedGraphicSignature.getHeight(),
                                             Image.SCALE_SMOOTH));
-                            lblFirmaPersonalizzata.setIcon(imageIcon);
+                            lblCustomizedGraphicSignature.setIcon(imageIcon);
                             tabbedPane.setSelectedIndex(15);
 
                             if (selectedCie.getCard().getIsCustomSign()) {
-                                btnCreaFirma.setEnabled(true);
+                                btnGenerateGraphicSignature.setEnabled(true);
                             } else {
-                                btnCreaFirma.setEnabled(false);
+                                btnGenerateGraphicSignature.setEnabled(false);
                             }
                         } catch (IOException e1) {
                             System.out.println(e1);
-                            lblFirmaPersonalizzata.setText(
+                            lblCustomizedGraphicSignature.setText(
                                     "Immagine firma personalizzata non trovata");
                             tabbedPane.setSelectedIndex(15);
                         }
@@ -1549,18 +1520,16 @@ public class MainFrame extends JFrame {
 
                     @Override
                     public void mouseExited(MouseEvent e) {
-                        Font font = lblPersonalizza.getFont();
+                        Font font = lblCustomize.getFont();
                         Map attributes = font.getAttributes();
                         attributes.put(TextAttribute.UNDERLINE, null);
-                        lblPersonalizza.setFont(font.deriveFont(attributes));
+                        lblCustomize.setFont(font.deriveFont(attributes));
                     }
                 });
-        lblPersonalizza.setForeground(new Color(30, 144, 255));
-        lblPersonalizza.setFont(new Font("Tahoma", Font.PLAIN, 14));
-        lblPersonalizza.setBounds(433, 26, 95, 25);
-
-        panel_11.add(lblPersonalizza);
-
+        lblCustomize.setForeground(new Color(30, 144, 255));
+        lblCustomize.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        lblCustomize.setBounds(433, 26, 95, 25);
+        panel_11.add(lblCustomize);
         lblNewLabel_2 = new JLabel("");
         lblNewLabel_2.setIcon(
                 new ImageIcon(
@@ -1671,45 +1640,56 @@ public class MainFrame extends JFrame {
                                         System.out.printf(
                                                 "Verifica con CIE - Url: %s, Port: %s, credentials: %s",
                                                 proxyAddress, proxyPort, proxyCredentials);
-
-                                        final int ret =
+                                        final long ret =
                                                 Middleware.INSTANCE.verificaConCIE(
                                                         filePath,
                                                         proxyAddress,
                                                         proxyPort,
                                                         proxyCredentials);
 
-                                        if (ret > 0 && ret != (long) INVALID_FILE_TYPE) {
-                                            VerifyTable vTable =
-                                                    new VerifyTable(verificaScrollPane);
-                                            verifyInfo vInfo = new verifyInfo();
-                                            verifyInfo[] vInfos = (verifyInfo[]) vInfo.toArray(ret);
+                                        if (ret == 0) {
+                                            int nSign = Middleware.INSTANCE.getNumberOfSign();
 
-                                            for (int i = 0; i < ret; i++) {
-                                                Middleware.INSTANCE.getVerifyInfo(i, vInfos[i]);
-                                                vInfos[i].printVerifyInfo();
-                                                vTable.addDataToModel(
-                                                        verificaScrollPane, vInfos[i]);
-                                            }
-                                            verificaScrollPane.repaint();
-
-                                            if (FilenameUtils.getExtension(filePath)
-                                                    .equals("p7m")) {
-                                                btnEstrai.setEnabled(true);
+                                            if (nSign == 0) {
+                                                logger.Info("Verifica completata");
+                                                JOptionPane.showMessageDialog(
+                                                        MainFrame.this.getContentPane(),
+                                                        "Il file selezionato non contiene firme",
+                                                        "Verifica completata",
+                                                        JOptionPane.INFORMATION_MESSAGE);
+                                                tabbedPane.setSelectedIndex(10);
                                             } else {
-                                                btnEstrai.setEnabled(false);
+                                                VerifyTable vTable =
+                                                        new VerifyTable(verifyScrollPane);
+                                                verifyInfo vInfo = new verifyInfo();
+                                                verifyInfo[] vInfos =
+                                                        (verifyInfo[]) vInfo.toArray(nSign);
+
+                                                for (int i = 0; i < nSign; i++) {
+                                                    Middleware.INSTANCE.getVerifyInfo(i, vInfos[i]);
+                                                    vInfos[i].printVerifyInfo();
+                                                    vTable.addDataToModel(
+                                                            verifyScrollPane, vInfos[i]);
+                                                }
+
+                                                verifyScrollPane.repaint();
+
+                                                if (FilenameUtils.getExtension(filePath)
+                                                        .equals("p7m")) {
+                                                    btnExtractP7M.setEnabled(true);
+                                                } else {
+                                                    btnExtractP7M.setEnabled(false);
+                                                }
+
+                                                tabbedPane.setSelectedIndex(16);
                                             }
-
-                                            tabbedPane.setSelectedIndex(16);
-
                                         } else if (ret == (long) INVALID_FILE_TYPE) {
                                             logger.Error(
                                                     "Il file selezionato non è un file valido");
                                             JOptionPane.showMessageDialog(
                                                     MainFrame.this.getContentPane(),
-                                                    "Il file selezionato non è un file valido. E' possibile verificare solo"
-                                                            + " file con estensione .p7m o .pdf",
-                                                    "Errore nella verifica",
+                                                    "Il file selezionato non è un file valido. E' possibile verificare solo file con estensione .p7m o .pdf",
+                                                    "Errore nella pnVerify",
                                                     JOptionPane.ERROR_MESSAGE);
                                             tabbedPane.setSelectedIndex(10);
                                         } else if (ret == 0) {
@@ -1721,11 +1701,11 @@ public class MainFrame extends JFrame {
                                                     JOptionPane.INFORMATION_MESSAGE);
                                             tabbedPane.setSelectedIndex(10);
                                         } else {
-                                            logger.Error("Errore generico durante la verifica");
+                                            logger.Error("Errore generico durante la pnVerify");
                                             JOptionPane.showMessageDialog(
                                                     MainFrame.this.getContentPane(),
-                                                    "Si è verificato un errore durante la verifica",
-                                                    "Errore nella verifica",
+                                                    "Si è verificato un errore durante la pnVerify",
+                                                    "Errore nella pnVerify",
                                                     JOptionPane.ERROR_MESSAGE);
                                             tabbedPane.setSelectedIndex(10);
                                         }
@@ -1769,7 +1749,8 @@ public class MainFrame extends JFrame {
                     public void mouseClicked(MouseEvent e) {
                         lblPathSignOp.setText(filePath);
 
-                        if (getFileExtension(filePath).equals(".pdf")) {
+                        if (getFileExtension(filePath).equals(".pdf")
+                                && !shouldSignWithoutPairing) {
                             cbGraphicSig.setEnabled(true);
                         } else {
                             cbGraphicSig.setEnabled(false);
@@ -1794,9 +1775,8 @@ public class MainFrame extends JFrame {
                 new ImageIcon(
                         MainFrame.class.getResource(
                                 "/it/ipzs/cieid/res/Firma/Coppia file firma.png")));
-
-        btnAnnullaOp = new JButton("Annulla");
-        btnAnnullaOp.addActionListener(
+        btnCancelOp = new JButton("Annulla");
+        btnCancelOp.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         logger.Info("Inizia  'Annulla'");
@@ -1820,26 +1800,23 @@ public class MainFrame extends JFrame {
                         tabbedPane.setSelectedIndex(10);
                     }
                 });
-        btnAnnullaOp.setBounds(147, 392, 136, 23);
-        panel_16.add(btnAnnullaOp);
-        btnAnnullaOp.setForeground(Color.WHITE);
-        btnAnnullaOp.setBackground(new Color(30, 144, 255));
-
-        selectFirmaOperation = new JPanel();
-        selectFirmaOperation.setBackground(SystemColor.text);
-        tabbedPane.addTab("New tab", null, selectFirmaOperation, null);
-        selectFirmaOperation.setLayout(null);
-
+        btnCancelOp.setBounds(147, 392, 136, 23);
+        panel_16.add(btnCancelOp);
+        btnCancelOp.setForeground(Color.WHITE);
+        btnCancelOp.setBackground(new Color(30, 144, 255));
+        selectSignatureOperation = new JPanel();
+        selectSignatureOperation.setBackground(SystemColor.text);
+        tabbedPane.addTab("New tab", null, selectSignatureOperation, null);
+        selectSignatureOperation.setLayout(null);
         lblFirmaElettronica_2 = new JLabel("Firma Elettronica");
         lblFirmaElettronica_2.setHorizontalAlignment(SwingConstants.CENTER);
         lblFirmaElettronica_2.setFont(new Font("Dialog", Font.BOLD, 30));
         lblFirmaElettronica_2.setBounds(165, 45, 291, 39);
-        selectFirmaOperation.add(lblFirmaElettronica_2);
-
+        selectSignatureOperation.add(lblFirmaElettronica_2);
         panel_23 = new JPanel();
         panel_23.setBackground(SystemColor.text);
         panel_23.setBounds(76, 132, 449, 415);
-        selectFirmaOperation.add(panel_23);
+        selectSignatureOperation.add(panel_23);
         panel_23.setLayout(null);
 
         panel_15 = new JPanel();
@@ -1938,8 +1915,7 @@ public class MainFrame extends JFrame {
         panel_18.add(lblCadesSub);
         lblCadesSub.setWrapStyleWord(true);
         lblCadesSub.setText(
-                "Si appone su una qualsiasi tipologia di documentoi e prevede la generazione di una busta"
-                        + " crittografica. Il documento firmato avr\u00E0 estensione .p7m");
+                "Si appone su una qualsiasi tipologia di documento e prevede la generazione di una busta crittografica. Il documento firmato avr\u00E0 estensione .p7m");
         lblCadesSub.setRows(3);
         lblCadesSub.setLineWrap(true);
         lblCadesSub.setFont(new Font("Dialog", Font.PLAIN, 11));
@@ -1961,6 +1937,7 @@ public class MainFrame extends JFrame {
         panel_19.add(imgPdf);
 
         lblPadesTitle = new JLabel("Firma PADES");
+        // lblPadesTitle.addMouseListener(panel_19.getMouseListeners()[0]);
         lblPadesTitle.setForeground(SystemColor.activeCaptionBorder);
         lblPadesTitle.setFont(new Font("Dialog", Font.PLAIN, 17));
         lblPadesTitle.setBounds(60, 11, 126, 31);
@@ -1971,8 +1948,7 @@ public class MainFrame extends JFrame {
         lblPadesSub.setForeground(SystemColor.activeCaptionBorder);
         lblPadesSub.setWrapStyleWord(true);
         lblPadesSub.setText(
-                "Si appone su documenti PDF nella versione grafica oppure in maniera invisibile. Il"
-                        + " documento firmato avr\u00E0 estensione .pdf");
+                "Si appone su documenti PDF nella versione grafica oppure in maniera invisibile. Il documento firmato avr\u00E0 estensione .pdf");
         lblPadesSub.setRows(3);
         lblPadesSub.setLineWrap(true);
         lblPadesSub.setFont(new Font("Dialog", Font.PLAIN, 11));
@@ -2048,7 +2024,9 @@ public class MainFrame extends JFrame {
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         logger.Info("Inizia  'PROSEGUI'");
-                        for (int i = 0; i < passwordSignFields.length; i++) {
+                        int pinLength = (shouldSignWithoutPairing) ? 8 : 4;
+
+                        for (int i = 0; i < pinLength; i++) {
                             JPasswordField field = passwordSignFields[i];
                             field.setText("");
                         }
@@ -2119,8 +2097,7 @@ public class MainFrame extends JFrame {
         JLabel lblNewLabel_8 = new JLabel("Firma documento");
         lblNewLabel_8.setFont(new Font("Dialog", Font.PLAIN, 17));
         lblNewLabel_8.setBounds(237, 81, 151, 39);
-        selectFirmaOperation.add(lblNewLabel_8);
-
+        selectSignatureOperation.add(lblNewLabel_8);
         pdfPreview = new JPanel();
         pdfPreview.setBackground(SystemColor.text);
         pdfPreview.setLayout(null);
@@ -2169,8 +2146,10 @@ public class MainFrame extends JFrame {
                     @Override
                     public void mouseClicked(MouseEvent arg0) {
                         for (int i = 0; i < passwordSignFields.length; i++) {
-                            JPasswordField field = passwordSignFields[i];
-                            field.setText("");
+                            if (passwordSignFields[i] != null) {
+                                JPasswordField field = passwordSignFields[i];
+                                field.setText("");
+                            }
                         }
 
                         tabbedPane.setSelectedIndex(14);
@@ -2286,9 +2265,8 @@ public class MainFrame extends JFrame {
         panel_28.setBounds(48, 392, 360, 23);
         panel_26.add(panel_28);
         panel_28.setLayout(null);
-
-        btnAnnullaPin = new JButton("Annulla");
-        btnAnnullaPin.addMouseListener(
+        btnUndoPINTyping = new JButton("Annulla");
+        btnUndoPINTyping.addMouseListener(
                 new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent arg0) {
@@ -2299,17 +2277,16 @@ public class MainFrame extends JFrame {
                         }
                     }
                 });
-        btnAnnullaPin.setBounds(-12, 0, 136, 23);
-        panel_28.add(btnAnnullaPin);
-        btnAnnullaPin.setForeground(Color.WHITE);
-        btnAnnullaPin.setBackground(new Color(30, 144, 255));
-
-        btnFirmaPin = new JButton("FIRMA");
-        btnFirmaPin.addMouseListener(
+        btnUndoPINTyping.setBounds(-12, 0, 136, 23);
+        panel_28.add(btnUndoPINTyping);
+        btnUndoPINTyping.setForeground(Color.WHITE);
+        btnUndoPINTyping.setBackground(new Color(30, 144, 255));
+        btnSignInPINTypingScreen = new JButton("FIRMA");
+        btnSignInPINTypingScreen.addMouseListener(
                 new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent arg0) {
-                        if (btnFirmaPin.isEnabled()) {
+                        if (btnSignInPINTypingScreen.isEnabled()) {
                             String outfilePath = null;
                             JFrame frame = new JFrame();
                             frame.setAlwaysOnTop(true);
@@ -2347,49 +2324,38 @@ public class MainFrame extends JFrame {
                                     outfilePath += fileExtension;
                                 }
 
-                                firma(outfilePath);
+                                sign(outfilePath);
                             }
                         }
                     }
                 });
-
-        btnFirmaPin.setBounds(224, 0, 136, 23);
-        panel_28.add(btnFirmaPin);
-        btnFirmaPin.setForeground(Color.WHITE);
-        btnFirmaPin.setBackground(new Color(30, 144, 255));
-
-        btnConcludiFirma = new JButton("Concludi");
-        btnConcludiFirma.addActionListener(
+        btnSignInPINTypingScreen.setBounds(224, 0, 136, 23);
+        panel_28.add(btnSignInPINTypingScreen);
+        btnSignInPINTypingScreen.setForeground(Color.WHITE);
+        btnSignInPINTypingScreen.setBackground(new Color(30, 144, 255));
+        btnSignCompleted = new JButton("Concludi");
+        btnSignCompleted.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent arg0) {
                         logger.Info("Inizia  'Concludi'");
+                        progressSignPIN.setVisible(false);
+                        lblProgressSignPIN.setVisible(true);
 
-                        progressFirmaPin.setVisible(false);
-                        lblProgressFirmaPin.setText("Inserisci le ultime 4 cifre del pin");
-                        lblProgressFirmaPin.setVisible(true);
+                        showSigningPINInputFields();
 
-                        for (int i = 0; i < passwordSignFields.length; i++) {
-                            JPasswordField field = passwordSignFields[i];
-
-                            field.setVisible(true);
-                        }
-
-                        imgEsitoFirma.setVisible(false);
-                        lblEsitoFirma.setVisible(false);
-                        btnConcludiFirma.setVisible(false);
-                        btnAnnullaPin.setVisible(true);
-                        btnFirmaPin.setVisible(true);
-
-                        tabbedPane.setSelectedIndex(10);
+                        imgSignatureResult.setVisible(false);
+                        lblSignatureResult.setVisible(false);
+                        btnSignCompleted.setVisible(false);
+                        btnUndoPINTyping.setVisible(true);
+                        btnSignInPINTypingScreen.setVisible(true);
+                        selectHome();
                     }
                 });
-
-        btnConcludiFirma.setForeground(Color.WHITE);
-        btnConcludiFirma.setBackground(new Color(30, 144, 255));
-        btnConcludiFirma.setBounds(108, -1, 136, 23);
-        btnConcludiFirma.setVisible(false);
-        panel_28.add(btnConcludiFirma);
-
+        btnSignCompleted.setForeground(Color.WHITE);
+        btnSignCompleted.setBackground(new Color(30, 144, 255));
+        btnSignCompleted.setBounds(108, -1, 136, 23);
+        btnSignCompleted.setVisible(false);
+        panel_28.add(btnSignCompleted);
         panel_29 = new JPanel();
         panel_29.setBackground(SystemColor.text);
         panel_29.setBounds(0, 153, 449, 141);
@@ -2404,18 +2370,17 @@ public class MainFrame extends JFrame {
                         MainFrame.class.getResource(
                                 "/it/ipzs/cieid/res/icona_lettore_card_white_small.png")));
         lblNewLabel1_1.setHorizontalAlignment(SwingConstants.CENTER);
-
-        lblProgressFirmaPin = new JLabel("Inserisci le ultime 4 cifre del pin");
-        lblProgressFirmaPin.setBounds(153, 18, 239, 23);
-        panel_29.add(lblProgressFirmaPin);
-        lblProgressFirmaPin.setFont(new Font("Dialog", Font.BOLD, 13));
-
-        progressFirmaPin = new JProgressBar();
-        progressFirmaPin.setBounds(159, 53, 220, 14);
-        panel_29.add(progressFirmaPin);
+        lblProgressSignPIN = new JLabel("Inserisci le ultime 4 cifre del pin");
+        lblProgressSignPIN.setBounds(153, 18, 239, 23);
+        panel_29.add(lblProgressSignPIN);
+        lblProgressSignPIN.setFont(new Font("Dialog", Font.BOLD, 13));
+        progressSignPIN = new JProgressBar();
+        progressSignPIN.setBounds(159, 53, 220, 14);
+        panel_29.add(progressSignPIN);
 
         passwordField_8 = new JPasswordField();
         passwordField_8.setBounds(193, 53, 25, 25);
+        passwordField_8.setVisible(false);
         panel_29.add(passwordField_8);
         passwordField_8.setHorizontalAlignment(SwingConstants.CENTER);
         passwordField_8.setFont(new Font("Dialog", Font.BOLD, 25));
@@ -2433,6 +2398,7 @@ public class MainFrame extends JFrame {
 
         passwordField_9 = new JPasswordField();
         passwordField_9.setBounds(230, 53, 25, 25);
+        passwordField_9.setVisible(false);
         panel_29.add(passwordField_9);
         passwordField_9.setHorizontalAlignment(SwingConstants.CENTER);
         passwordField_9.setFont(new Font("Dialog", Font.BOLD, 25));
@@ -2454,6 +2420,7 @@ public class MainFrame extends JFrame {
 
         passwordField_10 = new JPasswordField();
         passwordField_10.setBounds(267, 53, 25, 25);
+        passwordField_10.setVisible(false);
         panel_29.add(passwordField_10);
         passwordField_10.setHorizontalAlignment(SwingConstants.CENTER);
         passwordField_10.setFont(new Font("Dialog", Font.BOLD, 25));
@@ -2476,6 +2443,7 @@ public class MainFrame extends JFrame {
 
         passwordField_11 = new JPasswordField();
         passwordField_11.setBounds(305, 53, 25, 25);
+        passwordField_11.setVisible(false);
         panel_29.add(passwordField_11);
         passwordField_11.setHorizontalAlignment(SwingConstants.CENTER);
         passwordField_11.setFont(new Font("Dialog", Font.BOLD, 25));
@@ -2488,51 +2456,125 @@ public class MainFrame extends JFrame {
                             passwordField_10.requestFocus();
                         } else if (e.getKeyChar() < '0' || e.getKeyChar() > '9') {
                             e.consume();
-                        } else if (passwordField_11.getPassword().length > 0) {
+                        } else {
+                            passwordField_12.requestFocus();
+                        }
+                    }
+                });
+
+        passwordField_12 = new JPasswordField();
+        passwordField_12.setBounds(343, 53, 25, 25);
+        passwordField_12.setVisible(false);
+        panel_29.add(passwordField_12);
+        passwordField_12.setHorizontalAlignment(SwingConstants.CENTER);
+        passwordField_12.setFont(new Font("Dialog", Font.BOLD, 25));
+        passwordField_12.addKeyListener(
+                new KeyAdapter() {
+                    @Override
+                    public void keyTyped(KeyEvent e) {
+                        if (e.getKeyChar() == '\b') {
+                            passwordField_11.setText("");
+                            passwordField_11.requestFocus();
+                        } else if (e.getKeyChar() < '0' || e.getKeyChar() > '9') {
+                            e.consume();
+                        } else {
+                            passwordField_13.requestFocus();
+                        }
+                    }
+                });
+
+        passwordField_13 = new JPasswordField();
+        passwordField_13.setBounds(381, 53, 25, 25);
+        passwordField_13.setVisible(false);
+        panel_29.add(passwordField_13);
+        passwordField_13.setHorizontalAlignment(SwingConstants.CENTER);
+        passwordField_13.setFont(new Font("Dialog", Font.BOLD, 25));
+        passwordField_13.addKeyListener(
+                new KeyAdapter() {
+                    @Override
+                    public void keyTyped(KeyEvent e) {
+                        if (e.getKeyChar() == '\b') {
+                            passwordField_12.setText("");
+                            passwordField_12.requestFocus();
+                        } else if (e.getKeyChar() < '0' || e.getKeyChar() > '9') {
+                            e.consume();
+                        } else {
+                            passwordField_14.requestFocus();
+                        }
+                    }
+                });
+
+        passwordField_14 = new JPasswordField();
+        passwordField_14.setBounds(419, 53, 25, 25);
+        passwordField_14.setVisible(false);
+        panel_29.add(passwordField_14);
+        passwordField_14.setHorizontalAlignment(SwingConstants.CENTER);
+        passwordField_14.setFont(new Font("Dialog", Font.BOLD, 25));
+        passwordField_14.addKeyListener(
+                new KeyAdapter() {
+                    @Override
+                    public void keyTyped(KeyEvent e) {
+                        if (e.getKeyChar() == '\b') {
+                            passwordField_13.setText("");
+                            passwordField_13.requestFocus();
+                        } else if (e.getKeyChar() < '0' || e.getKeyChar() > '9') {
+                            e.consume();
+                        } else {
+                            passwordField_15.requestFocus();
+                        }
+                    }
+                });
+
+        passwordField_15 = new JPasswordField();
+        passwordField_15.setBounds(457, 53, 25, 25);
+        passwordField_15.setVisible(false);
+        panel_29.add(passwordField_15);
+        passwordField_15.setHorizontalAlignment(SwingConstants.CENTER);
+        passwordField_15.setFont(new Font("Dialog", Font.BOLD, 25));
+        passwordField_15.addKeyListener(
+                new KeyAdapter() {
+                    @Override
+                    public void keyTyped(KeyEvent e) {
+                        if (e.getKeyChar() == '\b') {
+                            passwordField_14.setText("");
+                            passwordField_14.requestFocus();
+                        } else if (e.getKeyChar() < '0' || e.getKeyChar() > '9') {
+                            e.consume();
+                        } else if (String.valueOf(passwordField_15.getPassword()).length() > 0) {
                             e.consume();
                         }
                     }
                 });
 
-        passwordSignFields[0] = passwordField_8;
-        passwordSignFields[1] = passwordField_9;
-        passwordSignFields[2] = passwordField_10;
-        passwordSignFields[3] = passwordField_11;
-
-        lblEsitoFirma = new JLabel("File firmato con successo");
-        lblEsitoFirma.setBounds(221, 64, 166, 23);
-        panel_29.add(lblEsitoFirma);
-        lblEsitoFirma.setFont(new Font("Dialog", Font.PLAIN, 13));
-
-        imgEsitoFirma = new JLabel("");
-        imgEsitoFirma.setBounds(172, 53, 48, 48);
-        panel_29.add(imgEsitoFirma);
-        imgEsitoFirma.setIcon(
+        lblSignatureResult = new JLabel("File firmato con successo");
+        lblSignatureResult.setBounds(221, 64, 166, 23);
+        panel_29.add(lblSignatureResult);
+        lblSignatureResult.setFont(new Font("Dialog", Font.PLAIN, 13));
+        imgSignatureResult = new JLabel("");
+        imgSignatureResult.setBounds(172, 53, 48, 48);
+        panel_29.add(imgSignatureResult);
+        imgSignatureResult.setIcon(
                 new ImageIcon(MainFrame.class.getResource("/it/ipzs/cieid/res/Firma/check.png")));
-        imgEsitoFirma.setVisible(false);
-        lblEsitoFirma.setVisible(false);
-        progressFirmaPin.setVisible(false);
-
+        imgSignatureResult.setVisible(false);
+        lblSignatureResult.setVisible(false);
+        progressSignPIN.setVisible(false);
         lblNewLabel_12 = new JLabel("Appoggia la carta sul lettore");
         lblNewLabel_12.setFont(new Font("Dialog", Font.PLAIN, 17));
         lblNewLabel_12.setBounds(185, 82, 256, 39);
         firmaPin.add(lblNewLabel_12);
-
-        personalizzaFirma = new JPanel();
-        personalizzaFirma.setLayout(null);
-        personalizzaFirma.setBackground(Color.WHITE);
-        tabbedPane.addTab("New tab", null, personalizzaFirma, null);
-
+        customizeGraphicSignature = new JPanel();
+        customizeGraphicSignature.setLayout(null);
+        customizeGraphicSignature.setBackground(Color.WHITE);
+        tabbedPane.addTab("New tab", null, customizeGraphicSignature, null);
         lblFirmaElettronica_5 = new JLabel("Firma Elettronica");
         lblFirmaElettronica_5.setHorizontalAlignment(SwingConstants.CENTER);
         lblFirmaElettronica_5.setFont(new Font("Dialog", Font.BOLD, 30));
         lblFirmaElettronica_5.setBounds(149, 45, 306, 39);
-        personalizzaFirma.add(lblFirmaElettronica_5);
-
+        customizeGraphicSignature.add(lblFirmaElettronica_5);
         JPanel panel_30 = new JPanel();
         panel_30.setBackground(Color.WHITE);
         panel_30.setBounds(76, 132, 449, 415);
-        personalizzaFirma.add(panel_30);
+        customizeGraphicSignature.add(panel_30);
         panel_30.setLayout(null);
 
         panel_31 = new JPanel();
@@ -2567,12 +2609,11 @@ public class MainFrame extends JFrame {
 
                                 imageIcon.setImage(
                                         signImage.getScaledInstance(
-                                                lblFirmaPersonalizzata.getWidth(),
-                                                lblFirmaPersonalizzata.getHeight(),
+                                                lblCustomizedGraphicSignature.getWidth(),
+                                                lblCustomizedGraphicSignature.getHeight(),
                                                 Image.SCALE_SMOOTH));
-                                lblFirmaPersonalizzata.setIcon(imageIcon);
-
-                                lblPersonalizza.setText("Aggiorna");
+                                lblCustomizedGraphicSignature.setIcon(imageIcon);
+                                lblCustomize.setText("Aggiorna");
                                 lblHint.setText(
                                         "Una tua firma personalizzata è già stata caricata. Vuoi aggiornarla?");
                                 lblSFP.setVisible(false);
@@ -2586,13 +2627,11 @@ public class MainFrame extends JFrame {
                                 Gson gson = new Gson();
                                 String serialDictionary = gson.toJson(cieDictionary);
                                 Utils.setProperty("cieDictionary", serialDictionary);
-
-                                btnCreaFirma.setEnabled(true);
-
+                                btnGenerateGraphicSignature.setEnabled(true);
                             } catch (IOException er) {
                                 logger.Error("Errore nel caricamento della firma personalizzata");
                                 er.printStackTrace();
-                                lblFirmaPersonalizzata.setText(
+                                lblCustomizedGraphicSignature.setText(
                                         "Errore nel caricamento della firma personalizzata");
                             }
                         }
@@ -2616,9 +2655,8 @@ public class MainFrame extends JFrame {
         panel_31.add(btnAnnullaOp_6);
         btnAnnullaOp_6.setForeground(Color.WHITE);
         btnAnnullaOp_6.setBackground(new Color(30, 144, 255));
-
-        btnCreaFirma = new JButton("Crea firma");
-        btnCreaFirma.addActionListener(
+        btnGenerateGraphicSignature = new JButton("Crea firma");
+        btnGenerateGraphicSignature.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent arg0) {
                         logger.Info("Inizia  'Crea firma'");
@@ -2641,11 +2679,10 @@ public class MainFrame extends JFrame {
 
                             imageIcon.setImage(
                                     signImage.getScaledInstance(
-                                            lblFirmaPersonalizzata.getWidth(),
-                                            lblFirmaPersonalizzata.getHeight(),
+                                            lblCustomizedGraphicSignature.getWidth(),
+                                            lblCustomizedGraphicSignature.getHeight(),
                                             Image.SCALE_SMOOTH));
-                            lblFirmaPersonalizzata.setIcon(imageIcon);
-
+                            lblCustomizedGraphicSignature.setIcon(imageIcon);
                             selectedCie.getCard().setIsCustomSign(false);
 
                             cieDictionary.put(
@@ -2654,39 +2691,33 @@ public class MainFrame extends JFrame {
                             Gson gson = new Gson();
                             String serialDictionary = gson.toJson(cieDictionary);
                             Utils.setProperty("cieDictionary", serialDictionary);
-
-                            lblPersonalizza.setText("Personalizza");
+                            lblCustomize.setText("Personalizza");
                             lblHint.setText(
-                                    "Abbiamo creato per te una firma grafica, ma se preferisci puo personalizzarla."
-                                            + " Questo passaggio non è indispensabile, ma ti consentirà di dare un tocco"
-                                            + " personale ai documenti firmati.");
+                                    "Abbiamo creato per te una firma grafica, ma se preferisci puoi personalizzarla. "
+                                            + "Questo passaggio non è indispensabile, ma ti consentirà di dare un tocco personale ai documenti firmati.");
                             lblSFP.setVisible(true);
                             lblFPOK.setVisible(false);
 
                         } catch (IOException e1) {
-
-                            lblFirmaPersonalizzata.setText(
+                            lblCustomizedGraphicSignature.setText(
                                     "Immagine firma personalizzata non trovata");
                             tabbedPane.setSelectedIndex(15);
                         }
 
-                        btnCreaFirma.setEnabled(false);
+                        btnGenerateGraphicSignature.setEnabled(false);
                     }
                 });
-        btnCreaFirma.setForeground(Color.WHITE);
-        btnCreaFirma.setBackground(new Color(30, 144, 255));
-        btnCreaFirma.setBounds(312, -1, 137, 23);
-        panel_31.add(btnCreaFirma);
-
+        btnGenerateGraphicSignature.setForeground(Color.WHITE);
+        btnGenerateGraphicSignature.setBackground(new Color(30, 144, 255));
+        btnGenerateGraphicSignature.setBounds(312, -1, 137, 23);
+        panel_31.add(btnGenerateGraphicSignature);
         lblHint = new JTextArea();
         lblHint.setHighlighter(null);
         lblHint.setBounds(0, 133, 449, 80);
         panel_30.add(lblHint);
         lblHint.setWrapStyleWord(true);
         lblHint.setText(
-                "Abbiamo creato per te una firma grafica, ma se preferisci puoi personalizzarla. Questo"
-                        + " passaggio non \u00E8 indispensabile, ma ti consentir\u00E0 di dare un tocco"
-                        + " personale ai documenti firmati.");
+                "Abbiamo creato per te una firma grafica, ma se preferisci puoi personalizzarla. Questo passaggio non \u00E8 indispensabile, ma ti consentir\u00E0 di dare un tocco personale ai documenti firmati.");
         lblHint.setRows(3);
         lblHint.setLineWrap(true);
         lblHint.setFont(new Font("Dialog", Font.PLAIN, 15));
@@ -2699,42 +2730,34 @@ public class MainFrame extends JFrame {
         panel_30.add(txtrAbbiamoCreatoPer_1_1);
         txtrAbbiamoCreatoPer_1_1.setWrapStyleWord(true);
         txtrAbbiamoCreatoPer_1_1.setText(
-                "Puoi caricare un file in formato PNG, se non hai un file contenente una firma grafica puoi"
-                        + " realizzarne uno utilizzando l'app CieSign disponibile per smartphone iOS o"
-                        + " Android");
+                "Puoi caricare un file in formato PNG, se non hai un file contenente una firma grafica puoi realizzarne uno utilizzando l'app CieSign disponibile per smartphone iOS o Android");
         txtrAbbiamoCreatoPer_1_1.setRows(3);
         txtrAbbiamoCreatoPer_1_1.setLineWrap(true);
         txtrAbbiamoCreatoPer_1_1.setFont(new Font("Dialog", Font.PLAIN, 15));
         txtrAbbiamoCreatoPer_1_1.setEditable(false);
         txtrAbbiamoCreatoPer_1_1.setBackground(Color.WHITE);
-
-        lblFirmaPersonalizzata = new JLabel("");
-        lblFirmaPersonalizzata.setBounds(0, 0, 449, 93);
-        panel_30.add(lblFirmaPersonalizzata);
-
-        verifica = new JPanel();
-        verifica.setLayout(null);
-        verifica.setBackground(Color.WHITE);
-        tabbedPane.addTab("New tab", null, verifica, null);
-
+        lblCustomizedGraphicSignature = new JLabel("");
+        lblCustomizedGraphicSignature.setBounds(0, 0, 449, 93);
+        panel_30.add(lblCustomizedGraphicSignature);
+        pnVerify = new JPanel();
+        pnVerify.setLayout(null);
+        pnVerify.setBackground(Color.WHITE);
+        tabbedPane.addTab("New tab", null, pnVerify, null);
         lblFirmaElettronica_6 = new JLabel("Firma Elettronica");
         lblFirmaElettronica_6.setHorizontalAlignment(SwingConstants.CENTER);
         lblFirmaElettronica_6.setFont(new Font("Dialog", Font.BOLD, 30));
         lblFirmaElettronica_6.setBounds(149, 45, 306, 39);
-        verifica.add(lblFirmaElettronica_6);
-
+        pnVerify.add(lblFirmaElettronica_6);
         panel_32 = new JPanel();
         panel_32.setBackground(Color.WHITE);
         panel_32.setBounds(76, 132, 449, 415);
-        verifica.add(panel_32);
+        pnVerify.add(panel_32);
         panel_32.setLayout(null);
-
-        verificaScrollPane = new JScrollPane();
-        verificaScrollPane.setBounds(26, 110, 396, 259);
-        verificaScrollPane.setBorder(BorderFactory.createEmptyBorder());
-        verificaScrollPane.setViewportBorder(BorderFactory.createEmptyBorder());
-        panel_32.add(verificaScrollPane);
-
+        verifyScrollPane = new JScrollPane();
+        verifyScrollPane.setBounds(26, 110, 396, 259);
+        verifyScrollPane.setBorder(BorderFactory.createEmptyBorder());
+        verifyScrollPane.setViewportBorder(BorderFactory.createEmptyBorder());
+        panel_32.add(verifyScrollPane);
         JPanel panel_27_1 = new JPanel();
         panel_27_1.setBounds(0, 0, 449, 82);
         panel_32.add(panel_27_1);
@@ -2772,9 +2795,8 @@ public class MainFrame extends JFrame {
         btnConcludiVerifica.setBackground(new Color(30, 144, 255));
         btnConcludiVerifica.setBounds(257, 392, 136, 23);
         panel_32.add(btnConcludiVerifica);
-
-        btnEstrai = new JButton("Estrai");
-        btnEstrai.addActionListener(
+        btnExtractP7M = new JButton("Estrai");
+        btnExtractP7M.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent arg0) {
                         logger.Info("Inizia  'Estrai'");
@@ -2819,7 +2841,7 @@ public class MainFrame extends JFrame {
                             if (ret != 0) {
                                 logger.Error("Impossibile estrarre il file");
                                 JOptionPane.showMessageDialog(
-                                        btnEstrai.getParent(),
+                                        btnExtractP7M.getParent(),
                                         "Impossibile estrarre il file",
                                         "Estrazione completata",
                                         JOptionPane.ERROR_MESSAGE);
@@ -2827,7 +2849,7 @@ public class MainFrame extends JFrame {
                             } else {
                                 logger.Info("Estrazione completata");
                                 JOptionPane.showMessageDialog(
-                                        btnEstrai.getParent(),
+                                        btnExtractP7M.getParent(),
                                         "File estratto correttamente",
                                         "Estrazione completata",
                                         JOptionPane.INFORMATION_MESSAGE);
@@ -2836,26 +2858,22 @@ public class MainFrame extends JFrame {
                         }
                     }
                 });
-        btnEstrai.setForeground(Color.WHITE);
-        btnEstrai.setBackground(new Color(30, 144, 255));
-        btnEstrai.setBounds(57, 391, 136, 23);
-        panel_32.add(btnEstrai);
-
+        btnExtractP7M.setForeground(Color.WHITE);
+        btnExtractP7M.setBackground(new Color(30, 144, 255));
+        btnExtractP7M.setBounds(57, 391, 136, 23);
+        panel_32.add(btnExtractP7M);
         JLabel lblNewLabel_13 = new JLabel("Verifica firma elettronica");
         lblNewLabel_13.setFont(new Font("Dialog", Font.BOLD, 17));
         lblNewLabel_13.setBounds(190, 82, 246, 15);
-        verifica.add(lblNewLabel_13);
-
-        Impostazioni = new JPanel();
-        Impostazioni.setBackground(Color.WHITE);
-        tabbedPane.addTab("New tab", null, Impostazioni, null);
-        Impostazioni.setLayout(null);
-
+        pnVerify.add(lblNewLabel_13);
+        pnSettings = new JPanel();
+        pnSettings.setBackground(Color.WHITE);
+        tabbedPane.addTab("New tab", null, pnSettings, null);
+        pnSettings.setLayout(null);
         JTabbedPane configTabbedPane = new JTabbedPane(JTabbedPane.TOP);
         configTabbedPane.setBackground(Color.WHITE);
         configTabbedPane.setBounds(12, 12, 571, 500);
-        Impostazioni.add(configTabbedPane);
-
+        pnSettings.add(configTabbedPane);
         JPanel configProxyPanel = new JPanel();
         configProxyPanel.setBackground(Color.WHITE);
         configTabbedPane.addTab("Proxy", null, configProxyPanel, null);
@@ -2908,10 +2926,8 @@ public class MainFrame extends JFrame {
         txtPassword = new JPasswordField();
         txtPassword.setBounds(62, 255, 234, 25);
         configProxyBodyPanel.add(txtPassword);
-
-        txtPorta = new JTextField();
-
-        txtPorta.addKeyListener(
+        txtPort = new JTextField();
+        txtPort.addKeyListener(
                 new KeyAdapter() {
                     public void keyTyped(KeyEvent evt) {
                         if (!Character.isDigit(evt.getKeyChar())) {
@@ -2919,33 +2935,30 @@ public class MainFrame extends JFrame {
                         }
                     }
                 });
-
-        txtPorta.setBounds(340, 124, 49, 25);
-        configProxyBodyPanel.add(txtPorta);
-
+        txtPort.setBounds(340, 124, 49, 25);
+        configProxyBodyPanel.add(txtPort);
         JLabel lblPorta = new JLabel("Porta");
         lblPorta.setHorizontalAlignment(SwingConstants.LEFT);
         lblPorta.setFont(new Font("Dialog", Font.PLAIN, 14));
         lblPorta.setBounds(340, 95, 58, 23);
         configProxyBodyPanel.add(lblPorta);
-
-        chckbxMostraPassword = new JCheckBox("Mostra password");
-        chckbxMostraPassword.addActionListener(
+        chckbxShowPassword = new JCheckBox("Mostra password");
+        chckbxShowPassword.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         logger.Info("Inizia  'Mostra password'");
-                        if (chckbxMostraPassword.isSelected()) {
+
+                        if (chckbxShowPassword.isSelected()) {
                             txtPassword.setEchoChar((char) 0);
                         } else {
                             txtPassword.setEchoChar('*');
                         }
                     }
                 });
-        chckbxMostraPassword.setFont(new Font("Dialog", Font.BOLD, 10));
-        chckbxMostraPassword.setBackground(Color.WHITE);
-        chckbxMostraPassword.setBounds(304, 256, 129, 23);
-        configProxyBodyPanel.add(chckbxMostraPassword);
-
+        chckbxShowPassword.setFont(new Font("Dialog", Font.BOLD, 10));
+        chckbxShowPassword.setBackground(Color.WHITE);
+        chckbxShowPassword.setBounds(304, 256, 129, 23);
+        configProxyBodyPanel.add(chckbxShowPassword);
         JPanel configLoggingPanel = new JPanel();
         configLoggingPanel.setBackground(Color.WHITE);
         configTabbedPane.addTab("Log", null, configLoggingPanel, null);
@@ -3073,10 +3086,9 @@ public class MainFrame extends JFrame {
         configButtonsPanel = new JPanel();
         configButtonsPanel.setBackground(Color.WHITE);
         configButtonsPanel.setBounds(0, 524, 595, 47);
-        Impostazioni.add(configButtonsPanel);
-
-        btnSalva = new JButton("Salva");
-        btnSalva.addActionListener(
+        pnSettings.add(configButtonsPanel);
+        btnSave = new JButton("Salva");
+        btnSave.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent arg0) {
                         logger.Info("Inizia  'Salva'");
@@ -3106,25 +3118,25 @@ public class MainFrame extends JFrame {
                             logConfig.lib = LogLevel.ERROR;
                         }
 
-                        SaveLogConfigToFile();
+                        saveLogConfigToFile();
 
                         if ((txtUsername.getText().equals("")
-                                        && txtPassword.getPassword().length != 0)
+                                        && !String.valueOf(txtPassword.getPassword()).equals(""))
                                 || (!txtUsername.getText().equals("")
-                                        && txtPassword.getPassword().length == 0)) {
+                                        && String.valueOf(txtPassword.getPassword()).equals(""))) {
                             JOptionPane.showMessageDialog(
-                                    btnSalva.getParent(),
+                                    btnSave.getParent(),
                                     "Campo username o password mancante",
                                     "Credenziali proxy mancanti",
                                     JOptionPane.ERROR_MESSAGE);
                             return;
                         }
 
-                        if ((txtPorta.getText().equals("") && !txtProxyAddr.getText().equals(""))
-                                || (!txtPorta.getText().equals("")
+                        if ((txtPort.getText().equals("") && !txtProxyAddr.getText().equals(""))
+                                || (!txtPort.getText().equals("")
                                         && txtProxyAddr.getText().equals(""))) {
                             JOptionPane.showMessageDialog(
-                                    btnSalva.getParent(),
+                                    btnSave.getParent(),
                                     "Indirizzo o porta del proxy mancante",
                                     "Informazione proxy mancanti",
                                     JOptionPane.ERROR_MESSAGE);
@@ -3137,7 +3149,8 @@ public class MainFrame extends JFrame {
                             String credentials =
                                     String.format(
                                             "cred=%s:%s",
-                                            txtUsername.getText(), txtPassword.getPassword());
+                                            txtUsername.getText(),
+                                            String.valueOf(txtPassword.getPassword()));
                             ProxyInfoManager proxyInfoManager = new ProxyInfoManager();
                             String encryptedCredentials = proxyInfoManager.encrypt(credentials);
                             Utils.setProperty("credentials", encryptedCredentials);
@@ -3145,35 +3158,36 @@ public class MainFrame extends JFrame {
 
                         Utils.setProperty("proxyURL", txtProxyAddr.getText());
 
-                        if (txtPorta.getText() == "") {
+                        if (txtPort.getText() == "") {
                             Utils.setProperty("proxyPort", String.valueOf(0));
                         } else {
-                            Utils.setProperty("proxyPort", txtPorta.getText());
+                            Utils.setProperty("proxyPort", txtPort.getText());
                         }
                         disableConfigurationPaneControls();
                     }
                 });
-        btnSalva.setForeground(Color.WHITE);
-        btnSalva.setBackground(new Color(30, 144, 255));
-        configButtonsPanel.add(btnSalva);
-
-        btnModificaProxy = new JButton("Modifica");
-        btnModificaProxy.addActionListener(
+        btnSave.setForeground(Color.WHITE);
+        btnSave.setBackground(new Color(30, 144, 255));
+        configButtonsPanel.add(btnSave);
+        btnChangeProxy = new JButton("Modifica");
+        btnChangeProxy.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent arg0) {
                         logger.Info("Inizia  'Modifica'");
                         enableConfigurationPaneControls();
                     }
                 });
-        btnModificaProxy.setForeground(Color.WHITE);
-        btnModificaProxy.setBackground(new Color(30, 144, 255));
-        configButtonsPanel.add(btnModificaProxy);
+        btnChangeProxy.setForeground(Color.WHITE);
+        btnChangeProxy.setBackground(new Color(30, 144, 255));
+        configButtonsPanel.add(btnChangeProxy);
 
         if (args.length > 0 && args[0].equals("unlock")) {
             selectUnlock();
         } else {
             selectHome();
         }
+
+        System.out.println("tabbedPanel: " + tabbedPane);
     }
 
     private void chooseSignOrVerifyFileOperation(String filePath) {
@@ -3206,12 +3220,11 @@ public class MainFrame extends JFrame {
         txtProxyAddr.setEnabled(value);
         txtUsername.setEnabled(value);
         txtPassword.setEnabled(value);
-        txtPorta.setEnabled(value);
-        chckbxMostraPassword.setEnabled(value);
-        chckbxMostraPassword.setSelected(false);
-        btnSalva.setEnabled(value);
-        btnModificaProxy.setEnabled(!value);
-
+        txtPort.setEnabled(value);
+        chckbxShowPassword.setEnabled(value);
+        chckbxShowPassword.setSelected(false);
+        btnSave.setEnabled(value);
+        btnChangeProxy.setEnabled(!value);
         panelConfigLoggingApp.setEnabled(value);
         rdbtnLoggingAppNone.setEnabled(value);
         rdbtnLoggingAppDebug.setEnabled(value);
@@ -3226,16 +3239,15 @@ public class MainFrame extends JFrame {
     }
 
     private void selectButton(JButton button) {
-        btnCambiaPin.setBackground(SystemColor.control);
-        btnAiuto.setBackground(SystemColor.control);
-        btnInformazioni.setBackground(SystemColor.control);
+        btnChangePIN.setBackground(SystemColor.control);
+        btnHelp.setBackground(SystemColor.control);
+        btnInformation.setBackground(SystemColor.control);
         btnHome.setBackground(SystemColor.control);
-        btnSbloccaCarta.setBackground(SystemColor.control);
+        btnUnlockCard.setBackground(SystemColor.control);
         btnTutorial.setBackground(SystemColor.control);
-        btnFirma.setBackground(SystemColor.control);
-        btnVerifica.setBackground(SystemColor.control);
-        btnImpostazioni.setBackground(SystemColor.control);
-
+        btnDigitalSignature.setBackground(SystemColor.control);
+        btnDigitalSignatureVerify.setBackground(SystemColor.control);
+        btnSettings.setBackground(SystemColor.control);
         button.setBackground(SystemColor.LIGHT_GRAY);
     }
 
@@ -3326,289 +3338,427 @@ public class MainFrame extends JFrame {
         }
     }
 
-    private void firma(String outFilePath) {
-        logger.Info("Inizia - firma()");
+    private void sign(String outFilePath) {
+        logger.Info("Inizia - sign()");
         String pin = "";
-        int i;
+        int pinLength = (shouldSignWithoutPairing) ? 8 : 4;
 
-        for (i = 0; i < passwordSignFields.length; i++) {
+        for (int i = 0; i < pinLength; i++) {
             JPasswordField field = passwordSignFields[i];
             pin += new String(field.getPassword());
         }
 
-        if (pin.length() != 4) {
-            logger.Error("Il PIN deve essere composto dalle ultime 4 cifre - PIN non corretto");
+        if (pin.length() != pinLength) {
+            logger.Error(
+                    "Il PIN deve essere composto "
+                            + ((shouldSignWithoutPairing) ? "da 8" : "dalle ultime 4")
+                            + " cifre - PIN non corretto");
             JOptionPane.showMessageDialog(
                     this.getContentPane(),
-                    "Il PIN deve essere composto dalle ultime 4 cifre",
+                    "Il PIN deve essere composto "
+                            + ((shouldSignWithoutPairing) ? "da 8" : "dalle ultime 4")
+                            + " cifre",
                     "PIN non corretto",
                     JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         char c = pin.charAt(0);
-        i = 1;
 
-        for (i = 1; i < pin.length() && (c >= '0' && c <= '9'); i++) {
+        for (int i = 1; i < pin.length() && (c >= '0' && c <= '9'); i++) {
             c = pin.charAt(i);
         }
 
-        if (i < pin.length() || !(c >= '0' && c <= '9')) {
-            logger.Error("Il PIN deve essere composto dalle ultime 4 cifre - PIN non corretto");
+        if (pinLength > pin.length() || !(c >= '0' && c <= '9')) {
+            logger.Error(
+                    "Il PIN deve essere composto "
+                            + ((shouldSignWithoutPairing) ? "da 8" : "dalle ultime 4")
+                            + " cifre - PIN non corretto");
             JOptionPane.showMessageDialog(
                     this.getContentPane(),
-                    "Il PIN deve essere composto dalle ultime 4 cifre",
+                    "Il PIN deve essere composto "
+                            + ((shouldSignWithoutPairing) ? "da 8" : "dalle ultime 4")
+                            + " cifre",
                     "PIN non corretto",
                     JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        btnAnnullaPin.setEnabled(false);
-        btnFirmaPin.setEnabled(false);
+        btnUndoPINTyping.setEnabled(false);
+        btnSignInPINTypingScreen.setEnabled(false);
 
-        for (i = 0; i < passwordSignFields.length; i++) {
+        for (int i = 0; i < pinLength; i++) {
             JPasswordField field = passwordSignFields[i];
-
             field.setVisible(false);
         }
 
-        progressFirmaPin.setVisible(true);
-        lblProgressFirmaPin.setText("Firma in corso...");
-
+        progressSignPIN.setVisible(true);
+        lblProgressSignPIN.setText("Firma in corso...");
         final String pinfin = pin;
+
+        if (shouldSignWithoutPairing) {
+            final int attempts[] = new int[1];
+
+            Middleware.ProgressCallBack progressCallBack =
+                    new Middleware.ProgressCallBack() {
+                        @Override
+                        public void invoke(final int progress, final String message) {}
+                    };
+
+            Middleware.CompletedCallBack completedCallback =
+                    new Middleware.CompletedCallBack() {
+                        @Override
+                        public void invoke(String pan, String cardholder, String ef_seriale) {
+                            String signPath = getSignImagePath(ef_seriale);
+                            drawText(cardholder, signPath);
+                            System.out.println("Pan: " + pan + "ef seriale " + ef_seriale);
+                            Cie newCie = new Cie(pan, cardholder, ef_seriale);
+                            cieDictionary.put(pan, newCie);
+                            signingCIEPAN = pan;
+                        }
+                    };
+
+            final int ret =
+                    Middleware.INSTANCE.AbilitaCIE(
+                            null, pinfin, attempts, progressCallBack, completedCallback);
+
+            if (ret == CARD_ALREADY_ENABLED) {
+                logger.Error("La CIE risulta già associata - Errore durante la firma");
+                JOptionPane.showMessageDialog(
+                        MainFrame.this.getContentPane(),
+                        "La CIE risulta essere già stata associata precedentemente,\nper cui l'operazione di firma è stata annullata.\nRipetere il procedimento, selezionando la CIE\ndal selettore presente in 'Firma Elettronica'.",
+                        "Carta già associata",
+                        JOptionPane.ERROR_MESSAGE);
+                shouldSignWithoutPairing = false;
+                selectHome();
+                return;
+            } else if (ret == CKR_PIN_INCORRECT) {
+                logger.Error("Il PIN inserito è errato. - Errore durante la firma");
+                JOptionPane.showMessageDialog(
+                        this.getContentPane(),
+                        "Il PIN inserito è errato.",
+                        "Errore durante la firma",
+                        JOptionPane.ERROR_MESSAGE);
+                shouldSignWithoutPairing = false;
+                selectHome();
+                return;
+            } else if (ret == CKR_PIN_LOCKED) {
+                logger.Error("Il PIN della CIE è bloccato - Errore durante la firma");
+                JOptionPane.showMessageDialog(
+                        this.getContentPane(),
+                        "Il PIN della CIE è bloccato. Procedi con lo sblocco prima di procedere.",
+                        "Errore durante la firma",
+                        JOptionPane.ERROR_MESSAGE);
+                shouldSignWithoutPairing = false;
+                selectHome();
+                return;
+            } else if (ret != CKR_OK) {
+                logger.Error(
+                        "Si è verificato un errore durante la lettura dei dati della CIE - Errore durante la firma");
+                JOptionPane.showMessageDialog(
+                        this.getContentPane(),
+                        "Si è verificato un errore durante la lettura dei dati della CIE.",
+                        "Errore durante la firma",
+                        JOptionPane.ERROR_MESSAGE);
+                shouldSignWithoutPairing = false;
+                selectHome();
+                return;
+            }
+        }
 
         Runner.run(
                 new Runnable() {
-
                     @Override
                     public void run() {
-                        // TODO Auto-generated method stub
+                        Cie selCIE =
+                                ((shouldSignWithoutPairing)
+                                        ? cieDictionary.get(signingCIEPAN)
+                                        : getSelectedCIE().getCard());
+                        signMWCall(
+                                outFilePath,
+                                (shouldSignWithoutPairing) ? pinfin.substring(4) : pinfin,
+                                selCIE);
+                    }
+                });
+    }
 
-                        try {
-                            final int[] attempts = new int[1];
-
-                            Middleware.ProgressCallBack progressCallBack =
-                                    new Middleware.ProgressCallBack() {
-
-                                        @Override
-                                        public void invoke(
-                                                final int progress, final String message) {
-                                            EventQueue.invokeLater(
-                                                    new Runnable() {
-                                                        public void run() {
-                                                            try {
-                                                                progressFirmaPin.setValue(progress);
-                                                            } catch (Exception e) {
-                                                                e.printStackTrace();
-                                                            }
-                                                        }
-                                                    });
-                                        }
-                                    };
-
-                            Middleware.SignCompletedCallBack signCompletedCallBack =
-                                    new Middleware.SignCompletedCallBack() {
-                                        @Override
-                                        public void invoke(int retValue) {
-                                            // TODO Auto-generated method stub
-
-                                            System.out.println("Sign Completed!!");
-                                            logger.Info("Firma completata");
-                                            if (retValue == 0) {
-                                                logger.Info("File firmato con successo");
-                                                lblEsitoFirma.setText("File firmato con successo");
-                                                imgEsitoFirma.setIcon(
-                                                        new ImageIcon(
-                                                                MainFrame.class.getResource(
-                                                                        "/it/ipzs/cieid/res/Firma/check.png")));
-
-                                            } else {
-                                                logger.Error(
-                                                        "Si è verificato un errore durante la firma");
-                                                lblEsitoFirma.setText(
-                                                        "Si è verificato un errore durante la firma");
-                                                imgEsitoFirma.setIcon(
-                                                        new ImageIcon(
-                                                                MainFrame.class.getResource(
-                                                                        "/it/ipzs/cieid/res/Firma/cross.png")));
-                                            }
-
-                                            lblEsitoFirma.setVisible(true);
-                                            imgEsitoFirma.setVisible(true);
-                                            progressFirmaPin.setVisible(false);
-                                            btnConcludiFirma.setVisible(true);
-                                            btnAnnullaPin.setVisible(false);
-                                            btnFirmaPin.setVisible(false);
-                                            lblProgressFirmaPin.setVisible(false);
-                                        }
-                                    };
-
-                            CieCard selectedCie = getSelectedCIE();
-                            final int ret;
-                            if (signOperation == SignOp.PADES) {
-                                if (cbGraphicSig.isSelected()) {
-                                    float infos[] = preview.signImageInfo();
-                                    String signImagePath =
-                                            getSignImagePath(
-                                                    selectedCie.getCard().getSerialNumber());
-                                    int pageNumber = preview.getSelectedPage();
-                                    String pan = selectedCie.getCard().getPan();
-                                    ret =
-                                            Middleware.INSTANCE.firmaConCIE(
-                                                    filePath,
-                                                    "pdf",
-                                                    pinfin,
-                                                    pan,
-                                                    pageNumber,
-                                                    infos[0],
-                                                    infos[1],
-                                                    infos[2],
-                                                    infos[3],
-                                                    signImagePath,
-                                                    outFilePath,
-                                                    progressCallBack,
-                                                    signCompletedCallBack);
-                                } else {
-                                    ret =
-                                            Middleware.INSTANCE.firmaConCIE(
-                                                    filePath,
-                                                    "pdf",
-                                                    pinfin,
-                                                    selectedCie.getCard().getPan(),
-                                                    0,
-                                                    0,
-                                                    0,
-                                                    0,
-                                                    0,
-                                                    null,
-                                                    outFilePath,
-                                                    progressCallBack,
-                                                    signCompletedCallBack);
-                                }
-                            } else {
-                                ret =
-                                        Middleware.INSTANCE.firmaConCIE(
-                                                filePath,
-                                                "p7m",
-                                                pinfin,
-                                                selectedCie.getCard().getPan(),
-                                                0,
-                                                0,
-                                                0,
-                                                0,
-                                                0,
-                                                null,
-                                                outFilePath,
-                                                progressCallBack,
-                                                signCompletedCallBack);
-                            }
-
+    private void signMWCall(String outFilePath, String pinfin, Cie selectedCIE) {
+        try {
+            final int[] attempts = new int[1];
+            Middleware.ProgressCallBack progressCallBack =
+                    new Middleware.ProgressCallBack() {
+                        @Override
+                        public void invoke(final int progress, final String message) {
                             EventQueue.invokeLater(
                                     new Runnable() {
                                         public void run() {
                                             try {
-
-                                                btnAnnullaPin.setEnabled(true);
-                                                btnFirmaPin.setEnabled(true);
-
-                                                switch (ret) {
-                                                    case CKR_TOKEN_NOT_RECOGNIZED:
-                                                        logger.Error(
-                                                                "Abilitazione CIE - CIE non presente sul lettore");
-                                                        JOptionPane.showMessageDialog(
-                                                                MainFrame.this.getContentPane(),
-                                                                "CIE non presente sul lettore",
-                                                                "Abilitazione CIE",
-                                                                JOptionPane.ERROR_MESSAGE);
-                                                        showFirmaPin();
-                                                        break;
-
-                                                    case CKR_TOKEN_NOT_PRESENT:
-                                                        logger.Error(
-                                                                "Abilitazione CIE - CIE non presente sul lettore");
-                                                        JOptionPane.showMessageDialog(
-                                                                MainFrame.this.getContentPane(),
-                                                                "CIE non presente sul lettore",
-                                                                "Abilitazione CIE",
-                                                                JOptionPane.ERROR_MESSAGE);
-                                                        showFirmaPin();
-                                                        break;
-
-                                                    case CKR_PIN_INCORRECT:
-                                                        logger.Error(
-                                                                String.format(
-                                                                        "Il PIN digitato è errato. rimangono %d tentativi",
-                                                                        attempts[0]));
-                                                        JOptionPane.showMessageDialog(
-                                                                MainFrame.this.getContentPane(),
-                                                                String.format(
-                                                                        "Il PIN digitato è errato. rimangono %d tentativi",
-                                                                        attempts[0]),
-                                                                "PIN non corretto",
-                                                                JOptionPane.ERROR_MESSAGE);
-                                                        showFirmaPin();
-                                                        break;
-
-                                                    case CKR_PIN_LOCKED:
-                                                        logger.Error("Carta bloccata");
-                                                        JOptionPane.showMessageDialog(
-                                                                MainFrame.this.getContentPane(),
-                                                                "Munisciti del codice PUK e utilizza la funzione di sblocco carta"
-                                                                        + " per abilitarla",
-                                                                "Carta bloccata",
-                                                                JOptionPane.ERROR_MESSAGE);
-                                                        showFirmaPin();
-                                                        break;
-
-                                                    case CKR_GENERAL_ERROR:
-                                                        logger.Error(
-                                                                "Errore inaspettato durante la comunicazione con la smart card");
-                                                        JOptionPane.showMessageDialog(
-                                                                MainFrame.this.getContentPane(),
-                                                                "Errore inaspettato durante la comunicazione con la smart card",
-                                                                "Errore inaspettato",
-                                                                JOptionPane.ERROR_MESSAGE);
-                                                        showFirmaPin();
-                                                        break;
-
-                                                    case CARD_PAN_MISMATCH:
-                                                        logger.Error(
-                                                                "CIE selezionata diversa da quella presente sul lettore");
-                                                        JOptionPane.showMessageDialog(
-                                                                MainFrame.this.getContentPane(),
-                                                                "CIE selezionata diversa da quella presente sul lettore",
-                                                                "CIE non corrispondente",
-                                                                JOptionPane.ERROR_MESSAGE);
-                                                        showFirmaPin();
-                                                        break;
-                                                }
-
+                                                progressSignPIN.setValue(progress);
                                             } catch (Exception e) {
                                                 e.printStackTrace();
                                             }
                                         }
                                     });
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
                         }
-                    }
-                });
-    }
+                    };
+            Middleware.SignCompletedCallBack signCompletedCallBack =
+                    new Middleware.SignCompletedCallBack() {
+                        @Override
+                        public void invoke(int retValue) {
+                            System.out.println("Sign Completed!!");
+                            logger.Info("Firma completata");
 
-    private void showFirmaPin() {
-        logger.Info("Inizia - showFirmaPin()");
-        progressFirmaPin.setVisible(false);
-        lblProgressFirmaPin.setText("Inserisci le ultime 4 cifre del pin");
+                            if (retValue == 0) {
+                                logger.Info("File firmato con successo");
+                                lblSignatureResult.setText("File firmato con successo");
+                                imgSignatureResult.setIcon(
+                                        new ImageIcon(
+                                                MainFrame.class.getResource(
+                                                        "/it/ipzs/cieid/res/Firma/check.png")));
+                            } else {
+                                logger.Error("Si è verificato un errore durante la firma");
+                                lblSignatureResult.setText(
+                                        "Si è verificato un errore durante la firma");
+                                imgSignatureResult.setIcon(
+                                        new ImageIcon(
+                                                MainFrame.class.getResource(
+                                                        "/it/ipzs/cieid/res/Firma/cross.png")));
+                            }
 
-        for (int i = 0; i < passwordSignFields.length; i++) {
-            JPasswordField field = passwordSignFields[i];
+                            lblSignatureResult.setVisible(true);
+                            imgSignatureResult.setVisible(true);
+                            progressSignPIN.setVisible(false);
+                            btnSignCompleted.setVisible(true);
+                            btnUndoPINTyping.setVisible(false);
+                            btnSignInPINTypingScreen.setVisible(false);
+                            lblProgressSignPIN.setVisible(false);
 
-            field.setVisible(true);
+                            if (shouldSignWithoutPairing) {
+                                removeCIE(signingCIEPAN, "");
+                                signingCIEPAN = "";
+
+                                shouldSignWithoutPairing = false;
+                            }
+                        }
+                    };
+
+            final int ret;
+
+            if (signOperation == SignOp.PADES) {
+                if (cbGraphicSig.isSelected()) {
+                    float infos[] = preview.signImageInfos();
+                    String signImagePath = getSignImagePath(selectedCIE.getSerialNumber());
+                    int pageNumber = preview.getSelectedPage();
+                    String pan = selectedCIE.getPan();
+                    ret =
+                            Middleware.INSTANCE.firmaConCIE(
+                                    filePath,
+                                    "pdf",
+                                    pinfin,
+                                    pan,
+                                    pageNumber,
+                                    infos[0],
+                                    infos[1],
+                                    infos[2],
+                                    infos[3],
+                                    signImagePath,
+                                    outFilePath,
+                                    progressCallBack,
+                                    signCompletedCallBack);
+                } else {
+                    ret =
+                            Middleware.INSTANCE.firmaConCIE(
+                                    filePath,
+                                    "pdf",
+                                    pinfin,
+                                    selectedCIE.getPan(),
+                                    0,
+                                    0,
+                                    0,
+                                    0,
+                                    0,
+                                    null,
+                                    outFilePath,
+                                    progressCallBack,
+                                    signCompletedCallBack);
+                }
+            } else {
+                ret =
+                        Middleware.INSTANCE.firmaConCIE(
+                                filePath,
+                                "p7m",
+                                pinfin,
+                                selectedCIE.getPan(),
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                null,
+                                outFilePath,
+                                progressCallBack,
+                                signCompletedCallBack);
+            }
+
+            EventQueue.invokeLater(
+                    new Runnable() {
+                        public void run() {
+                            try {
+                                btnUndoPINTyping.setEnabled(true);
+                                btnSignInPINTypingScreen.setEnabled(true);
+
+                                switch (ret) {
+                                    case CKR_TOKEN_NOT_RECOGNIZED:
+                                        logger.Error(
+                                                "Abilitazione CIE - CIE non presente sul lettore");
+                                        JOptionPane.showMessageDialog(
+                                                MainFrame.this.getContentPane(),
+                                                "CIE non presente sul lettore",
+                                                "Abilitazione CIE",
+                                                JOptionPane.ERROR_MESSAGE);
+                                        showSigningPINInputFields();
+                                        break;
+
+                                    case CKR_TOKEN_NOT_PRESENT:
+                                        logger.Error(
+                                                "Abilitazione CIE - CIE non presente sul lettore");
+                                        JOptionPane.showMessageDialog(
+                                                MainFrame.this.getContentPane(),
+                                                "CIE non presente sul lettore",
+                                                "Abilitazione CIE",
+                                                JOptionPane.ERROR_MESSAGE);
+                                        showSigningPINInputFields();
+                                        break;
+
+                                    case CKR_PIN_INCORRECT:
+                                        logger.Error(
+                                                String.format(
+                                                        "Il PIN digitato è errato. Rimangono %d tentativi",
+                                                        attempts[0]));
+                                        JOptionPane.showMessageDialog(
+                                                MainFrame.this.getContentPane(),
+                                                String.format(
+                                                        "Il PIN digitato è errato. Rimangono %d tentativi",
+                                                        attempts[0]),
+                                                "PIN non corretto",
+                                                JOptionPane.ERROR_MESSAGE);
+                                        showSigningPINInputFields();
+                                        break;
+
+                                    case CKR_PIN_LOCKED:
+                                        logger.Error("Carta bloccata");
+                                        JOptionPane.showMessageDialog(
+                                                MainFrame.this.getContentPane(),
+                                                "Munisciti del codice PUK e utilizza la funzione di sblocco carta per abilitarla",
+                                                "Carta bloccata",
+                                                JOptionPane.ERROR_MESSAGE);
+                                        showSigningPINInputFields();
+                                        break;
+
+                                    case CKR_GENERAL_ERROR:
+                                        logger.Error(
+                                                "Errore inaspettato durante la comunicazione con la smart card");
+                                        JOptionPane.showMessageDialog(
+                                                MainFrame.this.getContentPane(),
+                                                "Errore inaspettato durante la comunicazione con la smart card",
+                                                "Errore inaspettato",
+                                                JOptionPane.ERROR_MESSAGE);
+                                        showSigningPINInputFields();
+                                        break;
+
+                                    case CARD_PAN_MISMATCH:
+                                        logger.Error(
+                                                "CIE selezionata diversa da quella presente sul lettore");
+                                        JOptionPane.showMessageDialog(
+                                                MainFrame.this.getContentPane(),
+                                                "CIE selezionata diversa da quella presente sul lettore",
+                                                "CIE non corrispondente",
+                                                JOptionPane.ERROR_MESSAGE);
+                                        showSigningPINInputFields();
+                                        break;
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
-    private void abbinaCIE() {
-        logger.Info("Inizia - abbinaCIE()");
+    private void showSigningPINInputFields() {
+        logger.Info("Inizia - showSigningPINInputFields()");
+        progressSignPIN.setVisible(false);
+        int PINStartPos = 197, spacing = 32, index = 1;
+
+        if (shouldSignWithoutPairing) {
+            passwordSignFields[0] = passwordField_8;
+            passwordSignFields[0].setLocation(
+                    PINStartPos - spacing, passwordField_8.getLocation().y);
+            passwordSignFields[1] = passwordField_9;
+            passwordSignFields[1].setLocation(
+                    passwordSignFields[0].getLocation().x + (index++ * spacing),
+                    passwordField_9.getLocation().y);
+            passwordSignFields[2] = passwordField_10;
+            passwordSignFields[2].setLocation(
+                    passwordSignFields[0].getLocation().x + (index++ * spacing),
+                    passwordField_10.getLocation().y);
+            passwordSignFields[3] = passwordField_11;
+            passwordSignFields[3].setLocation(
+                    passwordSignFields[0].getLocation().x + (index++ * spacing),
+                    passwordField_11.getLocation().y);
+
+            passwordSignFields[4] = passwordField_12;
+            passwordSignFields[4].setLocation(
+                    passwordSignFields[0].getLocation().x + (index++ * spacing),
+                    passwordField_12.getLocation().y);
+            passwordSignFields[5] = passwordField_13;
+            passwordSignFields[5].setLocation(
+                    passwordSignFields[0].getLocation().x + (index++ * spacing),
+                    passwordField_13.getLocation().y);
+            passwordSignFields[6] = passwordField_14;
+            passwordSignFields[6].setLocation(
+                    passwordSignFields[0].getLocation().x + (index++ * spacing),
+                    passwordField_14.getLocation().y);
+            passwordSignFields[7] = passwordField_15;
+            passwordSignFields[7].setLocation(
+                    passwordSignFields[0].getLocation().x + (index++ * spacing),
+                    passwordField_15.getLocation().y);
+        } else {
+            passwordSignFields[0] = passwordField_8;
+            passwordSignFields[0].setLocation(PINStartPos, passwordField_8.getLocation().y);
+            passwordSignFields[1] = passwordField_9;
+            passwordSignFields[1].setLocation(
+                    passwordSignFields[0].getLocation().x + (index++ * spacing),
+                    passwordField_9.getLocation().y);
+            passwordSignFields[2] = passwordField_10;
+            passwordSignFields[2].setLocation(
+                    passwordSignFields[0].getLocation().x + (index++ * spacing),
+                    passwordField_10.getLocation().y);
+            passwordSignFields[3] = passwordField_11;
+            passwordSignFields[3].setLocation(
+                    passwordSignFields[0].getLocation().x + (index++ * spacing),
+                    passwordField_11.getLocation().y);
+        }
+
+        lblProgressSignPIN.setVisible(true);
+        lblProgressSignPIN.setText(
+                "Inserisci le "
+                        + ((shouldSignWithoutPairing) ? "8" : "ultime 4")
+                        + " cifre del PIN");
+
+        for (int i = 0; i < passwordSignFields.length; i++) {
+            if (passwordSignFields[i] != null) {
+                JPasswordField field = passwordSignFields[i];
+                if (!shouldSignWithoutPairing && i > 3) field.setVisible(false);
+                else field.setVisible(true);
+            }
+        }
+    }
+
+    private void pairCIE() {
+        logger.Info("Inizia - pairCIE()");
         String pin = "";
         int i;
         for (i = 0; i < passwordFields.length; i++) {
@@ -3643,14 +3793,12 @@ public class MainFrame extends JFrame {
             return;
         }
 
-        for (i = 1; i < 9; i++) {
-            for (i = 0; i < passwordFields.length; i++) {
-                JPasswordField field = passwordFields[i];
-                field.setText("");
-            }
+        for (i = 0; i < passwordFields.length; i++) {
+            JPasswordField field = passwordFields[i];
+            field.setText("");
         }
 
-        btnAbbina.setEnabled(false);
+        btnPair.setEnabled(false);
         tabbedPane.setSelectedIndex(1);
 
         final String pinfin = pin;
@@ -3660,173 +3808,148 @@ public class MainFrame extends JFrame {
 
                     @Override
                     public void run() {
-                        // TODO Auto-generated method stub
+                        pairCIEMWCall(pinfin);
+                    }
+                });
+    }
 
-                        try {
-                            final int[] attempts = new int[1];
-
-                            Middleware.ProgressCallBack progressCallBack =
-                                    new Middleware.ProgressCallBack() {
-
-                                        @Override
-                                        public void invoke(
-                                                final int progress, final String message) {
-                                            EventQueue.invokeLater(
-                                                    new Runnable() {
-                                                        public void run() {
-                                                            try {
-                                                                progressBar.setValue(progress);
-                                                                lblProgress.setText(message);
-                                                            } catch (Exception e) {
-                                                                e.printStackTrace();
-                                                            }
-                                                        }
-                                                    });
-                                        }
-                                    };
-
-                            Middleware.CompletedCallBack completedCallBack =
-                                    new Middleware.CompletedCallBack() {
-
-                                        @Override
-                                        public void invoke(
-                                                String pan, String cardholder, String ef_seriale) {
-                                            // TODO Auto-generated method stub
-                                            /*
-                                             * MainFrame.this.serialNumber = pan;
-                                             * MainFrame.this.cardHolder = cardholder;
-                                             * MainFrame.this.ef_seriale = ef_seriale;
-                                             */
-
-                                            String signPath = getSignImagePath(ef_seriale);
-                                            drawText(cardholder, signPath);
-
-                                            System.out.println(
-                                                    "Pan: " + pan + "ef seriale " + ef_seriale);
-                                            Cie newCie = new Cie(pan, cardholder, ef_seriale);
-                                            cieDictionary.put(pan, newCie);
-                                        }
-                                    };
-
-                            final int ret =
-                                    Middleware.INSTANCE.AbilitaCIE(
-                                            null,
-                                            pinfin,
-                                            attempts,
-                                            progressCallBack,
-                                            completedCallBack);
-
+    private void pairCIEMWCall(String PIN) {
+        try {
+            final int[] attempts = new int[1];
+            Middleware.ProgressCallBack progressCallBack =
+                    new Middleware.ProgressCallBack() {
+                        @Override
+                        public void invoke(final int progress, final String message) {
                             EventQueue.invokeLater(
                                     new Runnable() {
                                         public void run() {
                                             try {
-                                                btnAbbina.setEnabled(true);
-
-                                                switch (ret) {
-                                                    case CKR_TOKEN_NOT_RECOGNIZED:
-                                                        logger.Error(
-                                                                "CIE non presente sul lettore");
-                                                        JOptionPane.showMessageDialog(
-                                                                MainFrame.this.getContentPane(),
-                                                                "CIE non presente sul lettore",
-                                                                "Abilitazione CIE",
-                                                                JOptionPane.ERROR_MESSAGE);
-                                                        selectHome();
-                                                        // [self showHomeFirstPage];
-                                                        break;
-
-                                                    case CKR_TOKEN_NOT_PRESENT:
-                                                        logger.Error(
-                                                                "CIE non presente sul lettore");
-                                                        JOptionPane.showMessageDialog(
-                                                                MainFrame.this.getContentPane(),
-                                                                "CIE non presente sul lettore",
-                                                                "Abilitazione CIE",
-                                                                JOptionPane.ERROR_MESSAGE);
-                                                        selectHome();
-                                                        break;
-
-                                                    case CKR_PIN_INCORRECT:
-                                                        logger.Error("PIN non corretto");
-                                                        JOptionPane.showMessageDialog(
-                                                                MainFrame.this.getContentPane(),
-                                                                String.format(
-                                                                        "Il PIN digitato è errato."),
-                                                                "PIN non corretto",
-                                                                JOptionPane.ERROR_MESSAGE);
-                                                        selectHome();
-                                                        break;
-
-                                                    case CKR_PIN_LOCKED:
-                                                        logger.Error("Carta bloccata");
-                                                        JOptionPane.showMessageDialog(
-                                                                MainFrame.this.getContentPane(),
-                                                                "Munisciti del codice PUK e utilizza la funzione di sblocco carta"
-                                                                        + " per abilitarla",
-                                                                "Carta bloccata",
-                                                                JOptionPane.ERROR_MESSAGE);
-                                                        selectHome();
-                                                        break;
-
-                                                    case CKR_GENERAL_ERROR:
-                                                        logger.Error(
-                                                                "Errore inaspettato durante la comunicazione con la smart card");
-                                                        JOptionPane.showMessageDialog(
-                                                                MainFrame.this.getContentPane(),
-                                                                "Errore inaspettato durante la comunicazione con la smart card",
-                                                                "Errore inaspettato",
-                                                                JOptionPane.ERROR_MESSAGE);
-                                                        selectHome();
-                                                        break;
-
-                                                    case CKR_OK:
-                                                        logger.Info("CIE abilitata con successo");
-                                                        JOptionPane.showMessageDialog(
-                                                                MainFrame.this.getContentPane(),
-                                                                "L'abilitazione della CIE è avvenuta con successo",
-                                                                "CIE abilitata",
-                                                                JOptionPane.INFORMATION_MESSAGE);
-
-                                                        Gson gson = new Gson();
-                                                        String serialDictionary =
-                                                                gson.toJson(cieDictionary);
-                                                        Utils.setProperty(
-                                                                "cieDictionary", serialDictionary);
-
-                                                        cieCarousel.configureCards(cieDictionary);
-
-                                                        selectCardholder();
-                                                        break;
-                                                    case CARD_ALREADY_ENABLED:
-                                                        logger.Error(
-                                                                "Carta già abilitata, abbinamento impossibile");
-                                                        JOptionPane.showMessageDialog(
-                                                                MainFrame.this.getContentPane(),
-                                                                "Carta già abilitata",
-                                                                "Impossibile abbinare la carta",
-                                                                JOptionPane.ERROR_MESSAGE);
-                                                        selectHome();
-                                                        break;
+                                                if (!shouldSignWithoutPairing) {
+                                                    progressBar.setValue(progress);
+                                                    lblProgress.setText(message);
                                                 }
-
                                             } catch (Exception e) {
                                                 e.printStackTrace();
                                             }
                                         }
                                     });
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
                         }
-                    }
-                });
+                    };
+            Middleware.CompletedCallBack completedCallBack =
+                    new Middleware.CompletedCallBack() {
+                        @Override
+                        public void invoke(String pan, String cardholder, String ef_seriale) {
+                            String signPath = getSignImagePath(ef_seriale);
+                            drawText(cardholder, signPath);
+                            System.out.println("Pan: " + pan + "ef seriale " + ef_seriale);
+                            Cie newCie = new Cie(pan, cardholder, ef_seriale);
+                            cieDictionary.put(pan, newCie);
+                            signingCIEPAN = pan;
+                        }
+                    };
+            final int ret =
+                    Middleware.INSTANCE.AbilitaCIE(
+                            null, PIN, attempts, progressCallBack, completedCallBack);
+            EventQueue.invokeLater(
+                    new Runnable() {
+                        public void run() {
+                            try {
+                                if (!shouldSignWithoutPairing) btnPair.setEnabled(true);
+
+                                switch (ret) {
+                                    case CKR_TOKEN_NOT_RECOGNIZED:
+                                        logger.Error("CIE non presente sul lettore");
+                                        JOptionPane.showMessageDialog(
+                                                MainFrame.this.getContentPane(),
+                                                "CIE non presente sul lettore",
+                                                "Abilitazione CIE",
+                                                JOptionPane.ERROR_MESSAGE);
+                                        selectHome();
+                                        break;
+
+                                    case CKR_TOKEN_NOT_PRESENT:
+                                        logger.Error("CIE non presente sul lettore");
+                                        JOptionPane.showMessageDialog(
+                                                MainFrame.this.getContentPane(),
+                                                "CIE non presente sul lettore",
+                                                "Abilitazione CIE",
+                                                JOptionPane.ERROR_MESSAGE);
+                                        selectHome();
+                                        break;
+
+                                    case CKR_PIN_INCORRECT:
+                                        logger.Error("PIN non corretto");
+                                        JOptionPane.showMessageDialog(
+                                                MainFrame.this.getContentPane(),
+                                                String.format("Il PIN digitato è errato."),
+                                                "PIN non corretto",
+                                                JOptionPane.ERROR_MESSAGE);
+                                        selectHome();
+                                        break;
+
+                                    case CKR_PIN_LOCKED:
+                                        logger.Error("Carta bloccata");
+                                        JOptionPane.showMessageDialog(
+                                                MainFrame.this.getContentPane(),
+                                                "Munisciti del codice PUK e utilizza la funzione di sblocco carta per abilitarla",
+                                                "Carta bloccata",
+                                                JOptionPane.ERROR_MESSAGE);
+                                        selectHome();
+                                        break;
+
+                                    case CKR_GENERAL_ERROR:
+                                        logger.Error(
+                                                "Errore inaspettato durante la comunicazione con la smart card");
+                                        JOptionPane.showMessageDialog(
+                                                MainFrame.this.getContentPane(),
+                                                "Errore inaspettato durante la comunicazione con la smart card",
+                                                "Errore inaspettato",
+                                                JOptionPane.ERROR_MESSAGE);
+                                        selectHome();
+                                        break;
+
+                                    case CKR_OK:
+                                        logger.Info("CIE abilitata con successo");
+
+                                        Gson gson = new Gson();
+                                        String serialDictionary = gson.toJson(cieDictionary);
+                                        Utils.setProperty("cieDictionary", serialDictionary);
+                                        cieCarousel.configureCards(cieDictionary);
+
+                                        JOptionPane.showMessageDialog(
+                                                MainFrame.this.getContentPane(),
+                                                "L'abilitazione della CIE è avvenuta con successo",
+                                                "CIE abilitata",
+                                                JOptionPane.INFORMATION_MESSAGE);
+                                        selectCardholder();
+                                        break;
+
+                                    case CARD_ALREADY_ENABLED:
+                                        logger.Error(
+                                                "Carta già abilitata, abbinamento impossibile");
+                                        JOptionPane.showMessageDialog(
+                                                MainFrame.this.getContentPane(),
+                                                "Carta già abilitata",
+                                                "Impossibile abbinare la carta",
+                                                JOptionPane.ERROR_MESSAGE);
+                                        selectHome();
+                                        break;
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
-    private void cambiaPIN() {
-        logger.Info("Inizia - cambiaPIN()");
-        final String pin = new String(oldpin.getPassword());
-        final String pin1 = new String(newpin1.getPassword());
-        final String pin2 = new String(newpin2.getPassword());
-
+    private void changePIN() {
+        logger.Info("Inizia - changePIN()");
+        final String pin = new String(oldPIN.getPassword());
+        final String pin1 = new String(newPIN.getPassword());
+        final String pin2 = new String(repeatNewPIN.getPassword());
         int i;
 
         if (pin.length() != 8) {
@@ -3947,11 +4070,10 @@ public class MainFrame extends JFrame {
             return;
         }
 
-        oldpin.setText("");
-        newpin1.setText("");
-        newpin2.setText("");
-
-        btnDoCambiaPin.setEnabled(false);
+        oldPIN.setText("");
+        newPIN.setText("");
+        repeatNewPIN.setText("");
+        btnPerformChangePIN.setEnabled(false);
         tabbedPane.setSelectedIndex(4);
 
         final int[] attempts = new int[1];
@@ -3988,11 +4110,11 @@ public class MainFrame extends JFrame {
                         EventQueue.invokeLater(
                                 new Runnable() {
                                     public void run() {
-                                        btnDoCambiaPin.setEnabled(true);
+                                        btnPerformChangePIN.setEnabled(true);
 
                                         switch (ret) {
                                             case CKR_TOKEN_NOT_RECOGNIZED:
-                                                logger.Error("CIE non presente sul lettore");
+                                                logger.Error("CIE non riconosciuta sul lettore");
                                                 JOptionPane.showMessageDialog(
                                                         MainFrame.this.getContentPane(),
                                                         "CIE non presente sul lettore",
@@ -4019,7 +4141,7 @@ public class MainFrame extends JFrame {
                                                 JOptionPane.showMessageDialog(
                                                         MainFrame.this.getContentPane(),
                                                         String.format(
-                                                                "Il PIN digitato è errato. rimangono %d tentativi",
+                                                                "Il PIN digitato è errato. Rimangono %d tentativi",
                                                                 attempts[0]),
                                                         "PIN non corretto",
                                                         JOptionPane.ERROR_MESSAGE);
@@ -4030,8 +4152,7 @@ public class MainFrame extends JFrame {
                                                 logger.Error("Carta bloccata");
                                                 JOptionPane.showMessageDialog(
                                                         MainFrame.this.getContentPane(),
-                                                        "Munisciti del codice PUK e utilizza la funzione di sblocco carta per"
-                                                                + " abilitarla",
+                                                        "Munisciti del codice PUK e utilizza la funzione di sblocco carta per abilitarla",
                                                         "Carta bloccata",
                                                         JOptionPane.ERROR_MESSAGE);
                                                 tabbedPane.setSelectedIndex(5);
@@ -4068,12 +4189,11 @@ public class MainFrame extends JFrame {
                 });
     }
 
-    private void sbloccaPIN() {
-        logger.Info("Inizia - sbloccaPIN()");
+    private void unlockPIN() {
+        logger.Info("Inizia - unlockPIN()");
         final String puk = new String(puk01.getPassword());
         final String pin1 = new String(pin01.getPassword());
         final String pin2 = new String(pin02.getPassword());
-
         int i;
 
         if (puk.length() != 8) {
@@ -4194,10 +4314,10 @@ public class MainFrame extends JFrame {
             return;
         }
 
-        oldpin.setText("");
-        newpin1.setText("");
-        newpin2.setText("");
-        btnDoCambiaPin.setEnabled(false);
+        oldPIN.setText("");
+        newPIN.setText("");
+        repeatNewPIN.setText("");
+        btnPerformChangePIN.setEnabled(false);
         tabbedPane.setSelectedIndex(6);
         final int[] attempts = new int[1];
         final Middleware.ProgressCallBack progressCallBack =
@@ -4227,7 +4347,7 @@ public class MainFrame extends JFrame {
                         EventQueue.invokeLater(
                                 new Runnable() {
                                     public void run() {
-                                        btnDoCambiaPin.setEnabled(true);
+                                        btnPerformChangePIN.setEnabled(true);
 
                                         switch (ret) {
                                             case CKR_TOKEN_NOT_RECOGNIZED:
@@ -4253,12 +4373,12 @@ public class MainFrame extends JFrame {
                                             case CKR_PIN_INCORRECT:
                                                 logger.Error(
                                                         String.format(
-                                                                "Il PUK digitato è errato. rimangono %d tentativi",
+                                                                "Il PUK digitato è errato. Rimangono %d tentativi",
                                                                 attempts[0]));
                                                 JOptionPane.showMessageDialog(
                                                         MainFrame.this.getContentPane(),
                                                         String.format(
-                                                                "Il PUK digitato è errato. rimangono %d tentativi",
+                                                                "Il PUK digitato è errato. Rimangono %d tentativi",
                                                                 attempts[0]),
                                                         "PUK non corretto",
                                                         JOptionPane.ERROR_MESSAGE);
@@ -4306,19 +4426,21 @@ public class MainFrame extends JFrame {
                 });
     }
 
-    private void disabilitaCIE(String pan, String name) {
-        logger.Info("Inizia - disabilitaCIE()");
+    private void removeCIE(String pan, String name) {
+        logger.Info("Inizia - removeCIE()");
 
-        if (JOptionPane.showConfirmDialog(
-                        this.getContentPane(),
-                        "Stai rimuovendo la Carta di Identità di "
-                                + name
-                                + "\n dal sistema, per utilizzarla nuovamente "
-                                + " dovrai ripetere l'abbinamento",
-                        "Vuoi rimuovere la carta?",
-                        JOptionPane.OK_CANCEL_OPTION)
-                != JOptionPane.YES_OPTION) {
-            return;
+        if (!shouldSignWithoutPairing) {
+            if (JOptionPane.showConfirmDialog(
+                            this.getContentPane(),
+                            "Stai rimuovendo la Carta di Identità di "
+                                    + name
+                                    + "\n dal sistema, per utilizzarla nuovamente "
+                                    + " dovrai ripetere l'abbinamento",
+                            "Vuoi rimuovere la carta?",
+                            JOptionPane.OK_CANCEL_OPTION)
+                    != JOptionPane.YES_OPTION) {
+                return;
+            }
         }
 
         int ret = Middleware.INSTANCE.DisabilitaCIE(pan);
@@ -4326,11 +4448,7 @@ public class MainFrame extends JFrame {
         switch (ret) {
             case CKR_OK:
                 logger.Info("CIE disabilitata con successo");
-                JOptionPane.showMessageDialog(
-                        MainFrame.this.getContentPane(),
-                        "CIE disabilitata con successo",
-                        "CIE disabilitata",
-                        JOptionPane.INFORMATION_MESSAGE);
+
                 Cie cie = cieDictionary.get(pan);
                 String signPath = getSignImagePath(cie.getSerialNumber());
 
@@ -4358,28 +4476,39 @@ public class MainFrame extends JFrame {
                 String stringDictionary = gson.toJson(cieDictionary);
                 Utils.setProperty("cieDictionary", stringDictionary);
 
-                selectHome();
+                if (!shouldSignWithoutPairing) {
+                    JOptionPane.showMessageDialog(
+                            MainFrame.this.getContentPane(),
+                            "CIE disabilitata con successo",
+                            "CIE disabilitata",
+                            JOptionPane.INFORMATION_MESSAGE);
+                    selectHome();
+                }
+
                 break;
             default:
                 logger.Error("Impossibile disabilitare la CIE");
-                JOptionPane.showMessageDialog(
-                        MainFrame.this.getContentPane(),
-                        "Impossibile disabilitare la CIE di " + name,
-                        "CIE non disabilitata",
-                        JOptionPane.ERROR_MESSAGE);
+                if (!shouldSignWithoutPairing)
+                    JOptionPane.showMessageDialog(
+                            MainFrame.this.getContentPane(),
+                            "Impossibile disabilitare la CIE di " + name,
+                            "CIE non disabilitata",
+                            JOptionPane.ERROR_MESSAGE);
                 break;
         }
     }
 
-    private void disabilitaAllCIE(List<Cie> cieList) {
-        logger.Info("Inizia - disabilitaAllCIE()");
+    private void removeAllCIE(List<Cie> cieList) {
+        logger.Info("Inizia - removeAllCIE()");
 
         if (JOptionPane.showConfirmDialog(
                         this.getContentPane(),
-                        "Vuoi disabilitare tutte le Cie attualmente abbinate?",
+                        "Vuoi disabilitare tutte le CIE attualmente abbinate?",
                         "Disabilita CIE",
                         JOptionPane.YES_NO_OPTION)
-                != JOptionPane.YES_OPTION) return;
+                != JOptionPane.YES_OPTION) {
+            return;
+        }
 
         for (int i = 0; i < cieList.size(); i++) {
 
@@ -4436,7 +4565,8 @@ public class MainFrame extends JFrame {
 
     private void configureHomeButtons(Map<String, Cie> cieDictionary) {
         logger.Info("Inizia - configureHomeButtons()");
-        btnSelezionaCIE.setVisible(false);
+        btnSelectCIE.setVisible(false);
+        btnSignWithoutPairing.setVisible(false);
         btnNewButton.setVisible(true);
         btnRemoveSelected.setVisible(true);
 
@@ -4449,16 +4579,18 @@ public class MainFrame extends JFrame {
         }
 
         if (cieDictionary.size() == 0) {
-            btnAnnulla.setVisible(false);
+            btnCancel.setVisible(false);
         } else {
-            btnAnnulla.setVisible(true);
+            btnCancel.setVisible(true);
         }
     }
 
     private void selectHome() {
         logger.Info("Inizia - selectHome()");
-        txtpnCieAbbinataCon.setText("Carta di Identità Elettronica abbinata correttamente");
-        txtpnCieAbbinataCon.setHighlighter(null);
+        shouldSignWithoutPairing = false;
+
+        txtpnCIEPanelsSubtitle.setText("Carta di Identità Elettronica abbinata correttamente");
+        txtpnCIEPanelsSubtitle.setHighlighter(null);
         lblCieId.setText("CIE ID");
 
         if (!Utils.getProperty("serialnumber", "").equals("")) {
@@ -4479,7 +4611,6 @@ public class MainFrame extends JFrame {
             /***********/
 
             cieCarousel.configureCards(cieDictionary);
-            btnFirma.setEnabled(true);
             tabbedPane.setSelectedIndex(2);
 
         } else {
@@ -4503,10 +4634,8 @@ public class MainFrame extends JFrame {
                 Utils.setProperty("cieDictionary", serialDictionary);
 
                 cieCarousel.configureCards(cieDictionary);
-                btnFirma.setEnabled(true);
                 tabbedPane.setSelectedIndex(2);
             } else {
-                btnFirma.setEnabled(false);
                 cieDictionary = new HashMap<String, Cie>();
 
                 tabbedPane.setSelectedIndex(0);
@@ -4562,11 +4691,11 @@ public class MainFrame extends JFrame {
     private void selectUnlock() {
         logger.Info("Inizia - selectUnlock()");
         tabbedPane.setSelectedIndex(5);
-        selectButton(btnSbloccaCarta);
+        selectButton(btnUnlockCard);
     }
 
     /** Logger */
-    public void LoadLogConfigFromFile() {
+    public void loadLogConfigFromFile() {
         boolean writeLogConfigFile = false;
         Path configFilePath = Paths.get(System.getProperty("user.home"), ".CIEPKI", "config");
         try {
@@ -4592,8 +4721,7 @@ public class MainFrame extends JFrame {
                             if (isAppConfigLine) {
                                 System.out.println(
                                         String.format(
-                                                "valore '%s' del livello di log applicazione fuori intervallo - uso"
-                                                        + " default",
+                                                "valore '%s' del livello di log applicazione fuori intervallo - uso default",
                                                 intValue));
 
                             } else {
@@ -4623,13 +4751,13 @@ public class MainFrame extends JFrame {
         }
 
         if (writeLogConfigFile) {
-            SaveLogConfigToFile();
+            saveLogConfigToFile();
         }
         logger.setLevel(logConfig.app);
     }
 
-    private void SaveLogConfigToFile() {
-        logger.Info("Inizia - SaveLogConfigToFile()");
+    private void saveLogConfigToFile() {
+        logger.Info("Inizia - saveLogConfigToFile()");
         Path configFilePath = Paths.get(System.getProperty("user.home"), ".CIEPKI", "config");
         List<String> configList = new ArrayList<String>();
         configList.add(String.format("%s=%s", LOG_CONFIG_PREFIX_LIB, logConfig.lib.ordinal()));
