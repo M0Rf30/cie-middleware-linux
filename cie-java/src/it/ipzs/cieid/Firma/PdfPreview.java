@@ -124,8 +124,8 @@ public class PdfPreview {
         return pdfPageIndex;
     }
 
-    public float[] signImageInfo() {
-        float[] info = new float[4];
+    public float[] signImageInfos() {
+        float[] infos = new float[4];
 
         float x = ((float) signImage.getX() / (float) imgPanel.getWidth());
         float y =
@@ -133,11 +133,11 @@ public class PdfPreview {
         float w = ((float) signImage.getWidth() / (float) imgPanel.getWidth());
         float h = ((float) signImage.getHeight() / (float) imgPanel.getHeight());
 
-        info[0] = x;
-        info[1] = y;
-        info[2] = w;
-        info[3] = h;
+        infos[0] = x;
+        infos[1] = y;
+        infos[2] = w;
+        infos[3] = h;
 
-        return info;
+        return infos;
     }
 }
