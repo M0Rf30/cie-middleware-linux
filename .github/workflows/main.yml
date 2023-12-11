@@ -41,7 +41,7 @@ jobs:
           curl -sL "https://github.com/M0Rf30/cie-middleware-linux/releases/download/podofo-1.4.2/libpodofo-1.4.2.tar.gz" -o libpodofo.tar.gz;
           tar xf libpodofo.tar.gz --directory=libs/lib
 
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.x"
       - run: pip install meson ninja
