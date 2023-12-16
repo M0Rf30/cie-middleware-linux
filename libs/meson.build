@@ -209,7 +209,7 @@ libcie_sign_sdk = static_library(
         xml2_dep,
         zlib_dep,
     ],
-    install: true,
+    install: false,
 )
 
 libcie_pkcs11 = library(
