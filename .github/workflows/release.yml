@@ -25,35 +25,36 @@ jobs:
         run: echo "::set-output name=version::$(cat packages/cie-middleware/PKGBUILD | grep pkgver | cut -d\" -f2)"
         id: version
 
-      - name: ccache
-        uses: hendrikmuhs/ccache-action@v1
-
       - name: Build
         run: |
-          docker run -v $(pwd)/.ccache:/ccache -v $(pwd):/project -e CCACHE_DIR=/ccache packagefoundation/yap-ubuntu-focal:latest build ubuntu-focal packages/deb
-          docker run -v $(pwd)/.ccache:/ccache -v $(pwd):/project -e CCACHE_DIR=/ccache packagefoundation/yap-rocky-8:latest build rocky-8 packages/rpm
+          docker run --entrypoint=bash -v $(pwd):/project m0rf30/yap-ubuntu-focal:latest -c "cd /project; \
+            yap prepare ubuntu-focal; \
+            yap build ubuntu-focal /project/packages/deb; \
+            yap build ubuntu-focal /project/packages"
+          docker run --entrypoint=bash -v $(pwd):/project m0rf30/yap-rocky-8:latest -c "cd /project; \
+            yap prepare rocky-8; \
+            dnf -y install dnf-plugins-core epel-release; \
+            dnf config-manager --set-enabled powertools; \
+            yap build rocky-8 /project/packages"
 
-          mkdir artifacts_ci
-          sudo mv artifacts/*.deb artifacts_ci
-          sudo mv artifacts/*.rpm artifacts_ci
-          for i in $(ls artifacts_ci/); do sha256sum artifacts_ci/$i >> artifacts_ci/SHA256SUMS; done
+          for i in $(ls artifacts/*.deb); do sha256sum $i >> SHA256SUMS; done
+          for i in $(ls artifacts/x86_64/*.rpm); do sha256sum $i >> SHA256SUMS; done
 
       - name: Archive production artifacts
         uses: actions/upload-artifact@v3
         with:
           name: "cie-middleware-${{ steps.version.outputs.version }}"
           path: |
-            artifacts_ci/*.deb
-            artifacts/SHA256SUMS
+            artifacts/*.deb
+            artifacts/x86_64/*.rpm
+            SHA256SUMS
 
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "${{ steps.version.outputs.version }}"
           prerelease: false
           title: "cie-middleware-${{ steps.version.outputs.version }}"
           files: |
-            artifacts_ci/*.deb
-            artifacts_ci/*.rpm
-
-            artifacts_ci/SHA256SUMS
+            artifacts/*.deb
+            artifacts/x86_64/*.rpm
+            SHA256SUMS
