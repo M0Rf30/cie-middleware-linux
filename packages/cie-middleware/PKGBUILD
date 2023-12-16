@@ -4,27 +4,27 @@ pkgrel="1"
 pkgdesc="A fork of Middleware della CIE (Carta di Identità Elettronica) per Linux"
 maintainer="M0Rf30"
 url="https://github.com/italia/cie-middleware-linux"
-arch=("amd64")
-license=("BSD-3")
+arch=("x86_64")
+license=("BSD-3-Clause")
 section="utils"
 priority="optional"
-sources=(
+source=(
   "https://github.com/M0Rf30/cie-middleware-linux/archive/refs/tags/${pkgver}.tar.gz"
   "https://github.com/M0Rf30/cie-middleware-linux/releases/download/podofo-1.4.2/libpodofo-1.4.2.tar.gz"
-  "https://downloads.gradle-dn.com/distributions/gradle-7.4.2-bin.zip"
+  "https://services.gradle.org/distributions/gradle-8.5-bin.zip"
 )
-sources__pacman=(
+source__pacman=(
   "https://github.com/M0Rf30/cie-middleware-linux/archive/refs/tags/${pkgver}.tar.gz"
   "https://github.com/M0Rf30/cie-middleware-linux/releases/download/podofo-1.4.2/libpodofo-1.4.2.tar.gz"
 )
 
-hashsums=(
-  "skip"
+sha256sums=(
+  "SKIP"
   "ef81e439b12aa2ff309b353399c033bd62b027e7bd4cbf649c025226f1de5287"
-  "skip"
+  "SKIP"
 )
-hashsums__pacman=(
-  "skip"
+sha256sums__pacman=(
+  "SKIP"
   "ef81e439b12aa2ff309b353399c033bd62b027e7bd4cbf649c025226f1de5287"
 )
 depends__apt=(
@@ -40,7 +40,6 @@ depends__apt=(
   "pcscd"
 )
 makedepends__apt=(
-  "ccache"
   "g++"
   "libcurl4-openssl-dev"
   "libfontconfig1-dev"
@@ -67,7 +66,6 @@ depends__pacman=(
   "pcsclite"
 )
 makedepends__pacman=(
-  "ccache"
   "crypto++"
   "curl"
   "fontconfig"
@@ -96,7 +94,6 @@ depends__yum=(
   "pcsc-lite"
 )
 makedepends__yum=(
-  "ccache"
   "cryptopp-devel"
   "fontconfig-devel"
   "freetype-devel"
@@ -129,7 +126,7 @@ build__yum() {
     "${srcdir}/${pkgname}-linux-${pkgver}/libs/lib"
 
   cd "${srcdir}/${pkgname}-linux-${pkgver}"
-  ../gradle-7.4.2/bin/gradle -b cie-java/build.gradle standalone
+  ../gradle-8.5/bin/gradle -b cie-java/build.gradle standalone
   meson builddir libs
   meson configure -Dprefix=/usr builddir
   meson compile -C builddir
@@ -142,7 +139,7 @@ build__apt() {
     "${srcdir}/${pkgname}-linux-${pkgver}/libs/lib"
 
   cd "${srcdir}/${pkgname}-linux-${pkgver}"
-  ../gradle-7.4.2/bin/gradle -b cie-java/build.gradle standalone
+  ../gradle-8.5/bin/gradle -b cie-java/build.gradle standalone
 
   meson builddir libs
   meson configure -Dprefix=/usr builddir

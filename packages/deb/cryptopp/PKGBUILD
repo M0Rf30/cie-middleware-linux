@@ -2,15 +2,15 @@ pkgname="cryptopp"
 pkgver="8.6.0"
 pkgrel="1"
 pkgdesc="A free C++ class library of cryptographic schemes"
-arch=("amd64")
+arch=("x86_64")
 maintainer="M0Rf30"
 url="https://www.cryptopp.com/"
 section="libs"
 priority="important"
-sources=(
+source=(
   "https://github.com/weidai11/cryptopp/archive/69bf6b53052b59ccb57ce068ce741988ae087317.tar.gz"
 )
-hashsums=(
+sha256sums=(
   "SKIP"
 )
 
