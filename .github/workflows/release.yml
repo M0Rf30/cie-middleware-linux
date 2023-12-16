@@ -41,7 +41,7 @@ jobs:
           for i in $(ls artifacts/x86_64/); do sha256sum artifacts/x86_64/$i >> artifacts/SHA256SUMS; done
 
       - name: Archive production artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: "cie-middleware-${{ steps.version.outputs.version }}"
           path: |
