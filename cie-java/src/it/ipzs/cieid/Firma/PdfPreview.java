@@ -2,11 +2,12 @@ package it.ipzs.cieid.Firma;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
+import org.apache.pdfbox.Loader;
+import org.apache.pdfbox.io.RandomAccessReadBufferedFile;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.PDFRenderer;
 
@@ -36,10 +37,8 @@ public class PdfPreview {
         imgPanel.add(signImage);
         imgPanel.add(imgLabel);
 
-        File file = new File(filePath);
-
         try {
-            PDDocument document = PDDocument.load(file);
+            PDDocument document = Loader.loadPDF(new RandomAccessReadBufferedFile(filePath));
             pdfNumPages = document.getNumberOfPages();
             System.out.println("Pdf page: " + pdfNumPages);
             PDFRenderer renderer = new PDFRenderer(document);
