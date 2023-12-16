@@ -5,7 +5,7 @@
     "output": "artifacts",
     "Projects": [
         {
-            "name": "../cie-middleware"
+            "name": "cie-middleware"
         }
     ]
 }
