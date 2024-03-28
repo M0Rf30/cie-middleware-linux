@@ -2,7 +2,8 @@
 
 #include <openssl/bn.h>
 
-#include "Util/util.h"
+#include "Util/funccallinfo.h"
+#include "Util/log.h"
 
 extern CLog Log;
 #if (CRYPTOPP_VERSION >= 600) && (__cplusplus >= 201103L)
@@ -15,10 +16,7 @@ typedef unsigned char byte;
 #include <cryptopp/rsa.h>
 #include <cryptopp/secblock.h>
 
-using CryptoPP::DecodingResult;
-using CryptoPP::InvertibleRSAFunction;
 using CryptoPP::PSS;
-using CryptoPP::RSA;
 using CryptoPP::RSASS;
 using CryptoPP::SecByteBlock;
 using CryptoPP::SHA512;

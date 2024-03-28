@@ -2,7 +2,6 @@
 #define _LOGGER_H_
 
 // C++ Header File(s)
-#include <errno.h>
 #include <pthread.h>
 #include <stdint.h>
 
@@ -103,7 +102,6 @@ class Logger {
   std::ofstream m_File;
   std::fstream m_ConfigFile;
   char pbLog[MAX_PATH];
-  char pbConfig[MAX_PATH];
   time_t t_configTime;
   pthread_mutexattr_t m_Attr;
   pthread_mutex_t m_Mutex;

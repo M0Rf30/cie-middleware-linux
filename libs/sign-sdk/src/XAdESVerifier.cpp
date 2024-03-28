@@ -246,13 +246,10 @@ void CXAdESVerifier::parseSignatureNode(xmlXPathContextPtr xpathCtx,
 
   xmlChar* path;
   xmlXPathObjectPtr xpathObj;
-  xmlNodePtr canonicalizationMethodNode;
   xmlNodePtr signatureMethodNode;
-  xmlNodeSetPtr referenceNodeSet;
   xmlNodePtr curNode;
   xmlNodePtr signatureValueNode;
   xmlNodeSetPtr certificateNodeSet;
-  xmlNodePtr qualifyingPropertiesValueNode;
 
   char szPath[BUFFERSIZE];
 
@@ -272,10 +269,6 @@ void CXAdESVerifier::parseSignatureNode(xmlXPathContextPtr xpathCtx,
     // Evaluate xpath expression
     xpathObj = xmlXPathEvalExpression(path, xpathCtx);
     if (xpathObj) {
-      if (xpathObj->nodesetval->nodeNr > 0) {
-        canonicalizationMethodNode = xpathObj->nodesetval->nodeTab[0];
-      }
-
       xmlXPathFreeObject(xpathObj);
     }
 
@@ -312,10 +305,6 @@ void CXAdESVerifier::parseSignatureNode(xmlXPathContextPtr xpathCtx,
     // Evaluate xpath expression
     xpathObj = xmlXPathEvalExpression(path, xpathCtx);
     if (xpathObj) {
-      if (xpathObj->nodesetval->nodeNr > 0) {
-        referenceNodeSet = xpathObj->nodesetval;
-      }
-
       xmlXPathFreeObject(xpathObj);
     }
 
@@ -370,7 +359,6 @@ void CXAdESVerifier::parseSignatureNode(xmlXPathContextPtr xpathCtx,
     if (xpathObj) {
       (*pXAdESDoc->ppSignatures[i]).bCAdES = false;
       if (xpathObj->nodesetval->nodeNr > 0) {
-        qualifyingPropertiesValueNode = xpathObj->nodesetval->nodeTab[0];
         (*pXAdESDoc->ppSignatures[i]).bCAdES = true;
       }
 

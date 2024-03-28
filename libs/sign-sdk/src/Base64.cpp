@@ -35,8 +35,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "Sign/disigonsdk.h"
-
 #define XX 100
 
 /** @var base64_list

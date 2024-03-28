@@ -6,16 +6,13 @@
 
 #include "CSP/FirmaConCIE.h"
 
-#include "Crypto/ASNParser.h"
+#include "CSP/AbilitaCIE.h"
+#include "CSP/IAS.h"
 #include "LOGGER/Logger.h"
 #include "PCSC/PCSC.h"
 #include "PKCS11/PKCS11Functions.h"
-#include "PKCS11/Slot.h"
-#include "Sign/definitions.h"
 #include "Sign/CIESign.h"
 #include "Util/ModuleInfo.h"
-#include "CSP/AbilitaCIE.h"
-#include "CSP/IAS.h"
 
 using namespace CieIDLogger;
 

@@ -13,18 +13,16 @@
 #include "ASN1/TimeStampResponse.h"
 #include "Base64.h"
 #include "CIESigner.h"
-#include "CertStore.h"
 #include "CSP/IAS.h"
+#include "CertStore.h"
 #include "M7MParser.h"
 #include "PdfSignatureGenerator.h"
 #include "PdfVerifier.h"
-#include "RSA/sha2.h"
 #include "SignatureGenerator.h"
 #include "UUCLogger.h"
 #include "UUCProperties.h"
 #include "XAdESGenerator.h"
 #include "XAdESVerifier.h"
-#include "podofo/podofo.h"
 
 DECLARE_LOG;
 

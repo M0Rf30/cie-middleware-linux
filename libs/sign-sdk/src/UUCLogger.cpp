@@ -3,8 +3,6 @@
 #include <stdio.h>
 #include <time.h>
 
-#include <string>
-
 logFunc pfnCrashliticsLog = NULL;
 
 UUCLogger::UUCLogger(void) : m_nLogLevel(1) {}

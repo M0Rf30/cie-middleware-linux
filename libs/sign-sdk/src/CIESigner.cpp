@@ -5,8 +5,6 @@
 #include <string.h>
 
 #include "PKCS11/cryptoki.h"
-
-
 #include "UUCLogger.h"
 USE_LOG;
 #include <openssl/obj_mac.h>

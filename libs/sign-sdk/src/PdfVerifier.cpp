@@ -273,7 +273,7 @@ int PDFVerifier::VerifySignature(const PdfMemDocument *pDoc,
         signature->GetDictionary().GetKey(PdfName("SubFilter"));
     keySubFilter->ToString(subfilter);
 
-    const char *szEntry = strtok((char *)byteRange.c_str(), " []");
+    strtok((char *)byteRange.c_str(), " []");
 
     int len = atoi(strtok(NULL, " []"));
     int start1 = atoi(strtok(NULL, " []"));

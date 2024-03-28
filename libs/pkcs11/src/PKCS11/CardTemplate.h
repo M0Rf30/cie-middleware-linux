@@ -3,9 +3,7 @@
 #include <memory>
 #include <string>
 
-#include "PCSC/Token.h"
 #include "PKCS11/session.h"
-
 
 namespace p11 {
 

@@ -43,12 +43,12 @@
 #include <string.h>
 
 #include "global.h"
-//#include "md2.h"                               /* allow access to others */
-//#include "md4.h"
-//#include "md5.h"
-//#include "shs.h"
+// #include "md2.h"                               /* allow access to others */
+// #include "md4.h"
+// #include "md5.h"
+// #include "shs.h"
 #include "nn.h"
-//#include "des.h"
+// #include "des.h"
 
 #ifdef __cplusplus
 extern "C" {

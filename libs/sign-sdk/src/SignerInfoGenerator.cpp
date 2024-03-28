@@ -17,9 +17,9 @@
 #include "ASN1/ASN1Setof.h"
 #include "ASN1/ASN1UTCTime.h"
 #include "ASN1/AlgorithmIdentifier.h"
+#include "ASN1/Certificate.h"
 #include "ASN1/IssuerAndSerialNumber.h"
 #include "ASN1/SignerInfo.h"
-#include "ASN1/Certificate.h"
 
 CSignerInfoGenerator::CSignerInfoGenerator()
     : m_pIssuer(NULL),

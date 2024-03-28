@@ -17,7 +17,6 @@
 #include "Util/ModuleInfo.h"
 #include "Util/SyncroEvent.h"
 #include "Util/UUCByteArray.h"
-#include "Util/util.h"
 
 using namespace CieIDLogger;
 

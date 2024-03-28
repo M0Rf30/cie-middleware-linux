@@ -13,10 +13,9 @@
 #include "Crypto/SHA1.h"
 #include "Crypto/sha256.h"
 #include "Crypto/sha512.h"
-#include "Util/ModuleInfo.h"
-
-#include "Util/CacheLib.h"
 #include "LOGGER/Logger.h"
+#include "Util/CacheLib.h"
+#include "Util/ModuleInfo.h"
 
 using namespace CieIDLogger;
 
@@ -393,8 +392,8 @@ void IAS::SelectAID_IAS(bool SM) {
         throw scard_error(sw);
     }
   } else if (type == CIE_Type::CIE_Gemalto || type == CIE_Type::CIE_STM ||
-             CIE_Type::CIE_STM2 || CIE_Type::CIE_STM3 ||
-             CIE_Type::CIE_ACTALIS || CIE_Type::CIE_BIT4ID) {
+             type == CIE_Type::CIE_STM2 || type == CIE_Type::CIE_STM3 ||
+             type == CIE_Type::CIE_ACTALIS || type == CIE_Type::CIE_BIT4ID) {
     uint8_t selectIAS[] = {0x00, 0xa4, 0x04, 0x0c};
     if (SM) {
       if ((sw = SendAPDU_SM(VarToByteArray(selectIAS), IAS_AID, resp)) !=

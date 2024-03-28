@@ -5,11 +5,11 @@
 #include <map>
 
 #include "ASN1/DigestInfo.h"
-#include "Util/UUCByteArray.h"
 #include "Base64.h"
 #include "BigIntegerLibrary.h"
 #include "RSA/sha1.h"
 #include "RSA/sha2.h"
+#include "Util/UUCByteArray.h"
 #include "base64-std.h"
 
 #define DIGEST_METHOD_SHA1 "http://www.w3.org/2000/09/xmldsig#sha1"
@@ -26,7 +26,7 @@
 #define REFTYPE_URI 2
 
 typedef unsigned long uint32;
-char* Bin128ToDec(const uint32 N[5]);
+char* Bin128ToDec(const uint32 N[4]);
 
 void printBigInt(const BYTE* buffer, int buflen, string& sDecimalValue);
 
@@ -54,8 +54,6 @@ static void extractNs(xmlDocPtr pDoc, xmlNode* a_node,
       if (nsPtr) {
         pNsPtrMap->insert(
             pair<const xmlChar*, xmlNsPtr*>(nsPtr[0]->href, nsPtr));
-        // string key((char*)nsPtr[0]->href);
-        // pNsPtrMap[nsPtr[0]->href] = nsPtr;
       }
     }
 

@@ -6,7 +6,6 @@
 
 #include "CSP/ATR.h"
 #include "LOGGER/Logger.h"
-#include "PCSC/Token.h"
 #include "PKCS11/CardTemplate.h"
 #include "PKCS11Functions.h"
 #include "Util/SyncroEvent.h"

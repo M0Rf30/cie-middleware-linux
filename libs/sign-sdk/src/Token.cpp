@@ -2,9 +2,7 @@
 
 #include <vector>
 
-#include "util/tlv.h"
 #include "PCSC/APDU.h"
-#include "stdafx.h"
 
 static char *szCompiledFile = __FILE__;
 

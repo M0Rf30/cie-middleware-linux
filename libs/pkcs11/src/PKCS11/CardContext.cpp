@@ -1,7 +1,8 @@
 #include "PKCS11/CardContext.h"
 
-#include "Util/util.h"
 #include <PCSC/wintypes.h>
+
+#include "Util/util.h"
 
 extern CLog Log;
 

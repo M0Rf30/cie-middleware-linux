@@ -63,7 +63,7 @@
 
 /* ENC is the basic 1 character encoding function to make a char printing */
 
-#define ENC(c) ((int)bintoasc[((c)&077)])
+#define ENC(c) ((int)bintoasc[((c) & 077)])
 #define PAD '='
 
 /* Index this array by a 6 bit value to get the character corresponding
@@ -95,12 +95,8 @@ static void encode PROTO_LIST((unsigned char[4], unsigned char[3], int));
 /* This will always returns 0.  It is an int function for future compatibility,
          done to provide compatibility with RSAREF(tm). */
 
-int R_EncodePEMBlock(encodedBlock, encodedBlockLen, block, blockLen)
-unsigned char *encodedBlock;   /* encoded block */
-unsigned int *encodedBlockLen; /* length of encoded block */
-unsigned char *block;          /* block */
-unsigned int blockLen;         /* length of block */
-{
+int R_EncodePEMBlock(unsigned char *encodedBlock, unsigned int *encodedBlockLen,
+                     unsigned char *block, unsigned int blockLen) {
   unsigned int i, lastLen;
 
   if (blockLen < 1) {
@@ -120,12 +116,8 @@ unsigned int blockLen;         /* length of block */
   return (ID_OK);
 }
 
-int R_DecodePEMBlock(outbuf, outlength, inbuf, inlength)
-unsigned char *outbuf;   /* block */
-unsigned int *outlength; /* length of block */
-unsigned char *inbuf;    /* encoded block */
-unsigned int inlength;   /* length of encoded block */
-{
+int R_DecodePEMBlock(unsigned char *outbuf, unsigned int *outlength,
+                     unsigned char *inbuf, unsigned int inlength) {
   unsigned char *bp;
   int length;
   unsigned int c1, c2, c3, c4;
@@ -181,10 +173,7 @@ unsigned int inlength;   /* length of encoded block */
         If fewer than 3 are present, the 1 or two extras must be zeros.
 */
 
-static void encode(f, p, count) unsigned char *f; /* output buffer */
-unsigned char *p;                                 /* input buffer */
-int count;                                        /* count */
-{
+static void encode(unsigned char *f, unsigned char *p, int count) {
   int c1, c2, c3, c4;
 
   c1 = *p >> 2;
