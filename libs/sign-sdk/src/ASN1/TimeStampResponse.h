@@ -7,24 +7,24 @@
  *
  */
 
-#include "PKIStatusInfo.h"
 #include "ASN1/TimeStampToken.h"
+#include "PKIStatusInfo.h"
 
 class CTimeStampResponse : public CASN1Sequence {
-  public:
-    CTimeStampResponse(UUCBufferedReader& reader);
+ public:
+  CTimeStampResponse(UUCBufferedReader& reader);
 
-    CTimeStampResponse(const CASN1Object& timeStampresponse);
+  CTimeStampResponse(const CASN1Object& timeStampresponse);
 
-    CTimeStampResponse(const BYTE* content, int length);
+  CTimeStampResponse(const BYTE* content, int length);
 
-    virtual ~CTimeStampResponse();
+  virtual ~CTimeStampResponse();
 
-    CTimeStampToken getTimeStampToken();
+  CTimeStampToken getTimeStampToken();
 
-    CPKIStatusInfo getPKIStatusInfo();
+  CPKIStatusInfo getPKIStatusInfo();
 
-    int verify(const char* szDateTime);
+  int verify(const char* szDateTime);
 
-    int verify();
+  int verify();
 };

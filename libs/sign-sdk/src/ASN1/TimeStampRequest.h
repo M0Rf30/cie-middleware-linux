@@ -10,13 +10,13 @@
 #include "ASN1/TimeStampToken.h"
 
 class CTimeStampRequest : public CASN1Sequence {
-  public:
-    CTimeStampRequest(UUCBufferedReader& reader);
+ public:
+  CTimeStampRequest(UUCBufferedReader& reader);
 
-    CTimeStampRequest(const CASN1Object& timeStampToken);
+  CTimeStampRequest(const CASN1Object& timeStampToken);
 
-    CTimeStampRequest(const char* szHashAlgoOID, UUCByteArray& digest,
-                      const char* szPolicyOID, CASN1Integer& nounce);
+  CTimeStampRequest(const char* szHashAlgoOID, UUCByteArray& digest,
+                    const char* szPolicyOID, CASN1Integer& nounce);
 
-    virtual ~CTimeStampRequest();
+  virtual ~CTimeStampRequest();
 };

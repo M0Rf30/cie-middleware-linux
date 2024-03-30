@@ -1,7 +1,7 @@
 #pragma once
 #include "ASN1/ASN1Integer.h"
-#include "ASN1Object.h"
 #include "ASN1/ASN1Sequence.h"
+#include "ASN1Object.h"
 
 // RSAPrivateKey :: = SEQUENCE{
 //	version           Version,

@@ -1,8 +1,8 @@
 #pragma once
-#include "PKCS11/CardTemplate.h"
-#include "PKCS11/Slot.h"
 #include <PCSC/wintypes.h>
 
+#include "PKCS11/CardTemplate.h"
+#include "PKCS11/Slot.h"
 
 using namespace p11;
 

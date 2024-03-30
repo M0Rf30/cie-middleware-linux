@@ -18,6 +18,7 @@
         Revision 1.00 - JSAK.
 */
 
+#include "RSA/rsaeuro.h"
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -25,15 +26,12 @@ extern "C" {
 // int RSAPublicEncrypt PROTO_LIST ((unsigned char *, unsigned int *, unsigned
 // char *, unsigned int,
 //     R_RSA_PUBLIC_KEY *, R_RANDOM_STRUCT *));
-int RSAPrivateEncrypt PROTO_LIST((unsigned char *, unsigned int *,
-                                  unsigned char *, unsigned int,
-                                  R_RSA_PRIVATE_KEY *));
-int RSAPublicDecrypt PROTO_LIST((unsigned char *, unsigned int *,
-                                 unsigned char *, unsigned int,
-                                 R_RSA_PUBLIC_KEY *));
-int RSAPrivateDecrypt PROTO_LIST((unsigned char *, unsigned int *,
-                                  unsigned char *, unsigned int,
-                                  R_RSA_PRIVATE_KEY *));
+int RSAPrivateEncrypt(unsigned char *, unsigned int *, unsigned char *,
+                      unsigned int, R_RSA_PRIVATE_KEY *);
+int RSAPublicDecrypt(unsigned char *, unsigned int *, unsigned char *,
+                     unsigned int, R_RSA_PUBLIC_KEY *);
+int RSAPrivateDecrypt(unsigned char *, unsigned int *, unsigned char *,
+                      unsigned int, R_RSA_PRIVATE_KEY *);
 
 #ifdef __cplusplus
 }

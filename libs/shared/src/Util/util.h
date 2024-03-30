@@ -2,8 +2,8 @@
 
 #include <string>
 
-#include "Util/Array.h"
 #include "Sign/definitions.h"
+#include "Util/Array.h"
 #include "Util/log.h"
 
 #define ERR_BAD_POINTER "Puntatore non valido"

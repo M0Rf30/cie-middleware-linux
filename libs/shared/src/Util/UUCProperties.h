@@ -24,8 +24,8 @@
 
 #include <stdio.h>
 
-#include "Util/UUCByteArray.h"
 #include "UUCStringTable.h"
+#include "Util/UUCByteArray.h"
 
 class UUCProperties {
  public:

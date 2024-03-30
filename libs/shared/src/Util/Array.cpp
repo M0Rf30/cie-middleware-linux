@@ -1,3 +1,5 @@
+#include "Util/Array.h"
+
 #include <cryptopp/cryptlib.h>
 #include <cryptopp/misc.h>
 #include <cryptopp/osrng.h>
@@ -5,8 +7,6 @@
 #include <openssl/rand.h>
 
 #include <fstream>
-
-#include "Util/Array.h"
 
 ByteArray::ByteArray() {
   _data = nullptr;

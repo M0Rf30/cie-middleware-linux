@@ -142,7 +142,8 @@ void SignedDataGeneratorEx::toByteArray(UUCByteArray& pkcs7SignedData) {
   }
 
   // Infine crea ContentInfo
-  CContentInfo contentInfo(szSignedDataOID, *pSignedData);
+  char signedDataOID[] = szSignedDataOID;
+  CContentInfo contentInfo(signedDataOID, *pSignedData);
 
   contentInfo.toByteArray(pkcs7SignedData);
 

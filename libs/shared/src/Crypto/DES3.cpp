@@ -1,6 +1,8 @@
 #include "Crypto/DES3.h"
 
 #include <cryptopp/misc.h>
+#include <openssl/des.h>
+#include <openssl/evp.h>
 
 extern CLog Log;
 

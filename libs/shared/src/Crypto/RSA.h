@@ -3,8 +3,8 @@
 #include <cryptopp/rsa.h>
 #include <openssl/rsa.h>
 
-#include "Util/Array.h"
 #include "Sign/definitions.h"
+#include "Util/Array.h"
 
 class CRSA {
   CryptoPP::RSA::PublicKey pubKey;

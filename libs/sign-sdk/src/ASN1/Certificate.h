@@ -4,13 +4,11 @@
 #if !defined(AFX_CERTIFICATE_H__2DF2B808_9398_479F_9FD2_9A229517EF9D__INCLUDED_)
 #define AFX_CERTIFICATE_H__2DF2B808_9398_479F_9FD2_9A229517EF9D__INCLUDED_
 
-#include "ASN1Octetstring.h"
 #include "ASN1/ASN1Sequence.h"
-#include "ASN1/AlgorithmIdentifier.h"
-#include "CertificateInfo.h"
-
 #include "ASN1/ASN1UTCTime.h"
-#include "ASN1/Crl.h"
+#include "ASN1/AlgorithmIdentifier.h"
+#include "ASN1Octetstring.h"
+#include "CertificateInfo.h"
 #include "Sign/disigonsdk.h"
 
 class CCertificate : public CASN1Sequence {

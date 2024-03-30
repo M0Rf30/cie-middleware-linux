@@ -1,5 +1,6 @@
-#include "Util/Array.h"
 #include "ASNParser.h"
+
+#include "Util/Array.h"
 
 extern CLog Log;
 

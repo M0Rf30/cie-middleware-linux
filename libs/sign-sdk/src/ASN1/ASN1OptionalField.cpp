@@ -1,7 +1,5 @@
 #include "ASN1OptionalField.h"
 
-#include "ASN1Exception.h"
-
 const BYTE CASN1OptionalField::TAG = 0xA0;
 
 CASN1OptionalField::CASN1OptionalField(const CASN1Object& asn1Obj,

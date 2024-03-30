@@ -8,17 +8,14 @@
  */
 
 #include "SignedDocument.h"
-#include "ASN1/ASN1Object.h"
-#include "ASN1/UUCBufferedReader.h"
-#include "ASN1/RSAPublicKey.h"
-#include "RSA/rsaeuro.h"
-#include "RSA/rsa.h"
-#include "RSA/sha2.h"
-#include "ASN1/DigestInfo.h"
+
 #include <sys/types.h>
+
+#include "ASN1/ASN1Object.h"
 #include "ASN1/Certificate.h"
-#include "ASN1/Crl.h"
+#include "ASN1/UUCBufferedReader.h"
 #include "Base64.h"
+#include "RSA/rsa.h"
 #include "UUCLogger.h"
 
 USE_LOG;
@@ -148,7 +145,6 @@ int CSignedDocument::verify(int i, const char* dateTime,
   // the signature associated with this signer and, if a signingTime
   // attribute is available, that the certificate was valid at the time the
   // signature was generated.
-
 
   return m_pSignedData->verify(i, dateTime, pRevocationInfo);
 }

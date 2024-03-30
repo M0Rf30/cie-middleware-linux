@@ -1,21 +1,19 @@
 #pragma once
 
+#include <map>
 
 #include "ASN1/Certificate.h"
-#include <map>
 
 using namespace std;
 
-class CCertStore
-{
-public:
+class CCertStore {
+ public:
+  static void AddCertificate(CCertificate& caCertificate);
 
-    static void AddCertificate(CCertificate& caCertificate);
+  static CCertificate* GetCertificate(CCertificate& certificate);
 
-	static CCertificate* GetCertificate(CCertificate& certificate);
+  static void CleanUp();
 
-	static void CleanUp();
-
-private:
-	static map<unsigned long, CCertificate*> m_certMap;
+ private:
+  static map<unsigned long, CCertificate*> m_certMap;
 };

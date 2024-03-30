@@ -1,7 +1,5 @@
 #include "ContentType.h"
 
-#include "ASN1Exception.h"
-
 const char* CContentType::OID_TYPE_DATA = "1.2.840.113549.1.7.1";
 const char* CContentType::OID_TYPE_SIGNED = "1.2.840.113549.1.7.2";
 const char* CContentType::OID_TYPE_ENVELOPED = "1.2.840.113549.1.7.3";

@@ -95,7 +95,8 @@ void CounterSignatureGenerator::toByteArray(UUCByteArray& pkcs7SignedData) {
       m_signerInfos, m_certificates);
 
   // Infine crea ContentInfo
-  CContentInfo contentInfo(szSignedDataOID, signedData);
+  char signedDataOID[] = szSignedDataOID;
+  CContentInfo contentInfo(signedDataOID, signedData);
 
   contentInfo.toByteArray(pkcs7SignedData);
 }

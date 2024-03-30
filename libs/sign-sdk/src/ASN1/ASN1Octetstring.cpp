@@ -1,8 +1,5 @@
 #include "ASN1Octetstring.h"
 
-#include "ASN1/ASN1Integer.h"
-//#include "ASN1Exception.h"
-
 const BYTE CASN1OctetString::TAG = 0x04;
 
 // distruttori

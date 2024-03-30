@@ -1,15 +1,15 @@
 #pragma once
 
-#include "Sign/disigonsdk.h"
 #include <stdarg.h>
 
-#define MAX_LOG_SIZE			5000
+#include "Sign/disigonsdk.h"
 
-#define LOG_TYPE_ERROR			1
-#define LOG_TYPE_WARNING		2
-#define LOG_TYPE_MESSAGE		3
-#define LOG_TYPE_DEBUG			4
+#define MAX_LOG_SIZE 5000
 
+#define LOG_TYPE_ERROR 1
+#define LOG_TYPE_WARNING 2
+#define LOG_TYPE_MESSAGE 3
+#define LOG_TYPE_DEBUG 4
 
 #define DECLARE_LOG
 #define USE_LOG
@@ -22,7 +22,6 @@
 #define LOG_DBG(params)
 
 //- ------------- DA VERIFICARE, CONTIENTE MOLTI BUG
-
 
 // macro
 #if 0
@@ -37,26 +36,31 @@
 #define LOG_DBG(params) g_log.logDebug params
 #endif
 
+class UUCLogger {
+ public:
+  UUCLogger(void);
+  UUCLogger(const char* szLogFileName);
+  virtual ~UUCLogger(void);
 
-class UUCLogger
-{
-public:
-	UUCLogger(void);
-	UUCLogger(const char* szLogFileName);
-	virtual ~UUCLogger(void);
+  virtual void logMessage(const unsigned int nID, const char* szModuleName,
+                          const char* szMsg, ...);
+  virtual void logWarning(const unsigned int nID, const char* szModuleName,
+                          const char* szMsg, ...);
+  virtual void logError(const unsigned int nID, const char* szModuleName,
+                        const char* szMsg, ...);
+  virtual void logDebug(const unsigned int nID, const char* szModuleName,
+                        const char* szMsg, ...);
 
-	virtual void logMessage(const unsigned int nID, const char *szModuleName, const char* szMsg, ...);
-	virtual void logWarning(const unsigned int nID, const char *szModuleName, const char* szMsg, ...);
-	virtual void logError(const unsigned int nID, const char *szModuleName, const char* szMsg, ...);
-	virtual void logDebug(const unsigned int nID, const char *szModuleName, const char* szMsg, ...);
+  virtual void setLogFile(const char* szLogFileName);
+  virtual void setLogLevel(int logLevel);
 
-	virtual void setLogFile(const char* szLogFileName);
-	virtual void setLogLevel(int logLevel);
-private:
-	void log(const unsigned int nType, const char *szMsg, const unsigned int nID, const char *szModuleName);
-	void log(const unsigned int nType, const char* szMsg, const unsigned int nID, const char *szModuleName, va_list args);
+ private:
+  void log(const unsigned int nType, const char* szMsg, const unsigned int nID,
+           const char* szModuleName);
+  void log(const unsigned int nType, const char* szMsg, const unsigned int nID,
+           const char* szModuleName, va_list args);
 
-	char m_szLogFileName[MAX_PATH];
-	int m_nLogLevel;
-	char m_szBuffer[MAX_LOG_SIZE];
+  char m_szLogFileName[MAX_PATH];
+  int m_nLogLevel;
+  char m_szBuffer[MAX_LOG_SIZE];
 };

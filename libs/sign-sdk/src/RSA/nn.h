@@ -57,7 +57,7 @@ typedef UINT2 NN_HALF_DIGIT;
 
 /* Macros. */
 
-#define LOW_HALF(x) ((x)&MAX_NN_HALF_DIGIT)
+#define LOW_HALF(x) ((x) & MAX_NN_HALF_DIGIT)
 #define HIGH_HALF(x) (((x) >> NN_HALF_DIGIT_BITS) & MAX_NN_HALF_DIGIT)
 #define TO_HIGH_HALF(x) (((NN_DIGIT)(x)) << NN_HALF_DIGIT_BITS)
 #define DIGIT_MSB(x) (unsigned int)(((x) >> (NN_DIGIT_BITS - 1)) & 1)

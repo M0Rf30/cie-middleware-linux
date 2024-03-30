@@ -11,5 +11,4 @@
 
 #define ENCRYPTION_KEY "this is a fake key"
 
-
 #endif  // KEYS_H_

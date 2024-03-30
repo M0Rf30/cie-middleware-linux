@@ -127,7 +127,7 @@ BYTE UUCByteArray::operator[](const unsigned int index) const {  // throw(long)
 BYTE UUCByteArray::get(const unsigned int index) const {  // throw(long)
   if (index >= m_unLen) {
     // SetLastError(ERR_INDEX_OUT_OF_BOUND);
-    throw(long) ERR_INDEX_OUT_OF_BOUND;
+    throw (long)ERR_INDEX_OUT_OF_BOUND;
   }
   return m_pbtContent[index];
 }
@@ -136,7 +136,7 @@ void UUCByteArray::set(const unsigned int index,
                        const BYTE btVal) {  // throw(long)
   if (index >= m_unLen) {
     // SetLastError(ERR_INDEX_OUT_OF_BOUND);
-    throw(long) ERR_INDEX_OUT_OF_BOUND;
+    throw (long)ERR_INDEX_OUT_OF_BOUND;
   }
   m_pbtContent[index] = btVal;
 }
@@ -144,7 +144,7 @@ void UUCByteArray::set(const unsigned int index,
 void UUCByteArray::remove(const unsigned int index) {  // throw(long)
   if (index >= m_unLen) {
     // SetLastError((long)ERR_INDEX_OUT_OF_BOUND);
-    throw(long) ERR_INDEX_OUT_OF_BOUND;
+    throw (long)ERR_INDEX_OUT_OF_BOUND;
   }
 
   for (unsigned int i = index; i < m_unLen - 1; i++)

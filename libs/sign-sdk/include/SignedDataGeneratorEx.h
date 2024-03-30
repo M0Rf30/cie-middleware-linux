@@ -7,43 +7,45 @@
  *
  */
 
-//#include "ASN1/utiltypes.h"
-#include "Util/UUCByteArray.h"
-#include "SignedDocument.h"
-#include "ASN1/SignerInfo.h"
-#include "ASN1/ASN1Setof.h"
-#include "ASN1/TimeStampResponse.h"
-
+// #include "ASN1/utiltypes.h"
 #include <vector>
 
-class SignedDataGeneratorEx
-{
-public:
-	SignedDataGeneratorEx(CSignedDocument& sd);
+#include "ASN1/ASN1Setof.h"
+#include "ASN1/SignerInfo.h"
+#include "ASN1/TimeStampResponse.h"
+#include "SignedDocument.h"
+#include "Util/UUCByteArray.h"
 
-	virtual ~SignedDataGeneratorEx();
+class SignedDataGeneratorEx {
+ public:
+  SignedDataGeneratorEx(CSignedDocument& sd);
 
-	bool isDetached();
+  virtual ~SignedDataGeneratorEx();
 
-	void setContent(const BYTE* content, int len);
+  bool isDetached();
 
-	void addSigners(CSignedDocument& sd);
+  void setContent(const BYTE* content, int len);
 
-	void addCounterSignature(CSignerInfo& signerInfoRef, CSignedDocument& countersignature);
+  void addSigners(CSignedDocument& sd);
 
-	void addCounterSignature(CSignerInfo& signerInfoRef, CSignedDocument& counterSignature, CTimeStampResponse& tsr);
+  void addCounterSignature(CSignerInfo& signerInfoRef,
+                           CSignedDocument& countersignature);
 
-	void setTimestamp(CTimeStampResponse& tsr, int signerInfoIndex);
+  void addCounterSignature(CSignerInfo& signerInfoRef,
+                           CSignedDocument& counterSignature,
+                           CTimeStampResponse& tsr);
 
+  void setTimestamp(CTimeStampResponse& tsr, int signerInfoIndex);
 
-	void toByteArray(UUCByteArray& pkcs7SignedData);
+  void toByteArray(UUCByteArray& pkcs7SignedData);
 
-private:
-	UUCByteArray m_content;
+ private:
+  UUCByteArray m_content;
 
-	CASN1SetOf m_signerInfos;
-	CASN1SetOf m_certificates;
-	CASN1SetOf m_digestAlgos;
+  CASN1SetOf m_signerInfos;
+  CASN1SetOf m_certificates;
+  CASN1SetOf m_digestAlgos;
 
-	bool addCounterSignature(CSignerInfo& signerInfo, CSignerInfo& signerInfoRef, CSignerInfo& counterSignature);
+  bool addCounterSignature(CSignerInfo& signerInfo, CSignerInfo& signerInfoRef,
+                           CSignerInfo& counterSignature);
 };

@@ -2,7 +2,7 @@
 #include <memory>
 #include <vector>
 
-#include "Sign/definitions.h"
+#include "Util/Array.h"
 
 size_t GetASN1DataLenght(ByteArray &data);
 

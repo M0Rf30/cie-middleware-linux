@@ -5,7 +5,6 @@
 #include <map>
 
 #include "ASN1/DigestInfo.h"
-#include "Base64.h"
 #include "BigIntegerLibrary.h"
 #include "RSA/sha1.h"
 #include "RSA/sha2.h"

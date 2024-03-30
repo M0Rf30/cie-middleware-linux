@@ -1,11 +1,9 @@
 #ifndef _ASN1OBJECT_
 #define _ASN1OBJECT_
 
-#include <stdio.h>
-
+#include "Sign/definitions.h"
 #include "UUCBufferedReader.h"
 #include "Util/UUCByteArray.h"
-#include "Sign/definitions.h"
 
 class CASN1Object {
  public:

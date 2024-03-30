@@ -6,22 +6,15 @@
 // Construction/Destruction
 
 CSubjectPublicKeyInfo::CSubjectPublicKeyInfo(UUCBufferedReader& reader)
-    : CASN1Sequence(reader) {
-}
-
+    : CASN1Sequence(reader) {}
 
 CSubjectPublicKeyInfo::CSubjectPublicKeyInfo(const CASN1Object& subPubKey)
-    : CASN1Sequence(subPubKey) {
-}
+    : CASN1Sequence(subPubKey) {}
 
-CSubjectPublicKeyInfo::~CSubjectPublicKeyInfo() {
-
-}
+CSubjectPublicKeyInfo::~CSubjectPublicKeyInfo() {}
 
 CAlgorithmIdentifier CSubjectPublicKeyInfo::getAlgorithmIdentifier() {
-    return elementAt(0);
+  return elementAt(0);
 }
 
-CASN1BitString CSubjectPublicKeyInfo::getPublicKey() {
-    return elementAt(1);
-}
+CASN1BitString CSubjectPublicKeyInfo::getPublicKey() { return elementAt(1); }

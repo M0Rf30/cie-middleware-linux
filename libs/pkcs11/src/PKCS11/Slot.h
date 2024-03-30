@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Util/SyncroMutex.h"
 #include "PKCS11/cryptoki.h"
+#include "Util/SyncroMutex.h"
 
 #pragma pack()
 #include <map>
@@ -10,7 +10,6 @@
 #include <vector>
 
 #include "PKCS11/CardContext.h"
-
 
 namespace p11 {
 

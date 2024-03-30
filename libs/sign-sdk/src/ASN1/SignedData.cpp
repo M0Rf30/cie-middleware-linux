@@ -1,18 +1,12 @@
 // SignedData.cpp: implementation of the CSignedData class.
 #include "SignedData.h"
-#include "ASN1OptionalField.h"
-#include "ASN1Exception.h"
-#include "SignerInfo.h"
-#include "RSAPublicKey.h"
-#include "RSA/rsaeuro.h"
-#include "RSA/rsa.h"
-#include "RSA/sha2.h"
-#include "DigestInfo.h"
+
 #include <sys/types.h>
+
 #include "ASN1/Certificate.h"
-#include "ASN1/Crl.h"
-#include <map>
-#include "RSA/sha1.h"
+#include "ASN1OptionalField.h"
+#include "RSA/rsa.h"
+#include "SignerInfo.h"
 
 // Construction/Destruction
 CSignedData::CSignedData(UUCBufferedReader& reader) : CASN1Sequence(reader) {}

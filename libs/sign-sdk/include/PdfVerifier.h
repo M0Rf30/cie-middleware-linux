@@ -12,8 +12,8 @@
 
 #include <podofo/podofo.h>
 
-#include "Util/UUCByteArray.h"
 #include "Sign/disigonsdk.h"
+#include "Util/UUCByteArray.h"
 
 using namespace PoDoFo;
 using namespace std;

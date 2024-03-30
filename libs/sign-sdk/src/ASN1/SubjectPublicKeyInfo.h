@@ -9,21 +9,21 @@
 #pragma once
 #endif  // _MSC_VER > 1000
 
-#include "ASN1BitString.h"
 #include "ASN1/ASN1Sequence.h"
 #include "ASN1/AlgorithmIdentifier.h"
+#include "ASN1BitString.h"
 
 class CSubjectPublicKeyInfo : public CASN1Sequence {
-  public:
-    CSubjectPublicKeyInfo(UUCBufferedReader& reader);
+ public:
+  CSubjectPublicKeyInfo(UUCBufferedReader& reader);
 
-    CSubjectPublicKeyInfo(const CASN1Object& obj);
+  CSubjectPublicKeyInfo(const CASN1Object& obj);
 
-    virtual ~CSubjectPublicKeyInfo();
+  virtual ~CSubjectPublicKeyInfo();
 
-    CAlgorithmIdentifier getAlgorithmIdentifier();
+  CAlgorithmIdentifier getAlgorithmIdentifier();
 
-    CASN1BitString getPublicKey();
+  CASN1BitString getPublicKey();
 };
 
 #endif  // !defined(AFX_SUBJECTPUBLICKEYINFO_H__93E2619B_704A_49A2_8DEA_DCCC521605CE__INCLUDED_)

@@ -21,6 +21,8 @@
 #define _ASN1EXCEPTION_H
 
 #include <cstring>
+
+#include "Sign/definitions.h"
 class CASN1Exception {
  public:
   CASN1Exception(const char* lpszMsg) : m_lpszMsg(lpszMsg) {}

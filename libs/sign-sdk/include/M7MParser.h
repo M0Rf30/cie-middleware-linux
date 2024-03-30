@@ -11,26 +11,24 @@
 #define _M7MPARSER_H_
 
 #include <string>
+
 #include "Util/UUCByteArray.h"
 
 using namespace std;
 
-class M7MParser
-{
-public:
-	M7MParser();
+class M7MParser {
+ public:
+  M7MParser();
 
-	int Load(const char* m7m, int m7mlen);
+  int Load(const char* m7m, int m7mlen);
 
-	int GetP7M(UUCByteArray& p7m);
+  int GetP7M(UUCByteArray& p7m);
 
-	int GetTSR(UUCByteArray& tsr);
+  int GetTSR(UUCByteArray& tsr);
 
-private:
-	UUCByteArray m_p7m;
-	UUCByteArray m_tsr;
+ private:
+  UUCByteArray m_p7m;
+  UUCByteArray m_tsr;
 };
 
-
-
-#endif //_M7MPARSER_H_
+#endif  //_M7MPARSER_H_

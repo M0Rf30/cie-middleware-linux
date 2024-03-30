@@ -1,9 +1,10 @@
 #ifndef BIGINTEGERUTILS_H
 #define BIGINTEGERUTILS_H
 
-#include "BigInteger.h"
-#include <string>
 #include <iostream>
+#include <string>
+
+#include "BigInteger.h"
 
 /* This file provides:
  * - Convenient std::string <-> BigUnsigned/BigInteger conversion routines
@@ -17,14 +18,16 @@ BigInteger stringToBigInteger(const std::string &s);
 
 // Creates a BigInteger from data such as `char's; read below for details.
 template <class T>
-BigInteger dataToBigInteger(const T* data, BigInteger::Index length, BigInteger::Sign sign);
+BigInteger dataToBigInteger(const T *data, BigInteger::Index length,
+                            BigInteger::Sign sign);
 
 // Outputs x to os, obeying the flags `dec', `hex', `bin', and `showbase'.
-std::ostream &operator <<(std::ostream &os, const BigUnsigned &x);
+std::ostream &operator<<(std::ostream &os, const BigUnsigned &x);
 
 // Outputs x to os, obeying the flags `dec', `hex', `bin', and `showbase'.
-// My somewhat arbitrary policy: a negative sign comes before a base indicator (like -0xFF).
-std::ostream &operator <<(std::ostream &os, const BigInteger &x);
+// My somewhat arbitrary policy: a negative sign comes before a base indicator
+// (like -0xFF).
+std::ostream &operator<<(std::ostream &os, const BigInteger &x);
 
 // BEGIN TEMPLATE DEFINITIONS.
 
@@ -42,31 +45,33 @@ std::ostream &operator <<(std::ostream &os, const BigInteger &x);
  * the result contain the desired binary data.
  */
 template <class T>
-BigInteger dataToBigInteger(const T* data, BigInteger::Index length, BigInteger::Sign sign) {
-	// really ceiling(numBytes / sizeof(BigInteger::Blk))
-	unsigned int pieceSizeInBits = 8 * sizeof(T);
-	unsigned int piecesPerBlock = sizeof(BigInteger::Blk) / sizeof(T);
-	unsigned int numBlocks = (length + piecesPerBlock - 1) / piecesPerBlock;
+BigInteger dataToBigInteger(const T *data, BigInteger::Index length,
+                            BigInteger::Sign sign) {
+  // really ceiling(numBytes / sizeof(BigInteger::Blk))
+  unsigned int pieceSizeInBits = 8 * sizeof(T);
+  unsigned int piecesPerBlock = sizeof(BigInteger::Blk) / sizeof(T);
+  unsigned int numBlocks = (length + piecesPerBlock - 1) / piecesPerBlock;
 
-	// Allocate our block array
-	BigInteger::Blk *blocks = new BigInteger::Blk[numBlocks];
+  // Allocate our block array
+  BigInteger::Blk *blocks = new BigInteger::Blk[numBlocks];
 
-	BigInteger::Index blockNum, pieceNum, pieceNumHere;
+  BigInteger::Index blockNum, pieceNum, pieceNumHere;
 
-	// Convert
-	for (blockNum = 0, pieceNum = 0; blockNum < numBlocks; blockNum++) {
-		BigInteger::Blk curBlock = 0;
-		for (pieceNumHere = 0; pieceNumHere < piecesPerBlock && pieceNum < length;
-			pieceNumHere++, pieceNum++)
-			curBlock |= (BigInteger::Blk(data[pieceNum]) << (pieceSizeInBits * pieceNumHere));
-		blocks[blockNum] = curBlock;
-	}
+  // Convert
+  for (blockNum = 0, pieceNum = 0; blockNum < numBlocks; blockNum++) {
+    BigInteger::Blk curBlock = 0;
+    for (pieceNumHere = 0; pieceNumHere < piecesPerBlock && pieceNum < length;
+         pieceNumHere++, pieceNum++)
+      curBlock |=
+          (BigInteger::Blk(data[pieceNum]) << (pieceSizeInBits * pieceNumHere));
+    blocks[blockNum] = curBlock;
+  }
 
-	// Create the BigInteger.
-	BigInteger x(blocks, numBlocks, sign);
+  // Create the BigInteger.
+  BigInteger x(blocks, numBlocks, sign);
 
-	delete [] blocks;
-	return x;
+  delete[] blocks;
+  return x;
 }
 
 #endif

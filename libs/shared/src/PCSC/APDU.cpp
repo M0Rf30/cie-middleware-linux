@@ -2,9 +2,9 @@
 
 #include "Crypto/DES3.h"
 #include "Crypto/MAC.h"
+#include "PCSC/Token.h"
 #include "Util/TLV.h"
 #include "Util/util.h"
-#include "PCSC/Token.h"
 
 extern CLog Log;
 
