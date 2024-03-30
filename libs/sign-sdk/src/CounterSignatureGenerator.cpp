@@ -12,8 +12,8 @@
 CounterSignatureGenerator::CounterSignatureGenerator(CSignedDocument& signedDoc,
                                                      int signerInfoIndex)
     : m_signedDoc(signedDoc),
-      m_signerInfoIndex(signerInfoIndex),
-      m_signerInfo(m_signedDoc.getSignerInfo(m_signerInfoIndex)) {
+      m_signerInfo(m_signedDoc.getSignerInfo(m_signerInfoIndex)),
+      m_signerInfoIndex(signerInfoIndex) {
   m_signerInfos = signedDoc.getSignerInfos();
   m_certificates = signedDoc.getCertificates();
   m_digestAlgos = signedDoc.getDigestAlgos();

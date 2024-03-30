@@ -1,15 +1,13 @@
 #pragma once
 
-#include "PKCS11/cryptoki.h"
+#include <PCSC/winscard.h>
+#include <PCSC/wintypes.h>
+
+#include <memory>
 
 #include "PKCS11/Mechanism.h"
-#include "PKCS11/Slot.h"
-#include "PCSC/Token.h"
-
-#include <PCSC/wintypes.h>
-#include <PCSC/winscard.h>
 #include "PKCS11/P11Object.h"
-#include <memory>
+#include "PKCS11/Slot.h"
 
 namespace p11 {
 
@@ -18,7 +16,7 @@ class p11_error : public logged_error {
 
  public:
   p11_error(CK_RV p11ErrorCode, const char *message)
-      : p11ErrorCode(p11ErrorCode), logged_error(message) {}
+      : logged_error(message), p11ErrorCode(p11ErrorCode) {}
   p11_error(CK_RV p11ErrorCode)
       : p11_error(p11ErrorCode,
                   stdPrintf("%s:%08x", "Errore PKCS11", p11ErrorCode).c_str()) {

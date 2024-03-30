@@ -1,8 +1,9 @@
 #include "PKCS11/Mechanism.h"
 
 #include "Crypto/RSA.h"
-#include "Util/util.h"
 #include "PKCS11/P11Object.h"
+#include "PKCS11/session.h"
+#include "Util/util.h"
 
 extern CLog Log;
 
@@ -425,7 +426,7 @@ ByteDynArray CRSA_PKCS1::SignRecover(ByteArray &Data) {
 CSignRSAwithDigest::CSignRSAwithDigest(CK_MECHANISM_TYPE type,
                                        std::shared_ptr<CSession> Session,
                                        CDigest *Digest)
-    : pDigest(Digest), CSignRSA(type, std::move(Session)) {}
+    : CSignRSA(type, std::move(Session)), pDigest(Digest) {}
 CSignRSAwithDigest::~CSignRSAwithDigest() {}
 
 bool CSignRSAwithDigest::SignSupportMultipart() { init_func return true; }
@@ -467,7 +468,7 @@ void CSignRSAwithDigest::SignSetOperationState(ByteArray &OperationState) {
 CVerifyRSAwithDigest::CVerifyRSAwithDigest(CK_MECHANISM_TYPE type,
                                            std::shared_ptr<CSession> Session,
                                            CDigest *Digest)
-    : pDigest(Digest), CVerifyRSA(type, std::move(Session)) {}
+    : CVerifyRSA(type, std::move(Session)), pDigest(Digest) {}
 CVerifyRSAwithDigest::~CVerifyRSAwithDigest() {}
 
 bool CVerifyRSAwithDigest::VerifySupportMultipart() { init_func return true; }

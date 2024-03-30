@@ -27,6 +27,7 @@
 #include <string>
 #include <vector>
 
+#include "CSP/IAS.h"
 #include "Crypto/AES.h"
 #include "Crypto/ASNParser.h"
 #include "Crypto/CryptoUtil.h"
@@ -35,12 +36,11 @@
 #include "LOGGER/Logger.h"
 #include "PKCS11/PKCS11Functions.h"
 #include "PKCS11/Slot.h"
-#include "Sign/definitions.h"
 #include "Sign/CIESign.h"
 #include "Sign/CIEVerify.h"
+#include "Sign/definitions.h"
 #include "Util/CryptoppUtils.h"
 #include "Util/ModuleInfo.h"
-#include "CSP/IAS.h"
 
 using namespace CieIDLogger;
 

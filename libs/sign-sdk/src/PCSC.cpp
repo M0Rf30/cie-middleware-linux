@@ -1,10 +1,6 @@
 #include <PCSC/pcsclite.h>
 #include <PCSC/winscard.h>
 
-#include <thread>
-
-#include "Util/UtilException.h"
-
 struct transData {
   SCARDCONTEXT context;
   bool started;
@@ -98,8 +94,8 @@ readerMonitor::readerMonitor(void (*eventHandler)(std::string &reader,
 
         auto loadReaderList = [&]() -> void {
           char *readers = nullptr;
-          if (SCardListReaders(rm->hContext, nullptr, (char *)&readers, SCARD_AUTOALLOCATE) !=
-                  SCARD_S_SUCCESS ||
+          if (SCardListReaders(rm->hContext, nullptr, (char *)&readers,
+                               SCARD_AUTOALLOCATE) != SCARD_S_SUCCESS ||
               readers == nullptr) {
             throw logged_error("Nessun lettore installato");
           }

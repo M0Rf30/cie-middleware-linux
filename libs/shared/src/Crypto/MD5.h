@@ -1,5 +1,6 @@
 #pragma once
 
+#include <openssl/evp.h>
 #include <openssl/md5.h>
 
 #include "Util/UtilException.h"
@@ -7,7 +8,7 @@
 
 class CMD5 {
   bool isInit;
-  MD5_CTX ctx;
+  EVP_MD_CTX* ctx;
 
  public:
   CMD5();

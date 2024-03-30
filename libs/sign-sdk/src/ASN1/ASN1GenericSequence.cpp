@@ -5,7 +5,7 @@
 #include "ASN1Exception.h"
 
 CASN1GenericSequence::CASN1GenericSequence(BYTE btTag)
-    : m_nSize(0), m_nOffsetsMax(MAXSIZE), m_pnOffsets(NULL) {
+    : m_pnOffsets(NULL), m_nOffsetsMax(MAXSIZE), m_nSize(0) {
   m_pnOffsets =
       (unsigned int*)calloc(m_nOffsetsMax + 2, sizeof(m_pnOffsets[0]));
   setTag(btTag);
@@ -13,9 +13,9 @@ CASN1GenericSequence::CASN1GenericSequence(BYTE btTag)
 
 CASN1GenericSequence::CASN1GenericSequence(UUCBufferedReader& reader)
     : CASN1Object(reader),
-      m_nSize(0),
+      m_pnOffsets(NULL),
       m_nOffsetsMax(MAXSIZE),
-      m_pnOffsets(NULL) {
+      m_nSize(0) {
   m_pnOffsets =
       (unsigned int*)calloc(m_nOffsetsMax + 2, sizeof(m_pnOffsets[0]));
   m_nSize = makeOffset();
@@ -23,23 +23,23 @@ CASN1GenericSequence::CASN1GenericSequence(UUCBufferedReader& reader)
 
 CASN1GenericSequence::CASN1GenericSequence(const UUCByteArray& content)
     : CASN1Object(content),
-      m_nSize(0),
+      m_pnOffsets(NULL),
       m_nOffsetsMax(MAXSIZE),
-      m_pnOffsets(NULL) {
+      m_nSize(0) {
   m_pnOffsets =
       (unsigned int*)calloc(m_nOffsetsMax + 2, sizeof(m_pnOffsets[0]));
   m_nSize = makeOffset();
 }
 
 CASN1GenericSequence::CASN1GenericSequence(const CASN1Object& obj)
-    : CASN1Object(obj), m_nSize(0), m_nOffsetsMax(MAXSIZE), m_pnOffsets(NULL) {
+    : CASN1Object(obj), m_pnOffsets(NULL), m_nOffsetsMax(MAXSIZE), m_nSize(0) {
   m_pnOffsets =
       (unsigned int*)calloc(m_nOffsetsMax + 2, sizeof(m_pnOffsets[0]));
   m_nSize = makeOffset();
 }
 
 CASN1GenericSequence::CASN1GenericSequence(const CASN1GenericSequence& obj)
-    : CASN1Object(obj), m_nSize(0), m_nOffsetsMax(MAXSIZE), m_pnOffsets(NULL) {
+    : CASN1Object(obj), m_pnOffsets(NULL), m_nOffsetsMax(MAXSIZE), m_nSize(0) {
   m_pnOffsets =
       (unsigned int*)calloc(m_nOffsetsMax + 2, sizeof(m_pnOffsets[0]));
   m_nSize = makeOffset();
@@ -47,9 +47,9 @@ CASN1GenericSequence::CASN1GenericSequence(const CASN1GenericSequence& obj)
 
 CASN1GenericSequence::CASN1GenericSequence(const BYTE* value, long len)
     : CASN1Object(value, len),
-      m_nSize(0),
+      m_pnOffsets(NULL),
       m_nOffsetsMax(MAXSIZE),
-      m_pnOffsets(NULL) {
+      m_nSize(0) {
   m_pnOffsets =
       (unsigned int*)calloc(m_nOffsetsMax + 2, sizeof(m_pnOffsets[0]));
   m_nSize = makeOffset();
@@ -187,8 +187,7 @@ void CASN1GenericSequence::setElementAt(const CASN1Object& obj, int nPos) {
 }
 
 void CASN1GenericSequence::removeElementAt(int nPos) {
-  if (nPos < 0 || (unsigned int)nPos > size())
-    throw -1;
+  if (nPos < 0 || (unsigned int)nPos > size()) throw -1;
 
   UUCByteArray oldVal(*(getValue()));
 

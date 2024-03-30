@@ -1,5 +1,6 @@
 #pragma once
 
+#include <openssl/evp.h>
 #include <openssl/sha.h>
 
 #include "Util/Array.h"
@@ -8,11 +9,11 @@
 
 class CSHA256 {
  public:
-  ByteDynArray Digest(ByteArray &data);
+  ByteDynArray Digest(ByteArray& data);
   void Init();
   void Update(ByteArray data);
   ByteDynArray Final();
 
   bool isInit;
-  SHA256_CTX ctx;
+  EVP_MD_CTX* ctx;
 };

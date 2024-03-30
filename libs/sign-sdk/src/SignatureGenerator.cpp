@@ -9,11 +9,9 @@
 #include "ASN1/ASN1Octetstring.h"
 #include "ASN1/ASN1Sequence.h"
 #include "ASN1/ASN1Setof.h"
-#include "ASN1/ASN1UTCTime.h"
 #include "ASN1/AlgorithmIdentifier.h"
 #include "ASN1/Certificate.h"
 #include "ASN1/DigestInfo.h"
-#include "ASN1/IssuerAndSerialNumber.h"
 #include "CertStore.h"
 #include "RSA/sha1.h"
 #include "RSA/sha2.h"
@@ -23,7 +21,7 @@ USE_LOG;
 using namespace std;
 
 CSignatureGeneratorBase::CSignatureGeneratorBase(CBaseSigner* pSigner)
-    : m_pSigner(pSigner), m_pTSAClient(NULL), m_nHashAlgo(CKM_SHA1_RSA_PKCS) {
+    : m_pSigner(pSigner), m_nHashAlgo(CKM_SHA1_RSA_PKCS), m_pTSAClient(NULL) {
   m_szAlias[0] = 0;
 }
 

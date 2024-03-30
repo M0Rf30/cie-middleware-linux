@@ -9,7 +9,7 @@ UUCTextFileWriter::UUCTextFileWriter(const char* szFilePath,
   else
     m_pf = fopen(szFilePath, "wt");
 
-  if (!m_pf) throw(long) ERROR_FILE_NOT_FOUND;
+  if (!m_pf) throw (long)ERROR_FILE_NOT_FOUND;
 }
 
 UUCTextFileWriter::~UUCTextFileWriter() { fclose(m_pf); }

@@ -82,8 +82,12 @@ readerMonitor::readerMonitor(void (*eventHandler)(std::string &reader,
 
         auto loadReaderList = [&]() -> void {
           char *readers = nullptr;
-          unsigned long int len = 0;
 
+#ifdef __APPLE__
+          DWORD len = 0;
+#else
+          unsigned long int len = 0;
+#endif
           if (SCardListReaders(rm->hContext, NULL, NULL, &len))
             throw logged_error("Nessun lettore installato");
 

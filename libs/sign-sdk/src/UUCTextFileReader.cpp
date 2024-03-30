@@ -8,7 +8,7 @@ USE_LOG;
 UUCTextFileReader::UUCTextFileReader(const char* szFilePath) {
   m_pf = fopen(szFilePath, "rt");
   if (!m_pf) {
-    throw(long) ERROR_FILE_NOT_FOUND;
+    throw (long)ERROR_FILE_NOT_FOUND;
   }
 }
 
@@ -37,7 +37,7 @@ long UUCTextFileReader::readLine(char* szLine, unsigned long nLen) {
   while ((fread(szLine + i, 1, 1, m_pf) > 0) && (szLine[i] != '\n')) {
     i++;
     if (i == nLen) {
-      throw(long) ERROR_MORE_DATA;
+      throw (long)ERROR_MORE_DATA;
     }
   }
 

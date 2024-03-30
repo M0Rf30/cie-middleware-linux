@@ -101,8 +101,8 @@ class CIEData {
   CToken token;
   bool init;
   CIEData(CSlot *slot, ByteArray atr)
-      : ias((CToken::TokenTransmitCallback)TokenTransmitCallback, atr),
-        slot(*slot) {
+      : slot(*slot),
+        ias((CToken::TokenTransmitCallback)TokenTransmitCallback, atr) {
     ByteDynArray key(32);
     ByteDynArray iv(16);
     aesKey.Init(key.random(), iv.random());

@@ -38,14 +38,9 @@ unsigned long countHexData(const std::string &data) {
       i += 1;
       continue;
     }
-    int v = hex2byte(data[i]);
     i++;
     if (i < slen) {
-      if (isxdigit(data[i])) {
-        v <<= 4;
-        v |= hex2byte(data[i]);
-      } else if (!isspace(data[i]))
-        throw logged_error("richiesto spazio");
+      if (!isspace(data[i])) throw logged_error("richiesto spazio");
     }
     cnt++;
 

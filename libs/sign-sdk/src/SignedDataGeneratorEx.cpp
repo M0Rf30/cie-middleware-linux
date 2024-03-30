@@ -9,16 +9,9 @@
 
 #include "SignedDataGeneratorEx.h"
 
-#include <time.h>
-
 #include "ASN1/ASN1ObjectIdentifier.h"
 #include "ASN1/ASN1Octetstring.h"
-#include "ASN1/ASN1Sequence.h"
 #include "ASN1/ASN1Setof.h"
-#include "ASN1/ASN1UTCTime.h"
-#include "ASN1/AlgorithmIdentifier.h"
-#include "ASN1/IssuerAndSerialNumber.h"
-#include "ASN1/Certificate.h"
 
 SignedDataGeneratorEx::SignedDataGeneratorEx(CSignedDocument& sd) {
   m_signerInfos = sd.getSignerInfos();

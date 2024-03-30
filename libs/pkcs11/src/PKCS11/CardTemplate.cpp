@@ -2,8 +2,8 @@
 
 #include <utility>
 
-#include "Util/ModuleInfo.h"
 #include "PKCS11/CIEP11Template.h"
+#include "Util/ModuleInfo.h"
 
 extern CLog Log;
 

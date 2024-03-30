@@ -47,8 +47,6 @@ long UUCProperties::load(const char* szFilePath) {
 
     char* szLine = (char*)line.getContent();
 
-    DWORD dwLineLen = line.getLength();
-
     while (nRes != nEOF) {
       if (szLine[0] != '\0' && szLine[0] != '#' &&
           szLine[0] != '[') {  // salta i commenti
@@ -60,7 +58,6 @@ long UUCProperties::load(const char* szFilePath) {
       line.removeAll();
       nRes = textFileReader.readLine(line);
       szLine = (char*)line.getContent();
-      dwLineLen = line.getLength();
     }
   } catch (long nErr) {
     LOG_ERR((0, "UUCProperties::exception", "%d", nErr));
@@ -76,7 +73,6 @@ long UUCProperties::load(const char* szFilePath) {
 long UUCProperties::load(const UUCByteArray& props) {
   char* szName;
   char* szValue;
-  long nEOF = -1;
   char* szEqual;
   char* szProps = (char*)props.getContent();
   char* szLine = strtok(szProps, "\r\n");

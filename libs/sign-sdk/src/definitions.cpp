@@ -2,8 +2,6 @@
 #include "Sign/definitions.h"
 
 // static unsigned long g_nErr;
-#include <string>
-
 using namespace std;
 
 int atox(const char* szVal) {

@@ -1,8 +1,6 @@
 
 #include "Util/UtilException.h"
 
-#include <stdio.h>
-
 #include "Util/util.h"
 
 logged_error::logged_error(std::string message)

@@ -1,9 +1,9 @@
 #include "PKCS11/session.h"
 
 #include "Crypto/RSA.h"
+#include "PKCS11/CardTemplate.h"
 #include "Util/TLV.h"
 #include "Util/util.h"
-#include "PKCS11/CardTemplate.h"
 
 extern CLog Log;
 

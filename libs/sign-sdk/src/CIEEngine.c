@@ -422,7 +422,7 @@ static EVP_PKEY *cie_load_pubkey(ENGINE *engine, const char *s_key_id,
                                  UI_METHOD *ui_method, void *callback_data) {
   printf("call cie_load_pubkey\n");
 
-  return 1;
+  return NULL;
 }
 
 static EVP_PKEY_METHOD *cie_pkey_method_rsa() {

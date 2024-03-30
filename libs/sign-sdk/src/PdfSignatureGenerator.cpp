@@ -82,11 +82,11 @@ void PdfSignatureGenerator::AddFont(const char* szFontName,
   // printf(szFontName);
   // printf(szFontPath);
 
-  PdfFont* font = m_pPdfDocument->CreateFont(
+  m_pPdfDocument->CreateFont(
       szFontName, false, false,
       PdfEncodingFactory::GlobalWinAnsiEncodingInstance(),
       PdfFontCache::eFontCreationFlags_AutoSelectBase14, true, szFontPath);
-  PdfFont* font1 = m_pPdfDocument->CreateFont(
+  m_pPdfDocument->CreateFont(
       szFontName, true, false,
       PdfEncodingFactory::GlobalWinAnsiEncodingInstance(),
       PdfFontCache::eFontCreationFlags_AutoSelectBase14, true, szFontPath);

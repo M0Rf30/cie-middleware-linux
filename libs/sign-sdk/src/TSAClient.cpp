@@ -6,7 +6,6 @@
 #include "ASN1/TimeStampRequest.h"
 #include "ASN1/TimeStampResponse.h"
 #include "ASN1/TimeStampToken.h"
-#include "Base64.h"
 #include "UUCLogger.h"
 
 USE_LOG;

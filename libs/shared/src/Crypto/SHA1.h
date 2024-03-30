@@ -1,5 +1,5 @@
 #pragma once
-
+#include <openssl/evp.h>
 #include <openssl/sha.h>
 
 #include "Util/UtilException.h"
@@ -7,7 +7,7 @@
 
 class CSHA1 {
   bool isInit;
-  SHA_CTX ctx;
+  EVP_MD_CTX* ctx;
 
  public:
   CSHA1();
