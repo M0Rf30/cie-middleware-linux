@@ -17,24 +17,24 @@
 #include "Name.h"
 
 class CTSTInfo : public CASN1Sequence {
-  public:
-    CTSTInfo(UUCBufferedReader& reader);
+ public:
+  CTSTInfo(UUCBufferedReader& reader);
 
-    CTSTInfo(const CASN1Object& tstInfo);
+  CTSTInfo(const CASN1Object& tstInfo);
 
-    virtual ~CTSTInfo();
+  virtual ~CTSTInfo();
 
-    CASN1UTCTime getUTCTime();
+  CASN1UTCTime getUTCTime();
 
-    CASN1Integer getSerialNumber();
+  CASN1Integer getSerialNumber();
 
-    CAlgorithmIdentifier getDigestAlgorithn();
+  CAlgorithmIdentifier getDigestAlgorithn();
 
-    CASN1Sequence getMessageImprint();
+  CASN1Sequence getMessageImprint();
 
-    // N.B. il campo TSAName è opzionale. se non presente nel tstoken torna
-    // eccezione
-    CName getTSAName();
+  // N.B. il campo TSAName è opzionale. se non presente nel tstoken torna
+  // eccezione
+  CName getTSAName();
 };
 
 #endif  // !defined(AFX_TSTINFO_H__7B1086C5_9AEE_4973_8D52_FBB757D01E2A__INCLUDED_)

@@ -11,8 +11,8 @@
 #include <stdio.h>
 #include <sys/types.h>
 
-#include "Sign/CIEVerify.h"
 #include "CSP/AbilitaCIE.h"
+#include "Sign/CIEVerify.h"
 
 typedef CK_RV (*verificaConCIEfn)(const char* inFilePath);
 typedef CK_RV (*getNumberOfSignfn)(void);

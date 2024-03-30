@@ -32,14 +32,14 @@
 #ifndef _BASE64_H
 #define _BASE64_H
 
-void	base64_encode_block(unsigned char out[4], const unsigned char in[3], int len);
-int		base64_decode_block(unsigned char out[3], const unsigned char in[4]);
-int		base64_encoded_size(int len);
-int		base64_decoded_size(int len);
-void	base64_encode_binary(char *out, const unsigned char *in, int len);
-int		base64_decode_binary(unsigned char *out, const char *in);
-char  *	base64_encode(const char *in, int size);
-char  *	base64_decode(const char *in);
-
+void base64_encode_block(unsigned char out[4], const unsigned char in[3],
+                         int len);
+int base64_decode_block(unsigned char out[3], const unsigned char in[4]);
+int base64_encoded_size(int len);
+int base64_decoded_size(int len);
+void base64_encode_binary(char *out, const unsigned char *in, int len);
+int base64_decode_binary(unsigned char *out, const char *in);
+char *base64_encode(const char *in, int size);
+char *base64_decode(const char *in);
 
 #endif /* ! _BASE64_H */

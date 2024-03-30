@@ -14,15 +14,15 @@
 #include "Name.h"
 
 class CIssuerAndSerialNumber : public CASN1Sequence {
-  public:
-    CIssuerAndSerialNumber(UUCBufferedReader& reader);
+ public:
+  CIssuerAndSerialNumber(UUCBufferedReader& reader);
 
-    CIssuerAndSerialNumber(const CASN1Object& issuerAndSerNum);
+  CIssuerAndSerialNumber(const CASN1Object& issuerAndSerNum);
 
-    CIssuerAndSerialNumber(const CName& issuer, const CASN1Integer& serNum,
-                           bool contextSpecific);
+  CIssuerAndSerialNumber(const CName& issuer, const CASN1Integer& serNum,
+                         bool contextSpecific);
 
-    virtual ~CIssuerAndSerialNumber();
+  virtual ~CIssuerAndSerialNumber();
 };
 
 #endif  // !defined(AFX_ISSUERANDSERIALNUMBER_H__0AE18C2B_4100_4D86_98D3_167D05277E42__INCLUDED_)

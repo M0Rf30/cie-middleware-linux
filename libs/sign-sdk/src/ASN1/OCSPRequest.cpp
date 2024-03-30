@@ -49,7 +49,6 @@
 
 #include <CertStore.h>
 
-#include "ASN1OptionalField.h"
 #include "ASN1/AlgorithmIdentifier.h"
 #include "RSA/sha1.h"
 

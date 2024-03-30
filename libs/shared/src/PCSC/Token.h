@@ -1,10 +1,10 @@
 #pragma once
 
-#include <PCSC/wintypes.h>
 #include <PCSC/winscard.h>
+#include <PCSC/wintypes.h>
 
-#include "Util/SyncroMutex.h"
 #include "PCSC/APDU.h"
+#include "Util/SyncroMutex.h"
 
 extern SCARDCONTEXT hContext;
 

@@ -11,7 +11,6 @@
 #include <string>
 
 #include "ASN1/ASN1Sequence.h"
-#include "RelativeDistinguishedName.h"
 
 #define OID_EMAIL_ADDRESS "1.2.840.113549.1.9.1"
 #define OID_UNSTRUCTURED_NAME "1.2.840.113549.1.9.2"
@@ -40,16 +39,16 @@
 using namespace std;
 
 class CName : public CASN1Sequence {
-  public:
-    CName(UUCBufferedReader& reader);
+ public:
+  CName(UUCBufferedReader& reader);
 
-    CName(const CASN1Object& name);
+  CName(const CASN1Object& name);
 
-    string getField(const char* fieldOID);
+  string getField(const char* fieldOID);
 
-    void getNameAsString(UUCByteArray& objId);
+  void getNameAsString(UUCByteArray& objId);
 
-    virtual ~CName();
+  virtual ~CName();
 };
 
 #endif  // !defined(AFX_NAME_H__554A2FC6_1A7E_4639_8E45_487603ACB583__INCLUDED_)

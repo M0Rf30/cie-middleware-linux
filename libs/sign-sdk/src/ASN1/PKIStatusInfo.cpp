@@ -12,20 +12,11 @@
 // Construction/Destruction
 
 CPKIStatusInfo::CPKIStatusInfo(UUCBufferedReader& reader)
-    : CASN1Sequence(reader) {
-
-}
+    : CASN1Sequence(reader) {}
 
 CPKIStatusInfo::CPKIStatusInfo(const CASN1Object& pkiStatusInfo)
-    : CASN1Sequence(pkiStatusInfo) {
+    : CASN1Sequence(pkiStatusInfo) {}
 
-}
+CPKIStatusInfo::~CPKIStatusInfo() {}
 
-CPKIStatusInfo::~CPKIStatusInfo() {
-
-}
-
-
-CASN1Integer CPKIStatusInfo::getStatus() {
-    return elementAt(0);
-}
+CASN1Integer CPKIStatusInfo::getStatus() { return elementAt(0); }

@@ -1,9 +1,9 @@
 #pragma once
-#include <PCSC/wintypes.h>
 #include <PCSC/winscard.h>
+#include <PCSC/wintypes.h>
 
-#include "Util/SyncroMutex.h"
 #include "PCSC/Token.h"
+#include "Util/SyncroMutex.h"
 
 class CCardLocker {
   SCARDHANDLE hCard;

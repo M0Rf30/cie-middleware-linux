@@ -2,8 +2,8 @@
 #include <string>
 #include <vector>
 
-#include "Util/Array.h"
 #include "Sign/definitions.h"
+#include "Util/Array.h"
 
 class IniSettings;
 extern std::vector<IniSettings*> _iniSettings;

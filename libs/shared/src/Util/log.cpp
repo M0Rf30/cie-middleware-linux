@@ -1,23 +1,20 @@
 #define __STDC_WANT_LIB_EXT1__ 1
 
-#include <time.h>
-#include "Util/util.h"
-#include "ModuleInfo.h"
-#include <vector>
-#include <sstream>
-#include <iomanip>
 #include "Util/log.h"
-#include "Util/UtilException.h"
-#include "Util/IniSettings.h"
-#include <thread>
-#include <stdio.h>
-#include <unistd.h>
-#include "UUCProperties.h"
-#include <sys/stat.h>
-#include <regex>
-#include <unistd.h>
-#include <sys/types.h>
+
 #include <pwd.h>
+#include <stdio.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <time.h>
+#include <unistd.h>
+
+#include <iomanip>
+#include <sstream>
+#include <thread>
+
+#include "ModuleInfo.h"
+#include "UUCProperties.h"
 
 std::string globalLogDir;
 std::string globalLogName;
@@ -58,7 +55,8 @@ void initLog(const char *moduleName, const char *iniFile, const char *version) {
   //        "3 ;LM_Module_Thread    // un file per modulo e per
   //        thread\n")).GetValue((char*)iniFile);
 
-  if (LogMode == -1) {
+  if (LogMode != LM_Single && LogMode != LM_Module && LogMode != LM_Thread &&
+      LogMode != LM_Module_Thread) {
     LogMode = LM_Single;
   }
 
@@ -68,15 +66,15 @@ void initLog(const char *moduleName, const char *iniFile, const char *version) {
 
   FunctionLog = settings.getIntProperty(
       "FunctionLog", 1);  //, "Abilitazione log delle chiamate a
-                          //funzione")).GetValue((char*)iniFile);
+                          // funzione")).GetValue((char*)iniFile);
 
   GlobalDepth = settings.getIntProperty(
       "FunctionDepth", 10);  //, "Definisce la profondità massima di log delle
-                             //funzioni\n")).GetValue((char*)iniFile);
+                             // funzioni\n")).GetValue((char*)iniFile);
 
   globalLogParam = settings.getIntProperty(
       "ParamLog", 1);  //, "Abilitazione log dei parametri di input delle
-                       //funzioni")).GetValue((char*)iniFile);
+                       // funzioni")).GetValue((char*)iniFile);
 
   globalLogName = moduleName;
 
@@ -100,7 +98,7 @@ void initLog(const char *moduleName, const char *iniFile, const char *version) {
 
   globalLogDir = settings.getProperty(
       "LogDir", path.c_str());  //"Definisce il path in cui salvare il file di
-                                //log (con / finale)"))
+                                // log (con / finale)"))
 }
 
 CLog::CLog() { init(); }

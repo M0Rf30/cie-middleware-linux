@@ -1,5 +1,8 @@
+#include <PCSC/PCSC.h>
 #include <PCSC/pcsclite.h>
 #include <PCSC/winscard.h>
+
+#include "Sign/definitions.h"
 
 struct transData {
   SCARDCONTEXT context;
@@ -16,7 +19,6 @@ safeTransaction::safeTransaction(safeConnection &conn, DWORD dwDisposition) {
   td->started = false;
   auto thread = std::thread([td]() {
     for (int i = 0; i < 10; i++) {
-      Sleep(500);
       if (td->started) {
         return 0;
       }

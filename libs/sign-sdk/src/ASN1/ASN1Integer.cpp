@@ -1,9 +1,5 @@
 #include "ASN1/ASN1Integer.h"
 
-#include <math.h>
-
-#include "ASN1Exception.h"
-
 const BYTE CASN1Integer::TAG = 0x02;
 
 CASN1Integer::CASN1Integer(const CASN1Object& obj) : CASN1Object(obj) {

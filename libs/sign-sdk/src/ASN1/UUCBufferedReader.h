@@ -19,7 +19,6 @@
  */
 
 #pragma once
-#include <stdio.h>
 
 #include "Util/UUCByteArray.h"
 

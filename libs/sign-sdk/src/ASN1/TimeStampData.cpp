@@ -7,7 +7,6 @@
  *
  */
 
-
 /*
  ContentInfo ::= SEQUENCE {
  contentType ContentType,
@@ -59,68 +58,65 @@
  */
 
 #include "TimeStampData.h"
+
 #include "ASN1OptionalField.h"
 
 // Construction/Destruction
 CTimeStampData::CTimeStampData(UUCBufferedReader& reader)
-    :CContentInfo(reader) {
-
-}
+    : CContentInfo(reader) {}
 
 CTimeStampData::CTimeStampData(const CASN1Object& timeStampData)
-    :CContentInfo(timeStampData) {
-
-}
+    : CContentInfo(timeStampData) {}
 
 CTimeStampData::CTimeStampData(UUCByteArray& content, CTimeStampToken& tst)
     : CContentInfo(CContentType(szTimeStampDataOID)) {
-    CASN1Sequence timeStampData;
-    timeStampData.addElement(CASN1Integer(1)); // version
+  CASN1Sequence timeStampData;
+  timeStampData.addElement(CASN1Integer(1));  // version
 
-    timeStampData.addElement(CASN1OctetString(content)); // content
+  timeStampData.addElement(CASN1OctetString(content));  // content
 
-    CASN1Sequence evidence;
-    CASN1Sequence tsAndCrl;
+  CASN1Sequence evidence;
+  CASN1Sequence tsAndCrl;
 
-    tsAndCrl.addElement(tst);
-    evidence.addElement(tsAndCrl);
-    timeStampData.addElement(CASN1OptionalField(evidence, 0));
+  tsAndCrl.addElement(tst);
+  evidence.addElement(tsAndCrl);
+  timeStampData.addElement(CASN1OptionalField(evidence, 0));
 
-
-    setContent(timeStampData);
+  setContent(timeStampData);
 }
 
 CTimeStampData::~CTimeStampData() {
-    //NSLog(@"~CASN1Object()");
+  // NSLog(@"~CASN1Object()");
 }
 
 int CTimeStampData::verify(REVOCATION_INFO* pRevocationInfo) {
-    return verify(NULL, pRevocationInfo);
+  return verify(NULL, pRevocationInfo);
 }
 
-int CTimeStampData::verify(const char* szDateTime, REVOCATION_INFO* pRevocationInfo) {
-    CTimeStampToken tst(getTimeStampToken());
+int CTimeStampData::verify(const char* szDateTime,
+                           REVOCATION_INFO* pRevocationInfo) {
+  CTimeStampToken tst(getTimeStampToken());
 
-    return tst.verify(szDateTime, pRevocationInfo);
+  return tst.verify(szDateTime, pRevocationInfo);
 }
 
 CTimeStampToken CTimeStampData::getTimeStampToken() {
-    CASN1Sequence timeStampData(getContent());
+  CASN1Sequence timeStampData(getContent());
 
-    int size = timeStampData.size();
+  int size = timeStampData.size();
 
-    CASN1Sequence evidence(timeStampData.elementAt(size -1));
-    CASN1Sequence tsAndCrl(evidence.elementAt(0));
+  CASN1Sequence evidence(timeStampData.elementAt(size - 1));
+  CASN1Sequence tsAndCrl(evidence.elementAt(0));
 
-    CTimeStampToken tst(tsAndCrl.elementAt(0));
+  CTimeStampToken tst(tsAndCrl.elementAt(0));
 
-    return tst;
+  return tst;
 }
 
 CASN1OctetString CTimeStampData::getTimeStampDataContent() {
-    CASN1Sequence timeStampData(getContent());
+  CASN1Sequence timeStampData(getContent());
 
-    int size = timeStampData.size();
+  int size = timeStampData.size();
 
-    return timeStampData.elementAt(size - 2);
+  return timeStampData.elementAt(size - 2);
 }

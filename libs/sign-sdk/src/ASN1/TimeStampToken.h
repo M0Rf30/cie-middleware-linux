@@ -3,6 +3,8 @@
 #ifndef _TIMESTAMPTOKEN_H
 #define _TIMESTAMPTOKEN_H
 
+#include "ASN1/ASN1Setof.h"
+#include "Sign/disigonsdk.h"
 #if !defined( \
     AFX_TIMESTAMPTOKEN_H__2D568B92_6258_4EBE_B1CA_17F3746F3801__INCLUDED_)
 #define AFX_TIMESTAMPTOKEN_H__2D568B92_6258_4EBE_B1CA_17F3746F3801__INCLUDED_
@@ -12,24 +14,22 @@
 #endif  // _MSC_VER > 1000
 
 #include "ASN1/ContentInfo.h"
-#include "SignedData.h"
 #include "TSTInfo.h"
-#include "ASN1/TimeStampToken.h"
 
 class CTimeStampToken : public CContentInfo {
-  public:
-    CTimeStampToken(UUCBufferedReader& reader);
+ public:
+  CTimeStampToken(UUCBufferedReader& reader);
 
-    CTimeStampToken(const CASN1Object& timeStampToken);
+  CTimeStampToken(const CASN1Object& timeStampToken);
 
-    CTSTInfo getTSTInfo();
+  CTSTInfo getTSTInfo();
 
-    virtual ~CTimeStampToken();
+  virtual ~CTimeStampToken();
 
-    int verify(REVOCATION_INFO* pRevocationInfo);
-    int verify(const char* szDateTime, REVOCATION_INFO* pRevocationInfo);
+  int verify(REVOCATION_INFO* pRevocationInfo);
+  int verify(const char* szDateTime, REVOCATION_INFO* pRevocationInfo);
 
-    CASN1SetOf getCertificates();
+  CASN1SetOf getCertificates();
 };
 
 #endif  // !defined(AFX_TIMESTAMPTOKEN_H__2D568B92_6258_4EBE_B1CA_17F3746F3801__INCLUDED_)

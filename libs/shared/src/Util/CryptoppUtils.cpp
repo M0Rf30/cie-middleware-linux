@@ -28,13 +28,13 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
+#include "CryptoppUtils.h"
+
 #include <cryptopp/base64.h>
 #include <cryptopp/hex.h>
 #include <cryptopp/osrng.h>
 
 #include <sstream>
-
-#include "CryptoppUtils.h"
 
 using namespace CryptoPP;
 

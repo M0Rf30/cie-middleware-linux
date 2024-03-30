@@ -7,41 +7,41 @@
  *
  */
 
-//#include "ASN1/utiltypes.h"
-#include "Util/UUCByteArray.h"
-#include "SignerInfoGenerator.h"
+// #include "ASN1/utiltypes.h"
 #include "SignedDocument.h"
+#include "SignerInfoGenerator.h"
+#include "Util/UUCByteArray.h"
 
-class CounterSignatureGenerator
-{
-public:
-	CounterSignatureGenerator(CSignedDocument& signedDoc, int signerInfoIndex);
+class CounterSignatureGenerator {
+ public:
+  CounterSignatureGenerator(CSignedDocument& signedDoc, int signerInfoIndex);
 
-	virtual ~CounterSignatureGenerator();
+  virtual ~CounterSignatureGenerator();
 
-	void getContent(UUCByteArray& content);
+  void getContent(UUCByteArray& content);
 
-	void setContentHash(const BYTE* hash, int hashlen);
+  void setContentHash(const BYTE* hash, int hashlen);
 
-	void setSigningCertificate(const BYTE* certificate, int certlen, const BYTE* certHash, int certHashLen);
+  void setSigningCertificate(const BYTE* certificate, int certlen,
+                             const BYTE* certHash, int certHashLen);
 
-	void setSignature(const BYTE* signature, int siglen);
+  void setSignature(const BYTE* signature, int siglen);
 
-	void setTimestampToken(const BYTE* timestampToken, int tstlen);
+  void setTimestampToken(const BYTE* timestampToken, int tstlen);
 
-	void getSignedAttributes(UUCByteArray& signedAttribute);
+  void getSignedAttributes(UUCByteArray& signedAttribute);
 
-	void toByteArray(UUCByteArray& signedDoc);
+  void toByteArray(UUCByteArray& signedDoc);
 
-private:
-	CSignedDocument m_signedDoc;
-	CSignerInfo m_signerInfo;
-	int m_signerInfoIndex;
+ private:
+  CSignedDocument m_signedDoc;
+  CSignerInfo m_signerInfo;
+  int m_signerInfoIndex;
 
-	UUCByteArray m_signingCertificate;
-	CASN1SetOf m_signerInfos;// = new DerSet(signerInfos);
-	CASN1SetOf m_certificates;// = new DerSet(certificates);
-	CASN1SetOf m_digestAlgos;// = new DerSet(certificates);
+  UUCByteArray m_signingCertificate;
+  CASN1SetOf m_signerInfos;   // = new DerSet(signerInfos);
+  CASN1SetOf m_certificates;  // = new DerSet(certificates);
+  CASN1SetOf m_digestAlgos;   // = new DerSet(certificates);
 
-	CSignerInfoGenerator m_signerInfoGenerator;
+  CSignerInfoGenerator m_signerInfoGenerator;
 };

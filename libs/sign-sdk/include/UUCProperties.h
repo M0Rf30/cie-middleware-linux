@@ -1,44 +1,46 @@
 // UUCProperties.h: interface for the UUCProperties class.
 //
 
-#if !defined(AFX_UUCPROPERTIES_H__715BAE3B_069E_4D31_9FBF_54EA38AAEFEC__INCLUDED_)
+#if !defined( \
+    AFX_UUCPROPERTIES_H__715BAE3B_069E_4D31_9FBF_54EA38AAEFEC__INCLUDED_)
 #define AFX_UUCPROPERTIES_H__715BAE3B_069E_4D31_9FBF_54EA38AAEFEC__INCLUDED_
 
 #if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
-#include "Util/UUCByteArray.h"
-#include "UUCStringTable.h"
+#endif  // _MSC_VER > 1000
 #include <stdio.h>
 
-class UUCProperties
-{
-public:
-	UUCProperties();
-	UUCProperties(const UUCProperties& defaults);
+#include "UUCStringTable.h"
+#include "Util/UUCByteArray.h"
 
-	virtual ~UUCProperties();
+class UUCProperties {
+ public:
+  UUCProperties();
+  UUCProperties(const UUCProperties& defaults);
 
-	long load(const char* szFilePath);
-	long load(const UUCByteArray& props);
-	long save(const char* szFilePath, const char* szHeader) const;
-	long save(UUCByteArray& props, const char* szHeader) const;
-	void putProperty(const char* szName, const char* szValue);
-	//void putProperty(char* szName, char* szValue);
-	const char* getProperty(const char* szName, const char* szDefaultValue = NULL) const;
-	void remove(const char* szName);
-	void removeAll();
+  virtual ~UUCProperties();
 
-	UUCStringTable* getPropertyTable() const;
+  long load(const char* szFilePath);
+  long load(const UUCByteArray& props);
+  long save(const char* szFilePath, const char* szHeader) const;
+  long save(UUCByteArray& props, const char* szHeader) const;
+  void putProperty(const char* szName, const char* szValue);
+  // void putProperty(char* szName, char* szValue);
+  const char* getProperty(const char* szName,
+                          const char* szDefaultValue = NULL) const;
+  void remove(const char* szName);
+  void removeAll();
 
-	bool contains(const char* szName) const;
+  UUCStringTable* getPropertyTable() const;
 
-	int size() const;
+  bool contains(const char* szName) const;
 
-protected:
-	UUCStringTable* m_pStringTable;
+  int size() const;
 
-	bool m_bAllocated;
+ protected:
+  UUCStringTable* m_pStringTable;
+
+  bool m_bAllocated;
 };
 
-#endif // !defined(AFX_UUCPROPERTIES_H__715BAE3B_069E_4D31_9FBF_54EA38AAEFEC__INCLUDED_)
+#endif  // !defined(AFX_UUCPROPERTIES_H__715BAE3B_069E_4D31_9FBF_54EA38AAEFEC__INCLUDED_)

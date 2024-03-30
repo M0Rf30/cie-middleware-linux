@@ -10,8 +10,10 @@
 #ifndef _PKISTATUSINFO_H
 #define _PKISTATUSINFO_H
 
-#include "ASN1/TimeStampToken.h"
-
+#include "ASN1/ASN1Integer.h"
+#include "ASN1/ASN1Object.h"
+#include "ASN1/ASN1Sequence.h"
+#include "ASN1/UUCBufferedReader.h"
 class CPKIStatusInfo : public CASN1Sequence {
  public:
   CPKIStatusInfo(UUCBufferedReader& reader);

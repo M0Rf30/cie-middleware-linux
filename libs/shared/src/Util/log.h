@@ -3,9 +3,8 @@
 #include <PCSC/wintypes.h>
 #include <stdlib.h>
 
+#include <cstdint>
 #include <string>
-
-#include "defines.h"
 
 #ifndef OutputDebugString
 #define OutputDebugString printf

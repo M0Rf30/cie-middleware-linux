@@ -3,8 +3,6 @@
 
 #include <time.h>
 
-#include <string>
-
 #include "ASN1/ASN1ObjectIdentifier.h"
 #include "ASN1/ASN1Octetstring.h"
 #include "ASN1/ASN1Sequence.h"
@@ -338,7 +336,8 @@ long CSignatureGenerator::Generate(UUCByteArray& pkcs7SignedData,
   LOG_DBG((0, "CSignatureGenerator::Generate", "ContentInfo"));
 
   // Infine crea ContentInfo
-  CContentInfo contentInfo(szSignedDataOID, *pSignedData);
+  char signedDataOID[] = szSignedDataOID;
+  CContentInfo contentInfo(signedDataOID, *pSignedData);
 
   pkcs7SignedData.removeAll();
   contentInfo.toByteArray(pkcs7SignedData);

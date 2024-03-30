@@ -35,8 +35,8 @@
 #include <PCSC/winscard.h>
 #include <PCSC/wintypes.h>
 #else
-#include <stdint.h>
 #include <PCSC/winscard.h>
+#include <stdint.h>
 typedef const wchar_t *LPCWSTR;
 #endif
 typedef ULONG *ULONG_PTR;
@@ -1033,17 +1033,17 @@ CardSetContainerProperty(__in PCARD_DATA pCardData, __in BYTE bContainerIndex,
 #define CP_PARENT_WINDOW L"Parent Window"                     // Write only
 #define CP_PIN_CONTEXT_STRING L"PIN Context String"           // Write only
 //// Gemalto Custom
-//#define CP_CARD_PIN_INFO_EX             L"PIN Information Extended"// Read
-//only #define CP_CARD_PIN_POLICY              L"PIN Policy"              //
-//Read/Write #define CP_CARD_PIN_CHECK               L"PIN Check" // Write only
-//#define CP_CARD_SERIALIZE               L"Card Serialization"      //
-//Read/Write #define CP_CARD_DESERIALIZE             L"Card Deserialization" //
-//Read/Write #define CP_CARD_VERSION_INFO            L"Card Version" // Read
-//only #define CP_CARD_CACHE                   L"Card Cache"              //
-//Read/Write #define CP_CARD_IMPORT_ALLOWED          L"Import Allowed" //
-//Read/Write #define CP_CARD_IMPORT_CHANGE_ALLOWED   L"Import Change Allowed" //
-//Read/Write #define CP_CARD_CHANGE_PIN_FIRST        L"Change PIN First" //
-//Read/Write
+// #define CP_CARD_PIN_INFO_EX             L"PIN Information Extended"// Read
+// only #define CP_CARD_PIN_POLICY              L"PIN Policy"              //
+// Read/Write #define CP_CARD_PIN_CHECK               L"PIN Check" // Write only
+// #define CP_CARD_SERIALIZE               L"Card Serialization"      //
+// Read/Write #define CP_CARD_DESERIALIZE             L"Card Deserialization" //
+// Read/Write #define CP_CARD_VERSION_INFO            L"Card Version" // Read
+// only #define CP_CARD_CACHE                   L"Card Cache"              //
+// Read/Write #define CP_CARD_IMPORT_ALLOWED          L"Import Allowed" //
+// Read/Write #define CP_CARD_IMPORT_CHANGE_ALLOWED   L"Import Change Allowed"
+// // Read/Write #define CP_CARD_CHANGE_PIN_FIRST        L"Change PIN First" //
+// Read/Write
 typedef DWORD(WINAPI *PFN_CARD_GET_PROPERTY)(
     __in PCARD_DATA pCardData, __in LPCWSTR wszProperty,
     __out_bcount_part_opt(cbData, *pdwDataLen) PBYTE pbData, __in DWORD cbData,

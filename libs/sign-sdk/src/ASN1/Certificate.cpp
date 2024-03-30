@@ -8,19 +8,17 @@
 #include <sys/types.h>
 #include <time.h>
 
+#include "ASN1/Crl.h"
 #include "ASN1Exception.h"
 #include "ASN1Octetstring.h"
-#include "ASN1OptionalField.h"
 #include "Base64.h"
 #include "CertStore.h"
-#include "ASN1/Crl.h"
 #include "DigestInfo.h"
 #include "LdapCrl.h"
 #include "OCSPRequest.h"
 #include "RSA/rsaeuro.h"
 #include "RSA/sha1.h"
 #include "RSA/sha2.h"
-#include "RSAPublicKey.h"
 #include "UUCLogger.h"
 
 #define PROXY_AUTHENTICATION_REQUIRED 407

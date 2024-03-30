@@ -1,4 +1,5 @@
 #include <string>
+
 #include "Util/util.h"
 
 class CModuleInfo {

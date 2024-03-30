@@ -1,27 +1,18 @@
 #include "RSAPublicKey.h"
 
 CRSAPublicKey::CRSAPublicKey(UUCBufferedReader& reader)
-    : CASN1Sequence(reader) {
+    : CASN1Sequence(reader) {}
+
+CRSAPublicKey::CRSAPublicKey(const CASN1Object& obj) : CASN1Sequence(obj) {}
+
+CRSAPublicKey::CRSAPublicKey(const CASN1Integer& modulus,
+                             const CASN1Integer& exponent) {
+  addElement(modulus);
+  addElement(exponent);
 }
 
-CRSAPublicKey::CRSAPublicKey(const CASN1Object& obj)
-    : CASN1Sequence(obj) {
+CRSAPublicKey::~CRSAPublicKey(void) {}
 
-}
+CASN1Integer CRSAPublicKey::getModulus() { return CASN1Integer(elementAt(0)); }
 
-CRSAPublicKey::CRSAPublicKey(const CASN1Integer& modulus, const CASN1Integer& exponent) {
-    addElement(modulus);
-    addElement(exponent);
-}
-
-CRSAPublicKey::~CRSAPublicKey(void) {
-
-}
-
-CASN1Integer CRSAPublicKey::getModulus() {
-    return CASN1Integer(elementAt(0));
-}
-
-CASN1Integer CRSAPublicKey::getExponent() {
-    return CASN1Integer(elementAt(1));
-}
+CASN1Integer CRSAPublicKey::getExponent() { return CASN1Integer(elementAt(1)); }

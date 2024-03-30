@@ -56,11 +56,11 @@ typedef unsigned short int UINT2;
 /* UINT4 defines a four byte word */
 typedef unsigned long int UINT4;
 
-//#if PROTOTYPES
+// #if PROTOTYPES
 #define PROTO_LIST(list) list
-//#else
-//#define PROTO_LIST(list) ()
-//#endif
+// #else
+// #define PROTO_LIST(list) ()
+// #endif
 
 #define R_memset(x, y, z) memset(x, y, z)
 #define R_memcpy(x, y, z) memcpy(x, y, z)

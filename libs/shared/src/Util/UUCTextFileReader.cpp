@@ -28,7 +28,7 @@
 UUCTextFileReader::UUCTextFileReader(const char* szFilePath) {
   m_pf = fopen(szFilePath, "rt");
   if (!m_pf) {
-    throw(long) ERROR_FILE_NOT_FOUND;
+    throw (long)ERROR_FILE_NOT_FOUND;
   }
 
   struct stat lstat_buf;
@@ -39,26 +39,26 @@ UUCTextFileReader::UUCTextFileReader(const char* szFilePath) {
   /* handle the case of the lstat failing first */
   if (r == -1) {
     fclose(m_pf);
-    throw(long) ERROR_FILE_NOT_FOUND;
+    throw (long)ERROR_FILE_NOT_FOUND;
   }
 
   if (S_ISLNK(lstat_buf.st_mode)) {
     fclose(m_pf);
-    throw(long) ERROR_FILE_NOT_FOUND;
+    throw (long)ERROR_FILE_NOT_FOUND;
   }
 
   /* Get the properties of the opened file descriptor */
   r = stat(szFilePath, &fstat_buf);
   if (r == -1) {
     fclose(m_pf);
-    throw(long) ERROR_FILE_NOT_FOUND;
+    throw (long)ERROR_FILE_NOT_FOUND;
   }
 
   if (lstat_buf.st_dev != fstat_buf.st_dev ||
       lstat_buf.st_ino != fstat_buf.st_ino ||
       (S_IFMT & lstat_buf.st_mode) != (S_IFMT & fstat_buf.st_mode)) {
     fclose(m_pf);
-    throw(long) ERROR_FILE_NOT_FOUND;
+    throw (long)ERROR_FILE_NOT_FOUND;
   }
 }
 
@@ -88,7 +88,7 @@ long UUCTextFileReader::readLine(char* szLine,
   while ((fread(szLine + i, 1, 1, m_pf) > 0) && (szLine[i] != '\n')) {
     i++;
     if (i == nLen) {
-      throw(long) ERROR_MORE_DATA;
+      throw (long)ERROR_MORE_DATA;
     }
   }
 

@@ -3,7 +3,8 @@
 
 #include <string>
 
-const char kBase64Alphabet[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+const char kBase64Alphabet[] =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     "abcdefghijklmnopqrstuvwxyz"
     "0123456789+/";
 
@@ -52,7 +53,8 @@ class Base64 {
     return (enc_len == out->size());
   }
 
-  static bool Encode(const char *input, size_t input_length, char *out, size_t out_length) {
+  static bool Encode(const char *input, size_t input_length, char *out,
+                     size_t out_length) {
     int i = 0, j = 0;
     char *out_begin = out;
     unsigned char a3[3];
@@ -112,11 +114,11 @@ class Base64 {
 
       a4[i++] = *(input++);
       if (i == 4) {
-        for (i = 0; i <4; i++) {
+        for (i = 0; i < 4; i++) {
           a4[i] = b64_lookup(a4[i]);
         }
 
-        a4_to_a3(a3,a4);
+        a4_to_a3(a3, a4);
 
         for (i = 0; i < 3; i++) {
           (*out)[dec_len++] = a3[i];
@@ -135,7 +137,7 @@ class Base64 {
         a4[j] = b64_lookup(a4[j]);
       }
 
-      a4_to_a3(a3,a4);
+      a4_to_a3(a3, a4);
 
       for (j = 0; j < i - 1; j++) {
         (*out)[dec_len++] = a3[j];
@@ -145,7 +147,8 @@ class Base64 {
     return (dec_len == out->size());
   }
 
-  static bool Decode(const char *input, size_t input_length, char *out, size_t out_length) {
+  static bool Decode(const char *input, size_t input_length, char *out,
+                     size_t out_length) {
     int i = 0, j = 0;
     char *out_begin = out;
     unsigned char a3[3];
@@ -162,11 +165,11 @@ class Base64 {
 
       a4[i++] = *(input++);
       if (i == 4) {
-        for (i = 0; i <4; i++) {
+        for (i = 0; i < 4; i++) {
           a4[i] = b64_lookup(a4[i]);
         }
 
-        a4_to_a3(a3,a4);
+        a4_to_a3(a3, a4);
 
         for (i = 0; i < 3; i++) {
           *out++ = a3[i];
@@ -185,7 +188,7 @@ class Base64 {
         a4[j] = b64_lookup(a4[j]);
       }
 
-      a4_to_a3(a3,a4);
+      a4_to_a3(a3, a4);
 
       for (j = 0; j < i - 1; j++) {
         *out++ = a3[j];
@@ -208,7 +211,8 @@ class Base64 {
     int numEq = 0;
     int n = in.size();
 
-    for (std::string::const_reverse_iterator it = in.rbegin(); *it == '='; ++it) {
+    for (std::string::const_reverse_iterator it = in.rbegin(); *it == '=';
+         ++it) {
       ++numEq;
     }
 
@@ -228,29 +232,27 @@ class Base64 {
   }
 
  private:
-  static inline void a3_to_a4(unsigned char * a4, unsigned char * a3) {
+  static inline void a3_to_a4(unsigned char *a4, unsigned char *a3) {
     a4[0] = (a3[0] & 0xfc) >> 2;
     a4[1] = ((a3[0] & 0x03) << 4) + ((a3[1] & 0xf0) >> 4);
     a4[2] = ((a3[1] & 0x0f) << 2) + ((a3[2] & 0xc0) >> 6);
     a4[3] = (a3[2] & 0x3f);
   }
 
-  static inline void a4_to_a3(unsigned char * a3, unsigned char * a4) {
+  static inline void a4_to_a3(unsigned char *a3, unsigned char *a4) {
     a3[0] = (a4[0] << 2) + ((a4[1] & 0x30) >> 4);
     a3[1] = ((a4[1] & 0xf) << 4) + ((a4[2] & 0x3c) >> 2);
     a3[2] = ((a4[2] & 0x3) << 6) + a4[3];
   }
 
   static inline unsigned char b64_lookup(unsigned char c) {
-    if(c >='A' && c <='Z') return c - 'A';
-    if(c >='a' && c <='z') return c - 71;
-    if(c >='0' && c <='9') return c + 4;
-    if(c == '+') return 62;
-    if(c == '/') return 63;
+    if (c >= 'A' && c <= 'Z') return c - 'A';
+    if (c >= 'a' && c <= 'z') return c - 71;
+    if (c >= '0' && c <= '9') return c + 4;
+    if (c == '+') return 62;
+    if (c == '/') return 63;
     return 255;
   }
 };
 
-
-
-#endif // BASE64_H
+#endif  // BASE64_H
