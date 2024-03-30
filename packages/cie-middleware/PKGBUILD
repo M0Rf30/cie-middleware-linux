@@ -1,5 +1,5 @@
 pkgname="cie-middleware"
-pkgver="1.5.1"
+pkgver="1.5.2"
 pkgrel="1"
 pkgdesc="A fork of Middleware della CIE (Carta di Identità Elettronica) per Linux"
 maintainer="M0Rf30"
@@ -11,7 +11,7 @@ priority="optional"
 source=(
   "https://github.com/M0Rf30/cie-middleware-linux/archive/refs/tags/${pkgver}.tar.gz"
   "https://github.com/M0Rf30/cie-middleware-linux/releases/download/podofo-1.4.2/libpodofo-1.4.2.tar.gz"
-  "https://services.gradle.org/distributions/gradle-8.5-bin.zip"
+  "https://services.gradle.org/distributions/gradle-8.7-bin.zip"
 )
 source__pacman=(
   "https://github.com/M0Rf30/cie-middleware-linux/archive/refs/tags/${pkgver}.tar.gz"
@@ -28,19 +28,20 @@ sha256sums__pacman=(
   "ef81e439b12aa2ff309b353399c033bd62b027e7bd4cbf649c025226f1de5287"
 )
 depends__apt=(
-  "cryptopp"
+  "libcrypto++8"
   "libcurl4"
   "libfreetype6"
   "libfontconfig1"
   "libpcsclite1"
   "libpng16-16"
-  "libssl1.1"
+  "libssl3"
   "libxml2"
-  "openjdk-11-jre-headless"
+  "openjdk-17-jre-headless"
   "pcscd"
 )
 makedepends__apt=(
   "g++"
+  "libcrypto++-dev"
   "libcurl4-openssl-dev"
   "libfontconfig1-dev"
   "libfreetype6-dev"
@@ -48,7 +49,7 @@ makedepends__apt=(
   "libpng-dev"
   "libssl-dev"
   "libxml2-dev"
-  "openjdk-11-jre-headless"
+  "openjdk-17-jre-headless"
   "pkg-config"
   "python3-pip"
   "unzip"
@@ -86,7 +87,7 @@ depends__yum=(
   "cryptopp"
   "fontconfig"
   "freetype"
-  "java-11-openjdk-headless"
+  "java-17-openjdk-headless"
   "libcurl"
   "libpng"
   "libxml2"
@@ -98,7 +99,7 @@ makedepends__yum=(
   "fontconfig-devel"
   "freetype-devel"
   "gcc-c++"
-  "java-11-openjdk-devel"
+  "java-17-openjdk-devel"
   "libcurl-devel"
   "libpng-devel"
   "libxml2-devel"
@@ -121,25 +122,25 @@ build__pacman() {
 }
 
 build__yum() {
-  export JAVA_HOME=/usr/lib/jvm/java-11-openjdk/
+  export JAVA_HOME=/usr/lib/jvm/java-17-openjdk/
   cp "${srcdir}/libpodofo.a" \
     "${srcdir}/${pkgname}-linux-${pkgver}/libs/lib"
 
   cd "${srcdir}/${pkgname}-linux-${pkgver}"
-  ../gradle-8.5/bin/gradle -b cie-java/build.gradle standalone
+  ../gradle-8.7/bin/gradle -b cie-java/build.gradle standalone
   meson setup builddir libs
   meson configure -Dprefix=/usr builddir
   meson compile -C builddir
 }
 
 build__apt() {
-  export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+  export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
   pip3 install ninja==1.10.2.3 meson==0.61.1
   cp "${srcdir}/libpodofo.a" \
     "${srcdir}/${pkgname}-linux-${pkgver}/libs/lib"
 
   cd "${srcdir}/${pkgname}-linux-${pkgver}"
-  ../gradle-8.5/bin/gradle -b cie-java/build.gradle standalone
+  ../gradle-8.7/bin/gradle -b cie-java/build.gradle standalone
 
   meson setup builddir libs
   meson configure -Dprefix=/usr builddir

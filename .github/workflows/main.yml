@@ -21,7 +21,7 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: 11
+          java-version: 17
 
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v3
@@ -36,7 +36,7 @@ jobs:
           sudo apt install -y g++ libcrypto++-dev
           libcrypto++8 libcurl4-openssl-dev libfontconfig1-dev
           libfreetype6-dev libpcsclite-dev libpcsclite1 libpng-dev
-          libssl-dev libssl1.1 libxml2 libxml2-dev
+          libssl-dev libssl3 libxml2 libxml2-dev
           pcscd pkg-config python3-pip unzip;
           curl -sL "https://github.com/m0rf30/cie-middleware-linux/releases/download/podofo-1.4.2/libpodofo-1.4.2.tar.gz" -o libpodofo.tar.gz;
           tar xf libpodofo.tar.gz --directory=libs/lib

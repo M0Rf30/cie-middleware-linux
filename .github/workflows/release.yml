@@ -27,15 +27,14 @@ jobs:
 
       - name: Build
         run: |
-          docker run --entrypoint=bash -v $(pwd):/project m0rf30/yap-ubuntu-focal:latest -c "cd /project; \
-            yap prepare ubuntu-focal; \
-            yap build ubuntu-focal /project/packages/deb; \
-            yap build ubuntu-focal /project/packages"
-          docker run --entrypoint=bash -v $(pwd):/project m0rf30/yap-rocky-8:latest -c "cd /project; \
-            yap prepare rocky-8; \
+          docker run --entrypoint=bash -v $(pwd):/project m0rf30/yap-ubuntu-jammy:latest -c "cd /project; \
+            yap prepare ubuntu-jammy; \
+            yap build ubuntu-jammy /project/packages"
+          docker run --entrypoint=bash -v $(pwd):/project m0rf30/yap-rocky-9:latest -c "cd /project; \
+            yap prepare rocky-9; \
             dnf -y install dnf-plugins-core epel-release; \
-            dnf config-manager --set-enabled powertools; \
-            yap build rocky-8 /project/packages"
+            dnf config-manager --set-enabled crb; \
+            yap build rocky-9 /project/packages"
 
           for i in $(ls artifacts/*.deb); do sha256sum $i >> SHA256SUMS; done
           for i in $(ls artifacts/x86_64/*.rpm); do sha256sum $i >> SHA256SUMS; done
