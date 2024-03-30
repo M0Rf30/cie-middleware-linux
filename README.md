@@ -56,7 +56,7 @@ curl -sL "https://github.com/M0Rf30/cie-middleware-linux/releases/download/podof
 
 tar xf libpodofo.tar.gz --directory=libs/lib
 
-meson builddir libs
+meson setup builddir libs
 meson configure -Dprefix=/usr builddir
 meson compile -C builddir
 ```

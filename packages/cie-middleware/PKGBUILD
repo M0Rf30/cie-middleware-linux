@@ -115,7 +115,7 @@ build__pacman() {
 
   cd "${srcdir}/${pkgname}-linux-${pkgver}"
   gradle -b cie-java/build.gradle standalone
-  meson builddir libs
+  meson setup builddir libs
   meson configure -Dprefix=/usr builddir
   meson compile -C builddir
 }
@@ -127,7 +127,7 @@ build__yum() {
 
   cd "${srcdir}/${pkgname}-linux-${pkgver}"
   ../gradle-8.5/bin/gradle -b cie-java/build.gradle standalone
-  meson builddir libs
+  meson setup builddir libs
   meson configure -Dprefix=/usr builddir
   meson compile -C builddir
 }
@@ -141,7 +141,7 @@ build__apt() {
   cd "${srcdir}/${pkgname}-linux-${pkgver}"
   ../gradle-8.5/bin/gradle -b cie-java/build.gradle standalone
 
-  meson builddir libs
+  meson setup builddir libs
   meson configure -Dprefix=/usr builddir
   meson compile -C builddir
 }
