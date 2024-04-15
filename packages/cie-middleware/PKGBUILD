@@ -10,22 +10,18 @@ section="utils"
 priority="optional"
 source=(
   "https://github.com/M0Rf30/cie-middleware-linux/archive/refs/tags/${pkgver}.tar.gz"
-  "https://github.com/M0Rf30/cie-middleware-linux/releases/download/podofo-1.4.2/libpodofo-1.4.2.tar.gz"
   "https://services.gradle.org/distributions/gradle-8.7-bin.zip"
 )
 source__pacman=(
   "https://github.com/M0Rf30/cie-middleware-linux/archive/refs/tags/${pkgver}.tar.gz"
-  "https://github.com/M0Rf30/cie-middleware-linux/releases/download/podofo-1.4.2/libpodofo-1.4.2.tar.gz"
 )
 
 sha256sums=(
   "SKIP"
-  "ef81e439b12aa2ff309b353399c033bd62b027e7bd4cbf649c025226f1de5287"
   "SKIP"
 )
 sha256sums__pacman=(
   "SKIP"
-  "ef81e439b12aa2ff309b353399c033bd62b027e7bd4cbf649c025226f1de5287"
 )
 depends__apt=(
   "libcrypto++8"
@@ -38,6 +34,7 @@ depends__apt=(
   "libxml2"
   "openjdk-17-jre-headless"
   "pcscd"
+  "libpodofo-utils"
 )
 makedepends__apt=(
   "g++"
@@ -51,6 +48,7 @@ makedepends__apt=(
   "libxml2-dev"
   "openjdk-17-jre-headless"
   "pkg-config"
+  "libpodofo-dev"
   "python3-pip"
   "unzip"
 )
@@ -65,6 +63,7 @@ depends__pacman=(
   "libxml2"
   "openssl"
   "pcsclite"
+  "podofo-0.9"
 )
 makedepends__pacman=(
   "crypto++"
@@ -93,6 +92,7 @@ depends__yum=(
   "libxml2"
   "openssl"
   "pcsc-lite"
+  "podofo-libs"
 )
 makedepends__yum=(
   "cryptopp-devel"
@@ -107,12 +107,11 @@ makedepends__yum=(
   "openssl-devel"
   "pcsc-lite-devel"
   "pkgconf-pkg-config"
+  "podofo-devel"
 )
 
 build__pacman() {
   export JAVA_HOME=/usr/lib/jvm/default/
-  cp "${srcdir}/libpodofo.a" \
-    "${srcdir}/${pkgname}-linux-${pkgver}/libs/lib"
 
   cd "${srcdir}/${pkgname}-linux-${pkgver}"
   gradle -b cie-java/build.gradle standalone
@@ -123,8 +122,6 @@ build__pacman() {
 
 build__yum() {
   export JAVA_HOME=/usr/lib/jvm/java-17-openjdk/
-  cp "${srcdir}/libpodofo.a" \
-    "${srcdir}/${pkgname}-linux-${pkgver}/libs/lib"
 
   cd "${srcdir}/${pkgname}-linux-${pkgver}"
   ../gradle-8.7/bin/gradle -b cie-java/build.gradle standalone
@@ -136,8 +133,6 @@ build__yum() {
 build__apt() {
   export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
   pip3 install ninja==1.10.2.3 meson==0.61.1
-  cp "${srcdir}/libpodofo.a" \
-    "${srcdir}/${pkgname}-linux-${pkgver}/libs/lib"
 
   cd "${srcdir}/${pkgname}-linux-${pkgver}"
   ../gradle-8.7/bin/gradle -b cie-java/build.gradle standalone

@@ -34,7 +34,7 @@ int PDFVerifier::Load(const char *pdf, int len) {
 
   try {
     m_pPdfMemDocument = new PdfMemDocument();
-    m_pPdfMemDocument->Load(pdf, len);
+    m_pPdfMemDocument->LoadFromBuffer(pdf, len, true);
     m_actualLen = len;
     m_szDocBuffer = (char *)pdf;
 
