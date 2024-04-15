@@ -9,6 +9,10 @@ Questa libreria software (middleware) implementa le interfacce crittografiche
 standard **PKCS#11** e **CSP**, consentendo l'utilizzo del certificato di
 autenticazione e della relativa chiave privata memorizzati sul chip della CIE.
 
+Il presente branch (**podofo-vanilla**) esclude i riferimenti alla firma PDF.
+In un prossimo futuro dovrebbe far uso di podofo vanilla e permettere la
+firma dei PDF.
+
 ## Componenti
 
 La [libreria](libcie-pkcs11) è sviluppata in C++ e supporta OS GNU/Linux.
@@ -44,6 +48,7 @@ Sono necessarie le seguenti librerie:
 * openssl
 * pcsclite
 * pkgconf (make)
+* podofo (<= 0.9.8)
 
 ### Istruzioni
 
@@ -51,10 +56,6 @@ Da terminale, spostarsi nella root del presente repo e digitare:
 
 ```sh
 gradle -b cie-java/build.gradle standalone
-
-curl -sL "https://github.com/M0Rf30/cie-middleware-linux/releases/download/podofo-1.4.2/libpodofo-1.4.2.tar.gz" -o libpodofo.tar.gz
-
-tar xf libpodofo.tar.gz --directory=libs/lib
 
 meson setup builddir libs
 meson configure -Dprefix=/usr builddir
