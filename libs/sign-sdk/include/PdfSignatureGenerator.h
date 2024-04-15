@@ -9,10 +9,11 @@
 
 #ifndef _PDFSIGNATUREGENERATOR_H_
 #define _PDFSIGNATUREGENERATOR_H_
+#include <podofo/doc/PdfSignOutputDevice.h>
+#include <podofo/doc/PdfSignatureField.h>
+#include <podofo/podofo.h>
+
 #include "Util/UUCByteArray.h"
-#include "podofo/doc/PdfSignOutputDevice.h"
-#include "podofo/doc/PdfSignatureField.h"
-#include "podofo/podofo.h"
 
 using namespace PoDoFo;
 using namespace std;

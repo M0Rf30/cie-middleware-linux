@@ -59,14 +59,16 @@ int PdfSignatureGenerator::Load(const char* pdf, int len) {
     printf("STOP");
 
     m_pPdfDocument = new PdfMemDocument();
-    m_pPdfDocument->Load(pdf, len);
+    m_pPdfDocument->LoadFromBuffer(pdf, len, true);
     printf("OK m_pPdfDocument");
     int nSigns = PDFVerifier::GetNumberOfSignatures(m_pPdfDocument);
     printf("OK nSigns: %d", nSigns);
 
-    if (nSigns > 0) {
-      m_pPdfDocument->SetIncrementalUpdates(true);
-    }
+    // TODO: vanilla
+    // if (nSigns > 0) {
+    //   m_pPdfDocument->SetIncrementalUpdates(true);
+    // }
+
     m_actualLen = len;
 
     return nSigns;
@@ -83,11 +85,11 @@ void PdfSignatureGenerator::AddFont(const char* szFontName,
   // printf(szFontPath);
 
   m_pPdfDocument->CreateFont(
-      szFontName, false, false,
+      szFontName, false, false, false,
       PdfEncodingFactory::GlobalWinAnsiEncodingInstance(),
       PdfFontCache::eFontCreationFlags_AutoSelectBase14, true, szFontPath);
   m_pPdfDocument->CreateFont(
-      szFontName, true, false,
+      szFontName, true, false, false,
       PdfEncodingFactory::GlobalWinAnsiEncodingInstance(),
       PdfFontCache::eFontCreationFlags_AutoSelectBase14, true, szFontPath);
 }
@@ -145,23 +147,20 @@ void PdfSignatureGenerator::InitSignature(
 
   LOG_DBG((0, "InitSignature", "PdfSignatureField"));
 
-  m_pSignatureField = new PdfSignatureField(
-      pPage, rect, m_pPdfDocument, PdfString(szFieldName), szSubFilter);
+  m_pSignatureField = new PdfSignatureField(pPage, rect, m_pPdfDocument);
 
   LOG_DBG((0, "InitSignature", "PdfSignatureField OK"));
 
   if (szReason && szReason[0]) {
     PdfString reason(szReason);
-    PdfString reasonLabel(szReasonLabel);
-    m_pSignatureField->SetSignatureReason(reasonLabel, reason);
+    m_pSignatureField->SetSignatureReason(reason);
   }
 
   LOG_DBG((0, "InitSignature", "szReason OK"));
 
   if (szLocation && szLocation[0]) {
     PdfString location(szLocation);
-    PdfString locationLabel(szLocationLabel);
-    m_pSignatureField->SetSignatureLocation(locationLabel, location);
+    m_pSignatureField->SetSignatureLocation(location);
   }
 
   LOG_DBG((0, "InitSignature", "szLocation OK"));
@@ -171,23 +170,25 @@ void PdfSignatureGenerator::InitSignature(
 
   LOG_DBG((0, "InitSignature", "Date OK"));
 
-  if (szName && szName[0]) {
-    PdfString name(szName);
-    PdfString nameLabel(szNameLabel);
-    m_pSignatureField->SetSignatureName(nameLabel, name);
-  }
+  // TODO: vanilla
+  // if (szName && szName[0]) {
+  //   PdfString name(szName);
+  //   PdfString nameLabel(szNameLabel);
+  //   m_pSignatureField->SetSignatureName(nameLabel, name);
+  // }
 
   LOG_DBG((0, "InitSignature", "szName OK"));
 
-  m_pSignatureField->SetSignatureSize(SIGNATURE_SIZE);
+  // TODO: vanilla
+  // m_pSignatureField->SetSignatureSize(SIGNATURE_SIZE);
 
   LOG_DBG((0, "InitSignature", "SIGNATURE_SIZE OK"));
 
   // if((szImagePath && szImagePath[0]) || (szDescription && szDescription[0]))
   if (width * height > 0) {
     try {
-      // m_pSignatureField->SetFontSize(5);
-      m_pSignatureField->SetAppearance(szImagePath, szDescription);
+      // TODO: vanilla
+      // m_pSignatureField->SetAppearance(szImagePath, szDescription);
       LOG_DBG((0, "InitSignature", "SetAppearance OK"));
     } catch (PdfError& error) {
       LOG_ERR((0, "InitSignature", "SetAppearance error: %s, %s",
@@ -206,10 +207,11 @@ void PdfSignatureGenerator::InitSignature(
     }
   }
 
-  if (szGraphometricData && szGraphometricData[0])
-    m_pSignatureField->SetGraphometricData(
-        PdfString("Aruba_Sign_Biometric_Data"), PdfString(szGraphometricData),
-        PdfString(szVersion));
+  // TODO: vanilla
+  // if (szGraphometricData && szGraphometricData[0])
+  //   m_pSignatureField->SetGraphometricData(
+  //       PdfString("Aruba_Sign_Biometric_Data"),
+  //       PdfString(szGraphometricData), PdfString(szVersion));
 
   LOG_DBG((0, "InitSignature", "szGraphometricData OK"));
 

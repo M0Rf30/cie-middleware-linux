@@ -20,8 +20,6 @@
 
 This software library (middleware) implements the standard cryptographic interfaces **PKCS#11** and **CSP**, allowing the use of the authentication certificate and its associated private key stored on the CIE chip.
 
-The branch `podofo-vanilla` excludes references to PDF signing. In the near future, it should employ podofo vanilla and enable PDF signing.
-
 ## Components
 
 The [library](libcie-pkcs11) is developed in C++ and supports GNU/Linux OS.
@@ -52,6 +50,8 @@ Before proceeding, ensure you have the following installed on your system:
 ### Build Instructions
 
 ```sh
+cie-java/gradlew -b cie-java/build.gradle standalone
+cp cie-java/build/libs/CIEID-standalone.jar packages/flatpak
 flatpak-builder --install --user --force-clean build-dir packages/flatpak/app.m0rf30.cieid.yml
 ```
 
@@ -74,17 +74,14 @@ The following libraries are required:
 - openssl
 - pcsclite
 - pkgconf (make)
+- podofo (<= 0.10.4)
 
 ### Build Instructions
 
 From the terminal, navigate to the root of this repo and type:
 
 ```sh
-gradlew -b cie-java/build.gradle standalone
-
-curl -sL "https://github.com/M0Rf30/cie-middleware-linux/releases/download/podofo-1.4.2/libpodofo-1.4.2.tar.gz" -o libpodofo.tar.gz
-
-tar xf libpodofo.tar.gz --directory=libs/lib
+cie-java/gradlew -b cie-java/build.gradle standalone
 
 meson setup builddir libs
 meson configure -Dprefix=/usr builddir
@@ -94,4 +91,4 @@ meson compile -C builddir
 At the end of the build, the following files will be present:
 
 - builddir/libcie-pkcs11.so
-- cie-java/bin/libs/CIEID-standalone.jar
+- cie-java/build/libs/CIEID-standalone.jar

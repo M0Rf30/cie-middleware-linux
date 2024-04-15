@@ -10,11 +10,9 @@ section="utils"
 priority="optional"
 source=(
   "https://github.com/M0Rf30/cie-middleware-linux/archive/refs/tags/${pkgver}.tar.gz"
-  "https://github.com/M0Rf30/cie-middleware-linux/releases/download/podofo-1.4.2/libpodofo-1.4.2.tar.gz"
 )
 sha256sums=(
   "SKIP"
-  "ef81e439b12aa2ff309b353399c033bd62b027e7bd4cbf649c025226f1de5287"
 )
 
 depends__apt=(
@@ -24,6 +22,7 @@ depends__apt=(
   "libfontconfig1"
   "libpcsclite1"
   "libpng16-16"
+  "libpodofo-utils"
   "libssl3"
   "libxml2"
   "openjdk-17-jre-headless"
@@ -37,6 +36,7 @@ makedepends__apt=(
   "libfreetype6-dev"
   "libpcsclite-dev"
   "libpng-dev"
+  "libpodofo-dev"
   "libssl-dev"
   "libxml2-dev"
   "openjdk-17-jdk-headless"
@@ -55,6 +55,7 @@ depends__pacman=(
   "libxml2"
   "openssl"
   "pcsclite"
+  "podofo"
 )
 makedepends__pacman=(
   "crypto++"
@@ -82,6 +83,7 @@ depends__yum=(
   "libxml2"
   "openssl"
   "pcsc-lite"
+  "podofo-libs"
 )
 makedepends__yum=(
   "cryptopp-devel"
@@ -96,12 +98,11 @@ makedepends__yum=(
   "openssl-devel"
   "pcsc-lite-devel"
   "pkgconf-pkg-config"
+  "podofo-devel"
 )
 
 build__pacman() {
   export JAVA_HOME=/usr/lib/jvm/default/
-  cp "${srcdir}/libpodofo.a" \
-    "${srcdir}/${pkgname}-linux-${pkgver}/libs/lib"
 
   cd "${srcdir}/${pkgname}-linux-${pkgver}"
   cie-java/gradlew -b cie-java/build.gradle standalone
@@ -112,8 +113,6 @@ build__pacman() {
 
 build__yum() {
   export JAVA_HOME=/usr/lib/jvm/java-17-openjdk/
-  cp "${srcdir}/libpodofo.a" \
-    "${srcdir}/${pkgname}-linux-${pkgver}/libs/lib"
 
   cd "${srcdir}/${pkgname}-linux-${pkgver}"
   cie-java/gradlew -b cie-java/build.gradle standalone
@@ -125,8 +124,6 @@ build__yum() {
 build__apt() {
   export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
   pip3 install ninja==1.10.2.3 meson==0.61.1
-  cp "${srcdir}/libpodofo.a" \
-    "${srcdir}/${pkgname}-linux-${pkgver}/libs/lib"
 
   cd "${srcdir}/${pkgname}-linux-${pkgver}"
   cie-java/gradlew -b cie-java/build.gradle standalone

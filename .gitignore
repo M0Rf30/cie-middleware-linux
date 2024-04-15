@@ -23,4 +23,4 @@ cmake_install.cmake
 meson-info/
 meson-logs/
 meson-private/
-libpodofo.tar.gz
+CIEID-standalone.jar
