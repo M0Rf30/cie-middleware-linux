@@ -11,7 +11,9 @@
 
 #include "PdfVerifier.h"
 #include "UUCLogger.h"
-#include "auxiliary/OutputDevice.h"
+#include "auxiliary/StreamDevice.h"
+#include "auxiliary/basetypes.h"
+#include "main/PdfSigner.h"
 #include "main/PdfString.h"
 #include "main/PdfTrailer.h"
 
@@ -32,23 +34,23 @@ USE_LOG;
 PdfSignatureGenerator::PdfSignatureGenerator()
     : m_pPdfDocument(NULL),
       m_pSignatureField(NULL),
-      // m_pSignOutputDevice(NULL),
-      // m_pFinalOutDevice(NULL),
-      m_pMainDocbuffer(NULL),
-      m_pSignDocbuffer(NULL) {}
+      m_pSignOutputDevice(NULL),
+      m_pFinalOutDevice(NULL),
+      m_pMainDocbuffer(0),
+      m_pSignDocbuffer(0) {}
 
 PdfSignatureGenerator::~PdfSignatureGenerator() {
   if (m_pPdfDocument) delete m_pPdfDocument;
 
-  // if (m_pSignatureField) delete m_pSignatureField;
+  if (m_pSignatureField) delete m_pSignatureField;
 
-  // if (m_pSignOutputDevice) delete m_pSignOutputDevice;
+  if (m_pSignOutputDevice) delete m_pSignOutputDevice;
 
-  // if (m_pFinalOutDevice) delete m_pFinalOutDevice;
+  if (m_pFinalOutDevice) delete m_pFinalOutDevice;
 
-  if (m_pMainDocbuffer) delete m_pMainDocbuffer;
+  if (!m_pMainDocbuffer.empty()) m_pMainDocbuffer.clear();
 
-  if (m_pSignDocbuffer) delete m_pSignDocbuffer;
+  if (!m_pSignDocbuffer.empty()) m_pSignDocbuffer.clear();
 }
 
 int PdfSignatureGenerator::Load(const char* pdf, int len) {
@@ -65,10 +67,11 @@ int PdfSignatureGenerator::Load(const char* pdf, int len) {
     int nSigns = PDFVerifier::GetNumberOfSignatures(m_pPdfDocument);
     printf("OK nSigns: %d", nSigns);
 
-    // TODO: vanilla
-    // if (nSigns > 0) {
-    //   m_pPdfDocument->SetIncrementalUpdates(true);
-    // }
+    if (nSigns > 0) {
+      PdfWriter writer(m_pPdfDocument->GetObjects(),
+                       m_pPdfDocument->GetTrailer().GetObject());
+      writer.SetIncrementalUpdate(true);
+    }
 
     m_actualLen = len;
 
@@ -175,26 +178,19 @@ void PdfSignatureGenerator::InitSignature(
 
   LOG_DBG((0, "InitSignature", "szLocation OK"));
 
-  PdfDate now;
-  m_pSignatureField->SetSignatureDate(now);
+  m_pSignatureField->SetSignatureDate(PdfDate::LocalNow());
 
   LOG_DBG((0, "InitSignature", "Date OK"));
-
-  // TODO: vanilla
-  // m_pSignatureField->SetSignatureSize(SIGNATURE_SIZE);
-
-  LOG_DBG((0, "InitSignature", "SIGNATURE_SIZE OK"));
 
   // if((szImagePath && szImagePath[0]) || (szDescription && szDescription[0]))
   if (width * height > 0) {
     try {
       // TODO: vanilla
-
-      // Rect annotSize(0.0, 0.0, rect.Width, rect.Height);
-      // auto sigXObject = m_pPdfDocument->CreateXObjectForm(annotSize);
-      // m_pSignatureField->SetAppearanceStream(*sigXObject);
-
       // m_pSignatureField->SetAppearance(szImagePath, szDescription);
+      auto image = m_pPdfDocument->CreateImage();
+      image->Load(szImagePath);
+      auto xformObj = m_pPdfDocument->CreateXObjectForm(rect);
+      m_pSignatureField->SetAppearanceStream(*xformObj);
       LOG_DBG((0, "InitSignature", "SetAppearance OK"));
     } catch (PdfError& error) {
       LOG_ERR((0, "InitSignature", "SetAppearance error: %s, %s",
@@ -228,19 +224,20 @@ void PdfSignatureGenerator::InitSignature(
                      ? (strlen(szGraphometricData) + strlen(szVersion) + 100)
                      : 0);
 
-  int mainDoclen = 0;
-  m_pMainDocbuffer = NULL;
-  while (!m_pMainDocbuffer) {
+  // int mainDoclen = 0;
+  m_pMainDocbuffer.clear();
+  while (!m_pMainDocbuffer.empty()) {
     try {
       LOG_DBG((0, "InitSignature", "fulllen %d", fulllen));
-      m_pMainDocbuffer = new char[fulllen];
-      PdfOutputDevice pdfOutDevice(m_pMainDocbuffer, fulllen);
-      m_pPdfDocument->Write(&pdfOutDevice);
-      mainDoclen = pdfOutDevice.GetLength();
+      m_pMainDocbuffer.reserve(fulllen);
+      // StreamDevice pdfOutDevice(m_pMainDocbuffer, fulllen);
+      auto pdfOutDevice =
+          std::make_shared<BufferStreamDevice>(m_pMainDocbuffer);
+      m_pPdfDocument->SaveUpdate(*pdfOutDevice);
+      // mainDoclen = pdfOutDevice->GetLength();
     } catch (::PoDoFo::PdfError err) {
-      if (m_pMainDocbuffer) {
-        delete m_pMainDocbuffer;
-        m_pMainDocbuffer = NULL;
+      if (m_pMainDocbuffer.empty()) {
+        m_pMainDocbuffer.clear();
       }
 
       LOG_DBG((0, "PdfError", "what %s", err.what()));
@@ -251,39 +248,48 @@ void PdfSignatureGenerator::InitSignature(
   LOG_DBG((0, "InitSignature", "m_pMainDocbuffer %d", fulllen));
 
   // alloca un SignOutputDevice
-  m_pSignDocbuffer = new char[fulllen];
+  m_pSignDocbuffer.reserve(fulllen);
 
   LOG_DBG((0, "InitSignature", "m_pSignDocbuffer %d", fulllen));
 
-  m_pFinalOutDevice = new PdfOutputDevice(m_pSignDocbuffer, fulllen);
-  m_pSignOutputDevice = new PdfSignOutputDevice(m_pFinalOutDevice);
+  auto m_pFinalOutDevice =
+      std::make_shared<BufferStreamDevice>(m_pSignDocbuffer);
+  // m_pFinalOutDevice = new StreamDevice(m_pSignDocbuffer, fulllen);
 
   LOG_DBG((0, "InitSignature", "buffers OK %d", fulllen));
 
   // imposta la firma
-  m_pSignOutputDevice->SetSignatureSize(SIGNATURE_SIZE);
+  // SetSignatureSize is removed
+  // m_pSignOutputDevice->SetSignatureSize(SIGNATURE_SIZE);
 
   LOG_DBG((0, "InitSignature", "SetSignatureSize OK %d", SIGNATURE_SIZE));
 
   // Scrive il documento reale
-  m_pSignOutputDevice->Write(m_pMainDocbuffer, mainDoclen);
+  // X509 Certificate
+  string cert;
+  // RSA Private key coefficients in der format (binary)
+  string pkey;
 
+  auto signer = PdfSignerCms(cert);
+  SignDocument(*m_pPdfDocument, *m_pFinalOutDevice, signer, *m_pSignatureField);
+
+  // m_pSignOutputDevice->Write(m_pMainDocbuffer, mainDoclen);
   LOG_DBG((0, "InitSignature", "Write OK %d", mainDoclen));
 
-  m_pSignOutputDevice->AdjustByteRange();
+  // m_pSignOutputDevice->AdjustByteRange();
 
-  LOG_DBG((0, "InitSignature", "AdjustByteRange OK"));
+  // LOG_DBG((0, "InitSignature", "AdjustByteRange OK"));
 }
 
 void PdfSignatureGenerator::GetBufferForSignature(UUCByteArray& toSign) {
   // int fulllen = m_actualLen * 2 + SIGNATURE_SIZE * 2;
   int len = m_pSignOutputDevice->GetLength() * 2;
-
+  bool endOfFile = false;
   char* buffer = new char[len];
 
   m_pSignOutputDevice->Seek(0);
 
-  int nRead = m_pSignOutputDevice->ReadForSignature(buffer, len);
+  int nRead = m_pSignOutputDevice->Read(buffer, len, endOfFile);
   if (nRead == -1) throw nRead;
 
   toSign.append((BYTE*)buffer, nRead);
@@ -291,17 +297,21 @@ void PdfSignatureGenerator::GetBufferForSignature(UUCByteArray& toSign) {
   delete[] buffer;
 }
 
-void PdfSignatureGenerator::SetSignature(const char* signature, int len) {
-  PdfData signatureData(signature, len);
-  m_pSignOutputDevice->SetSignature(signatureData);
+void PdfSignatureGenerator::SetSignature(const string_view& signature,
+                                         int len) {
+  // void PdfSignatureGenerator::SetSignature(const char* signature, int len) {
+  // PdfData signatureData(signature, len);
+  PdfData signatureData = PdfData(signature);
+  m_pSignOutputDevice->Write(signatureData.ToString());
 }
 
 void PdfSignatureGenerator::GetSignedPdf(UUCByteArray& signedPdf) {
   int finalLength = m_pSignOutputDevice->GetLength();
   char* szSignedPdf = new char[finalLength];
+  bool endOfFile = false;
 
   m_pSignOutputDevice->Seek(0);
-  int nRead = m_pSignOutputDevice->Read(szSignedPdf, finalLength);
+  int nRead = m_pSignOutputDevice->Read(szSignedPdf, finalLength, endOfFile);
 
   signedPdf.append((BYTE*)szSignedPdf, nRead);
 

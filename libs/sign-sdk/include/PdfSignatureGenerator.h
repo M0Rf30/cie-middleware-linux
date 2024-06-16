@@ -10,9 +10,13 @@
 #ifndef _PDFSIGNATUREGENERATOR_H_
 #define _PDFSIGNATUREGENERATOR_H_
 
+#include <podofo/auxiliary/StreamDevice.h>
 #include <podofo/podofo.h>
 
+#include "Sign/definitions.h"
 #include "Util/UUCByteArray.h"
+#include "auxiliary/OutputDevice.h"
+#include "auxiliary/basetypes.h"
 
 using namespace PoDoFo;
 using namespace std;
@@ -49,7 +53,7 @@ class PdfSignatureGenerator {
 
   void GetBufferForSignature(UUCByteArray& toSign);
 
-  void SetSignature(const char* signature, int len);
+  void SetSignature(const string_view& signature, int len);
 
   void GetSignedPdf(UUCByteArray& signature);
 
@@ -64,13 +68,13 @@ class PdfSignatureGenerator {
 
   PdfSignature* m_pSignatureField;
 
-  PdfSignOutputDevice* m_pSignOutputDevice;
+  StreamDevice* m_pSignOutputDevice;
 
-  PdfOutputDevice* m_pFinalOutDevice;
+  StreamDevice* m_pFinalOutDevice;
 
-  char* m_pMainDocbuffer;
+  charbuff m_pMainDocbuffer;
 
-  char* m_pSignDocbuffer;
+  charbuff m_pSignDocbuffer;
 
   const double lastSignatureY(int left, int bottom);
 
