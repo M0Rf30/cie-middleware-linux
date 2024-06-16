@@ -14,7 +14,6 @@ long CIEVerify::verify(const char* input_file, VERIFY_RESULT* verifyResult,
 
     long ret;
     ctx = disigon_verify_init();
-
 #if 1
 
     ret = disigon_set(DISIGON_OPT_LOG_LEVEL, (void*)LOG_TYPE_DEBUG);
@@ -65,11 +64,13 @@ long CIEVerify::verify(const char* input_file, VERIFY_RESULT* verifyResult,
     }
 
     ret = disigon_verify_verify(ctx, verifyResult);
+    printf("disigon_verify_verify");
     if (ret != 0) {
       throw ret;
     }
 
     ret = disigon_verify_cleanup(ctx);
+    printf("disigon_verify_cleanup");
     if (ret != 0) {
       throw ret;
     }

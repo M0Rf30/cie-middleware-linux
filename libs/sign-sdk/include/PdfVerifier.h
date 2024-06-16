@@ -31,7 +31,7 @@ class PDFVerifier {
 
   virtual ~PDFVerifier();
 
-  int Load(const char* pdf, int len);
+  int Load(bufferview *pdf, int len);
   int Load(const char* szFilePath);
 
   int GetNumberOfSignatures();

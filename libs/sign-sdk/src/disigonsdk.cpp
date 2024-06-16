@@ -1732,7 +1732,7 @@ long verify_pdf(DISIGON_VERIFY_CONTEXT* pContext, UUCByteArray& data,
                 VERIFY_INFO* pVerifyInfo) {
   PDFVerifier pdfVerifier;
 
-  long nRes = pdfVerifier.Load((char*)data.getContent(), data.getLength());
+  long nRes = pdfVerifier.Load((bufferview*)data.getContent(), data.getLength());
 
   if (nRes) {
     LOG_ERR((0, "<-- verify_pdf", "Context: %p, Error: %x", pContext, nRes));

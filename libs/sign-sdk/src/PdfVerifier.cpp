@@ -7,6 +7,10 @@
  *
  */
 
+#include <cstdio>
+#include <iterator>
+
+#include "auxiliary/basetypes.h"
 #include "main/PdfTrailer.h"
 #ifndef HP_UX
 
@@ -29,15 +33,14 @@ PDFVerifier::~PDFVerifier() {
   if (m_pPdfMemDocument) delete m_pPdfMemDocument;
 }
 
-int PDFVerifier::Load(const char *pdf, int len) {
+int PDFVerifier::Load(bufferview *pdf, int len) {
   if (m_pPdfMemDocument) delete m_pPdfMemDocument;
 
   try {
     m_pPdfMemDocument = new PdfMemDocument();
-    m_pPdfMemDocument->Load(pdf);
+    m_pPdfMemDocument->LoadFromBuffer(*pdf);
     m_actualLen = len;
     m_szDocBuffer = (char *)pdf;
-
     return 0;
   } catch (::PoDoFo::PdfError &err) {
     return -2;
