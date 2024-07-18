@@ -1640,56 +1640,42 @@ public class MainFrame extends JFrame {
                                         System.out.printf(
                                                 "Verifica con CIE - Url: %s, Port: %s, credentials: %s",
                                                 proxyAddress, proxyPort, proxyCredentials);
-                                        final long ret =
+                                        final int ret =
                                                 Middleware.INSTANCE.verificaConCIE(
                                                         filePath,
                                                         proxyAddress,
                                                         proxyPort,
                                                         proxyCredentials);
 
-                                        if (ret == 0) {
-                                            int nSign = Middleware.INSTANCE.getNumberOfSign();
+                                        if (ret > 0 && ret != (long) INVALID_FILE_TYPE) {
 
-                                            if (nSign == 0) {
-                                                logger.Info("Verifica completata");
-                                                JOptionPane.showMessageDialog(
-                                                        MainFrame.this.getContentPane(),
-                                                        "Il file selezionato non contiene firme",
-                                                        "Verifica completata",
-                                                        JOptionPane.INFORMATION_MESSAGE);
-                                                tabbedPane.setSelectedIndex(10);
-                                            } else {
-                                                VerifyTable vTable =
-                                                        new VerifyTable(verifyScrollPane);
-                                                verifyInfo vInfo = new verifyInfo();
-                                                verifyInfo[] vInfos =
-                                                        (verifyInfo[]) vInfo.toArray(nSign);
+                                            VerifyTable vTable = new VerifyTable(verifyScrollPane);
+                                            verifyInfo vInfo = new verifyInfo();
+                                            verifyInfo[] vInfos = (verifyInfo[]) vInfo.toArray(ret);
 
-                                                for (int i = 0; i < nSign; i++) {
-                                                    Middleware.INSTANCE.getVerifyInfo(i, vInfos[i]);
-                                                    vInfos[i].printVerifyInfo();
-                                                    vTable.addDataToModel(
-                                                            verifyScrollPane, vInfos[i]);
-                                                }
-
-                                                verifyScrollPane.repaint();
-
-                                                if (FilenameUtils.getExtension(filePath)
-                                                        .equals("p7m")) {
-                                                    btnExtractP7M.setEnabled(true);
-                                                } else {
-                                                    btnExtractP7M.setEnabled(false);
-                                                }
-
-                                                tabbedPane.setSelectedIndex(16);
+                                            for (int i = 0; i < ret; i++) {
+                                                Middleware.INSTANCE.getVerifyInfo(i, vInfos[i]);
+                                                vInfos[i].printVerifyInfo();
+                                                vTable.addDataToModel(verifyScrollPane, vInfos[i]);
                                             }
+
+                                            verifyScrollPane.repaint();
+
+                                            if (FilenameUtils.getExtension(filePath)
+                                                    .equals("p7m")) {
+                                                btnExtractP7M.setEnabled(true);
+                                            } else {
+                                                btnExtractP7M.setEnabled(false);
+                                            }
+
+                                            tabbedPane.setSelectedIndex(16);
                                         } else if (ret == (long) INVALID_FILE_TYPE) {
                                             logger.Error(
                                                     "Il file selezionato non è un file valido");
                                             JOptionPane.showMessageDialog(
                                                     MainFrame.this.getContentPane(),
                                                     "Il file selezionato non è un file valido. E' possibile verificare solo file con estensione .p7m o .pdf",
-                                                    "Errore nella pnVerify",
+                                                    "Errore nella verifica",
                                                     JOptionPane.ERROR_MESSAGE);
                                             tabbedPane.setSelectedIndex(10);
                                         } else if (ret == 0) {
@@ -1701,11 +1687,11 @@ public class MainFrame extends JFrame {
                                                     JOptionPane.INFORMATION_MESSAGE);
                                             tabbedPane.setSelectedIndex(10);
                                         } else {
-                                            logger.Error("Errore generico durante la pnVerify");
+                                            logger.Error("Errore generico durante la verifica");
                                             JOptionPane.showMessageDialog(
                                                     MainFrame.this.getContentPane(),
-                                                    "Si è verificato un errore durante la pnVerify",
-                                                    "Errore nella pnVerify",
+                                                    "Si è verificato un errore durante la verifica",
+                                                    "Errore nella verifica",
                                                     JOptionPane.ERROR_MESSAGE);
                                             tabbedPane.setSelectedIndex(10);
                                         }
@@ -1752,8 +1738,10 @@ public class MainFrame extends JFrame {
                         if (getFileExtension(filePath).equals(".pdf")
                                 && !shouldSignWithoutPairing) {
                             cbGraphicSig.setEnabled(true);
+                            cbGraphicSig.setVisible(true);
                         } else {
                             cbGraphicSig.setEnabled(false);
+                            cbGraphicSig.setVisible(false);
                         }
 
                         tabbedPane.setSelectedIndex(12);
@@ -3329,11 +3317,9 @@ public class MainFrame extends JFrame {
 
             ImageIO.write(bufferedImage, "png", new File(path));
         } catch (FontFormatException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
 
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
