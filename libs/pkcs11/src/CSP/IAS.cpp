@@ -45,8 +45,6 @@ IAS::IAS(CToken::TokenTransmitCallback transmit, ByteArray ATR) {
   init_func
 
       Callback = nullptr;
-  CallbackData = nullptr;
-
   this->ATR = ATR;
   uint8_t gemaltoAID[] = {0xA0, 0x00, 0x00, 0x00, 0x30, 0x80, 0x00,
                           0x00, 0x00, 0x09, 0x81, 0x60, 0x01};
@@ -322,64 +320,53 @@ void IAS::SelectAID_CIE(bool SM) {
   exit_func
 }
 
-uint8_t NXP_ATR[] = {0x80, 0x31, 0x80, 0x65, 0x49, 0x54, 0x4E, 0x58, 0x50};
-uint8_t Gemalto_ATR[] = {0x80, 0x31, 0x80, 0x65, 0xB0, 0x85, 0x04, 0x00, 0x11};
-uint8_t Gemalto2_ATR[] = {0x80, 0x31, 0x80, 0x65, 0xB0, 0x85, 0x03, 0x00, 0xEF};
-uint8_t STM_ATR[] = {0x80, 0x66, 0x47, 0x50, 0x00, 0xB8, 0x00, 0x7F};
-uint8_t STM2_ATR[] = {0x80, 0x80, 0x01, 0x01};
-uint8_t STM3_ATR[] = {0x80, 0x01, 0x80, 0x66, 0x47, 0x50, 0x00,
-                      0xB8, 0x00, 0x94, 0x82, 0x90, 0x00, 0xC5};
-uint8_t ACTALIS_ATR[] = {0x80, 0x01, 0x80, 0x31, 0x80, 0x65, 0x49, 0x54, 0x4a,
-                         0x34, 0x41, 0x12, 0x0f, 0xff, 0x82, 0x90, 0x00, 0x88};
-uint8_t BIT4ID_ATR[] = {0x80, 0x01, 0x80, 0x31, 0x80, 0x65, 0x49, 0x54, 0x4a,
-                        0x34, 0x42, 0x12, 0x0f, 0xff, 0x82, 0x90, 0x00, 0x8b};
-
-ByteArray baNXP_ATR(NXP_ATR, sizeof(NXP_ATR));
-ByteArray baGemalto_ATR(Gemalto_ATR, sizeof(Gemalto_ATR));
-ByteArray baGemalto2_ATR(Gemalto2_ATR, sizeof(Gemalto2_ATR));
-ByteArray baSTM_ATR(STM_ATR, sizeof(STM_ATR));
-ByteArray baSTM2_ATR(STM2_ATR, sizeof(STM2_ATR));
-ByteArray baSTM3_ATR(STM3_ATR, sizeof(STM3_ATR));
-ByteArray baACTALIS_ATR(ACTALIS_ATR, sizeof(ACTALIS_ATR));
-ByteArray baBIT4ID_ATR(BIT4ID_ATR, sizeof(BIT4ID_ATR));
-
 void IAS::ReadCIEType() {
-  init_func size_t position;
-  if (ATR.indexOf(baNXP_ATR, position)) {
-    type = CIE_Type::CIE_NXP;
-    LOG_INFO("IAS::ReadCIEType - CIE NXP detected");
-  } else if (ATR.indexOf(baGemalto_ATR, position)) {
-    type = CIE_Type::CIE_Gemalto;
-    LOG_INFO("IAS::ReadCIEType - CIE Gemalto detected\n");
-  } else if (ATR.indexOf(baGemalto2_ATR, position)) {
-    type = CIE_Type::CIE_Gemalto;
-    LOG_INFO("IAS::ReadCIEType - CIE Gemalto2 detected\n");
-  } else if (ATR.indexOf(baSTM_ATR, position)) {
-    type = CIE_Type::CIE_STM;
-    LOG_INFO("IAS::ReadCIEType - CIE STM detected\n");
-  } else if (ATR.indexOf(baSTM2_ATR, position)) {
-    type = CIE_Type::CIE_STM2;
-    LOG_INFO("IAS::ReadCIEType - CIE STM2 detected\n");
-  } else if (ATR.indexOf(baSTM3_ATR, position)) {
-    type = CIE_Type::CIE_STM3;
-    LOG_INFO("IAS::ReadCIEType - CIE STM3 detected\n");
-  } else if (ATR.indexOf(baACTALIS_ATR, position)) {
-    type = CIE_Type::CIE_ACTALIS;
-    LOG_INFO("IAS::ReadCIEType - CIE ACTALIS detected\n");
-  } else if (ATR.indexOf(baBIT4ID_ATR, position)) {
-    type = CIE_Type::CIE_BIT4ID;
-    LOG_INFO("IAS::ReadCIEType - CIE BIT4ID detected\n");
-  } else {
-    throw logged_error("IAS::ReadCIEType - CIE not recognized");
+  init_func
+
+      std::vector<uint8_t>
+          atr_vector((ATR.data()), ATR.data() + ATR.size());
+
+  type = get_type(atr_vector);
+  if (type == CIE_Type::CIE_Unknown) {
+    throw logged_error("ReadCIEType - CIE not recognized");
   }
+
+#if 0
+	if (ATR.indexOf(baNXP_ATR, position)) {
+		type = CIE_Type::CIE_NXP;
+		LOG_INFO("ReadCIEType - CIE NXP detected");
+	}
+	else if (ATR.indexOf(baGemalto_ATR, position)) {
+		type = CIE_Type::CIE_Gemalto;
+		LOG_INFO("ReadCIEType - CIE Gemalto detected\n");
+	}
+	else if (ATR.indexOf(baGemalto2_ATR, position)) {
+		type = CIE_Type::CIE_Gemalto;
+		LOG_INFO("ReadCIEType - CIE Gemalto2 detected\n");
+	}
+	else if (ATR.indexOf(baSTM_ATR, position)) {
+		type = CIE_Type::CIE_STM;
+		LOG_INFO("ReadCIEType - CIE STM detected\n");
+	}
+	else if (ATR.indexOf(baSTM2_ATR, position)) {
+		type = CIE_Type::CIE_STM2;
+		LOG_INFO("ReadCIEType - CIE STM2 detected\n");
+	}
+	else if (ATR.indexOf(baSTM3_ATR, position))
+	{
+		type = CIE_Type::CIE_STM3;
+		LOG_INFO("ReadCIEType - CIE STM3 detected\n");
+	}
+	else
+		throw logged_error("ReadCIEType - CIE not recognized");
+#endif
 }
 
 void IAS::SelectAID_IAS(bool SM) {
   init_func if (type == CIE_Type::CIE_Unknown) { ReadCIEType(); }
   ByteDynArray resp;
   StatusWord sw;
-
-  if (type == CIE_Type::CIE_NXP) {
+  if ((type >= CIE_Type::CIE_NXP)) {
     uint8_t selectMF[] = {0x00, 0xa4, 0x00, 0x00};
 
     if (SM) {
@@ -391,9 +378,7 @@ void IAS::SelectAID_IAS(bool SM) {
           0x9000)
         throw scard_error(sw);
     }
-  } else if (type == CIE_Type::CIE_Gemalto || type == CIE_Type::CIE_STM ||
-             type == CIE_Type::CIE_STM2 || type == CIE_Type::CIE_STM3 ||
-             type == CIE_Type::CIE_ACTALIS || type == CIE_Type::CIE_BIT4ID) {
+  } else if ((type < CIE_Type::CIE_NXP) && (type != CIE_Type::CIE_Unknown)) {
     uint8_t selectIAS[] = {0x00, 0xa4, 0x04, 0x0c};
     if (SM) {
       if ((sw = SendAPDU_SM(VarToByteArray(selectIAS), IAS_AID, resp)) !=
@@ -404,11 +389,10 @@ void IAS::SelectAID_IAS(bool SM) {
         throw scard_error(sw);
     }
   } else {
-    throw logged_error("Tipo CIE sconosciuto");
+    throw logged_error("SelectAID_IAS - CIE not recognized");
   }
 
   SM = false;
-
   ActiveDF = DF_IAS;
   ActiveSM = false;
   exit_func
@@ -1008,9 +992,7 @@ void IAS::InitDHParam() {
     dh_g = parser.tags[0]->tags[0]->tags[0]->tags[0]->content;
     dh_p = parser.tags[0]->tags[0]->tags[0]->tags[1]->content;
     dh_q = parser.tags[0]->tags[0]->tags[0]->tags[2]->content;
-  } else if (type == CIE_Type::CIE_NXP || type == CIE_Type::CIE_STM ||
-             type == CIE_Type::CIE_STM2 || type == CIE_Type::CIE_STM3 ||
-             type == CIE_Type::CIE_ACTALIS || type == CIE_Type::CIE_BIT4ID) {
+  } else if ((type > CIE_Type::CIE_Gemalto)) {
     uint8_t getDHDoup[] = {00, 0xcb, 0x3f, 0xff};
     uint8_t getDHDuopData_g[] = {0x4D, 0x0A, 0x70, 0x08, 0xBF, 0xA1,
                                  0x01, 0x04, 0xA3, 0x02, 0x97, 0x00};
@@ -1037,7 +1019,7 @@ void IAS::InitDHParam() {
     parser.Parse(resp);
     dh_q = parser.tags[0]->tags[0]->tags[0]->tags[0]->content;
   } else
-    throw logged_error("CIE non riconosciuta");
+    throw logged_error("InitDHParam - CIE type not recognizes");
 
   exit_func
 }
@@ -1265,7 +1247,6 @@ void IAS::VerificaSODPSS(ByteArray &SOD,
   temp3.Child(0, 02).Verify(VarToByteArray(val1));
 
   CASNTag &issuerName = temp3.Child(1, 0x30).Child(0, 0x30);
-  temp3.Child(1, 0x30).Child(1, 02);
 
   temp3.Child(2, 0x30).Child(0, 06).Verify(VarToByteArray(OID_SHA512));
 
