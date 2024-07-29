@@ -1,5 +1,5 @@
 pkgname="cie-middleware"
-pkgver="1.5.2"
+pkgver="1.5.3"
 pkgrel="1"
 pkgdesc="A fork of Middleware della CIE (Carta di Identità Elettronica) per Linux"
 maintainer="M0Rf30"
