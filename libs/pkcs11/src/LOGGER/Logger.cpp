@@ -101,17 +101,17 @@ Logger::~Logger() {
 Logger* Logger::getInstance() throw() {
   if (m_Instance == 0) {
     m_Instance = new Logger();
-  }
 
-  int log_level = m_Instance->getLogConfig();
-  printf("Lib log level: %d\n", log_level);
-
-  if (log_level == LOG_STATUS_DISABLED) {
-    m_Instance->disableLog();
-  } else if (log_level > 0 && log_level < 3) {
-    m_Instance->enableFileLogging();
-    m_Instance->enableLog();
-    m_Instance->updateLogLevel(static_cast<LogLevel>(log_level));
+    int log_level = m_Instance->getLogConfig();
+    printf("Lib log level: %d\n", log_level);
+  
+    if (log_level == LOG_STATUS_DISABLED) {
+      m_Instance->disableLog();
+    } else if (log_level > 0 && log_level < 3) {
+      m_Instance->enableFileLogging();
+      m_Instance->enableLog();
+      m_Instance->updateLogLevel(static_cast<LogLevel>(log_level));
+    }
   }
 
   return m_Instance;
