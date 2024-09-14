@@ -79,6 +79,17 @@ class PdfSignatureGenerator {
 
   static bool IsSignatureField(const PdfMemDocument* pDoc,
                                const PdfObject* const pObj);
+
+  void SetAppearance(PdfSignatureField* m_pSignatureField,
+                     const char* szImagePath, const char* szDescription,
+                     const bool showData);
+  void SetGraphometricData(PdfSignatureField* m_pSignatureField,
+                           const PdfString& rsGraphometricData,
+                           const PdfString& rsVersion);
+  void SetSignatureName(PdfSignatureField* m_pSignatureField,
+                        const PdfString& rsText);
+  void SetSignatureSize(PdfSignatureField* m_pSignatureField,
+                        const size_t size);
 };
 
 #endif  // _PDFSIGNATUREGENERATOR_H_
