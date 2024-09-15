@@ -57,13 +57,16 @@ public class Utils {
             props.load(fins);
             fins.close();
         } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            // Handle the case where the file is not found
+            System.err.println(
+                    "Configuration file 'cieid.props' not found in directory: " + appDir);
+            // Optionally, set default properties or take other actions
+            // props.setProperty("defaultKey", "defaultValue");
         } catch (IOException e) {
-            // TODO Auto-generated catch block
+            // Handle other I/O exceptions
+            System.err.println("Error reading the configuration file: " + e.getMessage());
             e.printStackTrace();
         }
-
         return props.getProperty(key, def);
     }
 
@@ -72,15 +75,18 @@ public class Utils {
 
         Properties props = new Properties();
 
-        try {
-            FileInputStream fins = new FileInputStream(new File(appDir, "cieid.props"));
+        try (FileInputStream fins = new FileInputStream(new File(appDir, "cieid.props"))) {
             props.load(fins);
             fins.close();
         } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            // Handle the case where the file is not found
+            System.err.println(
+                    "Configuration file 'cieid.props' not found in directory: " + appDir);
+            // Optionally, set default properties or take other actions
+            // props.setProperty("defaultKey", "defaultValue");
         } catch (IOException e) {
-            // TODO Auto-generated catch block
+            // Handle other I/O exceptions
+            System.err.println("Error reading the configuration file: " + e.getMessage());
             e.printStackTrace();
         }
 
@@ -91,10 +97,14 @@ public class Utils {
             props.store(fouts, "CIEID Properties");
             fouts.close();
         } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
+            // Handle the case where the file cannot be created
+            System.err.println(
+                    "Error: Unable to create or find the configuration file 'cieid.props' in directory: "
+                            + appDir);
             e.printStackTrace();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
+            // Handle other I/O exceptions
+            System.err.println("Error writing to the configuration file: " + e.getMessage());
             e.printStackTrace();
         }
     }
