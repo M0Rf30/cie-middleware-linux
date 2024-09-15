@@ -48,8 +48,7 @@ long CIEVerify::verify(const char* input_file, VERIFY_RESULT* verifyResult,
         LOG_ERROR("CIEVerify::invalid proxy port");
         return DISIGON_ERROR_INVALID_SIGOPT;
       } else {
-        ret =
-            disigon_verify_set(ctx, DISIGON_OPT_PROXY_PORT, (void*)proxy_port);
+        ret = disigon_verify_set(ctx, DISIGON_OPT_PROXY_PORT, &proxy_port);
         if (ret != 0) {
           throw ret;
         }
@@ -79,6 +78,8 @@ long CIEVerify::verify(const char* input_file, VERIFY_RESULT* verifyResult,
   } catch (long err) {
     LOG_ERROR("CIEVerify::verify error: %lx", err);
   }
+
+  return 0;
 }
 
 long CIEVerify::get_file_from_p7m(const char* input_file,

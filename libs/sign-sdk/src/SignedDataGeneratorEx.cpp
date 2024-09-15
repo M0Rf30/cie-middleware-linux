@@ -12,6 +12,7 @@
 #include "ASN1/ASN1ObjectIdentifier.h"
 #include "ASN1/ASN1Octetstring.h"
 #include "ASN1/ASN1Setof.h"
+#include "Sign/definitions.h"
 
 SignedDataGeneratorEx::SignedDataGeneratorEx(CSignedDocument& sd) {
   m_signerInfos = sd.getSignerInfos();
@@ -127,10 +128,11 @@ void SignedDataGeneratorEx::setTimestamp(CTimeStampResponse& tsr,
 }
 
 void SignedDataGeneratorEx::toByteArray(UUCByteArray& pkcs7SignedData) {
+  const char* dataOID = szDataOID;
   // Crea signedData
   CSignedData* pSignedData;
   if (m_content.getLength() == 0) {
-    CContentType contentType(szDataOID);
+    CContentType contentType(dataOID);
     pSignedData = new CSignedData(m_digestAlgos, CContentInfo(contentType),
                                   m_signerInfos, m_certificates);
   } else {

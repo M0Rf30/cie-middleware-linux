@@ -18,6 +18,7 @@ class CContentType : public CASN1ObjectIdentifier {
   CContentType(const CASN1Object& contentType);
 
   CContentType(char* lpszOId);
+  CContentType(const char* timeStampDataOID);
 
   CContentType(const CASN1ObjectIdentifier& algoId);
 

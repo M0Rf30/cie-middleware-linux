@@ -643,6 +643,7 @@ ByteDynArray IAS::SM(ByteArray &keyEnc, ByteArray &keySig, ByteArray &apdu,
   uint8_t Val01 = 1;
 
   ByteDynArray datafield, doob;
+  size_t apduSize = apdu.size();
   if (apdu[4] != 0 && apdu.size() > 5) {
     ByteDynArray enc = encDes.RawEncode(ISOPad(apdu.mid(5, apdu[4])));
 
@@ -665,7 +666,7 @@ ByteDynArray IAS::SM(ByteArray &keyEnc, ByteArray &keySig, ByteArray &apdu,
     calcMac.append(doob);
     datafield.append(doob);
   }
-  if (apdu.size() == 5 || apdu.size() == (apdu[4] + 6)) {
+  if (apduSize == 5 || apduSize == static_cast<size_t>(apdu[4] + 6)) {
     uint8_t le = apdu[apdu.size() - 1];
     ByteArray leBa = VarToByteArray(le);
     doob.setASN1Tag(0x97, leBa);

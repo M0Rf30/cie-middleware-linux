@@ -13,6 +13,9 @@ CContentType::CContentType(const CASN1ObjectIdentifier& algoId)
 
 CContentType::CContentType(char* lpszOId) : CASN1ObjectIdentifier(lpszOId) {}
 
+CContentType::CContentType(const char* timeStampDataOID)
+    : CASN1ObjectIdentifier(timeStampDataOID) {}
+
 CContentType::CContentType(UUCBufferedReader& reader)
     : CASN1ObjectIdentifier(reader) {}
 

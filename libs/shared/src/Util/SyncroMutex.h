@@ -17,8 +17,6 @@ class CSyncroMutex {
 };
 
 class CSyncroLocker {
-  CSyncroMutex *pMutex;
-
  public:
   CSyncroLocker(CSyncroMutex &mutex);
   ~CSyncroLocker();

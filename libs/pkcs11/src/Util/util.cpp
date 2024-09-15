@@ -165,7 +165,9 @@ std::string dumpHexDataLowerCase(ByteArray data, std::string &dump) {
 void PutPaddingBT0(ByteArray &ba, long dwLen) {
   init_func
 
-      if (dwLen > ba.size()) throw logged_error("Lunghezza del padding errata");
+      if (dwLen > static_cast<long>(ba.size())) {
+    throw logged_error("Lunghezza del padding errata");
+  }
 
   ba.left(ba.size() - dwLen).fill(0);
   exit_func

@@ -97,8 +97,9 @@ CK_RV CK_ENTRY firmaConCIE(const char* inFilePath, const char* type,
 
       progressCallBack(20, "Getting certificate from CIE...");
 
-      IAS* ias =
-          new IAS((CToken::TokenTransmitCallback)TokenTransmitCallback, atrBa);
+      IAS* ias = (IAS*)malloc(sizeof(IAS));
+      new (ias)
+          IAS((CToken::TokenTransmitCallback)TokenTransmitCallback, atrBa);
       ias->SetCardContext(&conn);
 
       foundCIE = false;
@@ -133,7 +134,8 @@ CK_RV CK_ENTRY firmaConCIE(const char* inFilePath, const char* type,
       memcpy(fullPinCStr, FullPIN.data(), 8);
       fullPinCStr[8] = 0;
 
-      CIESign* cieSign = new CIESign(ias);
+      CIESign* cieSign = (CIESign*)malloc(sizeof(CIESign));
+      new (cieSign) CIESign(ias);
 
       uint16_t ret = cieSign->sign(inFilePath, type, fullPinCStr, page, x, y, w,
                                    h, imagePathFile, outFilePath);

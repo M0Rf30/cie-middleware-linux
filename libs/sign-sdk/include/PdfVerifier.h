@@ -36,10 +36,10 @@ class PDFVerifier {
 
   int GetNumberOfSignatures();
 
-  int VerifySignature(int index, const char* szDate, char* signatureType,
+  int VerifySignature(size_t index, const char* szDate, char* signatureType,
                       REVOCATION_INFO* pRevocationInfo);
 
-  int GetSignature(int index, UUCByteArray& signedDocument,
+  int GetSignature(size_t index, UUCByteArray& signedDocument,
                    SignatureAppearanceInfo& appearanceInfo);
 
   static int GetNumberOfSignatures(PdfMemDocument* pPdfDocument);

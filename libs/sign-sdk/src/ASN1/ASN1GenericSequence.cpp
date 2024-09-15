@@ -135,7 +135,7 @@ void CASN1GenericSequence::addElementAt(const CASN1Object& obj, int nPos) {
 }
 
 CASN1Object CASN1GenericSequence::elementAt(int nPos) {
-  if (this->size() > nPos) {
+  if (this->size() > static_cast<unsigned int>(nPos)) {
     int offset = m_pnOffsets[nPos];
     UUCByteArray curObj(getValue()->getContent() + offset,
                         getLength() - offset + 1);
@@ -241,7 +241,7 @@ int CASN1GenericSequence::makeOffset() {
 
   unsigned int offset = 0;
   UUCByteArray objVal;
-  int i = 0;
+  unsigned int i = 0;
   while (offset < len) {
     if (i == m_nOffsetsMax) {
       m_nOffsetsMax += 1000;
@@ -257,7 +257,7 @@ int CASN1GenericSequence::makeOffset() {
       int iLen = currentObj.getOrigLenLen() + currentObj.getLength() + 2;
       offset += iLen;
       i++;
-    } catch (CASN1ParsingException e) {
+    } catch (const CASN1ParsingException& e) {
       break;
     }
   }

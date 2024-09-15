@@ -492,11 +492,12 @@ void CSlot::Final() {
 std::shared_ptr<CP11Object> CSlot::FindP11Object(CK_OBJECT_CLASS objClass,
                                                  CK_ATTRIBUTE_TYPE attr,
                                                  CK_BYTE *val, int valLen) {
-  init_func for (DWORD i = 0; i < P11Objects.size(); i++) {
+  for (size_t i = 0; i < P11Objects.size(); i++) {
     auto obj = P11Objects[i];
     if (obj->ObjClass == objClass) {
       ByteArray *attrVal = obj->getAttribute(attr);
-      if (attrVal && attrVal->size() == valLen) {
+      if (attrVal && attrVal->size() == static_cast<size_t>(
+                                            valLen)) {  // Cast valLen to size_t
         if (memcmp(attrVal->data(), val, valLen) == 0) {
           return obj;
         }

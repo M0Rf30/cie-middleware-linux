@@ -111,7 +111,7 @@ void UUCBufferedReader::releaseMark() {
 }
 
 void UUCBufferedReader::reset() {
-  if (m_nTop > -1) {
+  if (static_cast<int>(m_nTop) > -1) {
     m_nIndex = m_pnStack[m_nTop];
     m_nTop--;
   }
