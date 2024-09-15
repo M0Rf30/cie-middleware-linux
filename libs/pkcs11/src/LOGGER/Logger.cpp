@@ -6,6 +6,7 @@
 #include <sys/time.h>
 #include <unistd.h>
 
+#include <chrono>
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
@@ -191,18 +192,21 @@ void Logger::logOnConsole(string& data) {
   cout << getCurrentTime() << "  " << data << endl;
 }
 
-string Logger::getCurrentTime() {
-  char pbtDate[256];
-  timeval curTime;
-  gettimeofday(&curTime, NULL);
-  int milli = curTime.tv_usec / 1000;
+std::string Logger::getCurrentTime() {
+  // Get the current time as a time_point
+  auto now = std::chrono::system_clock::now();
 
-  strftime(pbtDate, sizeof(pbtDate), "%Y-%m-%d %H:%M:%S",
-           gmtime(&curTime.tv_sec));
+  // Convert to time_t for formatting
+  std::time_t now_c = std::chrono::system_clock::to_time_t(now);
 
-  sprintf(pbtDate, "%s:%03d", pbtDate, milli);
+  // Convert to local time
+  std::tm local_tm = *std::localtime(&now_c);
 
-  return pbtDate;
+  // Format the time as a string
+  std::ostringstream oss;
+  oss << std::put_time(&local_tm, "%Y-%m-%d %H:%M:%S");
+
+  return oss.str();
 }
 
 void Logger::log_log(ostream& out, LogLevel level, const char* text) throw() {

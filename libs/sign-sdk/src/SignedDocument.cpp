@@ -53,7 +53,8 @@ CSignedDocument::CSignedDocument(const BYTE* content, int len)
       char* szPart = strtok(szBase64Content, "\r\n");
 
       while (szPart) {
-        if (strlen(szEncoded) + strlen(szPart) > len) throw -1;
+        if (strlen(szEncoded) + strlen(szPart) > static_cast<size_t>(len))
+          throw -1;
 
         strcat(szEncoded, szPart);
         szPart = strtok(NULL, "\r\n");
@@ -128,8 +129,8 @@ int CSignedDocument::verify() { return verify(NULL); }
 int CSignedDocument::verify(const char* dateTime) {
   int bitmask = 0;
   // verifica la firma per ciascun signer
-  for (int i = 0; i < m_signerInfos.size(); i++) {
-    bitmask |= verify(i, dateTime, NULL);
+  for (size_t i = 0; i < m_signerInfos.size(); i++) {
+    bitmask |= verify(static_cast<int>(i), dateTime, NULL);
   }
 
   return bitmask;
@@ -178,7 +179,7 @@ CCertificate CSignedDocument::getSignerCertificate(int index) {
   CIssuerAndSerialNumber issuerAndSerialNumber =
       sinfo.getIssuerAndSerialNumber();
 
-  for (int i = 0; i < m_certificates.size(); i++) {
+  for (size_t i = 0; i < m_certificates.size(); i++) {
     CCertificate cert = m_certificates.elementAt(i);
     CName issuer = cert.getIssuer();
     CASN1Integer serialNumber = cert.getSerialNumber();

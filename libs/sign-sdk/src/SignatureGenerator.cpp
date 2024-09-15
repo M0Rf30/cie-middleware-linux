@@ -3,6 +3,8 @@
 
 #include <time.h>
 
+#include <cstddef>
+
 #include "ASN1/ASN1ObjectIdentifier.h"
 #include "ASN1/ASN1Octetstring.h"
 #include "ASN1/ASN1Sequence.h"
@@ -13,6 +15,7 @@
 #include "CertStore.h"
 #include "RSA/sha1.h"
 #include "RSA/sha2.h"
+#include "Sign/definitions.h"
 #include "UUCLogger.h"
 USE_LOG;
 
@@ -164,7 +167,7 @@ long CSignatureGenerator::Generate(UUCByteArray& pkcs7SignedData,
   int mech = m_bCAdES ? CKM_SHA256_RSA_PKCS : m_nHashAlgo;
   CAlgorithmIdentifier hashOID(mech == CKM_SHA256_RSA_PKCS ? szSHA256OID
                                                            : szSHA1OID);
-  int i = 0;
+  size_t i = 0;
   for (i = 0; i < m_digestAlgos.size(); i++) {
     if (m_digestAlgos.elementAt(i) == hashOID) break;
   }
@@ -321,7 +324,8 @@ long CSignatureGenerator::Generate(UUCByteArray& pkcs7SignedData,
   // Crea signedData
   CSignedData* pSignedData;
   if (m_data.getLength() == 0 || bDetached) {  // detached
-    CContentType contentType(szDataOID);
+    const char* dataOID = szDataOID;
+    CContentType contentType(dataOID);
     pSignedData = new CSignedData(m_digestAlgos, CContentInfo(contentType),
                                   m_signerInfos, m_certificates);
   } else {

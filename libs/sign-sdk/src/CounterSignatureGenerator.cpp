@@ -12,7 +12,7 @@
 CounterSignatureGenerator::CounterSignatureGenerator(CSignedDocument& signedDoc,
                                                      int signerInfoIndex)
     : m_signedDoc(signedDoc),
-      m_signerInfo(m_signedDoc.getSignerInfo(m_signerInfoIndex)),
+      m_signerInfo(m_signedDoc.getSignerInfo(m_signerInfoIndex = 0)),
       m_signerInfoIndex(signerInfoIndex) {
   m_signerInfos = signedDoc.getSignerInfos();
   m_certificates = signedDoc.getCertificates();
@@ -78,7 +78,7 @@ void CounterSignatureGenerator::toByteArray(UUCByteArray& pkcs7SignedData) {
   m_signerInfos.setElementAt(m_signerInfo, m_signerInfoIndex);
 
   CCertificate cert(m_signingCertificate);
-  int i = 0;
+  size_t i = 0;
   for (i = 0; i < m_certificates.size(); i++) {
     if (m_certificates.elementAt(i) == cert) break;
   }

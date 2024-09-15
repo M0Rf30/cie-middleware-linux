@@ -10,7 +10,6 @@
 
 #include <sys/types.h>
 
-#include "LOGGER/Logger.h"
 #include "PKCS11/PKCS11Functions.h"
 
 using namespace CieIDLogger;
@@ -21,7 +20,7 @@ extern "C" {
 CK_RV CK_ENTRY verificaConCIE(const char* inFilePath, const char* proxyAddress,
                               int proxyPort, const char* usrPass);
 CK_RV CK_ENTRY getNumberOfSign(void);
-CK_RV CK_ENTRY getVerifyInfo(u_int64_t index, struct verifyInfo_t* vInfos);
+CK_RV CK_ENTRY getVerifyInfo(int index, struct verifyInfo_t* vInfos);
 CK_RV CK_ENTRY estraiP7m(const char* inFilePath, const char* outFilePath);
 }
 
@@ -33,10 +32,10 @@ CK_RV CK_ENTRY verificaConCIE(const char* inFilePath, const char* proxyAddress,
                    proxyPort, usrPass);
 
   if (verifyResult.nErrorCode == 0) {
-    return 0;
+    printf("verificaConCIE OK");
+    return (CK_RV)verifyResult.verifyInfo.pSignerInfos->nCount;
   } else {
-    LOG_ERROR("verificaConCIE - Errore nella verifica: %lu\n",
-              verifyResult.nErrorCode);
+    printf("Errore nella verifica: %lu\n", verifyResult.nErrorCode);
     return verifyResult.nErrorCode;
   }
 }
@@ -45,8 +44,8 @@ CK_RV CK_ENTRY getNumberOfSign(void) {
   return (CK_RV)verifyResult.verifyInfo.pSignerInfos->nCount;
 }
 
-CK_RV CK_ENTRY getVerifyInfo(u_int64_t index, struct verifyInfo_t* vInfos) {
-  if (index >= 0 && index < getNumberOfSign()) {
+CK_RV CK_ENTRY getVerifyInfo(int index, struct verifyInfo_t* vInfos) {
+  if (index >= 0 && (CK_RV)index < getNumberOfSign()) {
     SIGNER_INFO tmpSignerInfo =
         (verifyResult.verifyInfo.pSignerInfos->pSignerInfo)[index];
     strcpy(vInfos->name, tmpSignerInfo.szGIVENNAME);

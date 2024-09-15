@@ -19,10 +19,10 @@ CName::CName(UUCBufferedReader& reader) : CASN1Sequence(reader) {}
 
 CName::CName(const CASN1Object& name) : CASN1Sequence(name) {}
 
-string CName::getField(const char* fieldOID) {
-  string strname = "";
+std::string CName::getField(const char* fieldOID) {
+  std::string strname = "";
 
-  for (int i = 0; i < size(); i++) {
+  for (size_t i = 0; i < size(); i++) {
     CASN1SetOf element = elementAt(i);
     CASN1Sequence value = element.elementAt(0);
 

@@ -7,14 +7,14 @@
  *
  */
 
+#include <cstddef>
 #ifndef HP_UX
-
-#include "PdfVerifier.h"
 
 #include <string>
 
 #include "ASN1/SignedData.h"
 #include "ASN1/SignerInfo.h"
+#include "PdfVerifier.h"
 #include "SignedDocument.h"
 
 #ifdef GetObject
@@ -177,7 +177,7 @@ int PDFVerifier::GetNumberOfSignatures() {
   return GetNumberOfSignatures(m_pPdfMemDocument);
 }
 
-int PDFVerifier::VerifySignature(int index, const char *szDate,
+int PDFVerifier::VerifySignature(size_t index, const char *szDate,
                                  char *signatureType,
                                  REVOCATION_INFO *pRevocationInfo) {
   if (!m_pPdfMemDocument) return -1;
@@ -219,7 +219,7 @@ int PDFVerifier::VerifySignature(int index, const char *szDate,
 
   /// Verify if each object of the array is a signature field
   const PdfArray &array = fieldsValue->GetArray();
-  for (unsigned int i = 0; i < array.size(); i++) {
+  for (size_t i = 0; i < array.size(); i++) {
     const PdfObject *pObj =
         m_pPdfMemDocument->GetObjects().GetObject(array[i].GetReference());
     if (IsSignatureField(m_pPdfMemDocument, pObj)) {
@@ -337,7 +337,7 @@ bool PDFVerifier::IsSignatureField(const PdfMemDocument *pDoc,
     return false;
 }
 
-int PDFVerifier::GetSignature(int index, UUCByteArray &signedDocument,
+int PDFVerifier::GetSignature(size_t index, UUCByteArray &signedDocument,
                               SignatureAppearanceInfo &signatureInfo) {
   if (!m_pPdfMemDocument) return -1;
 
@@ -381,7 +381,7 @@ int PDFVerifier::GetSignature(int index, UUCByteArray &signedDocument,
 
   /// Verify if each object of the array is a signature field
   const PdfArray &array = fieldsValue->GetArray();
-  for (unsigned int i = 0; i < array.size(); i++) {
+  for (size_t i = 0; i < array.size(); i++) {
     const PdfObject *pObj =
         m_pPdfMemDocument->GetObjects().GetObject(array[i].GetReference());
     if (IsSignatureField(m_pPdfMemDocument, pObj)) {

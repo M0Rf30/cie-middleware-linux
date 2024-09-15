@@ -31,9 +31,6 @@ long CCIESigner::Init(const char* szPIN) {
     m_pIAS->SelectAID_CIE();
     m_pIAS->InitDHParam();
 
-    //        ByteDynArray IdServizi;
-    //        m_pIAS->ReadIdServizi(IdServizi);
-
     ByteDynArray data;
     m_pIAS->ReadDappPubKey(data);
     m_pIAS->InitExtAuthKeyParam();
@@ -52,14 +49,10 @@ long CCIESigner::Init(const char* szPIN) {
     LOG_DBG((0, "<-- CCIESigner::Init", "OK"));
 
     return 0;
-  } catch (scard_error err) {
+  } catch (const scard_error& err) {
     LOG_ERR((0, "<-- CCIESigner::Init", "failed: %x", err.sw));
 
     return err.sw;
-  } catch (scard_error* err) {
-    LOG_ERR((0, "<-- CCIESigner::Init", "failed*: %x", err->sw));
-
-    return err->sw;
   } catch (...) {
     LOG_ERR((0, "<-- CCIESigner::Init", "unexpected failure"));
     return -1;
@@ -121,7 +114,7 @@ long CCIESigner::Sign(UUCByteArray& data, UUCByteArray& id, int algo,
     m_pIAS->Sign(baDigestInfo, baSignature);
 
     signature.append(baSignature.data(), (int)baSignature.size());
-  } catch (scard_error err) {
+  } catch (const scard_error& err) {
     return err.sw;
   } catch (...) {
     return -1;

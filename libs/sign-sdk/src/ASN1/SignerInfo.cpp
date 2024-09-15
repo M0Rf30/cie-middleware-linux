@@ -697,7 +697,7 @@ CCertificate CSignerInfo::getSignatureCertificate(CSignerInfo& signature,
   CIssuerAndSerialNumber issuerAndSerialNumber =
       signature.getIssuerAndSerialNumber();
 
-  for (int i = 0; i < certificates.size(); i++) {
+  for (size_t i = 0; i < certificates.size(); i++) {
     CCertificate cert = certificates.elementAt(i);
     CName issuer = cert.getIssuer();
     CASN1Integer serialNumber = cert.getSerialNumber();

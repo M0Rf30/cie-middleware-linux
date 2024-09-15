@@ -240,11 +240,11 @@ const char* UUCByteArray::toHexString() { return toHexString(0); }
 
 const char* UUCByteArray::toHexString(int nSize) {
   if (m_szHex) {
-    delete m_szHex;
+    delete[] m_szHex;
     m_szHex = NULL;
   }
 
-  if (nSize == 0 || nSize > m_unLen) {
+  if (nSize <= 0 || nSize > static_cast<int>(m_unLen)) {
     nSize = (int)m_unLen;
   }
 
@@ -253,14 +253,14 @@ const char* UUCByteArray::toHexString(int nSize) {
   try {
     char szDigit[3];
     memset(m_szHex, 0, (nSize + 1) * 2);
-    for (unsigned int i = 0; i < nSize; i++) {
+    for (unsigned int i = 0; i < static_cast<unsigned int>(nSize); i++) {
       snprintf(szDigit, 3, "%02X", m_pbtContent[i]);
       strncat(m_szHex, szDigit, 2);
     }
 
     return m_szHex;
   } catch (...) {
-    delete m_szHex;
+    delete[] m_szHex;
     m_szHex = NULL;
     throw -3L;
   }

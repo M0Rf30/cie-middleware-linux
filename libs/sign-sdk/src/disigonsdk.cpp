@@ -118,7 +118,8 @@ long disigon_set(int option, void* value) {
       break;
 
     case DISIGON_OPT_LOG_LEVEL:
-      SET_LOG_LEVEL((long)value);
+      SET_LOG_LEVEL(
+          *(int*)value);  // Dereference the pointer to get the int value
       break;
 
     case DISIGON_OPT_OID_MAP_FILE: {
@@ -132,7 +133,10 @@ long disigon_set(int option, void* value) {
 }
 
 long disigon_set_int(int option, int value) {
-  return disigon_set(option, (void*)value);
+  int* valuePtr = new int(value);
+  long result = disigon_set(option, (void*)valuePtr);
+  delete valuePtr;  // Clean up the allocated memory
+  return result;
 }
 
 long disigon_set_string(int option, char* value) {
@@ -184,7 +188,10 @@ DISIGON_CTX disigon_sign_init(void) {
 }
 
 long disigon_sign_set_int(DISIGON_CTX ctx, int option, int value) {
-  return disigon_sign_set(ctx, option, (void*)value);
+  int* valuePtr = new int(value);
+  long result = disigon_sign_set(ctx, option, (void*)valuePtr);
+  delete valuePtr;  // Clean up the allocated memory
+  return result;
 }
 
 long disigon_sign_set_string(DISIGON_CTX ctx, int option, char* value) {
@@ -547,7 +554,10 @@ DISIGON_CTX disigon_verify_init(void) {
 }
 
 long disigon_verify_set_int(DISIGON_CTX ctx, int option, int value) {
-  return disigon_verify_set(ctx, option, (void*)value);
+  int* valuePtr = new int(value);
+  long result = disigon_verify_set(ctx, option, (void*)valuePtr);
+  delete valuePtr;  // Clean up the allocated memory
+  return result;
 }
 
 long disigon_verify_set_string(DISIGON_CTX ctx, int option, char* value) {
@@ -756,9 +766,6 @@ long disigon_verify_cleanup_result(VERIFY_RESULT* pVerifyResult) {
                             ->pSignerInfo[i]
                             .pTimeStamp)
                            ->signerInfo.pRevocationInfo);
-
-          SAFEDELETE(pVerifyResult->verifyInfo.pSignerInfos->pSignerInfo[i]
-                         .pTimeStamp);
         }
 
         if (pVerifyResult->verifyInfo.pSignerInfos->pSignerInfo[i]

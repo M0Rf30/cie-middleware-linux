@@ -186,7 +186,7 @@ int base64_decoded_size(int len) { return ((len / 4) * 3); }
  */
 void base64_encode_binary(char *out, const unsigned char *in, int len) {
   int size;
-  size_t i = 0;
+  int i = 0;
 
   while (i < len) {
     size = (len - i < 4) ? len - i : 4;

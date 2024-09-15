@@ -229,7 +229,7 @@ void PdfSignatureGenerator::InitSignature(
       PdfOutputDevice pdfOutDevice(m_pMainDocbuffer, fulllen);
       m_pPdfDocument->Write(&pdfOutDevice);
       mainDoclen = pdfOutDevice.GetLength();
-    } catch (::PoDoFo::PdfError err) {
+    } catch (const ::PoDoFo::PdfError& err) {
       if (m_pMainDocbuffer) {
         delete m_pMainDocbuffer;
         m_pMainDocbuffer = NULL;

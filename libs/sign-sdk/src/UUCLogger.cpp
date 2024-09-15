@@ -31,7 +31,7 @@ void UUCLogger::log(const unsigned int nType, const char* szMsg,
 
 void UUCLogger::log(const unsigned int nType, const char* szMsg,
                     const unsigned int nID, const char* szModuleName) {
-  if (nType > m_nLogLevel) return;
+  if (static_cast<int>(nType) > m_nLogLevel) return;
   // Get UNIX-style time and display as number and string.
   time_t ltime;
   time(&ltime);

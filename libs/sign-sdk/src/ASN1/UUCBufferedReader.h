@@ -52,5 +52,5 @@ class UUCBufferedReader {
 
   unsigned int* m_pnStack;
   unsigned int m_nStackSize;
-  int m_nTop;
+  unsigned int m_nTop;
 };

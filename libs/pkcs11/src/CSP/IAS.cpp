@@ -676,18 +676,17 @@ ByteDynArray IAS::SM(ByteArray &keyEnc, ByteArray &keySig, ByteArray &apdu,
   auto calcMac = ISOPad(ByteDynArray(seq).append(smHead));
 
   ByteDynArray iv(8);
-  iv.fill(0);  // IV for APDU encryption and signature should be 0. Please refer
-               // to IAS specification §7.1.9 Secure messaging – Command APDU
-               // protection
+  iv.fill(0);  // IV for APDU encryption and signature should be 0.
 
   CDES3 encDes(keyEnc, iv);
-
   CMAC sigMac(keySig, iv);
 
   uint8_t Val01 = 1;
 
   ByteDynArray datafield, doob;
-  if (apdu[4] != 0 && apdu.size() > 5) {
+  size_t apduSize = apdu.size();
+
+  if (apdu[4] != 0 && apduSize > 5) {
     ByteDynArray enc = encDes.RawEncode(ISOPad(apdu.mid(5, apdu[4])));
 
     if ((apdu[1] & 1) == 0)
@@ -698,7 +697,7 @@ ByteDynArray IAS::SM(ByteArray &keyEnc, ByteArray &keySig, ByteArray &apdu,
     calcMac.append(doob);
     datafield.append(doob);
   }
-  if (apdu[4] == 0 && apdu.size() > 7) {
+  if (apdu[4] == 0 && apduSize > 7) {
     ByteDynArray enc =
         encDes.RawEncode(ISOPad(apdu.mid(7, (apdu[5] << 8) | apdu[6])));
     if ((apdu[1] & 1) == 0)
@@ -709,8 +708,8 @@ ByteDynArray IAS::SM(ByteArray &keyEnc, ByteArray &keySig, ByteArray &apdu,
     calcMac.append(doob);
     datafield.append(doob);
   }
-  if (apdu.size() == 5 || apdu.size() == (apdu[4] + 6)) {
-    uint8_t le = apdu[apdu.size() - 1];
+  if (apduSize == 5 || apduSize == static_cast<size_t>(apdu[4] + 6)) {
+    uint8_t le = apdu[apduSize - 1];
     ByteArray leBa = VarToByteArray(le);
     doob.setASN1Tag(0x97, leBa);
     calcMac.append(doob);
