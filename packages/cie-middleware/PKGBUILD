@@ -1,5 +1,5 @@
 pkgname="cie-middleware"
-pkgver="1.5.3"
+pkgver="1.5.4"
 pkgrel="1"
 pkgdesc="A fork of Middleware della CIE (Carta di Identità Elettronica) per Linux"
 maintainer="M0Rf30"
@@ -11,7 +11,7 @@ priority="optional"
 source=(
   "https://github.com/M0Rf30/cie-middleware-linux/archive/refs/tags/${pkgver}.tar.gz"
   "https://github.com/M0Rf30/cie-middleware-linux/releases/download/podofo-1.4.2/libpodofo-1.4.2.tar.gz"
-  "https://services.gradle.org/distributions/gradle-8.7-bin.zip"
+  "https://services.gradle.org/distributions/gradle-8.10-bin.zip"
 )
 source__pacman=(
   "https://github.com/M0Rf30/cie-middleware-linux/archive/refs/tags/${pkgver}.tar.gz"
@@ -49,7 +49,7 @@ makedepends__apt=(
   "libpng-dev"
   "libssl-dev"
   "libxml2-dev"
-  "openjdk-17-jre-headless"
+  "openjdk-17-jdk-headless"
   "pkg-config"
   "python3-pip"
   "unzip"
@@ -127,7 +127,7 @@ build__yum() {
     "${srcdir}/${pkgname}-linux-${pkgver}/libs/lib"
 
   cd "${srcdir}/${pkgname}-linux-${pkgver}"
-  ../gradle-8.7/bin/gradle -b cie-java/build.gradle standalone
+  ../gradle-8.10/bin/gradle -b cie-java/build.gradle standalone
   meson setup builddir libs
   meson configure -Dprefix=/usr builddir
   meson compile -C builddir
@@ -140,7 +140,7 @@ build__apt() {
     "${srcdir}/${pkgname}-linux-${pkgver}/libs/lib"
 
   cd "${srcdir}/${pkgname}-linux-${pkgver}"
-  ../gradle-8.7/bin/gradle -b cie-java/build.gradle standalone
+  ../gradle-8.10/bin/gradle -b cie-java/build.gradle standalone
 
   meson setup builddir libs
   meson configure -Dprefix=/usr builddir

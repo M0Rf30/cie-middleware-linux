@@ -36,7 +36,7 @@ dependencies {
 	implementation 'org.apache.pdfbox:pdfbox:3.0.3'
 }
 
-mainClassName = 'it.ipzs.cieid.MainApplicationn'
+// mainClassName = 'it.ipzs.cieid.MainApplicationn'
 
 sourceSets {
 	main {
