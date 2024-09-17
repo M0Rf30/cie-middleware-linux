@@ -1626,7 +1626,6 @@ long sign_pdf(DISIGON_SIGN_CONTEXT* pContext, UUCByteArray& data) {
   int nSigCount = sigGen.Load((char*)data.getContent(), data.getLength());
 
   LOG_DBG((0, "sign_pdf", "Context: %p, SigCount %d", pContext, nSigCount));
-
   string sigName = "Signature";
   sigName += ('1' + nSigCount);
 
@@ -1685,7 +1684,7 @@ long sign_pdf(DISIGON_SIGN_CONTEXT* pContext, UUCByteArray& data) {
   LOG_DBG((0, "sign_pdf", "InitSignature OK"));
 
   UUCByteArray buffer;
-  sigGen.GetBufferForSignature(buffer);
+  // sigGen.GetBufferForSignature(buffer);
 
   pContext->pSignatureGenerator->SetData(buffer);
 
@@ -1703,12 +1702,12 @@ long sign_pdf(DISIGON_SIGN_CONTEXT* pContext, UUCByteArray& data) {
 
   LOG_DBG((0, "sign_pdf", "Generate OK"));
 
-  sigGen.SetSignature((char*)signature.getContent(), signature.getLength());
+  // sigGen.SetSignature((char*)signature.getContent(), signature.getLength());
 
   LOG_DBG((0, "sign_pdf", "Set Signature OK"));
 
   UUCByteArray signedPdf;
-  sigGen.GetSignedPdf(signedPdf);
+  // sigGen.GetSignedPdf(signedPdf);
 
   LOG_DBG((0, "sign_pdf", "Get Signed PDF OK"));
 
