@@ -9,8 +9,11 @@
 
 #include "PdfSignatureGenerator.h"
 
+#include <cstdio>
+
 #include "PdfVerifier.h"
 #include "UUCLogger.h"
+#include "auxiliary/StreamDevice.h"
 
 #define SIGNATURE_SIZE 10000
 
@@ -54,8 +57,8 @@ int PdfSignatureGenerator::Load(const char* pdf, int len) {
   if (m_pPdfDocument) delete m_pPdfDocument;
 
   try {
-    printf("PDF LENGTH\n");
-    printf("%i", len);
+    printf("\nPDF LENGTH\n");
+    printf("%i\n", len);
     printf("STOP\n");
     bufferview bufferView(pdf, len);
     m_pPdfDocument = new PdfMemDocument();
@@ -147,6 +150,7 @@ void PdfSignatureGenerator::InitSignature(
   // m_pSignatureField = new PdfSignatureField(pPage, rect, m_pPdfDocument);
   m_pSignatureField = &pPage.CreateField<PdfSignature>(szName, rect);
   LOG_DBG((0, "InitSignature", "PdfSignatureField OK"));
+  printf("help1");
 
   if (szReason && szReason[0]) {
     PdfString reason(szReason);
@@ -161,9 +165,10 @@ void PdfSignatureGenerator::InitSignature(
   }
 
   LOG_DBG((0, "InitSignature", "szLocation OK"));
+  printf("help2");
 
-  PdfDate now;
-  m_pSignatureField->SetSignatureDate(now);
+  // PdfDate now;
+  // m_pSignatureField->SetSignatureDate(now);
 
   LOG_DBG((0, "InitSignature", "Date OK"));
 
@@ -218,15 +223,16 @@ void PdfSignatureGenerator::InitSignature(
                      ? (strlen(szGraphometricData) + strlen(szVersion) + 100)
                      : 0);
 
+  printf("help\n");
   int mainDoclen = 0;
   m_pMainDocbuffer = NULL;
   while (!m_pMainDocbuffer) {
     try {
       LOG_DBG((0, "InitSignature", "fulllen %d", fulllen));
       m_pMainDocbuffer = new char[fulllen];
-      // PdfOutputDevice pdfOutDevice(m_pMainDocbuffer, fulllen);
-      // m_pPdfDocument->Write(&pdfOutDevice);
-      // mainDoclen = pdfOutDevice.GetLength();
+      auto pdfOutDevice = new SpanStreamDevice(m_pMainDocbuffer, fulllen);
+      m_pPdfDocument->Save(*pdfOutDevice);
+      mainDoclen = pdfOutDevice->GetLength();
     } catch (const ::PoDoFo::PdfError& err) {
       if (m_pMainDocbuffer) {
         delete m_pMainDocbuffer;
@@ -238,6 +244,9 @@ void PdfSignatureGenerator::InitSignature(
     }
   }
 
+  printf("%d", mainDoclen);
+
+  printf("help8\n");
   LOG_DBG((0, "InitSignature", "m_pMainDocbuffer %d", fulllen));
 
   // alloca un SignOutputDevice
@@ -246,7 +255,14 @@ void PdfSignatureGenerator::InitSignature(
   LOG_DBG((0, "InitSignature", "m_pSignDocbuffer %d", fulllen));
 
   // m_pFinalOutDevice = new PdfOutputDevice(m_pSignDocbuffer, fulllen);
+  m_pFinalOutDevice = new SpanStreamDevice(m_pSignDocbuffer, fulllen);
+
   // m_pSignOutputDevice = new PdfSignOutputDevice(m_pFinalOutDevice);
+
+  PoDoFo::SignDocument(m_pPdfDocument, m_pFinalOutDevice, signer,
+                       m_pSignatureField);
+
+  printf("help9\n");
 
   LOG_DBG((0, "InitSignature", "buffers OK %d", fulllen));
 
@@ -256,11 +272,12 @@ void PdfSignatureGenerator::InitSignature(
   LOG_DBG((0, "InitSignature", "SetSignatureSize OK %d", SIGNATURE_SIZE));
 
   // Scrive il documento reale
-  // m_pSignOutputDevice->Write(m_pMainDocbuffer, mainDoclen);
+  m_pSignOutputDevice->Write(m_pMainDocbuffer, mainDoclen);
 
   LOG_DBG((0, "InitSignature", "Write OK %d", mainDoclen));
 
   // m_pSignOutputDevice->AdjustByteRange();
+  printf("help10\n");
 
   LOG_DBG((0, "InitSignature", "AdjustByteRange OK"));
 }

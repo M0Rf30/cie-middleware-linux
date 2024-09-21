@@ -14,6 +14,7 @@
 #include <podofo/podofo.h>
 
 #include "Util/UUCByteArray.h"
+#include "auxiliary/StreamDevice.h"
 
 using namespace PoDoFo;
 using namespace std;
@@ -65,9 +66,9 @@ class PdfSignatureGenerator {
 
   PdfSignature* m_pSignatureField;
 
-  //   PdfSignOutputDevice* m_pSignOutputDevice;
+  SpanStreamDevice* m_pSignOutputDevice;
 
-  //   PdfOutputDevice* m_pFinalOutDevice;
+  SpanStreamDevice* m_pFinalOutDevice;
 
   char* m_pMainDocbuffer;
 
