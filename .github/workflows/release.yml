@@ -27,10 +27,10 @@ jobs:
 
       - name: Build
         run: |
-          docker run --entrypoint=bash -v $(pwd):/project m0rf30/yap-ubuntu-jammy:1.11 -c "cd /project; \
+          docker run --entrypoint=bash -v $(pwd):/project m0rf30/yap-ubuntu-jammy:1.27 -c "cd /project; \
             yap prepare ubuntu-jammy; \
             yap build ubuntu-jammy /project/packages"
-          docker run --entrypoint=bash -v $(pwd):/project m0rf30/yap-rocky-9:1.11 -c "cd /project; \
+          docker run --entrypoint=bash -v $(pwd):/project m0rf30/yap-rocky-9:1.27 -c "cd /project; \
             yap prepare rocky-9; \
             dnf -y install dnf-plugins-core epel-release; \
             dnf config-manager --set-enabled crb; \
