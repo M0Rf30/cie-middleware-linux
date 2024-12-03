@@ -6,7 +6,7 @@
 #include <openssl/evp.h>
 
 void CSHA256::Init() {
-  EVP_MD_CTX* ctx = EVP_MD_CTX_new();
+  ctx = EVP_MD_CTX_new();
   EVP_DigestInit_ex(ctx, EVP_sha256(), NULL);
   isInit = true;
 }

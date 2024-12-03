@@ -8,7 +8,7 @@ CMD5::~CMD5() {}
 
 void CMD5::Init() {
   // throw logged_error("Un'operazione di hash � gi� in corso");
-  EVP_MD_CTX* ctx = EVP_MD_CTX_new();
+  ctx = EVP_MD_CTX_new();
   EVP_DigestInit_ex(ctx, EVP_md5(), NULL);
   isInit = true;
 }

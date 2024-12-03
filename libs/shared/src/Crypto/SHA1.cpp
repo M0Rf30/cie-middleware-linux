@@ -7,7 +7,7 @@ CSHA1::CSHA1() : isInit(false) {}
 CSHA1::~CSHA1() {}
 
 void CSHA1::Init() {
-  EVP_MD_CTX* ctx = EVP_MD_CTX_new();
+  ctx = EVP_MD_CTX_new();
   EVP_DigestInit_ex(ctx, EVP_sha1(), NULL);
   isInit = true;
 }
