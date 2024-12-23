@@ -1,6 +1,6 @@
-package app.morfeo.cieid;
+package app.m0rf30.cieid;
 
-import app.morfeo.cieid.util.Utils;
+import app.m0rf30.cieid.util.Utils;
 import ch.swingfx.twinkle.NotificationBuilder;
 import ch.swingfx.twinkle.event.NotificationEvent;
 import ch.swingfx.twinkle.event.NotificationEventAdapter;

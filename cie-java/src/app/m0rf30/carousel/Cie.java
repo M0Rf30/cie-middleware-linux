@@ -1,4 +1,4 @@
-package app.morfeo.carousel;
+package app.m0rf30.carousel;
 
 public class Cie {
 

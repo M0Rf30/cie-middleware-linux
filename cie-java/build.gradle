@@ -36,7 +36,7 @@ dependencies {
 	implementation 'org.apache.pdfbox:pdfbox:3.0.3'
 }
 
-// mainClassName = 'app.morfeo.cieid.MainApplicationn'
+// mainClassName = 'app.m0rf30.cieid.MainApplicationn'
 
 sourceSets {
 	main {
@@ -65,7 +65,7 @@ task standalone(type: Jar) {
 		attributes 'Implementation-Title': 'CIEID Desktop Application',
 				'Built-By': System.getProperty('user.name'),
 				'Built-JDK': System.getProperty('java.version'),
-				'Main-Class': 'app.morfeo.cieid.MainApplication'
+				'Main-Class': 'app.m0rf30.cieid.MainApplication'
 	}
 }
 

@@ -1,6 +1,6 @@
-package app.morfeo.cieid;
+package app.m0rf30.cieid;
 
-import app.morfeo.cieid.util.Utils;
+import app.m0rf30.cieid.util.Utils;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dialog.ModalityType;
@@ -133,7 +133,7 @@ public class PINNoticeDialog extends JDialog {
                                             40,
                                             ImageIO.read(
                                                     MainFrame.class.getResource(
-                                                            "/app/morfeo/cieid/res/Logo_Cie_ID_Windowed@2x.png")))));
+                                                            "/app/m0rf30/cieid/res/Logo_Cie_ID_Windowed@2x.png")))));
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();

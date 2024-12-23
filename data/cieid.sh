@@ -6,4 +6,4 @@ exec java \
   -Djna.library.path="/usr/lib" \
   -Dawt.useSystemAAFontSettings=on \
   -classpath /usr/share/cieid/cieid.jar \
-  app.morfeo.cieid.MainApplication "${@}"
+  app.m0rf30.cieid.MainApplication "${@}"
