@@ -1,4 +1,4 @@
-package it.ipzs.carousel;
+package app.morfeo.carousel;
 
 public class Cie {
 

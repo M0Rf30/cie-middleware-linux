@@ -1,4 +1,4 @@
-package it.ipzs.cieid;
+package app.morfeo.cieid;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;

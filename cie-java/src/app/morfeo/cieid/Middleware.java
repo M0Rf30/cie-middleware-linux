@@ -1,4 +1,4 @@
-package it.ipzs.cieid;
+package app.morfeo.cieid;
 
 import com.sun.jna.Callback;
 import com.sun.jna.Library;

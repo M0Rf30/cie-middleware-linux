@@ -1,4 +1,4 @@
-package it.ipzs.cieid;
+package app.morfeo.cieid;
 
 import java.awt.BorderLayout;
 import java.net.MalformedURLException;

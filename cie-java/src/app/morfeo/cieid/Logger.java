@@ -1,4 +1,4 @@
-package it.ipzs.cieid;
+package app.morfeo.cieid;
 
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;

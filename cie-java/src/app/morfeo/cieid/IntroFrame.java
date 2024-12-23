@@ -1,6 +1,6 @@
-package it.ipzs.cieid;
+package app.morfeo.cieid;
 
-import it.ipzs.cieid.util.*;
+import app.morfeo.cieid.util.*;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -102,7 +102,7 @@ public class IntroFrame extends JFrame {
                                     300,
                                     ImageIO.read(
                                             IntroFrame.class.getResource(
-                                                    "/it/ipzs/cieid/res/flusso_intro_01.png")))));
+                                                    "/app/morfeo/cieid/res/flusso_intro_01.png")))));
         } catch (IOException e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
@@ -139,7 +139,7 @@ public class IntroFrame extends JFrame {
                                     300,
                                     ImageIO.read(
                                             IntroFrame.class.getResource(
-                                                    "/it/ipzs/cieid/res/flusso_intro_02.png")))));
+                                                    "/app/morfeo/cieid/res/flusso_intro_02.png")))));
         } catch (IOException e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();

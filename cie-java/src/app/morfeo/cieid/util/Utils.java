@@ -1,4 +1,4 @@
-package it.ipzs.cieid.util;
+package app.morfeo.cieid.util;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
