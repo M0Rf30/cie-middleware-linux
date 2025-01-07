@@ -1,0 +1,46 @@
+version: "1.5.6"
+id: app.m0rf30.cieid
+runtime: org.freedesktop.Platform
+runtime-version: "24.08"
+sdk: org.freedesktop.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.openjdk
+command: cieid
+
+modules:
+  - name: openjdk
+    buildsystem: simple
+    build-commands:
+      - /usr/lib/sdk/openjdk/install.sh
+  - name: pcsclite
+    buildsystem: meson
+    config-opts:
+      - -Dlibudev=true
+      - -Dpolkit=false
+      - -Dserial=true
+      - -Dlibsystemd=false
+    sources:
+      - type: archive
+        url: https://pcsclite.apdu.fr/files/pcsc-lite-2.3.0.tar.xz
+        sha256: 1acca22d2891d43ffe6d782740d32e78150d4fcc99e8a3cc763abaf546060d3d
+  - name: crypto++
+    buildsystem: simple
+    build-commands:
+      - PREFIX=/app make install
+    sources:
+      - type: archive
+        url: https://github.com/weidai11/cryptopp/archive/refs/tags/CRYPTOPP_8_9_0.tar.gz
+        sha256: ab5174b9b5c6236588e15a1aa1aaecb6658cdbe09501c7981ac8db276a24d9ab
+  - name: cie-middleware-lib
+    buildsystem: meson
+    subdir: libs
+    sources:
+      - type: archive
+        path: libs
+        url: https://github.com/M0Rf30/cie-middleware-linux/archive/refs/tags/1.5.6.tar.gz
+        sha256: 6e59863787f23b6846fc40e74c9c6858cfcd4669593784384d27635bb515c2d6
+      # - type: archive
+      #   dest-filename: libpodofo.tar.gz
+      #   path: "libs/lib"
+      #   url: https://github.com/M0Rf30/cie-middleware-linux/releases/download/podofo-1.4.2/libpodofo-1.4.2.tar.gz
+      #   sha256: ef81e439b12aa2ff309b353399c033bd62b027e7bd4cbf649c025226f1de5287
