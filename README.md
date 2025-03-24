@@ -55,6 +55,8 @@ Prima di procedere, assicurati di avere installato i seguenti software sul tuo s
 ### Istruzioni
 
 ```sh
+gradlew -b cie-java/build.gradle standalone
+
 flatpak-builder --install --user --force-clean build-dir packages/flatpak/app.m0rf30.cieid.yml
 ```
 
