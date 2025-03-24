@@ -8,7 +8,7 @@
     <a href="./README.en.md">English</a> |
     <a href="./README.md">Italiano</a>
   </p>
-  <h1 align="center">Software per la Carta d'Identità Elettronica</h1>
+  <h1 align="center">Software for the Italian Electronic Identity Card</h1>
     <!-- Build status badges -->
     <p>
         <img src="https://github.com/M0Rf30/cie-middleware-linux/actions/workflows/main.yml/badge.svg" alt="Build Status">
@@ -16,53 +16,50 @@
     </p>
 </div>
 
-## Descrizione
+## Description
 
-Questa libreria software (middleware) implementa le interfacce crittografiche
-standard **PKCS#11** e **CSP**, consentendo l'utilizzo del certificato di
-autenticazione e della relativa chiave privata memorizzati sul chip della CIE.
+This software library (middleware) implements the standard cryptographic interfaces **PKCS#11** and **CSP**, allowing the use of the authentication certificate and its associated private key stored on the CIE chip.
 
-Il branch `podofo-vanilla` esclude i riferimenti alla firma PDF. In un prossimo futuro dovrebbe far uso di podofo vanilla e permettere la firma dei PDF.
+The branch `podofo-vanilla` excludes references to PDF signing. In the near future, it should employ podofo vanilla and enable PDF signing.
 
-## Componenti
+## Components
 
-La [libreria](libcie-pkcs11) è sviluppata in C++ e supporta OS GNU/Linux.
+The [library](libcie-pkcs11) is developed in C++ and supports GNU/Linux OS.
 
-La parte di [interfaccia grafica](cie-java) è sviluppata in Java.
+The [graphical interface](cie-java) is developed in Java.
 
-## Installazione
+## Installation
 
-[Qui](https://github.com/M0Rf30/cie-middleware-linux/releases) puoi trovare i
-binari generati da questo repo, per le seguenti distro GNU/Linux:
+[Here](https://github.com/M0Rf30/cie-middleware-linux/releases) you can find the binaries generated from this repo for the following GNU/Linux distributions:
 
-- Arch Linux [qui](https://aur.archlinux.org/packages/cie-middleware-git)
+- Arch Linux [here](https://aur.archlinux.org/packages/cie-middleware-git)
 - Rocky 8
 - Ubuntu 20.04
 
-Inoltre puoi installare il pacchetto Flatpak utilizzando il file manifest fornito.
+Furthermore, you can install the Flatpak package using the provided manifest file.
 
-## Generazione Flatpak dal Manifest
+## Building the Flatpak from the Manifest
 
-Questa guida descrive i passaggi necessari per creare un pacchetto Flatpak utilizzando il file manifest fornito.
+This guide describes the steps required to build a Flatpak package using the provided manifest file.
 
-### Prerequisiti
+### Prerequisites
 
-Prima di procedere, assicurati di avere installato i seguenti software sul tuo sistema:
+Before proceeding, ensure you have the following installed on your system:
 
 - [Flatpak](https://flatpak.org/setup/)
 - [flatpak-builder](https://docs.flatpak.org/en/latest/flatpak-builder.html)
 
-### Istruzioni
+### Build Instructions
 
 ```sh
 flatpak-builder --install --user --force-clean build-dir packages/flatpak/app.m0rf30.cieid.yml
 ```
 
-## Compilazione
+## Building from sources
 
-### Requisiti
+### Requirements
 
-Sono necessarie le seguenti librerie:
+The following libraries are required:
 
 - crypto++
 - curl
@@ -78,9 +75,9 @@ Sono necessarie le seguenti librerie:
 - pcsclite
 - pkgconf (make)
 
-### Istruzioni
+### Build Instructions
 
-Da terminale, spostarsi nella root del presente repo e digitare:
+From the terminal, navigate to the root of this repo and type:
 
 ```sh
 gradlew -b cie-java/build.gradle standalone
@@ -94,7 +91,7 @@ meson configure -Dprefix=/usr builddir
 meson compile -C builddir
 ```
 
-alla fine della build saranno presenti i file:
+At the end of the build, the following files will be present:
 
 - builddir/libcie-pkcs11.so
 - cie-java/bin/libs/CIEID-standalone.jar
