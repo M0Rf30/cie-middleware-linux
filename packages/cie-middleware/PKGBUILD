@@ -145,7 +145,7 @@ package() {
   install -Dm644 "data/app.m0rf30.cieid.desktop" \
     "${pkgdir}/usr/share/applications/app.m0rf30.cieid.desktop"
   install -Dm755 data/app.m0rf30.cieid.png \
-    "${pkgdir}/usr/share/pixmaps/app.m0rf30.cieid.png"
+    "${pkgdir}/usr/share/icons/hicolor/256x256/apps/app.m0rf30.cieid.png"
   install -Dm755 "data/cieid.sh" \
     "${pkgdir}/usr/bin/cieid"
   install -Dm644 LICENSE \
