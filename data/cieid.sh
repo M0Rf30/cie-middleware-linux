@@ -1,9 +1,12 @@
-#!/bin/bash
+#!/bin/sh
+
+# Use CIEID_PATH if set, otherwise default to /usr
+: "${PREFIX:=/usr}"
 
 exec java \
   -Xms1G \
   -Xmx1G \
-  -Djna.library.path="/usr/lib" \
+  -Djna.library.path="${PREFIX}/lib" \
   -Dawt.useSystemAAFontSettings=on \
-  -classpath /usr/share/cieid/cieid.jar \
-  it.ipzs.cieid.MainApplication "${@}"
+  -classpath "${PREFIX}/share/cieid/cieid.jar" \
+  app.m0rf30.cieid.MainApplication "$@"

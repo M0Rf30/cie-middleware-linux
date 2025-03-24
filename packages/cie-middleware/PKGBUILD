@@ -11,22 +11,12 @@ priority="optional"
 source=(
   "https://github.com/M0Rf30/cie-middleware-linux/archive/refs/tags/${pkgver}.tar.gz"
   "https://github.com/M0Rf30/cie-middleware-linux/releases/download/podofo-1.4.2/libpodofo-1.4.2.tar.gz"
-  "https://services.gradle.org/distributions/gradle-8.10-bin.zip"
 )
-source__pacman=(
-  "https://github.com/M0Rf30/cie-middleware-linux/archive/refs/tags/${pkgver}.tar.gz"
-  "https://github.com/M0Rf30/cie-middleware-linux/releases/download/podofo-1.4.2/libpodofo-1.4.2.tar.gz"
-)
-
 sha256sums=(
   "SKIP"
   "ef81e439b12aa2ff309b353399c033bd62b027e7bd4cbf649c025226f1de5287"
-  "SKIP"
 )
-sha256sums__pacman=(
-  "SKIP"
-  "ef81e439b12aa2ff309b353399c033bd62b027e7bd4cbf649c025226f1de5287"
-)
+
 depends__apt=(
   "libcrypto++8"
   "libcurl4"
@@ -60,7 +50,7 @@ depends__pacman=(
   "curl"
   "fontconfig"
   "freetype2"
-  "jre11-openjdk"
+  "jre17-openjdk"
   "libpng"
   "libxml2"
   "openssl"
@@ -71,8 +61,7 @@ makedepends__pacman=(
   "curl"
   "fontconfig"
   "freetype2"
-  "gradle"
-  "jdk11-openjdk"
+  "jdk17-openjdk"
   "libpng"
   "libxml2"
   "meson"
@@ -115,7 +104,7 @@ build__pacman() {
     "${srcdir}/${pkgname}-linux-${pkgver}/libs/lib"
 
   cd "${srcdir}/${pkgname}-linux-${pkgver}"
-  gradle -b cie-java/build.gradle standalone
+  cie-java/gradlew -b cie-java/build.gradle standalone
   meson setup builddir libs
   meson configure -Dprefix=/usr builddir
   meson compile -C builddir
@@ -127,7 +116,7 @@ build__yum() {
     "${srcdir}/${pkgname}-linux-${pkgver}/libs/lib"
 
   cd "${srcdir}/${pkgname}-linux-${pkgver}"
-  ../gradle-8.10/bin/gradle -b cie-java/build.gradle standalone
+  cie-java/gradlew -b cie-java/build.gradle standalone
   meson setup builddir libs
   meson configure -Dprefix=/usr builddir
   meson compile -C builddir
@@ -140,7 +129,7 @@ build__apt() {
     "${srcdir}/${pkgname}-linux-${pkgver}/libs/lib"
 
   cd "${srcdir}/${pkgname}-linux-${pkgver}"
-  ../gradle-8.10/bin/gradle -b cie-java/build.gradle standalone
+  cie-java/gradlew -b cie-java/build.gradle standalone
 
   meson setup builddir libs
   meson configure -Dprefix=/usr builddir
@@ -153,10 +142,10 @@ package() {
   # Java Application
   install -Dm755 cie-java/build/libs/CIEID-standalone.jar \
     "${pkgdir}/usr/share/cieid/cieid.jar"
-  install -Dm644 "data/cieid.desktop" \
-    "${pkgdir}/usr/share/applications/cieid.desktop"
-  install -Dm755 data/logo.png \
-    "${pkgdir}/usr/share/pixmaps/cieid.png"
+  install -Dm644 "data/app.m0rf30.cieid.desktop" \
+    "${pkgdir}/usr/share/applications/app.m0rf30.cieid.desktop"
+  install -Dm755 data/app.m0rf30.cieid.png \
+    "${pkgdir}/usr/share/pixmaps/app.m0rf30.cieid.png"
   install -Dm755 "data/cieid.sh" \
     "${pkgdir}/usr/bin/cieid"
   install -Dm644 LICENSE \

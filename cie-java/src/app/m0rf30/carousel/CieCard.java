@@ -1,7 +1,7 @@
-package it.ipzs.carousel;
+package app.m0rf30.carousel;
 
-import it.ipzs.cieid.MainFrame;
-import it.ipzs.cieid.util.*;
+import app.m0rf30.cieid.MainFrame;
+import app.m0rf30.cieid.util.*;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Font;
@@ -84,7 +84,7 @@ public class CieCard extends JPanel {
                                             138,
                                             ImageIO.read(
                                                     MainFrame.class.getResource(
-                                                            "/it/ipzs/cieid/res/cie.jpg"))));
+                                                            "/app/m0rf30/cieid/res/cie.jpg"))));
                 } catch (IOException e2) {
                     // TODO Auto-generated catch block
                     e2.printStackTrace();
@@ -140,7 +140,7 @@ public class CieCard extends JPanel {
                                             86,
                                             ImageIO.read(
                                                     MainFrame.class.getResource(
-                                                            "/it/ipzs/cieid/res/cie.jpg"))));
+                                                            "/app/m0rf30/cieid/res/cie.jpg"))));
 
                 } catch (IOException e2) {
                     // TODO Auto-generated catch block

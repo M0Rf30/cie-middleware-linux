@@ -7,6 +7,7 @@
 *.orig
 *.so
 .cache/
+.flatpak-builder/
 .idea/
 .trunk
 .vscode
@@ -19,9 +20,6 @@ Makefile
 build/
 builddir/
 cmake_install.cmake
-gradle/
-gradlew
-gradlew.bat
 meson-info/
 meson-logs/
 meson-private/

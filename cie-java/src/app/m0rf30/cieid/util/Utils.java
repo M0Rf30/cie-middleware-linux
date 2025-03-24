@@ -1,4 +1,4 @@
-package it.ipzs.cieid.util;
+package app.m0rf30.cieid.util;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;

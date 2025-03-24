@@ -1,15 +1,15 @@
-package it.ipzs.cieid;
+package app.m0rf30.cieid;
 
+import app.m0rf30.carousel.*;
+import app.m0rf30.cieid.Firma.FileDrop;
+import app.m0rf30.cieid.Firma.PdfPreview;
+import app.m0rf30.cieid.Firma.VerifyTable;
+import app.m0rf30.cieid.Logger.LogLevel;
+import app.m0rf30.cieid.Middleware.verifyInfo;
+import app.m0rf30.cieid.util.Utils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.ugos.util.Runner;
-import it.ipzs.carousel.*;
-import it.ipzs.cieid.Firma.FileDrop;
-import it.ipzs.cieid.Firma.PdfPreview;
-import it.ipzs.cieid.Firma.VerifyTable;
-import it.ipzs.cieid.Logger.LogLevel;
-import it.ipzs.cieid.Middleware.verifyInfo;
-import it.ipzs.cieid.util.Utils;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -419,7 +419,7 @@ public class MainFrame extends JFrame {
                                     80,
                                     ImageIO.read(
                                             MainFrame.class.getResource(
-                                                    "/it/ipzs/cieid/res/Logo_Cie_ID_Windowed@2x.png")))));
+                                                    "/app/m0rf30/cieid/res/Logo_Cie_ID_Windowed@2x.png")))));
         } catch (IOException e2) {
             e2.printStackTrace();
         }
@@ -440,7 +440,7 @@ public class MainFrame extends JFrame {
         btnHome.setBackground(SystemColor.LIGHT_GRAY);
         btnHome.setHorizontalAlignment(SwingConstants.LEFT);
         btnHome.setIcon(
-                new ImageIcon(MainFrame.class.getResource("/it/ipzs/cieid/res/Risorsa 25.png")));
+                new ImageIcon(MainFrame.class.getResource("/app/m0rf30/cieid/res/Risorsa 25.png")));
         btnHome.setBounds(0, 130, 200, 45);
         btnHome.setBorderPainted(false);
         leftPanel.add(btnHome);
@@ -458,7 +458,7 @@ public class MainFrame extends JFrame {
                     }
                 });
         btnChangePIN.setIcon(
-                new ImageIcon(MainFrame.class.getResource("/it/ipzs/cieid/res/Risorsa 24.png")));
+                new ImageIcon(MainFrame.class.getResource("/app/m0rf30/cieid/res/Risorsa 24.png")));
         btnChangePIN.setHorizontalAlignment(SwingConstants.LEFT);
         btnChangePIN.setBorderPainted(false);
         btnChangePIN.setBackground(SystemColor.control);
@@ -478,7 +478,7 @@ public class MainFrame extends JFrame {
                     }
                 });
         btnUnlockCard.setIcon(
-                new ImageIcon(MainFrame.class.getResource("/it/ipzs/cieid/res/Risorsa 23.png")));
+                new ImageIcon(MainFrame.class.getResource("/app/m0rf30/cieid/res/Risorsa 23.png")));
         btnUnlockCard.setHorizontalAlignment(SwingConstants.LEFT);
         btnUnlockCard.setBorderPainted(false);
         btnUnlockCard.setBackground(SystemColor.control);
@@ -495,7 +495,7 @@ public class MainFrame extends JFrame {
                     }
                 });
         btnTutorial.setIcon(
-                new ImageIcon(MainFrame.class.getResource("/it/ipzs/cieid/res/Risorsa 22.png")));
+                new ImageIcon(MainFrame.class.getResource("/app/m0rf30/cieid/res/Risorsa 22.png")));
         btnTutorial.setHorizontalAlignment(SwingConstants.LEFT);
         btnTutorial.setBorderPainted(false);
         btnTutorial.setBackground(SystemColor.window);
@@ -512,7 +512,7 @@ public class MainFrame extends JFrame {
                     }
                 });
         btnHelp.setIcon(
-                new ImageIcon(MainFrame.class.getResource("/it/ipzs/cieid/res/Risorsa 21.png")));
+                new ImageIcon(MainFrame.class.getResource("/app/m0rf30/cieid/res/Risorsa 21.png")));
         btnHelp.setHorizontalAlignment(SwingConstants.LEFT);
         btnHelp.setBorderPainted(false);
         btnHelp.setBackground(SystemColor.control);
@@ -529,7 +529,7 @@ public class MainFrame extends JFrame {
                     }
                 });
         btnInformation.setIcon(
-                new ImageIcon(MainFrame.class.getResource("/it/ipzs/cieid/res/Risorsa 20.png")));
+                new ImageIcon(MainFrame.class.getResource("/app/m0rf30/cieid/res/Risorsa 20.png")));
         btnInformation.setHorizontalAlignment(SwingConstants.LEFT);
         btnInformation.setBorderPainted(false);
         btnInformation.setBackground(SystemColor.control);
@@ -545,11 +545,11 @@ public class MainFrame extends JFrame {
                         imgP7m.setIcon(
                                 new ImageIcon(
                                         MainFrame.class.getResource(
-                                                "/it/ipzs/cieid/res/Firma/p7m_grey.png")));
+                                                "/app/m0rf30/cieid/res/Firma/p7m_grey.png")));
                         imgPdf.setIcon(
                                 new ImageIcon(
                                         MainFrame.class.getResource(
-                                                "/it/ipzs/cieid/res/Firma/pdd_gray.png")));
+                                                "/app/m0rf30/cieid/res/Firma/pdd_gray.png")));
                         cbGraphicSig.setForeground(Color.gray);
                         cbGraphicSig.setSelected(false);
                         lblPadesSub.setForeground(Color.gray);
@@ -588,7 +588,7 @@ public class MainFrame extends JFrame {
                 });
         btnDigitalSignature.setIcon(
                 new ImageIcon(
-                        MainFrame.class.getResource("/it/ipzs/cieid/res/Firma/firma_gray.png")));
+                        MainFrame.class.getResource("/app/m0rf30/cieid/res/Firma/firma_gray.png")));
         btnDigitalSignature.setHorizontalAlignment(SwingConstants.LEFT);
         btnDigitalSignature.setBorderPainted(false);
         btnDigitalSignature.setBackground(SystemColor.control);
@@ -611,7 +611,7 @@ public class MainFrame extends JFrame {
                 });
         btnDigitalSignatureVerify.setIcon(
                 new ImageIcon(
-                        MainFrame.class.getResource("/it/ipzs/cieid/res/Firma/firma_gray.png")));
+                        MainFrame.class.getResource("/app/m0rf30/cieid/res/Firma/firma_gray.png")));
         btnDigitalSignatureVerify.setHorizontalAlignment(SwingConstants.LEFT);
         btnDigitalSignatureVerify.setBorderPainted(false);
         btnDigitalSignatureVerify.setBackground(SystemColor.control);
@@ -665,7 +665,8 @@ public class MainFrame extends JFrame {
                     }
                 });
         btnSettings.setIcon(
-                new ImageIcon(MainFrame.class.getResource("/it/ipzs/cieid/res/settings_icon.png")));
+                new ImageIcon(
+                        MainFrame.class.getResource("/app/m0rf30/cieid/res/settings_icon.png")));
         btnSettings.setHorizontalAlignment(SwingConstants.LEFT);
         btnSettings.setBorderPainted(false);
         btnSettings.setBackground(SystemColor.window);
@@ -703,7 +704,7 @@ public class MainFrame extends JFrame {
         lblNewLabel1.setIcon(
                 new ImageIcon(
                         MainFrame.class.getResource(
-                                "/it/ipzs/cieid/res/icona_lettore_card_white.png")));
+                                "/app/m0rf30/cieid/res/icona_lettore_card_white.png")));
         lblNewLabel1.setBounds(29, 194, 211, 205);
         pnPairCIE_Index_1.add(lblNewLabel1);
         btnPair = new JButton("Abbina");
@@ -901,7 +902,7 @@ public class MainFrame extends JFrame {
         label_1.setIcon(
                 new ImageIcon(
                         MainFrame.class.getResource(
-                                "/it/ipzs/cieid/res/icona_lettore_card_white.png")));
+                                "/app/m0rf30/cieid/res/icona_lettore_card_white.png")));
         label_1.setHorizontalAlignment(SwingConstants.CENTER);
         label_1.setBounds(29, 194, 211, 205);
         panel_PairCIE.add(label_1);
@@ -1075,7 +1076,7 @@ public class MainFrame extends JFrame {
         label_5.setIcon(
                 new ImageIcon(
                         MainFrame.class.getResource(
-                                "/it/ipzs/cieid/res/icona_lettore_card_white.png")));
+                                "/app/m0rf30/cieid/res/icona_lettore_card_white.png")));
         label_5.setHorizontalAlignment(SwingConstants.CENTER);
         label_5.setBounds(29, 194, 211, 205);
         pnChangePINTypingScreen_Index_4.add(label_5);
@@ -1173,7 +1174,7 @@ public class MainFrame extends JFrame {
         label_6.setIcon(
                 new ImageIcon(
                         MainFrame.class.getResource(
-                                "/it/ipzs/cieid/res/icona_lettore_card_white.png")));
+                                "/app/m0rf30/cieid/res/icona_lettore_card_white.png")));
         label_6.setHorizontalAlignment(SwingConstants.CENTER);
         label_6.setBounds(29, 194, 211, 205);
         panel_5.add(label_6);
@@ -1211,7 +1212,7 @@ public class MainFrame extends JFrame {
         label_7.setIcon(
                 new ImageIcon(
                         MainFrame.class.getResource(
-                                "/it/ipzs/cieid/res/icona_lettore_card_white.png")));
+                                "/app/m0rf30/cieid/res/icona_lettore_card_white.png")));
         label_7.setHorizontalAlignment(SwingConstants.CENTER);
         label_7.setBounds(29, 194, 211, 205);
         panel_6.add(label_7);
@@ -1315,7 +1316,7 @@ public class MainFrame extends JFrame {
         label_8.setIcon(
                 new ImageIcon(
                         MainFrame.class.getResource(
-                                "/it/ipzs/cieid/res/icona_lettore_card_white.png")));
+                                "/app/m0rf30/cieid/res/icona_lettore_card_white.png")));
         label_8.setHorizontalAlignment(SwingConstants.CENTER);
         label_8.setBounds(29, 194, 211, 205);
         panel_7.add(label_8);
@@ -1347,7 +1348,7 @@ public class MainFrame extends JFrame {
         MiniWebView webView = new MiniWebView();
         webView.setBounds(12, 99, 571, 440);
         panel_8.add(webView);
-        webView.showPage(MainFrame.class.getResource("/it/ipzs/cieid/res/html/tutorial.html"));
+        webView.showPage(MainFrame.class.getResource("/app/m0rf30/cieid/res/html/tutorial.html"));
         panel_9 = new JPanel();
         panel_9.setLayout(null);
         panel_9.setBackground(Color.WHITE);
@@ -1360,7 +1361,7 @@ public class MainFrame extends JFrame {
         miniWebView = new MiniWebView();
         miniWebView.setBounds(12, 99, 571, 440);
         panel_9.add(miniWebView);
-        miniWebView.showPage(MainFrame.class.getResource("/it/ipzs/cieid/res/html/aiuto.html"));
+        miniWebView.showPage(MainFrame.class.getResource("/app/m0rf30/cieid/res/html/aiuto.html"));
         panel_10 = new JPanel();
         panel_10.setLayout(null);
         panel_10.setBackground(Color.WHITE);
@@ -1373,7 +1374,8 @@ public class MainFrame extends JFrame {
         miniWebView_1 = new MiniWebView();
         miniWebView_1.setBounds(12, 99, 571, 440);
         panel_10.add(miniWebView_1);
-        miniWebView_1.showPage(MainFrame.class.getResource("/it/ipzs/cieid/res/html/privacy.html"));
+        miniWebView_1.showPage(
+                MainFrame.class.getResource("/app/m0rf30/cieid/res/html/privacy.html"));
         StyledDocument doc = textPane_1.getStyledDocument();
         SimpleAttributeSet center = new SimpleAttributeSet();
         StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
@@ -1425,7 +1427,8 @@ public class MainFrame extends JFrame {
 
         lblNewLabel = new JLabel("");
         lblNewLabel.setIcon(
-                new ImageIcon(MainFrame.class.getResource("/it/ipzs/cieid/res/Firma/upload.png")));
+                new ImageIcon(
+                        MainFrame.class.getResource("/app/m0rf30/cieid/res/Firma/upload.png")));
         lblNewLabel.setBounds(223, 12, 80, 104);
         panelLoadFile.add(lblNewLabel);
         txtrDragAndDropDocuments = new JTextArea();
@@ -1550,7 +1553,7 @@ public class MainFrame extends JFrame {
         lblNewLabel_2 = new JLabel("");
         lblNewLabel_2.setIcon(
                 new ImageIcon(
-                        MainFrame.class.getResource("/it/ipzs/cieid/res/Firma/firma@4x.png")));
+                        MainFrame.class.getResource("/app/m0rf30/cieid/res/Firma/firma@4x.png")));
         lblNewLabel_2.setBounds(0, 1, 79, 64);
         panel_11.add(lblNewLabel_2);
 
@@ -1585,7 +1588,7 @@ public class MainFrame extends JFrame {
         lblNewLabel_1 = new JLabel("");
         lblNewLabel_1.setIcon(
                 new ImageIcon(
-                        MainFrame.class.getResource("/it/ipzs/cieid/res/Firma/generica.png")));
+                        MainFrame.class.getResource("/app/m0rf30/cieid/res/Firma/generica.png")));
         lblNewLabel_1.setBounds(0, 0, 60, 82);
         panel.add(lblNewLabel_1);
 
@@ -1732,7 +1735,7 @@ public class MainFrame extends JFrame {
         lblNewLabel_6.setIcon(
                 new ImageIcon(
                         MainFrame.class.getResource(
-                                "/it/ipzs/cieid/res/Firma/Coppia file certificato.png")));
+                                "/app/m0rf30/cieid/res/Firma/Coppia file certificato.png")));
 
         panel_13 = new JPanel();
         panel_13.setBackground(SystemColor.text);
@@ -1779,7 +1782,7 @@ public class MainFrame extends JFrame {
         lblNewLabel_5.setIcon(
                 new ImageIcon(
                         MainFrame.class.getResource(
-                                "/it/ipzs/cieid/res/Firma/Coppia file firma.png")));
+                                "/app/m0rf30/cieid/res/Firma/Coppia file firma.png")));
         btnCancelOp = new JButton("Annulla");
         btnCancelOp.addActionListener(
                 new ActionListener() {
@@ -1788,11 +1791,11 @@ public class MainFrame extends JFrame {
                         imgP7m.setIcon(
                                 new ImageIcon(
                                         MainFrame.class.getResource(
-                                                "/it/ipzs/cieid/res/Firma/p7m_grey.png")));
+                                                "/app/m0rf30/cieid/res/Firma/p7m_grey.png")));
                         imgPdf.setIcon(
                                 new ImageIcon(
                                         MainFrame.class.getResource(
-                                                "/it/ipzs/cieid/res/Firma/pdd_gray.png")));
+                                                "/app/m0rf30/cieid/res/Firma/pdd_gray.png")));
                         cbGraphicSig.setForeground(Color.gray);
                         cbGraphicSig.setSelected(false);
                         lblPadesSub.setForeground(Color.gray);
@@ -1833,7 +1836,7 @@ public class MainFrame extends JFrame {
         lblNewLabel_7 = new JLabel("");
         lblNewLabel_7.setIcon(
                 new ImageIcon(
-                        MainFrame.class.getResource("/it/ipzs/cieid/res/Firma/generica.png")));
+                        MainFrame.class.getResource("/app/m0rf30/cieid/res/Firma/generica.png")));
         lblNewLabel_7.setBounds(0, 0, 60, 82);
         panel_15.add(lblNewLabel_7);
 
@@ -1878,11 +1881,11 @@ public class MainFrame extends JFrame {
                         imgP7m.setIcon(
                                 new ImageIcon(
                                         MainFrame.class.getResource(
-                                                "/it/ipzs/cieid/res/Firma/p7m.png")));
+                                                "/app/m0rf30/cieid/res/Firma/p7m.png")));
                         imgPdf.setIcon(
                                 new ImageIcon(
                                         MainFrame.class.getResource(
-                                                "/it/ipzs/cieid/res/Firma/pdd_gray.png")));
+                                                "/app/m0rf30/cieid/res/Firma/pdd_gray.png")));
                         cbGraphicSig.setForeground(Color.gray);
                         cbGraphicSig.setSelected(false);
                         lblPadesSub.setForeground(Color.gray);
@@ -1902,7 +1905,7 @@ public class MainFrame extends JFrame {
         panel_18.add(imgP7m);
         imgP7m.setIcon(
                 new ImageIcon(
-                        MainFrame.class.getResource("/it/ipzs/cieid/res/Firma/p7m_grey.png")));
+                        MainFrame.class.getResource("/app/m0rf30/cieid/res/Firma/p7m_grey.png")));
 
         lblCadesTitle = new JLabel("Firma CADES");
         lblCadesTitle.addMouseListener(panel_18.getMouseListeners()[0]);
@@ -1937,7 +1940,7 @@ public class MainFrame extends JFrame {
         imgPdf = new JLabel("New label");
         imgPdf.setIcon(
                 new ImageIcon(
-                        MainFrame.class.getResource("/it/ipzs/cieid/res/Firma/pdd_gray.png")));
+                        MainFrame.class.getResource("/app/m0rf30/cieid/res/Firma/pdd_gray.png")));
         imgPdf.setBounds(0, 0, 50, 67);
         panel_19.add(imgPdf);
 
@@ -2003,11 +2006,11 @@ public class MainFrame extends JFrame {
                         imgP7m.setIcon(
                                 new ImageIcon(
                                         MainFrame.class.getResource(
-                                                "/it/ipzs/cieid/res/Firma/p7m_grey.png")));
+                                                "/app/m0rf30/cieid/res/Firma/p7m_grey.png")));
                         imgPdf.setIcon(
                                 new ImageIcon(
                                         MainFrame.class.getResource(
-                                                "/it/ipzs/cieid/res/Firma/pdd_gray.png")));
+                                                "/app/m0rf30/cieid/res/Firma/pdd_gray.png")));
                         cbGraphicSig.setForeground(Color.gray);
                         lblPadesSub.setForeground(Color.gray);
                         lblPadesTitle.setForeground(Color.gray);
@@ -2077,11 +2080,11 @@ public class MainFrame extends JFrame {
                             imgP7m.setIcon(
                                     new ImageIcon(
                                             MainFrame.class.getResource(
-                                                    "/it/ipzs/cieid/res/Firma/p7m_grey.png")));
+                                                    "/app/m0rf30/cieid/res/Firma/p7m_grey.png")));
                             imgPdf.setIcon(
                                     new ImageIcon(
                                             MainFrame.class.getResource(
-                                                    "/it/ipzs/cieid/res/Firma/pdf.png")));
+                                                    "/app/m0rf30/cieid/res/Firma/pdf.png")));
                             cbGraphicSig.setForeground(Color.black);
                             lblPadesSub.setForeground(Color.black);
                             lblPadesTitle.setForeground(Color.red);
@@ -2129,7 +2132,7 @@ public class MainFrame extends JFrame {
         lblNewLabel_9 = new JLabel("");
         lblNewLabel_9.setIcon(
                 new ImageIcon(
-                        MainFrame.class.getResource("/it/ipzs/cieid/res/Firma/generica.png")));
+                        MainFrame.class.getResource("/app/m0rf30/cieid/res/Firma/generica.png")));
         lblNewLabel_9.setBounds(0, 0, 60, 82);
         panel_21.add(lblNewLabel_9);
 
@@ -2186,7 +2189,8 @@ public class MainFrame extends JFrame {
 
         btnUp = new JButton("");
         btnUp.setBackground(SystemColor.text);
-        btnUp.setIcon(new ImageIcon(MainFrame.class.getResource("/it/ipzs/cieid/res/up@2x.png")));
+        btnUp.setIcon(
+                new ImageIcon(MainFrame.class.getResource("/app/m0rf30/cieid/res/up@2x.png")));
         btnUp.setBounds(0, 0, 42, 38);
         btnUp.setOpaque(false);
         btnUp.setBorderPainted(false);
@@ -2202,7 +2206,7 @@ public class MainFrame extends JFrame {
 
         btnDown = new JButton("");
         btnDown.setIcon(
-                new ImageIcon(MainFrame.class.getResource("/it/ipzs/cieid/res/down@2x.png")));
+                new ImageIcon(MainFrame.class.getResource("/app/m0rf30/cieid/res/down@2x.png")));
         btnDown.setBackground(SystemColor.text);
         btnDown.setBounds(0, 134, 42, 38);
         btnDown.setOpaque(false);
@@ -2249,7 +2253,7 @@ public class MainFrame extends JFrame {
         lblNewLabel_11 = new JLabel("");
         lblNewLabel_11.setIcon(
                 new ImageIcon(
-                        MainFrame.class.getResource("/it/ipzs/cieid/res/Firma/generica.png")));
+                        MainFrame.class.getResource("/app/m0rf30/cieid/res/Firma/generica.png")));
         lblNewLabel_11.setBounds(0, 0, 60, 82);
         panel_27.add(lblNewLabel_11);
 
@@ -2373,7 +2377,7 @@ public class MainFrame extends JFrame {
         lblNewLabel1_1.setIcon(
                 new ImageIcon(
                         MainFrame.class.getResource(
-                                "/it/ipzs/cieid/res/icona_lettore_card_white_small.png")));
+                                "/app/m0rf30/cieid/res/icona_lettore_card_white_small.png")));
         lblNewLabel1_1.setHorizontalAlignment(SwingConstants.CENTER);
         lblProgressSignPIN = new JLabel("Inserisci le ultime 4 cifre del pin");
         lblProgressSignPIN.setBounds(153, 18, 239, 23);
@@ -2559,7 +2563,8 @@ public class MainFrame extends JFrame {
         imgSignatureResult.setBounds(172, 53, 48, 48);
         panel_29.add(imgSignatureResult);
         imgSignatureResult.setIcon(
-                new ImageIcon(MainFrame.class.getResource("/it/ipzs/cieid/res/Firma/check.png")));
+                new ImageIcon(
+                        MainFrame.class.getResource("/app/m0rf30/cieid/res/Firma/check.png")));
         imgSignatureResult.setVisible(false);
         lblSignatureResult.setVisible(false);
         progressSignPIN.setVisible(false);
@@ -2772,7 +2777,7 @@ public class MainFrame extends JFrame {
         JLabel lblNewLabel_11_1 = new JLabel("");
         lblNewLabel_11_1.setIcon(
                 new ImageIcon(
-                        MainFrame.class.getResource("/it/ipzs/cieid/res/Firma/generica.png")));
+                        MainFrame.class.getResource("/app/m0rf30/cieid/res/Firma/generica.png")));
         lblNewLabel_11_1.setBounds(0, 0, 60, 82);
         panel_27_1.add(lblNewLabel_11_1);
 
@@ -3455,7 +3460,7 @@ public class MainFrame extends JFrame {
             text = toFirstCharUpperAll(toTitleCase(text).toLowerCase());
 
             File file = null;
-            String resource = "/it/ipzs/cieid/res/Allura-Regular.ttf";
+            String resource = "/app/m0rf30/cieid/res/Allura-Regular.ttf";
             URL res = getClass().getResource(resource);
             if (res.getProtocol().equals("jar")) {
                 try {
@@ -3687,7 +3692,7 @@ public class MainFrame extends JFrame {
                                 imgSignatureResult.setIcon(
                                         new ImageIcon(
                                                 MainFrame.class.getResource(
-                                                        "/it/ipzs/cieid/res/Firma/check.png")));
+                                                        "/app/m0rf30/cieid/res/Firma/check.png")));
                             } else {
                                 logger.Error("Si è verificato un errore durante la firma");
                                 lblSignatureResult.setText(
@@ -3695,7 +3700,7 @@ public class MainFrame extends JFrame {
                                 imgSignatureResult.setIcon(
                                         new ImageIcon(
                                                 MainFrame.class.getResource(
-                                                        "/it/ipzs/cieid/res/Firma/cross.png")));
+                                                        "/app/m0rf30/cieid/res/Firma/cross.png")));
                             }
 
                             lblSignatureResult.setVisible(true);

@@ -1,4 +1,4 @@
-package it.ipzs.carousel;
+package app.m0rf30.carousel;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -99,7 +99,7 @@ public class carousel extends JPanel {
 
         btnLeft = new JButton("");
         btnLeft.setIcon(
-                new ImageIcon(carousel.class.getResource("/it/ipzs/cieid/res/back@2x.png")));
+                new ImageIcon(carousel.class.getResource("/app/m0rf30/cieid/res/back@2x.png")));
         btnLeft.setForeground(new Color(30, 144, 255));
         btnLeft.setFont(new Font("Dialog", Font.BOLD, 15));
         btnLeft.setBounds(-12, 150, 52, 48);
@@ -125,7 +125,7 @@ public class carousel extends JPanel {
 
         btnRight = new JButton("");
         btnRight.setIcon(
-                new ImageIcon(carousel.class.getResource("/it/ipzs/cieid/res/forward@2x.png")));
+                new ImageIcon(carousel.class.getResource("/app/m0rf30/cieid/res/forward@2x.png")));
         btnRight.setForeground(new Color(30, 144, 255));
         btnRight.setFont(new Font("Dialog", Font.BOLD, 15));
         btnRight.setOpaque(false);

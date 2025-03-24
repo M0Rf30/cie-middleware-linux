@@ -1,4 +1,4 @@
-package it.ipzs.cieid.Firma;
+package app.m0rf30.cieid.Firma;
 
 import java.awt.datatransfer.DataFlavor;
 import java.io.BufferedReader;
@@ -446,7 +446,8 @@ public class FileDrop {
                             + " attached?");
         } // end catch
 
-        // Listen for hierarchy changes and remove the drop target when the parent gets cleared out.
+        // Listen for hierarchy changes and remove the drop target when the parent gets
+        // cleared out.
         c.addHierarchyListener(
                 new java.awt.event.HierarchyListener() {
                     public void hierarchyChanged(java.awt.event.HierarchyEvent evt) {
@@ -551,7 +552,7 @@ public class FileDrop {
         else return false;
     } // end remove
 
-    /* ********  I N N E R   I N T E R F A C E   L I S T E N E R  ******** */
+    /* ******** I N N E R I N T E R F A C E L I S T E N E R ******** */
 
     /**
      * Implement this inner interface to listen for when files are dropped. For example your class
@@ -578,7 +579,7 @@ public class FileDrop {
         void filesDropped(java.io.File[] files);
     } // end inner-interface Listener
 
-    /* ********  I N N E R   C L A S S  ******** */
+    /* ******** I N N E R C L A S S ******** */
 
     /**
      * This is the event that is passed to the {@link FileDropListener#filesDropped
@@ -619,25 +620,28 @@ public class FileDrop {
         } // end getFiles
     } // end inner class Event
 
-    /* ********  I N N E R   C L A S S  ******** */
+    /* ******** I N N E R C L A S S ******** */
 
     /**
      * At last an easy way to encapsulate your custom objects for dragging and dropping in your Java
      * programs! When you need to create a {@link java.awt.datatransfer.Transferable} object, use
      * this class to wrap your object. For example:
      *
-     * <pre><code>
+     * <pre>
+     * <code>
      *      ...
      *      MyCoolClass myObj = new MyCoolClass();
      *      Transferable xfer = new TransferableObject( myObj );
      *      ...
-     * </code></pre>
+     * </code>
+     * </pre>
      *
      * Or if you need to know when the data was actually dropped, like when you're moving data out
      * of a list, say, you can use the {@link TransferableObject.Fetcher} inner class to return your
      * object Just in Time. For example:
      *
-     * <pre><code>
+     * <pre>
+     * <code>
      *      ...
      *      final MyCoolClass myObj = new MyCoolClass();
      *
@@ -647,7 +651,8 @@ public class FileDrop {
      *
      *      Transferable xfer = new TransferableObject( fetcher );
      *      ...
-     * </code></pre>
+     * </code>
+     * </pre>
      *
      * The {@link java.awt.datatransfer.DataFlavor} associated with {@link TransferableObject} has
      * the representation class <tt>net.iharder.dnd.TransferableObject.class</tt> and MIME type
@@ -739,7 +744,7 @@ public class FileDrop {
             return customFlavor;
         } // end getCustomDataFlavor
 
-        /* ********  T R A N S F E R A B L E   M E T H O D S  ******** */
+        /* ******** T R A N S F E R A B L E M E T H O D S ******** */
 
         /**
          * Returns a two- or three-element array containing first the custom data flavor, if one was
@@ -802,7 +807,7 @@ public class FileDrop {
             // We can't do anything else
         } // end isDataFlavorSupported
 
-        /* ********  I N N E R   I N T E R F A C E   F E T C H E R  ******** */
+        /* ******** I N N E R I N T E R F A C E F E T C H E R ******** */
 
         /**
          * Instead of passing your data directly to the {@link TransferableObject} constructor, you

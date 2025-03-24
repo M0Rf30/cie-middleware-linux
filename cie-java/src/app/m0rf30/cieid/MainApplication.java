@@ -1,12 +1,12 @@
-package it.ipzs.cieid;
+package app.m0rf30.cieid;
 
+import app.m0rf30.cieid.util.Utils;
 import ch.swingfx.twinkle.NotificationBuilder;
 import ch.swingfx.twinkle.event.NotificationEvent;
 import ch.swingfx.twinkle.event.NotificationEventAdapter;
 import ch.swingfx.twinkle.style.closebutton.NullCloseButton;
 import ch.swingfx.twinkle.style.theme.LightDefaultNotification;
 import ch.swingfx.twinkle.window.Positions;
-import it.ipzs.cieid.util.Utils;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 
@@ -66,15 +66,15 @@ public class MainApplication {
         // nb.withIcon(CrmIcons.CALL);
         nb.withDisplayTime(1000 * 5);
 
-        //		nb.withListener(new NotificationEventAdapter() {
-        //			@Override
-        //			public void clicked(NotificationEvent event)
-        //			{
-        //				// do nothing
-        //				setLookAndFeel();
-        //				MainApplication.showUI(new String[] {});
-        //			}
-        //		});
+        // nb.withListener(new NotificationEventAdapter() {
+        // @Override
+        // public void clicked(NotificationEvent event)
+        // {
+        // // do nothing
+        // setLookAndFeel();
+        // MainApplication.showUI(new String[] {});
+        // }
+        // });
 
         nb.showNotification();
     }
@@ -90,7 +90,7 @@ public class MainApplication {
                 new NotificationEventAdapter() {
                     @Override
                     public void clicked(NotificationEvent event) {
-                        //				setLookAndFeel();
+                        // setLookAndFeel();
                         MainApplication.showUI(new String[] {});
                     }
                 });

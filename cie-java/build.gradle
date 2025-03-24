@@ -18,7 +18,7 @@ spotless {
 
 		// define the steps to apply to those files
 		trimTrailingWhitespace()
-		indentWithTabs() // or spaces. Takes an integer argument if you don't like 4
+		leadingSpacesToTabs()
 		endWithNewline()
 	}
 	java {
@@ -35,8 +35,6 @@ dependencies {
 	implementation 'net.java.dev.jna:jna:5.17.0'
 	implementation 'org.apache.pdfbox:pdfbox:3.0.4'
 }
-
-// mainClassName = 'it.ipzs.cieid.MainApplicationn'
 
 sourceSets {
 	main {
@@ -65,7 +63,7 @@ task standalone(type: Jar) {
 		attributes 'Implementation-Title': 'CIEID Desktop Application',
 				'Built-By': System.getProperty('user.name'),
 				'Built-JDK': System.getProperty('java.version'),
-				'Main-Class': 'it.ipzs.cieid.MainApplication'
+				'Main-Class': 'app.m0rf30.cieid.MainApplication'
 	}
 }
 

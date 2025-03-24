@@ -1,7 +1,7 @@
-package it.ipzs.cieid.Firma;
+package app.m0rf30.cieid.Firma;
 
-import it.ipzs.cieid.MainFrame;
-import it.ipzs.cieid.Middleware.verifyInfo;
+import app.m0rf30.cieid.MainFrame;
+import app.m0rf30.cieid.Middleware.verifyInfo;
 import java.awt.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -29,11 +29,12 @@ public class VerifyTable {
     private void getDataTable(verifyInfo vInfo) {
         String name = vInfo.get_name() + " " + vInfo.get_surname() + '\n' + vInfo.get_cn();
         Icon nameIcon =
-                new ImageIcon(MainFrame.class.getResource("/it/ipzs/cieid/res/Firma/user.png"));
+                new ImageIcon(MainFrame.class.getResource("/app/m0rf30/cieid/res/Firma/user.png"));
 
         String s_time = vInfo.get_signingTime();
         Icon timeIcon =
-                new ImageIcon(MainFrame.class.getResource("/it/ipzs/cieid/res/Firma/calendar.png"));
+                new ImageIcon(
+                        MainFrame.class.getResource("/app/m0rf30/cieid/res/Firma/calendar.png"));
 
         if (s_time != null) {
             String signingTime = s_time.substring(0, 12);
@@ -52,39 +53,39 @@ public class VerifyTable {
         Icon certIcon =
                 new ImageIcon(
                         MainFrame.class.getResource(
-                                "/it/ipzs/cieid/res/Firma/orange_checkbox.png"));
+                                "/app/m0rf30/cieid/res/Firma/orange_checkbox.png"));
         if (vInfo.isCertValid == 1) {
             s_cert = "Il certificato è valido";
             certIcon =
                     new ImageIcon(
                             MainFrame.class.getResource(
-                                    "/it/ipzs/cieid/res/Firma/green_checkbox.png"));
+                                    "/app/m0rf30/cieid/res/Firma/green_checkbox.png"));
         }
 
         String s_sign = "La firma non è valida";
         Icon signIcon =
                 new ImageIcon(
                         MainFrame.class.getResource(
-                                "/it/ipzs/cieid/res/Firma/orange_checkbox.png"));
+                                "/app/m0rf30/cieid/res/Firma/orange_checkbox.png"));
         if (vInfo.isSignValid == 1) {
             s_sign = "La firma è valida";
             signIcon =
                     new ImageIcon(
                             MainFrame.class.getResource(
-                                    "/it/ipzs/cieid/res/Firma/green_checkbox.png"));
+                                    "/app/m0rf30/cieid/res/Firma/green_checkbox.png"));
         }
 
         String s_revoc = "Servizio di revoca non raggiungibile";
         Icon certRevIcon =
                 new ImageIcon(
                         MainFrame.class.getResource(
-                                "/it/ipzs/cieid/res/Firma/orange_checkbox.png"));
+                                "/app/m0rf30/cieid/res/Firma/orange_checkbox.png"));
         if (vInfo.CertRevocStatus == VerifyTable.REVOCATION_STATUS_GOOD) {
             s_revoc = "Il certificato non è revocato";
             certRevIcon =
                     new ImageIcon(
                             MainFrame.class.getResource(
-                                    "/it/ipzs/cieid/res/Firma/green_checkbox.png"));
+                                    "/app/m0rf30/cieid/res/Firma/green_checkbox.png"));
         } else if (vInfo.CertRevocStatus == VerifyTable.REVOCATION_STATUS_REVOKED) {
             s_revoc = "Il certificato è revocato";
         } else if (vInfo.CertRevocStatus == VerifyTable.REVOCATION_STATUS_SUSPENDED) {
@@ -95,7 +96,7 @@ public class VerifyTable {
 
         String s_cadn = vInfo.get_cadn();
         Icon cadnIcon =
-                new ImageIcon(MainFrame.class.getResource("/it/ipzs/cieid/res/Firma/medal.png"));
+                new ImageIcon(MainFrame.class.getResource("/app/m0rf30/cieid/res/Firma/medal.png"));
 
         Object[][] data_new =
                 new Object[][] {
@@ -192,7 +193,8 @@ public class VerifyTable {
         table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 
         table.getColumnModel().getColumn(0).setMaxWidth(30);
-        // table.getColumnModel().getColumn(0).setCellRenderer(new DefaultTableCellRenderer());
+        // table.getColumnModel().getColumn(0).setCellRenderer(new
+        // DefaultTableCellRenderer());
         verificaScrollPane.getViewport().add(table);
         verificaScrollPane.add(Box.createVerticalStrut(20));
     }

@@ -27,17 +27,15 @@ jobs:
 
       - name: Build
         run: |
-          docker run --entrypoint=bash -v $(pwd):/project m0rf30/yap-ubuntu-jammy:1.27 -c "cd /project; \
+          docker run --entrypoint=bash -v $(pwd):/project m0rf30/yap-ubuntu-jammy:1.40 -c "cd /project; \
             yap prepare ubuntu-jammy; \
             yap build ubuntu-jammy /project/packages"
-          docker run --entrypoint=bash -v $(pwd):/project m0rf30/yap-rocky-9:1.27 -c "cd /project; \
+          docker run --entrypoint=bash -v $(pwd):/project m0rf30/yap-rocky-9:1.40 -c "cd /project; \
             yap prepare rocky-9; \
-            dnf -y install dnf-plugins-core epel-release; \
-            dnf config-manager --set-enabled crb; \
             yap build rocky-9 /project/packages"
 
           for i in $(ls artifacts/*.deb); do sha256sum $i >> SHA256SUMS; done
-          for i in $(ls artifacts/x86_64/*.rpm); do sha256sum $i >> SHA256SUMS; done
+          for i in $(ls artifacts/*.rpm); do sha256sum $i >> SHA256SUMS; done
 
       - name: Archive production artifacts
         uses: actions/upload-artifact@v4
@@ -45,7 +43,7 @@ jobs:
           name: "cie-middleware-${{ steps.version.outputs.version }}"
           path: |
             artifacts/*.deb
-            artifacts/x86_64/*.rpm
+            artifacts/*.rpm
             SHA256SUMS
 
       - uses: "marvinpinto/action-automatic-releases@latest"
@@ -55,5 +53,5 @@ jobs:
           title: "cie-middleware-${{ steps.version.outputs.version }}"
           files: |
             artifacts/*.deb
-            artifacts/x86_64/*.rpm
+            artifacts/*.rpm
             SHA256SUMS

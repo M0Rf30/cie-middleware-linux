@@ -34,7 +34,6 @@ Sono necessarie le seguenti librerie:
 * curl
 * fontconfig
 * freetype2
-* gradle (make)
 * java (>= 11)
 * jdk (>= 11) (make)
 * libpng
@@ -50,7 +49,7 @@ Sono necessarie le seguenti librerie:
 Da terminale, spostarsi nella root del presente repo e digitare:
 
 ```sh
-gradle -b cie-java/build.gradle standalone
+gradlew -b cie-java/build.gradle standalone
 
 curl -sL "https://github.com/M0Rf30/cie-middleware-linux/releases/download/podofo-1.4.2/libpodofo-1.4.2.tar.gz" -o libpodofo.tar.gz
 
