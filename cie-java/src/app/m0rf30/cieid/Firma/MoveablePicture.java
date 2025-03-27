@@ -21,9 +21,9 @@ public class MoveablePicture extends JPanel implements MouseListener, MouseMotio
 
     public MoveablePicture(String signFilePath) {
         // TODO Auto-generated constructor stub
-        this.setSize(90, 25);
-        this.setBackground(Color.white);
-        this.setBorder(BorderFactory.createLineBorder(Color.black));
+        this.setSize(50, 25);
+        this.setBackground(new Color(255, 255, 255, 0));
+        this.setBorder(BorderFactory.createDashedBorder(Color.black));
         try {
             Image img;
             img = ImageIO.read(new File(signFilePath));
@@ -31,8 +31,8 @@ public class MoveablePicture extends JPanel implements MouseListener, MouseMotio
                     new JLabel(
                             new ImageIcon(
                                     img.getScaledInstance(
-                                            this.getWidth() - 5,
-                                            this.getHeight() - 10,
+                                            this.getWidth(),
+                                            this.getHeight(),
                                             Image.SCALE_SMOOTH)));
             this.add(imgLabel);
         } catch (IOException e) {
