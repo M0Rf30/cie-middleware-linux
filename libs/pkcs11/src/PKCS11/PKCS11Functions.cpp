@@ -258,7 +258,7 @@ CK_RV CK_ENTRY C_Initialize(CK_VOID_PTR pReserved) {
 
   logParam(pReserved)
 
-      if (bP11Initialized) return CKR_OK;
+      if (bP11Initialized) throw p11_error(CKR_CRYPTOKI_ALREADY_INITIALIZED);
 
   // verifico che i flag siano supportati
   CK_C_INITIALIZE_ARGS_PTR iargs = NULL_PTR;
@@ -267,9 +267,7 @@ CK_RV CK_ENTRY C_Initialize(CK_VOID_PTR pReserved) {
     if (iargs->pReserved != NULL) throw p11_error(CKR_ARGUMENTS_BAD);
 
     if (iargs->flags & CKF_OS_LOCKING_OK) {
-      if ((iargs->CreateMutex) || (iargs->DestroyMutex) || (iargs->LockMutex) ||
-          (iargs->UnlockMutex))
-        throw p11_error(CKR_CANT_LOCK);
+      // Nothing to do because we will use os locking
     } else if (iargs->flags == 0) {
       if ((iargs->CreateMutex) || (iargs->DestroyMutex) || (iargs->LockMutex) ||
           (iargs->UnlockMutex))
@@ -469,15 +467,15 @@ C_GetInfo(CK_INFO_PTR pInfo /* location that receives information */) {
       if (!bP11Initialized) throw p11_error(CKR_CRYPTOKI_NOT_INITIALIZED);
 
   pInfo->cryptokiVersion.major = 2;   /* Cryptoki interface ver */
-  pInfo->cryptokiVersion.minor = 10;  // 12345678901234567890123456789012
+  pInfo->cryptokiVersion.minor = 11;  // 12345678901234567890123456789012
   CryptoPP::memcpy_s((char *)pInfo->manufacturerID, 32,
-                     "IPZS\0                           ", 32);
+                     "IPZS                            ", 32);
 
   pInfo->flags = 0; /* must be zero */
 
   /* libraryDescription and libraryVersion are new for v2.0 */
   CryptoPP::memcpy_s((char *)pInfo->libraryDescription, 32,
-                     "CIE PKCS11\0                     ", 32);
+                     "CIE PKCS11                      ", 32);
 
   pInfo->libraryVersion.major = 1; /* version of library */
   pInfo->libraryVersion.minor = 0; /* version of library */
@@ -493,7 +491,7 @@ CK_RV CK_ENTRY C_GetFunctionList(CK_FUNCTION_LIST_PTR_PTR ppFunctionList) {
 
       if (ppFunctionList == NULL) throw p11_error(CKR_ARGUMENTS_BAD);
 
-  static CK_FUNCTION_LIST functionList = {{2, 20},
+  static CK_FUNCTION_LIST functionList = {{2, 11},
                                           C_Initialize,
                                           C_Finalize,
                                           C_GetInfo,
