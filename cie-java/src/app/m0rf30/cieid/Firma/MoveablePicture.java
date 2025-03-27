@@ -12,34 +12,43 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 public class MoveablePicture extends JPanel implements MouseListener, MouseMotionListener {
 
     private int x, y;
+    private String signFilePath;
 
-    // private JPanel picturePanel;
-
-    public MoveablePicture(String signFilePath) {
-        // TODO Auto-generated constructor stub
-        this.setSize(50, 25);
-        this.setBackground(new Color(255, 255, 255, 0));
-        this.setBorder(BorderFactory.createDashedBorder(Color.black));
+    private void loadImage() {
         try {
             Image img;
+            int width = this.getWidth();
+            int height = this.getHeight();
             img = ImageIO.read(new File(signFilePath));
             JLabel imgLabel =
-                    new JLabel(
-                            new ImageIcon(
-                                    img.getScaledInstance(
-                                            this.getWidth(),
-                                            this.getHeight(),
-                                            Image.SCALE_SMOOTH)));
+                    new JLabel(new ImageIcon(img.getScaledInstance(width, -1, Image.SCALE_SMOOTH)));
+            imgLabel.setBounds(0, 0, width, height);
+            imgLabel.setVerticalAlignment(SwingConstants.BOTTOM);
             this.add(imgLabel);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
 
+    public void reloadImage() {
+        this.removeAll();
+        this.loadImage();
+    }
+
+    public MoveablePicture(String signFilePath) {
+        // TODO Auto-generated constructor stub
+        this.signFilePath = signFilePath;
+        this.setLayout(null);
+        this.setSize(50, 25);
+        this.setBackground(new Color(255, 255, 255, 0));
+        this.setBorder(BorderFactory.createDashedBorder(Color.black));
+        this.loadImage();
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
     }

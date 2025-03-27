@@ -15,15 +15,15 @@ import javax.swing.JRadioButton;
 public class carousel extends JPanel {
 
     private int index;
-    private final JButton btnRight;
-    private final JButton btnLeft;
     private final List<JRadioButton> radioList;
     private List<Cie> cieList;
-    private final JPanel radioButtonPanel;
     private Map<String, Cie> cieDictionary;
     public CieCard cieLeft;
     public CieCard cieCenter;
     public CieCard cieRight;
+    public JButton btnRight;
+    public JButton btnLeft;
+    public JPanel radioButtonPanel;
 
     public carousel() {
         // getContentPane().setFont(new Font("Tahoma", Font.PLAIN, 59));
@@ -102,7 +102,7 @@ public class carousel extends JPanel {
                 new ImageIcon(carousel.class.getResource("/app/m0rf30/cieid/res/back@2x.png")));
         btnLeft.setForeground(new Color(30, 144, 255));
         btnLeft.setFont(new Font("Dialog", Font.BOLD, 15));
-        btnLeft.setBounds(-12, 150, 52, 48);
+        btnLeft.setBounds(-3, 150, 52, 48);
         btnLeft.setOpaque(false);
         btnLeft.setBorderPainted(false);
         btnLeft.setContentAreaFilled(false);
@@ -153,7 +153,7 @@ public class carousel extends JPanel {
 
         radioButtonPanel = new JPanel();
         radioButtonPanel.setBackground(Color.WHITE);
-        radioButtonPanel.setBounds(38, 258, 491, 25);
+        radioButtonPanel.setBounds(55, 258, 491, 25);
 
         this.add(radioButtonPanel);
     }

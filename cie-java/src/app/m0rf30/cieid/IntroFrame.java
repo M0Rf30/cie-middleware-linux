@@ -5,8 +5,11 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -46,6 +49,15 @@ public class IntroFrame extends JFrame {
 
     /** Create the frame. */
     public IntroFrame() {
+        try {
+            Image logoCircle =
+                    ImageIO.read(
+                            MainFrame.class.getResource("/app/m0rf30/cieid/res/logo_circle.png"));
+            setIconImage(logoCircle);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        setTitle("Benvenuto in CIE ID");
         setResizable(false);
         setBackground(Color.WHITE);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -162,7 +174,13 @@ public class IntroFrame extends JFrame {
                         // TODO open main frame
                         JFrame frame = new MainFrame(new String[] {});
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+                        frame.addWindowListener(
+                                new WindowAdapter() {
+                                    @Override
+                                    public void windowClosed(WindowEvent e) {
+                                        System.exit(0);
+                                    }
+                                });
                         setVisible(false);
                         frame.setVisible(true);
                     }

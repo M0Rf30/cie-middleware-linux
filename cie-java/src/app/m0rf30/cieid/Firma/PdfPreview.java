@@ -12,6 +12,7 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.PDFRenderer;
 
 public class PdfPreview {
+
     private final JPanel prPanel;
     private final String filePath;
     private final String signImagePath;
@@ -60,7 +61,7 @@ public class PdfPreview {
         }
     }
 
-    private void showPreview() {
+    public void showPreview() {
         Image tmpImg = renderedPages.get(pdfPageIndex);
 
         int width = prPanel.getWidth();
@@ -71,6 +72,7 @@ public class PdfPreview {
 
         int imgHeight = height;
         int imgWidth = width;
+        double signImgMult = 1.0;
 
         if (tmpImgWidth > tmpImgHeight) {
             imgHeight = (width * tmpImgHeight) / tmpImgWidth;
@@ -88,6 +90,10 @@ public class PdfPreview {
             }
         }
 
+        signImgMult = imgWidth / 300.0;
+
+        signImage.setSize((int) (50.0 * signImgMult), (int) (25.0 * signImgMult));
+        signImage.reloadImage();
         imgIcon.setImage(tmpImg.getScaledInstance(imgWidth, imgHeight, Image.SCALE_AREA_AVERAGING));
         imgLabel.setIcon(imgIcon);
         imgLabel.setHorizontalAlignment(JLabel.CENTER);
