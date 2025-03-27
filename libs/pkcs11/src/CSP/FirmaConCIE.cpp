@@ -73,6 +73,9 @@ CK_RV CK_ENTRY firmaConCIE(const char* inFilePath, const char* type,
 
     char* curreader = readers;
     bool foundCIE = false;
+
+    progressCallBack(25, "Looking for CIE...");
+
     for (; curreader[0] != 0; curreader += strnlen(curreader, len) + 1) {
       safeConnection conn(hSC, curreader, SCARD_SHARE_SHARED);
       if (!conn.hCard) continue;
@@ -94,8 +97,6 @@ CK_RV CK_ENTRY firmaConCIE(const char* inFilePath, const char* type,
       }
 
       ByteArray atrBa((BYTE*)ATR, atrLen);
-
-      progressCallBack(20, "Getting certificate from CIE...");
 
       IAS* ias = (IAS*)malloc(sizeof(IAS));
       new (ias)
@@ -122,13 +123,15 @@ CK_RV CK_ENTRY firmaConCIE(const char* inFilePath, const char* type,
         return CARD_PAN_MISMATCH;
       }
 
+      progressCallBack(50, "Getting certificate from CIE...");
+
       ByteDynArray FullPIN;
       ByteArray LastPIN = ByteArray((uint8_t*)pin, strlen(pin));
       ias->GetFirstPIN(FullPIN);
       FullPIN.append(LastPIN);
       ias->token.Reset();
 
-      progressCallBack(40, "Starting signature...");
+      progressCallBack(75, "Starting signature...");
 
       char fullPinCStr[9];
       memcpy(fullPinCStr, FullPIN.data(), 8);
