@@ -32,19 +32,14 @@ modules:
         url: https://github.com/weidai11/cryptopp/archive/refs/tags/CRYPTOPP_8_9_0.tar.gz
         sha256: ab5174b9b5c6236588e15a1aa1aaecb6658cdbe09501c7981ac8db276a24d9ab
   - name: libpodofo
-    buildsystem: simple
-    build-commands:
-      - tar xvf libpodofo.tar.gz
-      - install -D -m 755 libpodofo.a /app/lib/libpodofo.a
+    buildsystem: cmake-ninja
     sources:
-      - type: file
-        dest-filename: libpodofo.tar.gz
-        url: https://github.com/M0Rf30/cie-middleware-linux/releases/download/podofo-1.4.2/libpodofo-1.4.2.tar.gz
-        sha256: ef81e439b12aa2ff309b353399c033bd62b027e7bd4cbf649c025226f1de5287
+      - type: archive
+        url: https://github.com/podofo/podofo/archive/refs/tags/0.10.4.tar.gz
+        sha256: 6b1b13cdfb2ba5e8bbc549df507023dd4873bc946211bc6942183b8496986904
   - name: cie-middleware-lib
     buildsystem: simple
     build-commands:
-      - cp /app/lib/libpodofo.a libs/lib
       - meson setup builddir libs
       - meson configure -Dprefix=/app builddir
       - meson compile -C builddir
@@ -62,8 +57,8 @@ modules:
       - rm -rf /app/bin/cryptest.exe /app/include /app/lib/debug /app/lib/pkgconfig /app/share/cryptopp /app/share/doc /app/share/man
     sources:
       - type: archive
-        url: https://github.com/M0Rf30/cie-middleware-linux/archive/5a7f914d18532e4124b28a9036564943d2ab5b92.tar.gz
-        sha256: b19055583982fae8a8eb0a1e5f362955e9f4b650a8507628e4e093a6a8f68e3f
+        url: https://github.com/M0Rf30/cie-middleware-linux/archive/2e8ed37e2cef9e36a5db0b9a5f660e171dbd3530.tar.gz
+        sha256: 82f2285d5651ccffda858a62a8904618ffa1f0e167a93b3259a709919023c224
       - type: file
         path: CIEID-standalone.jar
 
