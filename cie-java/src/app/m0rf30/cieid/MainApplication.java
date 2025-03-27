@@ -7,7 +7,11 @@ import ch.swingfx.twinkle.event.NotificationEventAdapter;
 import ch.swingfx.twinkle.style.closebutton.NullCloseButton;
 import ch.swingfx.twinkle.style.theme.LightDefaultNotification;
 import ch.swingfx.twinkle.window.Positions;
+import java.awt.AWTEvent;
 import java.awt.EventQueue;
+import java.awt.Toolkit;
+import java.awt.event.AWTEventListener;
+import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
 
 public class MainApplication {
@@ -19,6 +23,7 @@ public class MainApplication {
         EventQueue.invokeLater(
                 new Runnable() {
                     public void run() {
+                        installKeyboardMonitor();
 
                         if (args.length > 0 && args[0].equals("pinwrong")) {
                             notifyPinWrong();
@@ -37,6 +42,24 @@ public class MainApplication {
                 });
     }
 
+    /** Close the application on ctrl+q */
+    public static void installKeyboardMonitor() {
+        Toolkit.getDefaultToolkit()
+                .addAWTEventListener(
+                        new AWTEventListener() {
+                            @Override
+                            public void eventDispatched(AWTEvent event) {
+                                KeyEvent ke = (KeyEvent) event;
+                                if (ke.getID() == KeyEvent.KEY_PRESSED) {
+                                    if (ke.getKeyCode() == KeyEvent.VK_Q) {
+                                        if (ke.isControlDown()) System.exit(0);
+                                    }
+                                }
+                            }
+                        },
+                        AWTEvent.KEY_EVENT_MASK);
+    }
+
     public static void showUI(String[] args) {
         MainApplication window = new MainApplication(args);
         window.frame.setVisible(true);
@@ -49,7 +72,6 @@ public class MainApplication {
 
     /** Initialize the contents of the frame. */
     private void initialize(String[] args) {
-
         if ("false".equals(Utils.getProperty("nomore", "false"))) {
             frame = new IntroFrame();
         } else {
