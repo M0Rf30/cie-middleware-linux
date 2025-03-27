@@ -13,6 +13,7 @@
 #include "PKCS11/PKCS11Functions.h"
 #include "Sign/CIESign.h"
 #include "Util/ModuleInfo.h"
+#include "Util/UtilException.h"
 
 using namespace CieIDLogger;
 
@@ -39,6 +40,7 @@ CK_RV CK_ENTRY firmaConCIE(const char* inFilePath, const char* type,
 
   char* readers = NULL;
   char* ATR = NULL;
+  bool panMismatch = false;
   try {
     std::map<uint8_t, ByteDynArray> hashSet;
 
@@ -103,12 +105,19 @@ CK_RV CK_ENTRY firmaConCIE(const char* inFilePath, const char* type,
           IAS((CToken::TokenTransmitCallback)TokenTransmitCallback, atrBa);
       ias->SetCardContext(&conn);
 
-      foundCIE = false;
       ias->token.Reset();
-      ias->SelectAID_IAS();
+      // Continue looking for a CIE if the token is unrecognised
+      try {
+        ias->SelectAID_IAS();
+      } catch (logged_error& err) {
+        free(ATR);
+        ATR = NULL;
+        free(ias);
+        continue;
+      }
       ias->ReadPAN();
 
-      foundCIE = true;
+      if (!foundCIE) foundCIE = true;
       ByteDynArray IntAuth;
       ias->SelectAID_CIE();
       ias->ReadDappPubKey(IntAuth);
@@ -119,8 +128,13 @@ CK_RV CK_ENTRY firmaConCIE(const char* inFilePath, const char* type,
       ias->ReadIdServizi(IdServizi);
       ByteArray baPan = ByteArray((uint8_t*)pan, strlen(pan));
 
+      // Check for pan mismatch and continue search in such case
       if (memcmp(baPan.data(), IdServizi.data(), IdServizi.size()) != 0) {
-        return CARD_PAN_MISMATCH;
+        panMismatch = true;
+        free(ATR);
+        ATR = NULL;
+        free(ias);
+        continue;
       }
 
       progressCallBack(50, "Getting certificate from CIE...");
@@ -143,8 +157,16 @@ CK_RV CK_ENTRY firmaConCIE(const char* inFilePath, const char* type,
       uint16_t ret = cieSign->sign(inFilePath, type, fullPinCStr, page, x, y, w,
                                    h, imagePathFile, outFilePath);
       if ((ret & (0x63C0)) == 0x63C0) {
+        free(readers);
+        free(ATR);
+        free(ias);
+        free(cieSign);
         return CKR_PIN_INCORRECT;
       } else if (ret == 0x6983) {
+        free(readers);
+        free(ATR);
+        free(ias);
+        free(cieSign);
         return CKR_PIN_LOCKED;
       }
 
@@ -155,7 +177,13 @@ CK_RV CK_ENTRY firmaConCIE(const char* inFilePath, const char* type,
       free(ias);
       free(cieSign);
 
+      // At this point if there has been a pan mismatch doesn't matter
+      if (panMismatch) panMismatch = false;
+
       completedCallBack(ret);
+
+      // A this point a CIE has been found, stop looking for it
+      break;
     }
 
     if (!foundCIE) {
@@ -176,5 +204,8 @@ CK_RV CK_ENTRY firmaConCIE(const char* inFilePath, const char* type,
   if (ATR) free(ATR);
 
   free(readers);
+
+  if (panMismatch) return CARD_PAN_MISMATCH;
+
   return SCARD_S_SUCCESS;
 }
