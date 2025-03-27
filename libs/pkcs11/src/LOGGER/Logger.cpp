@@ -105,7 +105,7 @@ Logger* Logger::getInstance() throw() {
 
     int log_level = m_Instance->getLogConfig();
     printf("Lib log level: %d\n", log_level);
-  
+
     if (log_level == LOG_STATUS_DISABLED) {
       m_Instance->disableLog();
     } else if (log_level > 0 && log_level < 3) {
@@ -231,7 +231,7 @@ void Logger::log_log(ostream& out, LogLevel level, const char* text) throw() {
 
 // Interface for Debug Log
 void Logger::debug(const char* fmt, ...) throw() {
-  char buffer[4096];
+  char buffer[8192];
   va_list args;
   va_start(args, fmt);
 
