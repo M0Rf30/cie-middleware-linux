@@ -350,7 +350,7 @@ void CSlot::GetTokenInfo(CK_TOKEN_INFO_PTR pInfo) {
 
   if (pTemplate == nullptr) throw p11_error(CKR_TOKEN_NOT_RECOGNIZED);
 
-  memset(pInfo->label, 0, sizeof(pInfo->label));
+  memset(pInfo->label, ' ', sizeof(pInfo->label));
   CryptoPP::memcpy_s((char *)pInfo->label, 32, pTemplate->szName.c_str(),
                      min1(pTemplate->szName.length(), sizeof(pInfo->label)));
   memset(pInfo->manufacturerID, ' ', sizeof(pInfo->manufacturerID));
@@ -383,6 +383,7 @@ void CSlot::GetTokenInfo(CK_TOKEN_INFO_PTR pInfo) {
             manifacturer = "STM3";
 		else
 			throw p11_error(CKR_TOKEN_NOT_RECOGNIZED);
+#endif
 
 		CryptoPP::memcpy_s((char*)pInfo->manufacturerID, 32, manifacturer.c_str(), manifacturer.size());
 
@@ -390,19 +391,15 @@ void CSlot::GetTokenInfo(CK_TOKEN_INFO_PTR pInfo) {
 			pSerialTemplate = pTemplate;
 			baSerial = pTemplate->FunctionList.templateGetSerial(*this);
 		}
-#endif
+
   std::string model;
   pTemplate->FunctionList.templateGetModel(*this, model);
 
-  memset(pInfo->serialNumber, 0, sizeof(pInfo->serialNumber));
+  memset(pInfo->serialNumber, ' ', sizeof(pInfo->serialNumber));
   size_t UIDsize = min1(sizeof(pInfo->serialNumber), baSerial.size());
   CryptoPP::memcpy_s(pInfo->serialNumber, 16, baSerial.data(), UIDsize);
 
-  CryptoPP::memcpy_s((char *)pInfo->label + pTemplate->szName.length() + 1,
-                     sizeof(pInfo->label) - pTemplate->szName.length() - 1,
-                     baSerial.data(), baSerial.size());
-
-  memset(pInfo->model, 0, sizeof(pInfo->model));
+  memset(pInfo->model, ' ', sizeof(pInfo->model));
   CryptoPP::memcpy_s(pInfo->model, 16, model.c_str(),
                      min1(model.length(), sizeof(pInfo->model)));
 

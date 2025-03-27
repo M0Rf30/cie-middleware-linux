@@ -138,7 +138,6 @@ ByteArray SkipZero(ByteArray &ba) {
   return ByteArray();
 }
 
-BYTE label[] = {'C', 'I', 'E', '0'};
 void CIEtemplateInitSession(void *pTemplateData) {
   CIEData *cie = (CIEData *)pTemplateData;
 
@@ -161,29 +160,33 @@ void CIEtemplateInitSession(void *pTemplateData) {
 
     CK_BBOOL vtrue = TRUE;
     CK_BBOOL vfalse = FALSE;
+    BYTE labelCert[] = "CIE Certificate";
+    BYTE labelPriv[] = "CIE Private Key";
+    BYTE labelPub[] = "CIE Public Key";
+    CK_BYTE objId = 0x01;  // For simplicity we only need one (numbered '1')
 
     cie->pubKey = std::make_shared<CP11PublicKey>(cie);
     cie->privKey = std::make_shared<CP11PrivateKey>(cie);
     cie->cert = std::make_shared<CP11Certificate>(cie);
 
-    cie->pubKey->addAttribute(CKA_LABEL, VarToByteArray(label));
-    cie->pubKey->addAttribute(CKA_ID, VarToByteArray(label));
+    cie->pubKey->addAttribute(CKA_LABEL, VarToByteArray(labelPub));
+    cie->pubKey->addAttribute(CKA_ID, VarToByteArray(objId));
     cie->pubKey->addAttribute(CKA_PRIVATE, VarToByteArray(vfalse));
     cie->pubKey->addAttribute(CKA_TOKEN, VarToByteArray(vtrue));
     cie->pubKey->addAttribute(CKA_VERIFY, VarToByteArray(vtrue));
     CK_KEY_TYPE keyrsa = CKK_RSA;
     cie->pubKey->addAttribute(CKA_KEY_TYPE, VarToByteArray(keyrsa));
 
-    cie->privKey->addAttribute(CKA_LABEL, VarToByteArray(label));
-    cie->privKey->addAttribute(CKA_ID, VarToByteArray(label));
+    cie->privKey->addAttribute(CKA_LABEL, VarToByteArray(labelPriv));
+    cie->privKey->addAttribute(CKA_ID, VarToByteArray(objId));
     cie->privKey->addAttribute(CKA_PRIVATE, VarToByteArray(vtrue));
     cie->privKey->addAttribute(CKA_TOKEN, VarToByteArray(vtrue));
     cie->privKey->addAttribute(CKA_KEY_TYPE, VarToByteArray(keyrsa));
 
     cie->privKey->addAttribute(CKA_SIGN, VarToByteArray(vtrue));
 
-    cie->cert->addAttribute(CKA_LABEL, VarToByteArray(label));
-    cie->cert->addAttribute(CKA_ID, VarToByteArray(label));
+    cie->cert->addAttribute(CKA_LABEL, VarToByteArray(labelCert));
+    cie->cert->addAttribute(CKA_ID, VarToByteArray(objId));
     cie->cert->addAttribute(CKA_PRIVATE, VarToByteArray(vfalse));
     cie->cert->addAttribute(CKA_TOKEN, VarToByteArray(vtrue));
 
@@ -232,9 +235,17 @@ void CIEtemplateInitSession(void *pTemplateData) {
 
     CK_DATE start, end;
 
-    SYSTEMTIME sFrom, sTo;
-    sFrom = convertStringToSystemTime(notBefore.c_str());
-    sTo = convertStringToSystemTime(notAfter.c_str());
+    char sFrom[8], sTo[8];
+    memcpy(sFrom, notBefore.c_str(), 8);
+    memcpy(sTo, notAfter.c_str(), 8);
+
+    VarToByteArray(start.year).copy(ByteArray((BYTE *)sFrom, 4));
+    VarToByteArray(start.month).copy(ByteArray((BYTE *)&sFrom[4], 2));
+    VarToByteArray(start.day).copy(ByteArray((BYTE *)&sFrom[6], 2));
+
+    VarToByteArray(end.year).copy(ByteArray((BYTE *)sTo, 4));
+    VarToByteArray(end.month).copy(ByteArray((BYTE *)&sTo[4], 2));
+    VarToByteArray(end.day).copy(ByteArray((BYTE *)&sTo[6], 2));
 
     cie->cert->addAttribute(CKA_START_DATE, VarToByteArray(start));
     cie->cert->addAttribute(CKA_END_DATE, VarToByteArray(end));
@@ -291,7 +302,9 @@ ByteDynArray CIEtemplateGetSerial(CSlot &pSlot) {
     return ByteArray((BYTE *)numSerial.c_str(), numSerial.length());
   }
 }
-void CIEtemplateGetModel(CSlot &pSlot, std::string &szModel) { szModel = ""; }
+void CIEtemplateGetModel(CSlot &pSlot, std::string &szModel) {
+  szModel = "CIE 3.0";
+}
 void CIEtemplateGetTokenFlags(CSlot &pSlot, CK_FLAGS &dwFlags) {
   dwFlags = CKF_LOGIN_REQUIRED | CKF_USER_PIN_INITIALIZED |
             CKF_TOKEN_INITIALIZED | CKF_REMOVABLE_DEVICE;
