@@ -86,6 +86,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
 public class MainFrame extends JFrame {
+
     private Logger logger;
     private LogLevelConfig logConfig;
     private static final String LOG_CONFIG_PREFIX_APP = "APP_LOG_LEVEL";
@@ -354,10 +355,11 @@ public class MainFrame extends JFrame {
         OP_NONE,
         PADES,
         CADES,
-        VERIFY
+        VERIFY,
     }
 
     public class LogLevelConfig {
+
         private LogLevel app;
         private LogLevel lib;
 
@@ -1503,13 +1505,11 @@ public class MainFrame extends JFrame {
 
                     @Override
                     public void mouseClicked(MouseEvent e) {
-
                         CieCard selectedCie = getSelectedCIE();
                         String signImagePath =
                                 getSignImagePath(selectedCie.getCard().getSerialNumber());
                         Image signImage;
                         try {
-
                             if (!Files.exists(Paths.get(signImagePath))) {
                                 drawText(selectedCie.getCard().getName(), signImagePath);
                             }
@@ -1629,10 +1629,8 @@ public class MainFrame extends JFrame {
                         lblPathVerifica.setText(filePath);
                         Runner.run(
                                 new Runnable() {
-
                                     @Override
                                     public void run() {
-
                                         String proxyAddress = null;
                                         String proxyCredentials = null;
                                         int proxyPort = -1;
@@ -1668,7 +1666,6 @@ public class MainFrame extends JFrame {
                                                         proxyCredentials);
 
                                         if (ret > 0 && ret != (long) INVALID_FILE_TYPE) {
-
                                             VerifyTable vTable = new VerifyTable(verifyScrollPane);
                                             verifyInfo vInfo = new verifyInfo();
                                             verifyInfo[] vInfos = (verifyInfo[]) vInfo.toArray(ret);
@@ -2040,7 +2037,6 @@ public class MainFrame extends JFrame {
                         }
 
                         if ((signOperation == SignOp.PADES) && cbGraphicSig.isSelected()) {
-
                             CieCard selectedCie = getSelectedCIE();
                             String signImagePath =
                                     getSignImagePath(selectedCie.getCard().getSerialNumber());
@@ -2093,7 +2089,6 @@ public class MainFrame extends JFrame {
 
                             btnProseguiOp.setEnabled(true);
                             signOperation = SignOp.PADES;
-
                             // TODO salvare tipo di operazione
                         }
                     }
@@ -2415,7 +2410,6 @@ public class MainFrame extends JFrame {
                 new KeyAdapter() {
                     @Override
                     public void keyTyped(KeyEvent e) {
-
                         if (e.getKeyChar() == '\b') {
                             passwordField_8.setText("");
                             passwordField_8.requestFocus();
@@ -2437,14 +2431,12 @@ public class MainFrame extends JFrame {
                 new KeyAdapter() {
                     @Override
                     public void keyTyped(KeyEvent e) {
-
                         if (e.getKeyChar() == '\b') {
                             passwordField_9.setText("");
                             passwordField_9.requestFocus();
                         } else if (e.getKeyChar() < '0' || e.getKeyChar() > '9') {
                             e.consume();
                         } else {
-
                             passwordField_11.requestFocus();
                         }
                     }
@@ -2612,7 +2604,6 @@ public class MainFrame extends JFrame {
                             String dest = getSignImagePath(selectedCie.getCard().getSerialNumber());
 
                             try {
-
                                 FileUtils.copyFile(new File(source), new File(dest));
                                 Image signImage = ImageIO.read(new File(dest));
                                 ImageIcon imageIcon = new ImageIcon();
@@ -2679,7 +2670,6 @@ public class MainFrame extends JFrame {
                         Image signImage;
 
                         try {
-
                             if (!Files.exists(Paths.get(signImagePath))) {
                                 drawText(selectedCie.getCard().getName(), signImagePath);
                             }
@@ -2707,7 +2697,6 @@ public class MainFrame extends JFrame {
                                             + "Questo passaggio non è indispensabile, ma ti consentirà di dare un tocco personale ai documenti firmati.");
                             lblSFP.setVisible(true);
                             lblFPOK.setVisible(false);
-
                         } catch (IOException e1) {
                             lblCustomizedGraphicSignature.setText(
                                     "Immagine firma personalizzata non trovata");
@@ -3353,7 +3342,6 @@ public class MainFrame extends JFrame {
                             + "raccogliere i log con l'apposito pulsante e condividerli con lo sviluppatore.",
                     "Eliminazione completata",
                     JOptionPane.ERROR_MESSAGE);
-
         } catch (Exception ex) {
             logger.Error(
                     "[ERROR] deleteLogs() - Si è verificato un errore durante l'operazione:"
@@ -3451,12 +3439,11 @@ public class MainFrame extends JFrame {
     }
 
     private void drawText(String text, String path) {
-        BufferedImage bufferedImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
+        BufferedImage bufferedImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
 
         Graphics graphics = bufferedImage.getGraphics();
 
         try {
-
             text = toFirstCharUpperAll(toTitleCase(text).toLowerCase());
 
             File file = null;
@@ -3498,11 +3485,11 @@ public class MainFrame extends JFrame {
             FontMetrics fM = graphics.getFontMetrics();
             bufferedImage =
                     new BufferedImage(
-                            fM.stringWidth(text), fM.getHeight(), BufferedImage.TYPE_INT_RGB);
+                            fM.stringWidth(text), fM.getHeight(), BufferedImage.TYPE_INT_ARGB);
 
             graphics = bufferedImage.getGraphics();
             graphics.setFont(customFont.deriveFont(Font.LAYOUT_LEFT_TO_RIGHT, 150f));
-            graphics.setColor(Color.white);
+            graphics.setColor(new Color(255, 255, 255, 0));
             graphics.fillRect(0, 0, fM.stringWidth(text), fM.getHeight());
             graphics.setColor(Color.BLACK);
             graphics.drawString(text, 0, fM.getAscent());
@@ -3510,7 +3497,6 @@ public class MainFrame extends JFrame {
             ImageIO.write(bufferedImage, "png", new File(path));
         } catch (FontFormatException e1) {
             e1.printStackTrace();
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -3796,7 +3782,6 @@ public class MainFrame extends JFrame {
                                                 JOptionPane.ERROR_MESSAGE);
                                         showSigningPINInputFields();
                                         break;
-
                                     case CKR_TOKEN_NOT_PRESENT:
                                         logger.Error(
                                                 "Abilitazione CIE - CIE non presente sul lettore");
@@ -3807,7 +3792,6 @@ public class MainFrame extends JFrame {
                                                 JOptionPane.ERROR_MESSAGE);
                                         showSigningPINInputFields();
                                         break;
-
                                     case CKR_PIN_INCORRECT:
                                         logger.Error(
                                                 String.format(
@@ -3822,7 +3806,6 @@ public class MainFrame extends JFrame {
                                                 JOptionPane.ERROR_MESSAGE);
                                         showSigningPINInputFields();
                                         break;
-
                                     case CKR_PIN_LOCKED:
                                         logger.Error("Carta bloccata");
                                         JOptionPane.showMessageDialog(
@@ -3832,7 +3815,6 @@ public class MainFrame extends JFrame {
                                                 JOptionPane.ERROR_MESSAGE);
                                         showSigningPINInputFields();
                                         break;
-
                                     case CKR_GENERAL_ERROR:
                                         logger.Error(
                                                 "Errore inaspettato durante la comunicazione con la smart card");
@@ -3843,7 +3825,6 @@ public class MainFrame extends JFrame {
                                                 JOptionPane.ERROR_MESSAGE);
                                         showSigningPINInputFields();
                                         break;
-
                                     case CARD_PAN_MISMATCH:
                                         logger.Error(
                                                 "CIE selezionata diversa da quella presente sul lettore");
@@ -3983,7 +3964,6 @@ public class MainFrame extends JFrame {
 
         Runner.run(
                 new Runnable() {
-
                     @Override
                     public void run() {
                         pairCIEMWCall(pinfin);
@@ -4044,7 +4024,6 @@ public class MainFrame extends JFrame {
                                                 JOptionPane.ERROR_MESSAGE);
                                         selectHome();
                                         break;
-
                                     case CKR_TOKEN_NOT_PRESENT:
                                         logger.Error("CIE non presente sul lettore");
                                         JOptionPane.showMessageDialog(
@@ -4054,7 +4033,6 @@ public class MainFrame extends JFrame {
                                                 JOptionPane.ERROR_MESSAGE);
                                         selectHome();
                                         break;
-
                                     case CKR_PIN_INCORRECT:
                                         logger.Error("PIN non corretto");
                                         JOptionPane.showMessageDialog(
@@ -4064,7 +4042,6 @@ public class MainFrame extends JFrame {
                                                 JOptionPane.ERROR_MESSAGE);
                                         selectHome();
                                         break;
-
                                     case CKR_PIN_LOCKED:
                                         logger.Error("Carta bloccata");
                                         JOptionPane.showMessageDialog(
@@ -4074,7 +4051,6 @@ public class MainFrame extends JFrame {
                                                 JOptionPane.ERROR_MESSAGE);
                                         selectHome();
                                         break;
-
                                     case CKR_GENERAL_ERROR:
                                         logger.Error(
                                                 "Errore inaspettato durante la comunicazione con la smart card");
@@ -4085,7 +4061,6 @@ public class MainFrame extends JFrame {
                                                 JOptionPane.ERROR_MESSAGE);
                                         selectHome();
                                         break;
-
                                     case CKR_OK:
                                         logger.Info("CIE abilitata con successo");
 
@@ -4101,7 +4076,6 @@ public class MainFrame extends JFrame {
                                                 JOptionPane.INFORMATION_MESSAGE);
                                         selectCardholder();
                                         break;
-
                                     case CARD_ALREADY_ENABLED:
                                         logger.Error(
                                                 "Carta già abilitata, abbinamento impossibile");
@@ -4258,7 +4232,6 @@ public class MainFrame extends JFrame {
 
         final Middleware.ProgressCallBack progressCallBack =
                 new Middleware.ProgressCallBack() {
-
                     @Override
                     public void invoke(final int progress, final String message) {
                         EventQueue.invokeLater(
@@ -4277,10 +4250,8 @@ public class MainFrame extends JFrame {
 
         Runner.run(
                 new Runnable() {
-
                     @Override
                     public void run() {
-
                         final int ret =
                                 Middleware.INSTANCE.CambioPIN(
                                         pin, pin1, attempts, progressCallBack);
@@ -4300,7 +4271,6 @@ public class MainFrame extends JFrame {
                                                         JOptionPane.ERROR_MESSAGE);
                                                 tabbedPane.setSelectedIndex(3);
                                                 break;
-
                                             case CKR_TOKEN_NOT_PRESENT:
                                                 logger.Error("CIE non presente sul lettore");
                                                 JOptionPane.showMessageDialog(
@@ -4310,7 +4280,6 @@ public class MainFrame extends JFrame {
                                                         JOptionPane.ERROR_MESSAGE);
                                                 tabbedPane.setSelectedIndex(3);
                                                 break;
-
                                             case CKR_PIN_INCORRECT:
                                                 logger.Error(
                                                         String.format(
@@ -4325,7 +4294,6 @@ public class MainFrame extends JFrame {
                                                         JOptionPane.ERROR_MESSAGE);
                                                 tabbedPane.setSelectedIndex(3);
                                                 break;
-
                                             case CKR_PIN_LOCKED:
                                                 logger.Error("Carta bloccata");
                                                 JOptionPane.showMessageDialog(
@@ -4335,7 +4303,6 @@ public class MainFrame extends JFrame {
                                                         JOptionPane.ERROR_MESSAGE);
                                                 tabbedPane.setSelectedIndex(5);
                                                 break;
-
                                             case CKR_GENERAL_ERROR:
                                                 logger.Error(
                                                         "Errore inaspettato durante la comunicazione con la smart card");
@@ -4346,7 +4313,6 @@ public class MainFrame extends JFrame {
                                                         JOptionPane.ERROR_MESSAGE);
                                                 tabbedPane.setSelectedIndex(3);
                                                 break;
-
                                             case CKR_OK:
                                                 logger.Info(
                                                         "Il PIN è stato modificato con successo");
@@ -4537,7 +4503,6 @@ public class MainFrame extends JFrame {
                                                         JOptionPane.ERROR_MESSAGE);
                                                 tabbedPane.setSelectedIndex(5);
                                                 break;
-
                                             case CKR_TOKEN_NOT_PRESENT:
                                                 logger.Error("CIE non presente sul lettore");
                                                 JOptionPane.showMessageDialog(
@@ -4547,7 +4512,6 @@ public class MainFrame extends JFrame {
                                                         JOptionPane.ERROR_MESSAGE);
                                                 tabbedPane.setSelectedIndex(5);
                                                 break;
-
                                             case CKR_PIN_INCORRECT:
                                                 logger.Error(
                                                         String.format(
@@ -4562,7 +4526,6 @@ public class MainFrame extends JFrame {
                                                         JOptionPane.ERROR_MESSAGE);
                                                 tabbedPane.setSelectedIndex(5);
                                                 break;
-
                                             case CKR_PIN_LOCKED:
                                                 logger.Error(
                                                         "PUK bloccato - la CIE deve essere sostituita");
@@ -4573,7 +4536,6 @@ public class MainFrame extends JFrame {
                                                         JOptionPane.ERROR_MESSAGE);
                                                 tabbedPane.setSelectedIndex(5);
                                                 break;
-
                                             case CKR_GENERAL_ERROR:
                                                 logger.Error(
                                                         "Errore inaspettato durante la comunicazione con la smart card");
@@ -4584,7 +4546,6 @@ public class MainFrame extends JFrame {
                                                         JOptionPane.ERROR_MESSAGE);
                                                 tabbedPane.setSelectedIndex(5);
                                                 break;
-
                                             case CKR_OK:
                                                 logger.Info("CIE sbloccata con successo");
                                                 JOptionPane.showMessageDialog(
@@ -4689,7 +4650,6 @@ public class MainFrame extends JFrame {
         }
 
         for (int i = 0; i < cieList.size(); i++) {
-
             int ret = Middleware.INSTANCE.DisabilitaCIE(cieList.get(i).getPan());
 
             switch (ret) {
@@ -4719,7 +4679,6 @@ public class MainFrame extends JFrame {
                     String stringDictionary = gson.toJson(cieDictionary);
                     Utils.setProperty("cieDictionary", stringDictionary);
                     break;
-
                 default:
                     logger.Error(
                             "Impossibile disabilitare la CIE " + cieList.get(i).getSerialNumber());
@@ -4790,7 +4749,6 @@ public class MainFrame extends JFrame {
 
             cieCarousel.configureCards(cieDictionary);
             tabbedPane.setSelectedIndex(2);
-
         } else {
             if (!Utils.getProperty("cieDictionary", "").equals("")
                     && !Utils.getProperty("cieDictionary", "").equals("{}")) {
@@ -4901,7 +4859,6 @@ public class MainFrame extends JFrame {
                                         String.format(
                                                 "valore '%s' del livello di log applicazione fuori intervallo - uso default",
                                                 intValue));
-
                             } else {
                                 System.out.println(
                                         String.format(
