@@ -31,8 +31,8 @@ The [graphical interface](cie-java) is developed in Java.
 [Here](https://github.com/M0Rf30/cie-middleware-linux/releases) you can find the binaries generated from this repo for the following GNU/Linux distributions:
 
 - Arch Linux [here](https://aur.archlinux.org/packages/cie-middleware-git)
-- Rocky 8
-- Ubuntu 20.04
+- Rocky 9
+- Ubuntu 22.04
 
 Furthermore, you can install the Flatpak package using the provided manifest file.
 
@@ -52,7 +52,15 @@ Before proceeding, ensure you have the following installed on your system:
 ```sh
 cie-java/gradlew -b cie-java/build.gradle standalone
 cp cie-java/build/libs/CIEID-standalone.jar packages/flatpak
-flatpak-builder --install --user --force-clean build-dir packages/flatpak/app.m0rf30.cieid.yml
+
+flatpak remote-add --if-not-exists --user flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+flatpak-builder --force-clean --user --install-deps-from=flathub --repo=repo --install build-dir packages/flatpak/app.m0rf30.cieid.yml
+```
+
+You can run the Flatpak package using the following command:
+
+```sh
+flatpak run --user app.m0rf30.cieid
 ```
 
 ## Building from sources
@@ -92,3 +100,31 @@ At the end of the build, the following files will be present:
 
 - builddir/libcie-pkcs11.so
 - cie-java/build/libs/CIEID-standalone.jar
+
+## Usage in the Browser
+
+To use the library with the following browsers:
+
+- Mozilla Firefox-based
+- Google Chromium-based
+
+follow the related instructions below.
+
+**NOTE**: Only the last 4 digits of the PIN are required
+in the browser.
+
+### Mozilla Firefox-based Browsers
+
+Follow the instructions provided in the Cie ID UI by
+clicking on the `Tutorial` button.
+
+### Google Chromium-based Browsers
+
+Open a terminal and type:
+
+```sh
+modutil -dbdir sql:$HOME/.pki/nssdb -add CIE -libfile /usr/lib/libcie-pkcs11.so
+
+# Verify the added library
+modutil -dbdir sql:$HOME/.pki/nssdb -list
+```
