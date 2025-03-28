@@ -41,9 +41,6 @@ void initLog(const char *moduleName, const char *iniFile, const char *version) {
 
   logGlobalVersion = version;
 
-  OutputDebugString("File INI:");
-  OutputDebugString("\n");
-
   UUCProperties settings;
   // settings.load(iniFile);
 
@@ -180,14 +177,9 @@ DWORD CLog::write(const char *format, ...) {
   if (Enabled && Initialized && mainEnable) {
     if (!firstGlobal && LogMode == LM_Single) {
       firstGlobal = true;
-      write("Inizio Sessione - versione: %s", logGlobalVersion);
-      writeModuleInfo();
     }
     if (!FirstLog && (LogMode == LM_Module || LogMode == LM_Module_Thread)) {
       FirstLog = true;
-      write("%s - Inizio Sessione - versione file: %s", logName.c_str(),
-            logVersion.c_str());
-      writeModuleInfo();
     }
 
     // DWORD thNum;
@@ -298,14 +290,9 @@ void CLog::writePure(const char *format, ...) {
   if (Enabled && Initialized && mainEnable) {
     if (!firstGlobal && LogMode == LM_Single) {
       firstGlobal = true;
-      printf("Inizio Sessione - versione: %s", logGlobalVersion);
-      writeModuleInfo();
     }
     if (!FirstLog && (LogMode == LM_Module || LogMode == LM_Module_Thread)) {
       FirstLog = true;
-      printf("%s - Inizio Sessione - versione file: %s", logName.c_str(),
-             logVersion.c_str());
-      writeModuleInfo();
     }
 
     // se siamo in LM_thread devo scrivere il thread nel nome del file
@@ -368,14 +355,9 @@ void CLog::writeBinData(BYTE *data, size_t datalen) {
   if (!Enabled || !Initialized || !mainEnable) return;
   if (!firstGlobal && LogMode == LM_Single) {
     firstGlobal = true;
-    write("Inizio Sessione - versione: %s", logGlobalVersion);
-    writeModuleInfo();
   }
   if (!FirstLog && (LogMode == LM_Module || LogMode == LM_Module_Thread)) {
     FirstLog = true;
-    write("%s - Inizio Sessione - versione file: %s", logName.c_str(),
-          logVersion.c_str());
-    writeModuleInfo();
   }
 
   // se siamo in LM_thread devo scrivere il thread nel nome del file
@@ -428,12 +410,4 @@ void CLog::writeBinData(BYTE *data, size_t datalen) {
     fprintf(lf, "\n");
     fclose(lf);
   }
-}
-
-void CLog::writeModuleInfo() {
-  if (!Enabled) return;
-  CModuleInfo module;
-  HANDLE mainModule = module.getApplicationModule();
-  module.init(mainModule);
-  write("Applicazione chiamante: %s", module.szModuleName.c_str());
 }

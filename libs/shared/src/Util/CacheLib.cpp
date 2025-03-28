@@ -46,8 +46,6 @@ std::string GetCardDir() {
 
   path.append("/.CIEPKI/");
 
-  printf("Card Dir: %s\n", path.c_str());
-
   return path.c_str();
 }
 

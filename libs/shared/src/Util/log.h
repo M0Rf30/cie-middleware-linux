@@ -34,7 +34,6 @@ class CLog {
   void writePure(const char *format, ...);
   void writeBinData(uint8_t *data, size_t datalen);
   void init();
-  void writeModuleInfo();
   void dumpErr();
 };
 
