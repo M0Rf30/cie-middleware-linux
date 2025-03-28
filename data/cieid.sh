@@ -8,5 +8,7 @@ exec java \
   -Xmx1G \
   -Djna.library.path="${PREFIX}/lib" \
   -Dawt.useSystemAAFontSettings=on \
+  -Dsun.java2d.uiScale.enabled=true \
+  -Dsun.java2d.uiScale=2.0 \
   -classpath "${PREFIX}/share/cieid/cieid.jar" \
   app.m0rf30.cieid.MainApplication "$@"
