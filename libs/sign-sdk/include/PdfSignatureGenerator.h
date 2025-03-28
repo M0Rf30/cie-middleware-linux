@@ -9,11 +9,19 @@
 
 #ifndef _PDFSIGNATUREGENERATOR_H_
 #define _PDFSIGNATUREGENERATOR_H_
+
+#include <podofo/podofo.h>
+#if PODOFO_VERSION_MAJOR < 1
+#if PODOFO_VERSION_MINOR < 10
 #include <podofo/doc/PdfSignOutputDevice.h>
 #include <podofo/doc/PdfSignatureField.h>
-#include <podofo/podofo.h>
-
+#endif
+#else
+#error PoDoFo version not supported (yet)
+#endif
 #include "Util/UUCByteArray.h"
+
+#define SIGNATURE_SIZE 10000
 
 using namespace PoDoFo;
 using namespace std;
@@ -48,37 +56,44 @@ class PdfSignatureGenerator {
                      const char* szDescription, const char* szGraphometricData,
                      const char* szVersion);
 
+#if PODOFO_VERSION_MINOR < 10
   void GetBufferForSignature(UUCByteArray& toSign);
 
   void SetSignature(const char* signature, int len);
+#endif
 
   void GetSignedPdf(UUCByteArray& signature);
-
-  void AddFont(const char* szFontName, const char* szFontPath);
 
   const double getWidth(int pageIndex);
 
   const double getHeight(int pageIndex);
 
+#if PODOFO_VERSION_MINOR < 10
  private:
-  PdfMemDocument* m_pPdfDocument;
+#endif
 
-  PdfSignatureField* m_pSignatureField;
+  PdfMemDocument *m_pPdfDocument;
 
-  PdfSignOutputDevice* m_pSignOutputDevice;
+#if PODOFO_VERSION_MINOR < 10
+ private:
+  PdfSignatureField *m_pSignatureField;
 
-  PdfOutputDevice* m_pFinalOutDevice;
+  PdfSignOutputDevice *m_pSignOutputDevice;
 
-  char* m_pMainDocbuffer;
+  PdfOutputDevice *m_pFinalOutDevice;
 
-  char* m_pSignDocbuffer;
-
-  const double lastSignatureY(int left, int bottom);
+  char *m_pSignDocbuffer;
 
   int m_actualLen;
 
-  static bool IsSignatureField(const PdfMemDocument* pDoc,
-                               const PdfObject* const pObj);
+#else
+  PdfSignature *m_pSignatureField;
+
+  BufferStreamDevice *m_pSignOutputDevice;
+
+ private:
+  charbuff m_pOutputBuffer;
+#endif
 };
 
 #endif  // _PDFSIGNATUREGENERATOR_H_
