@@ -11,7 +11,14 @@
 #define _PDFVERIFIER_H_
 
 #include <podofo/podofo.h>
-
+#if PODOFO_VERSION_MAJOR < 1
+#if PODOFO_VERSION_MINOR < 10
+#include <podofo/doc/PdfSignOutputDevice.h>
+#include <podofo/doc/PdfSignatureField.h>
+#endif
+#else
+#error PoDoFo version not supported (yet)
+#endif
 #include "Sign/disigonsdk.h"
 #include "Util/UUCByteArray.h"
 

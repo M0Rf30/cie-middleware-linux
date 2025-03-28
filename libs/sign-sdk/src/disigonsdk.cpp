@@ -63,6 +63,34 @@ typedef struct _DISIGON_SIGN_CONTEXT {
 
 } DISIGON_SIGN_CONTEXT;
 
+#if PODOFO_VERSION_MINOR >= 10
+class CIEPdfSigner : public PdfSigner {
+ public:
+  CIEPdfSigner(DISIGON_SIGN_CONTEXT *pContext) : m_pContext(pContext) {}
+
+ protected:
+  void Reset() override { m_buffer.clear(); }
+
+  void AppendData(const bufferview &data) override {
+    m_buffer.append(data.data(), data.size());
+  }
+
+  void ComputeSignature(charbuff &buffer, bool dryrun) override;
+
+  string GetSignatureFilter() const override { return "Adobe.PPKLite"; }
+
+  string GetSignatureSubFilter() const override {
+    return m_pContext->szPdfSubfilter;
+  }
+
+  string GetSignatureType() const override { return "Sig"; }
+
+ private:
+  charbuff m_buffer;
+  DISIGON_SIGN_CONTEXT *m_pContext;
+};
+#endif
+
 typedef struct _DISIGON_VERIFY_CONTEXT {
   char szInputFile[MAX_PATH];
   char szOutputFile[MAX_PATH];
@@ -1684,12 +1712,13 @@ long sign_pdf(DISIGON_SIGN_CONTEXT* pContext, UUCByteArray& data) {
 
   LOG_DBG((0, "sign_pdf", "InitSignature OK"));
 
+  pContext->pSignatureGenerator->SetHashAlgo(pContext->nHashAlgo);
+
+#if PODOFO_VERSION_MINOR < 10
   UUCByteArray buffer;
   sigGen.GetBufferForSignature(buffer);
 
   pContext->pSignatureGenerator->SetData(buffer);
-
-  pContext->pSignatureGenerator->SetHashAlgo(pContext->nHashAlgo);
 
   LOG_DBG((0, "sign_pdf", "Generate"));
 
@@ -1706,6 +1735,15 @@ long sign_pdf(DISIGON_SIGN_CONTEXT* pContext, UUCByteArray& data) {
   sigGen.SetSignature((char*)signature.getContent(), signature.getLength());
 
   LOG_DBG((0, "sign_pdf", "Set Signature OK"));
+
+#else
+  CIEPdfSigner signer(pContext);
+  PdfMemDocument *document = sigGen.m_pPdfDocument;
+  BufferStreamDevice *device = sigGen.m_pSignOutputDevice;
+  PdfSignature *signature = sigGen.m_pSignatureField;
+
+  PoDoFo::SignDocument(*document, *device, signer, *signature);
+#endif
 
   UUCByteArray signedPdf;
   sigGen.GetSignedPdf(signedPdf);
@@ -2233,3 +2271,26 @@ int get_file_type(char* szFileName) {
 
   return DISIGON_FILETYPE_PLAINTEXT;
 }
+
+#if PODOFO_VERSION_MINOR >= 10
+void CIEPdfSigner::ComputeSignature(charbuff &buffer, bool dryrun) {
+  if (dryrun) {
+    buffer.resize(SIGNATURE_SIZE * 2);
+  } else {
+    long nRes;
+    UUCByteArray toSign((BYTE *)m_buffer.data(), m_buffer.size());
+    UUCByteArray signedData;
+
+    m_pContext->pSignatureGenerator->SetData(toSign);
+    nRes = m_pContext->pSignatureGenerator->Generate(signedData, true,
+                                                     m_pContext->bVerifyCert);
+    if (nRes) {
+      LOG_ERR((0, "CIEPdfSigner::ComputeSignature", "Generate NOK: %x", nRes));
+    }
+
+    buffer.resize(signedData.getLength());
+    std::memcpy(buffer.data(), (char *)signedData.getContent(),
+                signedData.getLength());
+  }
+}
+#endif
