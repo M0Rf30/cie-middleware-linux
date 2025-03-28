@@ -385,12 +385,13 @@ void CSlot::GetTokenInfo(CK_TOKEN_INFO_PTR pInfo) {
 			throw p11_error(CKR_TOKEN_NOT_RECOGNIZED);
 #endif
 
-		CryptoPP::memcpy_s((char*)pInfo->manufacturerID, 32, manifacturer.c_str(), manifacturer.size());
+  CryptoPP::memcpy_s((char *)pInfo->manufacturerID, 32, manifacturer.c_str(),
+                     manifacturer.size());
 
-		if (baSerial.isEmpty() || pSerialTemplate != pTemplate) {
-			pSerialTemplate = pTemplate;
-			baSerial = pTemplate->FunctionList.templateGetSerial(*this);
-		}
+  if (baSerial.isEmpty() || pSerialTemplate != pTemplate) {
+    pSerialTemplate = pTemplate;
+    baSerial = pTemplate->FunctionList.templateGetSerial(*this);
+  }
 
   std::string model;
   pTemplate->FunctionList.templateGetModel(*this, model);

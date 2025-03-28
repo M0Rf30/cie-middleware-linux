@@ -4,7 +4,7 @@
 
 class CBaseSigner {
  public:
-  virtual ~CBaseSigner(){};  // make destructor virtual
+  virtual ~CBaseSigner() {};  // make destructor virtual
 
   virtual long GetCertificate(const char* alias, CCertificate** ppCertificate,
                               UUCByteArray& id) = 0;

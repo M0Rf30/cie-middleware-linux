@@ -78,7 +78,7 @@ typedef ULONG_PTR CARD_KEY_HANDLE, *PCARD_KEY_HANDLE;
 // card data that may be impossible to determine on a given card
 // OS, such as the number of available card storage bytes.
 //
-#define CARD_DATA_VALUE_UNKNOWN ((DWORD)-1)
+#define CARD_DATA_VALUE_UNKNOWN ((DWORD) - 1)
 //
 // Well Known Logical Names
 //

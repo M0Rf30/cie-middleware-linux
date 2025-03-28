@@ -29,7 +29,7 @@ class BigInteger {
   BigInteger() : sign(zero), mag() {}
 
   // Copy constructor
-  BigInteger(const BigInteger &x) : sign(x.sign), mag(x.mag){};
+  BigInteger(const BigInteger &x) : sign(x.sign), mag(x.mag) {};
 
   // Assignment operator
   void operator=(const BigInteger &x);

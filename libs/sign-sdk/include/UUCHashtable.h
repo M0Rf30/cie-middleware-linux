@@ -38,7 +38,7 @@ template <class KEY, class VALUE>
 class UUCHashtable {
  private:
   struct HashtableEntry {
-    HashtableEntry(){};
+    HashtableEntry() {};
     unsigned int hash;
     KEY key;
     VALUE value;
