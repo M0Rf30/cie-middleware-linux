@@ -34,8 +34,8 @@ La parte di [interfaccia grafica](cie-java) è sviluppata in Java.
 binari generati da questo repo, per le seguenti distro GNU/Linux:
 
 - Arch Linux [qui](https://aur.archlinux.org/packages/cie-middleware-git)
-- Rocky 8
-- Ubuntu 20.04
+- Rocky 9
+- Ubuntu 22.04
 
 Inoltre puoi installare il pacchetto Flatpak utilizzando il file manifest fornito.
 
@@ -55,7 +55,15 @@ Prima di procedere, assicurati di avere installato i seguenti software sul tuo s
 ```sh
 cie-java/gradlew -b cie-java/build.gradle standalone
 cp cie-java/build/libs/CIEID-standalone.jar packages/flatpak
-flatpak-builder --install --user --force-clean build-dir packages/flatpak/app.m0rf30.cieid.yml
+
+flatpak remote-add --if-not-exists --user flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+flatpak-builder --force-clean --user --install-deps-from=flathub --repo=repo --install build-dir packages/flatpak/app.m0rf30.cieid.yml
+```
+
+Puoi eseguire il pacchetto Flatpak installato con il seguente comando:
+
+```sh
+flatpak run --user app.m0rf30.cieid
 ```
 
 ## Compilazione
@@ -95,3 +103,31 @@ alla fine della build saranno presenti i file:
 
 - builddir/libcie-pkcs11.so
 - cie-java/build/libs/CIEID-standalone.jar
+
+## Uso nel browser
+
+Per utilizzare la libreria con i seguenti browser:
+
+- basati su Mozilla Firefox
+- basati su Google Chromium
+
+Segui le relative istruzioni sottostanti.
+
+**NOTA BENE**: nel browser vengono sempre richieste
+le ultime 4 cifre del pin.
+
+### Browser basati su Mozilla Firefox
+
+Segui le istruzioni riportate nella UI di Cie ID, cliccando
+sul pulsante `Tutorial`.
+
+### Browser basati su Google Chromium
+
+Aprire un terminale e digitare:
+
+```sh
+modutil -dbdir sql:$HOME/.pki/nssdb -add CIE -libfile /usr/lib/libcie-pkcs11.so
+
+# Verifica della libreria aggiunta
+modutil -dbdir sql:$HOME/.pki/nssdb -list
+```
