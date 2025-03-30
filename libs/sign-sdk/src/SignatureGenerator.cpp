@@ -1,6 +1,8 @@
 
 #include "SignatureGenerator.h"
 
+#include <openssl/evp.h>
+#include <openssl/sha.h>
 #include <time.h>
 
 #include <cstddef>
@@ -13,10 +15,9 @@
 #include "ASN1/Certificate.h"
 #include "ASN1/DigestInfo.h"
 #include "CertStore.h"
-#include "RSA/sha1.h"
-#include "RSA/sha2.h"
 #include "Sign/definitions.h"
 #include "UUCLogger.h"
+
 USE_LOG;
 
 using namespace std;
@@ -153,11 +154,19 @@ long CSignatureGenerator::Generate(UUCByteArray& pkcs7SignedData,
   pSignerCertificate->toByteArray(certval);
 
   // hash certificate
-  BYTE certHash[100];
+  unsigned char certHash[100];
+
+  EVP_MD_CTX* sha1_ctx = NULL;
+  EVP_MD_CTX* sha256_ctx = NULL;
 
   LOG_DBG((0, "CSignatureGenerator::Generate", "HASH"));
 
-  sha2(certval.getContent(), certval.getLength(), certHash, 0);
+  sha256_ctx = EVP_MD_CTX_new();
+  EVP_DigestInit_ex(sha256_ctx, EVP_sha256(), NULL);
+  EVP_DigestUpdate(sha256_ctx, certval.getContent(), certval.getLength());
+  EVP_DigestFinal_ex(sha256_ctx, certHash, NULL);
+  EVP_MD_CTX_free(sha256_ctx);
+
   LOG_DBG((0, "CSignatureGenerator::Generate", "setSigningCertificate"));
 
   m_signerInfoGenerator.setSigningCertificate(
@@ -177,44 +186,53 @@ long CSignatureGenerator::Generate(UUCByteArray& pkcs7SignedData,
   // content hashing
   LOG_DBG((0, "CSignatureGenerator::Generate", "CertificateHash"));
 
-  BYTE* hash;
-  int hashlen;
+  unsigned char* hash;
+  int hashlen = 0;
 
   switch (mech) {
     case CKM_SHA256_RSA_PKCS: {
       LOG_DBG((0, "CSignatureGenerator::Generate",
                "CertificateHash: CKM_SHA256_RSA_PKCS"));
-
-      hash = new BYTE[32];
-      hashlen = 32;
-      sha2((BYTE*)m_data.getContent(), m_data.getLength(), hash, 0);
-      m_signerInfoGenerator.setContentHash(hash, hashlen);
+      hash = new unsigned char[SHA256_DIGEST_LENGTH];  // SHA-1 digest length is 20 bytes
+      hashlen = SHA256_DIGEST_LENGTH;
+      sha256_ctx = EVP_MD_CTX_new();
+      EVP_DigestInit(sha256_ctx, EVP_sha256());
+      EVP_DigestUpdate(sha256_ctx, m_data.getContent(), m_data.getLength());
+      EVP_DigestFinal(sha256_ctx, hash, NULL);
+      EVP_MD_CTX_free(sha256_ctx);
+      m_signerInfoGenerator.setContentHash(hash, SHA256_DIGEST_LENGTH);
 
       UUCByteArray signedAttributes;
       m_signerInfoGenerator.getSignedAttributes(signedAttributes, false,
                                                 !bDetached);
-      sha2(signedAttributes.getContent(), signedAttributes.getLength(), hash,
-           0);
+      sha256_ctx = EVP_MD_CTX_new();
+      EVP_DigestInit(sha256_ctx, EVP_sha256());
+      EVP_DigestUpdate(sha256_ctx, signedAttributes.getContent(),
+                       signedAttributes.getLength());
+      EVP_DigestFinal(sha256_ctx, hash, NULL);
+      EVP_MD_CTX_free(sha256_ctx);
     } break;
 
     case CKM_SHA1_RSA_PKCS: {
       LOG_DBG((0, "CSignatureGenerator::Generate",
                "CertificateHash: CKM_SHA1_RSA_PKCS"));
-
-      hash = new BYTE[24];
-      hashlen = 24;
-
+      hash = new unsigned char[SHA_DIGEST_LENGTH];  // SHA-1 digest length is 20 bytes
+      hashlen = SHA_DIGEST_LENGTH;
       char szAux[50];
 
-      // calcola l'hash SHA1
-      SHA1Context sha;
-      SHA1Reset(&sha);
-      SHA1Input(&sha, (BYTE*)m_data.getContent(), m_data.getLength());
-      SHA1Result(&sha);
+      // calculate a SHA1 hash
+      sha1_ctx = EVP_MD_CTX_new();
+      EVP_DigestInit(sha1_ctx, EVP_sha1());
+      EVP_DigestUpdate(sha1_ctx, m_data.getContent(), m_data.getLength());
+      EVP_DigestFinal(sha1_ctx, hash, NULL);
+      EVP_MD_CTX_free(sha1_ctx);
 
-      sprintf(szAux, "%08X%08X%08X%08X%08X ", sha.Message_Digest[0],
-              sha.Message_Digest[1], sha.Message_Digest[2],
-              sha.Message_Digest[3], sha.Message_Digest[4]);
+      // Reinterpret the hash as five unsigned 32-bit words.
+      unsigned int* word = reinterpret_cast<unsigned int*>(hash);
+
+      // Format the output string like the original sprintf.
+      sprintf(szAux, "%08X%08X%08X%08X%08X ", word[0], word[1], word[2],
+              word[3], word[4]);
 
       UUCByteArray hashaux(szAux);
 
@@ -225,16 +243,17 @@ long CSignatureGenerator::Generate(UUCByteArray& pkcs7SignedData,
       UUCByteArray signedAttributes;
       m_signerInfoGenerator.getSignedAttributes(signedAttributes, false,
                                                 !bDetached);
-
       // compute total digest
-      SHA1Reset(&sha);
-      SHA1Input(&sha, signedAttributes.getContent(),
-                signedAttributes.getLength());
-      SHA1Result(&sha);
+      sha256_ctx = EVP_MD_CTX_new();
+      EVP_DigestInit(sha256_ctx, EVP_sha256());
+      EVP_DigestUpdate(sha256_ctx, signedAttributes.getContent(),
+                       signedAttributes.getLength());
+      EVP_DigestFinal(sha256_ctx, hash, NULL);
+      EVP_MD_CTX_free(sha256_ctx);
 
-      sprintf(szAux, "%08X%08X%08X%08X%08X ", sha.Message_Digest[0],
-              sha.Message_Digest[1], sha.Message_Digest[2],
-              sha.Message_Digest[3], sha.Message_Digest[4]);
+      // Format the output string like the original sprintf.
+      sprintf(szAux, "%08X%08X%08X%08X%08X ", word[0], word[1], word[2],
+              word[3], word[4]);
 
       UUCByteArray hashaux1(szAux);
 
@@ -253,7 +272,6 @@ long CSignatureGenerator::Generate(UUCByteArray& pkcs7SignedData,
     digestInfo.toByteArray(digest);
   }
 
-  delete hash;
   UUCByteArray signature;
 
   LOG_DBG((0, "CSignatureGenerator::Generate", "Sign"));
@@ -287,12 +305,13 @@ long CSignatureGenerator::Generate(UUCByteArray& pkcs7SignedData,
                      octetString.getLength());
     }
 
-    hash = new BYTE[32];
-    hashlen = 32;
+    sha256_ctx = EVP_MD_CTX_new();
+    EVP_DigestInit(sha256_ctx, EVP_sha256());
+    EVP_DigestUpdate(sha256_ctx, content.getContent(), content.getLength());
+    EVP_DigestFinal(sha256_ctx, hash, NULL);
+    EVP_MD_CTX_free(sha256_ctx);
 
-    sha2((BYTE*)content.getContent(), content.getLength(), hash, 0);
-
-    UUCByteArray hashaux(hash, hashlen);
+    UUCByteArray hashaux(hash, SHA256_DIGEST_LENGTH);
 
     CTimeStampToken* ptst = NULL;
     nRes = m_pTSAClient->GetTimeStampToken(hashaux, NULL, &ptst);
