@@ -44,13 +44,13 @@
  is identified in hashAlgorithm. serialNumber is the serial number of
  the certificate for which status is being requested.
  */
-
 #include "OCSPRequest.h"
 
 #include <CertStore.h>
+#include <openssl/evp.h>
+#include <openssl/sha.h>
 
 #include "ASN1/AlgorithmIdentifier.h"
-#include "RSA/sha1.h"
 
 COCSPRequest::COCSPRequest(UUCBufferedReader& reader) : CASN1Sequence(reader) {}
 
@@ -75,20 +75,22 @@ COCSPRequest::COCSPRequest(CCertificate& certificate) {
   UUCByteArray baIssuerName;
   issuerName.toByteArray(baIssuerName);
 
-  // calcola l'hash SHA1
-  SHA1Context sha;
-
-  // hash issuername
-  SHA1Reset(&sha);
-
-  SHA1Input(&sha, baIssuerName.getContent(), baIssuerName.getLength());
-
-  SHA1Result(&sha);
+  // Assuming baIssuerName is a buffer with the issuer name data
+  unsigned char hash[SHA_DIGEST_LENGTH];
+  EVP_MD_CTX *sha1_ctx = EVP_MD_CTX_new();
+  EVP_DigestInit(sha1_ctx, EVP_sha1());
+  EVP_DigestUpdate(sha1_ctx, baIssuerName.getContent(), baIssuerName.getLength());
+  EVP_DigestFinal(sha1_ctx, hash, NULL);
+  EVP_MD_CTX_free(sha1_ctx);
 
   char szAux[100];
-  sprintf(szAux, "%08X%08X%08X%08X%08X ", sha.Message_Digest[0],
-          sha.Message_Digest[1], sha.Message_Digest[2], sha.Message_Digest[3],
-          sha.Message_Digest[4]);
+
+  // Reinterpret the hash as five unsigned 32-bit words.
+  unsigned int* word = reinterpret_cast<unsigned int*>(hash);
+
+  // Format the output string like the original sprintf.
+  sprintf(szAux, "%08X%08X%08X%08X%08X ",
+          word[0], word[1], word[2], word[3], word[4]);
 
   UUCByteArray baIssuerNameHash(szAux);
   UUCByteArray baIssuerKeyHash;
