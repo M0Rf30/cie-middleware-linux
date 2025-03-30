@@ -19,6 +19,8 @@ ByteDynArray CSHA512::Final() {
   EVP_DigestFinal_ex(ctx, resp.data(), NULL);
   isInit = false;
 
+  EVP_MD_CTX_free(ctx);
+
   return resp;
 }
 
