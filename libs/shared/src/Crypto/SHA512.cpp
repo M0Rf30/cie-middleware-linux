@@ -5,17 +5,18 @@
 #include <cryptopp/sha.h>
 
 void CSHA512::Init() {
-  SHA512_Init(&ctx);
-  isInit = true;
+    ctx = EVP_MD_CTX_new();
+    EVP_DigestInit_ex(ctx, EVP_sha512(), NULL);
+    isInit = true;
 }
 void CSHA512::Update(ByteArray data) {
   if (!isInit) throw logged_error("Hash non inizializzato");
-  SHA512_Update(&ctx, data.data(), data.size());
+  EVP_DigestUpdate(ctx, data.data(), data.size());
 }
 ByteDynArray CSHA512::Final() {
   if (!isInit) throw logged_error("Hash non inizializzato");
   ByteDynArray resp(SHA_DIGEST_LENGTH);
-  SHA512_Final(resp.data(), &ctx);
+  EVP_DigestFinal_ex(ctx, resp.data(), NULL);
   isInit = false;
 
   return resp;

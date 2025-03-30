@@ -1,5 +1,6 @@
 #pragma once
 
+#include <openssl/evp.h>
 #include <openssl/sha.h>
 
 #include "Util/Array.h"
@@ -8,7 +9,7 @@
 
 class CSHA512 {
   bool isInit;
-  SHA512_CTX ctx;
+  EVP_MD_CTX *ctx;
   void Init();
   void Update(ByteArray data);
   ByteDynArray Final();
