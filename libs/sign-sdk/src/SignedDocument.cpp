@@ -15,7 +15,6 @@
 #include "ASN1/Certificate.h"
 #include "ASN1/UUCBufferedReader.h"
 #include "Base64.h"
-#include "RSA/rsa.h"
 #include "UUCLogger.h"
 
 USE_LOG;
@@ -231,7 +230,7 @@ int CSignedDocument::get452009Range(char* szDateTime) {
         }
       }
     } catch (...) {
-      // NSLog(@"DateTime parsing exception %s", szDateTime);
+
     }
   }
 
