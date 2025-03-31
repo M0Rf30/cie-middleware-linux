@@ -28,8 +28,6 @@ spotless {
 }
 
 dependencies {
-	// This dependency is used by the application.
-	implementation fileTree(dir: 'lib', include: ['*.jar'])
 	implementation 'commons-io:commons-io:2.18.0'
 	implementation 'com.google.code.gson:gson:2.12.1'
 	implementation 'net.java.dev.jna:jna:5.17.0'
