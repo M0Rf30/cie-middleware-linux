@@ -48,7 +48,7 @@ modules:
       - install -Dm755 CIEID-standalone.jar /app/share/cieid/cieid.jar
       - install -Dm644 data/app.m0rf30.cieid.metainfo.xml /app/share/metainfo/app.m0rf30.cieid.metainfo.xml
       - install -Dm644 data/app.m0rf30.cieid.desktop /app/share/applications/app.m0rf30.cieid.desktop
-      - install -Dm755 data/app.m0rf30.cieid.png /app/share/icons/hicolor/256x256/apps/app.m0rf30.cieid.png
+      - install -Dm755 data/app.m0rf30.cieid.svg /app/share/icons/hicolor/scalable/apps/app.m0rf30.cieid.svg
       - install -Dm644 data/libcie-pkcs11.module /app/share/p11-kit/modules/libcie-pkcs11.module
       - mkdir -p /app/lib/pkcs11
       - ln -s /app/lib/libcie-pkcs11.so /app/lib/pkcs11/libcie-pkcs11.so

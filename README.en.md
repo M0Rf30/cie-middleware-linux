@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="data/app.m0rf30.cieid.png" alt="App Logo" height="200" />
+  <img src="data/app.m0rf30.cieid.svg" alt="App Logo" height="200" />
   <!-- Spacer -->
   <br /><br />
 
