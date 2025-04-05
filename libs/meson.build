@@ -1,4 +1,4 @@
-project('libcie-pkcs11', 'cpp', 'c', version: '1.5.8', license: 'MIT')
+project('libcie-pkcs11', 'cpp', 'c', version: '1.5.9', license: 'MIT')
 
 add_project_arguments('-fPIC', language: 'cpp')
 
