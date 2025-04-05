@@ -58,7 +58,7 @@ modules:
     sources:
       - type: archive
         url: https://github.com/M0Rf30/cie-middleware-linux/archive/refs/tags/1.5.9.tar.gz
-        sha256: 5c10e60fdc3351a882b2c75c9f387d380d5be5f755ef904f63ab390757855ffd
+        sha256: 903b1362280c651e36e46255584bfac197b1628f780bfd3d6469d180686dd8e8
       - type: file
         path: CIEID-standalone.jar
 
