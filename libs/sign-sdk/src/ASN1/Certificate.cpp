@@ -16,11 +16,11 @@
 #include "DigestInfo.h"
 #include "LdapCrl.h"
 #include "OCSPRequest.h"
-#include "RSA/rsaeuro.h"
 #include "RSA/sha1.h"
 #include "RSA/sha2.h"
 #include "UUCLogger.h"
 
+#define MAX_RSA_MODULUS_LEN 512
 #define PROXY_AUTHENTICATION_REQUIRED 407
 
 static size_t WriteCallback(void* contents, size_t size, size_t nmemb,

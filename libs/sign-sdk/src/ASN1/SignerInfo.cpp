@@ -14,8 +14,6 @@
 #include "ASN1OptionalField.h"
 #include "CertStore.h"
 #include "DigestInfo.h"
-#include "RSA/rsa.h"
-#include "RSA/rsaeuro.h"
 #include "RSA/sha1.h"
 #include "RSA/sha2.h"
 #include "UUCLogger.h"
