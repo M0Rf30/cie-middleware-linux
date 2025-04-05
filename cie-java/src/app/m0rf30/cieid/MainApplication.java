@@ -8,6 +8,7 @@ import java.awt.event.AWTEventListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import javax.swing.JFrame;
 
 public class MainApplication {
@@ -20,10 +21,19 @@ public class MainApplication {
                 new Runnable() {
                     public void run() {
                         installKeyboardMonitor();
-                        try {
-                            showUI(args);
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                        if (args.length > 0 && args[0].equals("pinwrong")) {
+                            sendNotification("PIN Errato");
+                        } else if (args.length > 0 && args[0].equals("cardnotregistered")) {
+                            sendNotification("Carta non abbinata, premere qui per abbinare la CIE");
+                        } else if (args.length > 0 && args[0].equals("pinlocked")) {
+                            sendNotification(
+                                    "Carta bloccata, premere qui per sbloccarla con il PUK");
+                        } else {
+                            try {
+                                showUI(args);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 });
@@ -73,5 +83,31 @@ public class MainApplication {
                         System.exit(0);
                     }
                 });
+    }
+
+    private static void sendNotification(String message) {
+        // Build the command arguments.
+        // You may add extra flags as required (e.g., -u for urgency, -t for timeout, etc.)
+        String[] command = {
+            "notify-send", "-a", "Cie ID", "-i", "app.m0rf30.cieid", message,
+        };
+
+        ProcessBuilder processBuilder = new ProcessBuilder(command);
+        try {
+            // Start the process
+            Process process = processBuilder.start();
+            // Optionally wait for the process to complete
+            int exitCode = process.waitFor();
+            if (exitCode != 0) {
+                System.err.println("Notification command failed with exit code: " + exitCode);
+            }
+        } catch (IOException e) {
+            System.err.println("IOException while trying to send notification:");
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            System.err.println("Notification process was interrupted:");
+            e.printStackTrace();
+        }
     }
 }
