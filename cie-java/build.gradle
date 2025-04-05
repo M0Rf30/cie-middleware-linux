@@ -66,7 +66,7 @@ task standalone(type: Jar) {
 }
 
 task fetchDeps {
-	description "Force gradle to cache all dependencies"
+	description = "Force gradle to cache all dependencies"
 	doLast { sourceSets.main.runtimeClasspath.files }
 }
 
