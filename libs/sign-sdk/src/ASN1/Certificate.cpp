@@ -3,7 +3,9 @@
 
 #include <curl/curl.h>
 #include <openssl/bio.h>
+#include <openssl/evp.h>
 #include <openssl/rsa.h>
+#include <openssl/sha.h>
 #include <openssl/x509.h>
 #include <sys/types.h>
 #include <time.h>
@@ -16,11 +18,9 @@
 #include "DigestInfo.h"
 #include "LdapCrl.h"
 #include "OCSPRequest.h"
-#include "RSA/rsaeuro.h"
-#include "RSA/sha1.h"
-#include "RSA/sha2.h"
 #include "UUCLogger.h"
 
+#define MAX_RSA_MODULUS_LEN 512
 #define PROXY_AUTHENTICATION_REQUIRED 407
 
 static size_t WriteCallback(void* contents, size_t size, size_t nmemb,
@@ -38,7 +38,6 @@ USE_LOG;
 CCertificate* CCertificate::createCertificate(UUCByteArray& contentArray) {
   const BYTE* content = contentArray.getContent();
   int len = contentArray.getLength();
-  // UUCByteArray c;
 
   if (content[0] != 0x30) {  // base64
     char* szBase64Content;
@@ -670,14 +669,21 @@ bool CCertificate::verifySignature(CCertificate& cert) {
       CAlgorithmIdentifier sha256Algo(szSHA256OID);
       CAlgorithmIdentifier sha1Algo(szSHA1OID);
       if (digestAlgo.elementAt(0) == sha256Algo.elementAt(0)) {
-        // bitmask |= VERIFIED_SHA256;
+        unsigned char hash[SHA256_DIGEST_LENGTH];
+        unsigned char hash2[SHA256_DIGEST_LENGTH];
+        EVP_MD_CTX* sha256_ctx = NULL;
 
-        // NSLog(@"SHA256");
+        sha256_ctx = EVP_MD_CTX_new();
+        EVP_DigestInit(sha256_ctx, EVP_sha256());
+        EVP_DigestUpdate(sha256_ctx, buff, bufflen);
+        EVP_DigestFinal(sha256_ctx, hash, NULL);
+        EVP_MD_CTX_free(sha256_ctx);
 
-        BYTE hash[32];
-        BYTE hash2[32];
-        sha2(buff, bufflen, hash, 0);
-        sha2(content.getContent(), content.getLength(), hash2, 0);
+        sha256_ctx = EVP_MD_CTX_new();
+        EVP_DigestUpdate(sha256_ctx, content.getContent(), content.getLength());
+        EVP_DigestFinal(sha256_ctx, hash2, NULL);
+        EVP_MD_CTX_free(sha256_ctx);
+
         if (memcmp(hash, pDigestValue->getContent(), 32) == 0) {
           // verifica l'hash del content
           if (memcmp(hash2, hash, 32) == 0) {
@@ -687,26 +693,32 @@ bool CCertificate::verifySignature(CCertificate& cert) {
 
       } else if (digestAlgo.elementAt(0) == sha1Algo.elementAt(0)) {
         // calcola l'hash SHA1
-        SHA1Context sha;
+        unsigned char hash[SHA_DIGEST_LENGTH];
+        EVP_MD_CTX* sha1_ctx = NULL;
 
-        SHA1Reset(&sha);
+        sha1_ctx = EVP_MD_CTX_new();
+        EVP_DigestInit(sha1_ctx, EVP_sha1());
+        EVP_DigestUpdate(sha1_ctx, buff, bufflen);
+        EVP_DigestFinal(sha1_ctx, hash, NULL);
+        EVP_MD_CTX_free(sha1_ctx);
 
-        SHA1Input(&sha, buff, bufflen);
+        // Reinterpret the hash as five unsigned 32-bit words.
+        unsigned* word = reinterpret_cast<unsigned*>(hash);
 
-        SHA1Result(&sha);
-
-        sprintf(szAux, "%08X%08X%08X%08X%08X ", sha.Message_Digest[0],
-                sha.Message_Digest[1], sha.Message_Digest[2],
-                sha.Message_Digest[3], sha.Message_Digest[4]);
+        sprintf(szAux, "%08X%08X%08X%08X%08X ", __builtin_bswap32(word[0]),
+                __builtin_bswap32(word[1]), __builtin_bswap32(word[2]),
+                __builtin_bswap32(word[3]), __builtin_bswap32(word[4]));
 
         UUCByteArray hashaux(szAux);
 
-        SHA1Reset(&sha);
-        SHA1Input(&sha, content.getContent(), content.getLength());
-        SHA1Result(&sha);
-        sprintf(szAux, "%08X%08X%08X%08X%08X ", sha.Message_Digest[0],
-                sha.Message_Digest[1], sha.Message_Digest[2],
-                sha.Message_Digest[3], sha.Message_Digest[4]);
+        sha1_ctx = EVP_MD_CTX_new();
+        EVP_DigestInit(sha1_ctx, EVP_sha1());
+        EVP_DigestUpdate(sha1_ctx, content.getContent(), content.getLength());
+        EVP_DigestFinal(sha1_ctx, hash, NULL);
+        EVP_MD_CTX_free(sha1_ctx);
+        sprintf(szAux, "%08X%08X%08X%08X%08X ", __builtin_bswap32(word[0]),
+                __builtin_bswap32(word[1]), __builtin_bswap32(word[2]),
+                __builtin_bswap32(word[3]), __builtin_bswap32(word[4]));
         UUCByteArray contentHash(szAux);
 
         if (memcmp(hashaux.getContent(), pDigestValue->getContent(),

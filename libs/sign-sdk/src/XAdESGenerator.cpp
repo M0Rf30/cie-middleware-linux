@@ -1,13 +1,13 @@
 #include "XAdESGenerator.h"
 
+#include <openssl/evp.h>
+#include <openssl/sha.h>
 #include <time.h>
 
 #include <map>
 
 #include "ASN1/DigestInfo.h"
 #include "BigIntegerLibrary.h"
-#include "RSA/sha1.h"
-#include "RSA/sha2.h"
 #include "Util/UUCByteArray.h"
 #include "base64-std.h"
 
@@ -195,8 +195,11 @@ long CXAdESGenerator::Generate(UUCByteArray& xadesData, BOOL bDetached,
   UUCByteArray hashaux;
 
   BYTE hash[50];
-  sha2(data.getContent(), data.getLength(), hash, 0);
-  hashaux.append(hash, 32);
+  EVP_MD_CTX* sha256_ctx = EVP_MD_CTX_new();
+  EVP_DigestInit(sha256_ctx, EVP_sha256());
+  EVP_DigestUpdate(sha256_ctx, data.getContent(), data.getLength());
+  EVP_DigestFinal(sha256_ctx, hash, 0);
+  EVP_MD_CTX_free(sha256_ctx);
 
   CAlgorithmIdentifier hashOID(szSHA256OID);
   UUCByteArray digest;
@@ -286,19 +289,30 @@ void CXAdESGenerator::CanonicalizeAndHashBase64(xmlDocPtr pDoc,
   UUCByteArray hashaux;
   if (m_bXAdES) {
     BYTE hash[50];
-    sha2(pCanonicalDoc, docLen, hash, 0);
+    EVP_MD_CTX* sha256_ctx = EVP_MD_CTX_new();
+    EVP_DigestInit(sha256_ctx, EVP_sha256());
+    EVP_DigestUpdate(sha256_ctx, pCanonicalDoc, docLen);
+    EVP_DigestFinal(sha256_ctx, hash, 0);
+    EVP_MD_CTX_free(sha256_ctx);
     hashaux.append(hash, 32);
   } else {
     // calcola l'hash SHA1
-    SHA1Context sha;
-    SHA1Reset(&sha);
-    SHA1Input(&sha, pCanonicalDoc, docLen);
-    SHA1Result(&sha);
+    unsigned char hash[SHA_DIGEST_LENGTH];
+
+    EVP_MD_CTX* sha1_ctx = EVP_MD_CTX_new();
+    EVP_DigestInit(sha1_ctx, EVP_sha1());
+    EVP_DigestUpdate(sha1_ctx, pCanonicalDoc, docLen);
+    EVP_DigestFinal(sha1_ctx, hash, NULL);
+    EVP_MD_CTX_free(sha1_ctx);
 
     char szAux[100];
-    sprintf(szAux, "%08X%08X%08X%08X%08X ", sha.Message_Digest[0],
-            sha.Message_Digest[1], sha.Message_Digest[2], sha.Message_Digest[3],
-            sha.Message_Digest[4]);
+
+    // Reinterpret the hash as five unsigned 32-bit words.
+    unsigned* word = reinterpret_cast<unsigned*>(hash);
+
+    sprintf(szAux, "%08X%08X%08X%08X%08X ", __builtin_bswap32(word[0]),
+            __builtin_bswap32(word[1]), __builtin_bswap32(word[2]),
+            __builtin_bswap32(word[3]), __builtin_bswap32(word[4]));
 
     hashaux.load(szAux);
   }
@@ -433,8 +447,6 @@ xmlDocPtr CXAdESGenerator::CreateQualifyingProperties(
   // QualifyingProperties
   xmlNodePtr pQualifyingProperties = doc->children;
   xmlNewProp(pQualifyingProperties, BAD_CAST "Target", BAD_CAST m_szID);
-  // xmlNsPtr ns = xmlNewNs(pQualifyingProperties, BAD_CAST NAMESPACE_XADES_132,
-  // NULL);
 
   // <SignedProperties>
   xmlNodePtr pSignedProperties =
@@ -458,10 +470,6 @@ xmlDocPtr CXAdESGenerator::CreateQualifyingProperties(
 
   strftime(szTime, 100, "%Y-%m-%dT%H:%M:%SZ", pCurTime);
 
-  // xmlNodePtr pSigningTime = xmlNewChild(pSignedSignatureProperties, NULL,
-  // (const xmlChar*)"xades:SigningTime", BAD_CAST szTime);
-  // xmlNodeAddContent(pSignedSignatureProperties, nl);
-
   // SigningCertificate
   xmlNodePtr pSigningCertificate =
       xmlNewChild(pSignedSignatureProperties, NULL,
@@ -476,11 +484,8 @@ xmlDocPtr CXAdESGenerator::CreateQualifyingProperties(
       xmlNewChild(pCert, NULL, (const xmlChar*)"xades:CertDigest", NULL);
 
   // DigestMethod
-  xmlNodePtr pDigestMethod = xmlNewChild(
-      pCertDigest, NULL, (const xmlChar*)"ds:DigestMethod",
-      NULL);  //(const xmlChar*)"http://www.w3.org/2000/09/xmldsig#sha1");
-  // ns = xmlNewNs(pDigestMethod, BAD_CAST NAMESPACE_XML_DSIG, NULL);
-
+  xmlNodePtr pDigestMethod =
+      xmlNewChild(pCertDigest, NULL, (const xmlChar*)"ds:DigestMethod", NULL);
   xmlNewProp(pDigestMethod, BAD_CAST "Algorithm",
              BAD_CAST DIGEST_METHOD_SHA256);
   // xmlNodeAddContent(pCertDigest, nl);
@@ -493,20 +498,11 @@ xmlDocPtr CXAdESGenerator::CreateQualifyingProperties(
   pCertificate->toByteArray(certval);
 
   // calcola l'hash SHA1
-  sha2(certval.getContent(), certval.getLength(), cv, 0);
-
-  /*
-  SHA1Context sha;
-  SHA1Reset(&sha);
-  SHA1Input(&sha, certval.getContent(), certval.getLength());
-  SHA1Result(&sha);
-
-  char szAux[100];
-  sprintf(szAux, "%08X%08X%08X%08X%08X ", sha.Message_Digest[0],
-  sha.Message_Digest[1], sha.Message_Digest[2], sha.Message_Digest[3],
-  sha.Message_Digest[4]);
-  */
-
+  EVP_MD_CTX* sha256_ctx = EVP_MD_CTX_new();
+  EVP_DigestInit(sha256_ctx, EVP_sha256());
+  EVP_DigestUpdate(sha256_ctx, certval.getContent(), certval.getLength());
+  EVP_DigestFinal(sha256_ctx, cv, 0);
+  EVP_MD_CTX_free(sha256_ctx);
   UUCByteArray hashaux(cv, 32);
 
   // base 64

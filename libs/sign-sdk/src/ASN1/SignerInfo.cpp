@@ -14,13 +14,7 @@
 #include "ASN1OptionalField.h"
 #include "CertStore.h"
 #include "DigestInfo.h"
-#include "RSA/rsa.h"
-#include "RSA/rsaeuro.h"
-#include "RSA/sha1.h"
-#include "RSA/sha2.h"
 #include "UUCLogger.h"
-
-// #import <UIKit/UIKit.h>
 
 USE_LOG;
 
@@ -40,15 +34,8 @@ CSignerInfo::CSignerInfo(const CIssuerAndSerialNumber& issuer,
   addElement(CASN1Integer(1));
   addElement(issuer);
   addElement(digestAlgo);
-
-  // Optional Field
-  // addElement(authAttributes);
-
   addElement(encAlgo);
   addElement(encDigest);
-
-  // Optional Field
-  // addElement(NULL);
 }
 
 void CSignerInfo::addAuthenticatedAttributes(const CASN1SetOf& attributes) {
@@ -73,16 +60,7 @@ CASN1OctetString CSignerInfo::getEncryptedDigest() {
 }
 
 CAlgorithmIdentifier CSignerInfo::getDigestAlgorithn() {
-  // CASN1Object obj(elementAt(3));
-
-  // if(obj.getTag() == 0xA0) // optional auth attributes present
-  //{
   return (CAlgorithmIdentifier)elementAt(2);
-  //}
-  // else
-  //{
-  //	return (CAlgorithmIdentifier)elementAt(5);
-  //}
 }
 
 CIssuerAndSerialNumber CSignerInfo::getIssuerAndSerialNumber() {
@@ -126,22 +104,7 @@ CASN1UTCTime CSignerInfo::getSigningTime() {
 
   throw -1L;
 }
-/* NON CORRETTO
-CASN1ObjectIdentifier CSignerInfo::getSigningCertificateV2()
-{
-        CASN1SetOf attrs = getAuthenticatedAttributes();
 
-        for(int j = 0; j < attrs.size(); j++)
-        {
-                CASN1Sequence attr = attrs.elementAt(j);
-                CASN1ObjectIdentifier objId(attr.elementAt(0));
-                if(objId.equals(CASN1ObjectIdentifier(szIdAASigningCertificateV2OID)))
-                   return (CASN1SetOf(attr.elementAt(1))).elementAt(0);
-        }
-
-        throw -1L;
-}
-*/
 CASN1OctetString CSignerInfo::getContentHash() {
   CASN1SetOf attrs = getAuthenticatedAttributes();
   int size = attrs.size();
@@ -193,7 +156,6 @@ CASN1SetOf CSignerInfo::getCountersignatures() {
     if (oid.equals(oid1)) {
       CASN1SetOf set(attribute.elementAt(1));
       counterSignatures.addElement(set.elementAt(0));
-      // return attribute.elementAt(1);
     }
   }
 
@@ -349,8 +311,6 @@ int CSignerInfo::verifySignature(CASN1OctetString& source,
   while (pCACert && pCert->verifySignature(*pCACert)) {
     bitmask |= VERIFIED_CACERT_FOUND;
 
-    // NSLog(@"issuer: %s, SN: %s", issuer.c_str(), serialNumber.toHexString());
-
     if (pCACert->isValid(szDateTime)) {
       bitmask |= VERIFIED_CACERT_VALIDITY;
       if (pRevocationInfo) {
@@ -384,8 +344,6 @@ int CSignerInfo::verifySignature(CASN1OctetString& source,
 
   if (!pCACert) {
     bitmask |= VERIFIED_CERT_CHAIN;
-  } else {
-    // NSLog(@"CA Cert not valid");
   }
 
   // verifica la firma
@@ -393,9 +351,6 @@ int CSignerInfo::verifySignature(CASN1OctetString& source,
   // OpenSSL
   UUCByteArray baCert;
   cert.toByteArray(baCert);
-
-  //    int result;
-  //    BIO* bio;
   X509* x509 = NULL;
 
   const BYTE* content = baCert.getContent();
@@ -407,61 +362,10 @@ int CSignerInfo::verifySignature(CASN1OctetString& source,
   evp_pubkey = X509_get_pubkey(x509);
   rsa_pubkey = EVP_PKEY_get1_RSA(evp_pubkey);
 
-  //////////////
-
-  //	CSubjectPublicKeyInfo publicKeyInfo =
-  // cert.getCertificateInfo().getSubjectPublicKeyInfo();
-
   CASN1OctetString encryptedDigest(signerInfo.getEncryptedDigest());
   const UUCByteArray* pEncDigest = encryptedDigest.getValue();
 
-  //	//UUCByteArray aux1;
-  //	CASN1BitString publicKey(publicKeyInfo.getPublicKey());
-  //	//publicKey.toByteArray(aux1);
-  //	//szHex = aux1.toHexString();
-  //
-  //	UUCByteArray* pBitString = (UUCByteArray*)publicKey.getValue();
-  //
-  //	//szHex = pBitString->toHexString();
-  //	pBitString->remove(0);
-  //	//szHex = pBitString->toHexString();
-  //
-  //	UUCBufferedReader reader(*pBitString);
-  //	CRSAPublicKey pubKey(reader);
-  //
-  //	//UUCByteArray aux;
-  //	//pubKey.toByteArray(aux);
-  //	//szHex = aux.toHexString();
-  //
-  //	CASN1Integer modulus = pubKey.getModulus();
-  //	CASN1Integer exp = pubKey.getExponent();
-  //
-  //	R_RSA_PUBLIC_KEY rsakey;
-  //
-  //    int retVal=0;
-
   try {
-    //		UUCByteArray* modArr = (UUCByteArray*)modulus.getValue();
-    //		UUCByteArray* expArr = (UUCByteArray*)exp.getValue();
-    //
-    //		memset(rsakey.exponent,0x00,MAX_RSA_MODULUS_LEN);
-    //		memset(rsakey.modulus,0x00,MAX_RSA_MODULUS_LEN);
-    //
-    //		// copio l'esponente
-    //		memcpy(rsakey.exponent + MAX_RSA_MODULUS_LEN -
-    // expArr->getLength(), expArr->getContent(), expArr->getLength());
-    //
-    //		//copio il modulo
-    //		memcpy(rsakey.modulus + MAX_RSA_MODULUS_LEN -
-    // modArr->getLength(), modArr->getContent(), modArr->getLength());
-    //
-    //		// calcola il numero di bit effettivo
-    //		int i=0;
-    //		while(rsakey.modulus[i] == 0 && i < MAX_RSA_MODULUS_LEN)
-    //			i++;
-    //
-    //		rsakey.bits = (MAX_RSA_MODULUS_LEN - i) * 8;
-    //
     BYTE decrypted[MAX_RSA_MODULUS_LEN];
     unsigned int len = MAX_RSA_MODULUS_LEN;
 
@@ -475,10 +379,6 @@ int CSignerInfo::verifySignature(CASN1OctetString& source,
     EVP_PKEY_free(evp_pubkey);
     X509_free(x509);
 
-    // ritorna il DigestInfo pulito, senza padding
-    //		retVal = RSAPublicDecrypt(decrypted, &len,
-    //(BYTE*)pEncDigest->getContent(), (unsigned int)pEncDigest->getLength(),
-    //&rsakey);
     if (len) {
       LOG_DBG((0, "CSignerInfo::verifySignature", "RSAPublicDecrypt OK"));
 
@@ -487,19 +387,12 @@ int CSignerInfo::verifySignature(CASN1OctetString& source,
       UUCByteArray dec(decrypted, len);
       UUCBufferedReader reader(dec);
       CDigestInfo digestInfo(reader);
-      // UUCByteArray* pauxdi = (UUCByteArray*)digestInfo.getValue();
-      // szHex = pauxdi->toHexString();
-
       CASN1OctetString digest = digestInfo.getDigest();
       UUCByteArray* pDigestValue = (UUCByteArray*)digest.getValue();
-      // szHex = pDigestValue->toHexString();
 
       // content
       UUCByteArray content;
       CASN1OctetString octetString(source);
-      // UUCByteArray baoctetstring;
-      // octetString.toByteArray(baoctetstring);
-      // NSLog([NSString stringWithCString:baoctetstring.toHexString()]);
 
       if (octetString.getTag() == 0x24) {  // contructed octet string
         CASN1Sequence contentArray(octetString);
@@ -547,21 +440,12 @@ int CSignerInfo::verifySignature(CASN1OctetString& source,
         }
 
         authAttr.toByteArray(signedAttr);
-        // szHex = signedAttr.toHexString();
-        // NSLog([NSString stringWithCString:szHex]);
-
         buff = (BYTE*)signedAttr.getContent();
         bufflen = signedAttr.getLength();
-
-        // LOG_DBG((0, "CSignerInfo::verifySignature", "Buf: %s, %d",
-        // signedAttr.toHexString(), bufflen));
       } else {
         // se non ci sono signedattributes l'hash va fatto sul content
         buff = (BYTE*)content.getContent();
         bufflen = content.getLength();
-
-        // LOG_DBG((0, "CSignerInfo::verifySignature", "Buf2: %s, %d",
-        // content.toHexString(), bufflen));
       }
 
       CAlgorithmIdentifier digestAlgo(digestInfo.getDigestAlgorithm());
@@ -574,32 +458,19 @@ int CSignerInfo::verifySignature(CASN1OctetString& source,
 
         BYTE hash[32];
         BYTE hash2[32];
-        /*
-                                sha256_context	ctx256;
-                                sha256_starts(&ctx256);
-                                sha256_update(&ctx256, buff, bufflen);
-                                sha256_finish(&ctx256, hash);
 
-                                sha256_context	ctx2561;
-                                sha256_starts(&ctx2561);
-                                sha256_update(&ctx2561, content.getContent(),
-           content.getLength()); sha256_finish(&ctx2561, hash2);
-        */
-        sha2(buff, bufflen, hash, 0);
-        sha2(content.getContent(), content.getLength(), hash2, 0);
-        /*
+        EVP_MD_CTX* sha256_ctx = EVP_MD_CTX_new();
+        EVP_DigestInit(sha256_ctx, EVP_sha256());
+        EVP_DigestUpdate(sha256_ctx, buff, bufflen);
+        EVP_DigestFinal(sha256_ctx, hash, NULL);
+        EVP_MD_CTX_free(sha256_ctx);
 
-                                        SHA256_CTX	ctx256;
-                                        SHA256_Init(&ctx256);
-                                        SHA256_Update(&ctx256, buff, bufflen);
-                                        SHA256_Final(hash, &ctx256);
-
-                                        SHA256_CTX	ctx2561;
-                                        SHA256_Init(&ctx2561);
-                                        SHA256_Update(&ctx2561,
-           content.getContent(), content.getLength()); SHA256_Final(hash2,
-           &ctx2561);
-        */
+        EVP_MD_CTX* sha256_1_ctx = EVP_MD_CTX_new();
+        EVP_DigestInit(sha256_1_ctx, EVP_sha256());
+        EVP_DigestUpdate(sha256_1_ctx, content.getContent(),
+                         content.getLength());
+        EVP_DigestFinal(sha256_1_ctx, hash2, NULL);
+        EVP_MD_CTX_free(sha256_1_ctx);
 
         UUCByteArray bahash((BYTE*)hash, 32);
         LOG_DBG((0, "CSignerInfo::verifySignature", "DigestValue: %s, %s",
@@ -633,29 +504,35 @@ int CSignerInfo::verifySignature(CASN1OctetString& source,
                  sha1Algo.elementAt(
                      0)) {  // if(digestAlgo == CAlgorithmIdentifier(szSHA1OID))
         LOG_DBG((0, "CSignerInfo::verifySignature", "SHA1"));
-        // BYTE hash[20];
+        unsigned char hash[SHA_DIGEST_LENGTH];
+        EVP_MD_CTX* sha1_ctx = NULL;
 
         // calcola l'hash SHA1
-        SHA1Context sha;
+        sha1_ctx = EVP_MD_CTX_new();
+        EVP_DigestInit(sha1_ctx, EVP_sha1());
+        EVP_DigestUpdate(sha1_ctx, buff, bufflen);
+        EVP_DigestFinal(sha1_ctx, hash, NULL);
+        EVP_MD_CTX_free(sha1_ctx);
 
-        SHA1Reset(&sha);
+        // Reinterpret the hash as five unsigned 32-bit words.
+        unsigned* word = reinterpret_cast<unsigned*>(hash);
 
-        SHA1Input(&sha, buff, bufflen);
-
-        SHA1Result(&sha);
-
-        sprintf(szAux, "%08X%08X%08X%08X%08X ", sha.Message_Digest[0],
-                sha.Message_Digest[1], sha.Message_Digest[2],
-                sha.Message_Digest[3], sha.Message_Digest[4]);
+        sprintf(szAux, "%08X%08X%08X%08X%08X ", __builtin_bswap32(word[0]),
+                __builtin_bswap32(word[1]), __builtin_bswap32(word[2]),
+                __builtin_bswap32(word[3]), __builtin_bswap32(word[4]));
 
         UUCByteArray hashaux(szAux);
 
-        SHA1Reset(&sha);
-        SHA1Input(&sha, content.getContent(), content.getLength());
-        SHA1Result(&sha);
-        sprintf(szAux, "%08X%08X%08X%08X%08X ", sha.Message_Digest[0],
-                sha.Message_Digest[1], sha.Message_Digest[2],
-                sha.Message_Digest[3], sha.Message_Digest[4]);
+        sha1_ctx = EVP_MD_CTX_new();
+        EVP_DigestInit(sha1_ctx, EVP_sha1());
+        EVP_DigestUpdate(sha1_ctx, content.getContent(), content.getLength());
+        EVP_DigestFinal(sha1_ctx, hash, NULL);
+        EVP_MD_CTX_free(sha1_ctx);
+
+        sprintf(szAux, "%08X%08X%08X%08X%08X ", __builtin_bswap32(word[0]),
+                __builtin_bswap32(word[1]), __builtin_bswap32(word[2]),
+                __builtin_bswap32(word[3]), __builtin_bswap32(word[4]));
+
         UUCByteArray contentHash(szAux);
 
         if (memcmp(hashaux.getContent(), pDigestValue->getContent(),

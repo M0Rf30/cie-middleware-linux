@@ -5,7 +5,6 @@
 
 #include "ASN1/Certificate.h"
 #include "ASN1OptionalField.h"
-#include "RSA/rsa.h"
 #include "SignerInfo.h"
 
 // Construction/Destruction

@@ -72,24 +72,24 @@ class PdfSignatureGenerator {
  private:
 #endif
 
-  PdfMemDocument *m_pPdfDocument;
+  PdfMemDocument* m_pPdfDocument;
 
 #if PODOFO_VERSION_MINOR < 10
  private:
-  PdfSignatureField *m_pSignatureField;
+  PdfSignatureField* m_pSignatureField;
 
-  PdfSignOutputDevice *m_pSignOutputDevice;
+  PdfSignOutputDevice* m_pSignOutputDevice;
 
-  PdfOutputDevice *m_pFinalOutDevice;
+  PdfOutputDevice* m_pFinalOutDevice;
 
-  char *m_pSignDocbuffer;
+  char* m_pSignDocbuffer;
 
   int m_actualLen;
 
 #else
-  PdfSignature *m_pSignatureField;
+  PdfSignature* m_pSignatureField;
 
-  BufferStreamDevice *m_pSignOutputDevice;
+  BufferStreamDevice* m_pSignOutputDevice;
 
  private:
   charbuff m_pOutputBuffer;

@@ -15,7 +15,6 @@
 #include "ASN1/Certificate.h"
 #include "ASN1/UUCBufferedReader.h"
 #include "Base64.h"
-#include "RSA/rsa.h"
 #include "UUCLogger.h"
 
 USE_LOG;

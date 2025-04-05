@@ -66,16 +66,16 @@ typedef struct _DISIGON_SIGN_CONTEXT {
 #if PODOFO_VERSION_MINOR >= 10
 class CIEPdfSigner : public PdfSigner {
  public:
-  CIEPdfSigner(DISIGON_SIGN_CONTEXT *pContext) : m_pContext(pContext) {}
+  CIEPdfSigner(DISIGON_SIGN_CONTEXT* pContext) : m_pContext(pContext) {}
 
  protected:
   void Reset() override { m_buffer.clear(); }
 
-  void AppendData(const bufferview &data) override {
+  void AppendData(const bufferview& data) override {
     m_buffer.append(data.data(), data.size());
   }
 
-  void ComputeSignature(charbuff &buffer, bool dryrun) override;
+  void ComputeSignature(charbuff& buffer, bool dryrun) override;
 
   string GetSignatureFilter() const override { return "Adobe.PPKLite"; }
 
@@ -87,7 +87,7 @@ class CIEPdfSigner : public PdfSigner {
 
  private:
   charbuff m_buffer;
-  DISIGON_SIGN_CONTEXT *m_pContext;
+  DISIGON_SIGN_CONTEXT* m_pContext;
 };
 #endif
 
@@ -1738,9 +1738,9 @@ long sign_pdf(DISIGON_SIGN_CONTEXT* pContext, UUCByteArray& data) {
 
 #else
   CIEPdfSigner signer(pContext);
-  PdfMemDocument *document = sigGen.m_pPdfDocument;
-  BufferStreamDevice *device = sigGen.m_pSignOutputDevice;
-  PdfSignature *signature = sigGen.m_pSignatureField;
+  PdfMemDocument* document = sigGen.m_pPdfDocument;
+  BufferStreamDevice* device = sigGen.m_pSignOutputDevice;
+  PdfSignature* signature = sigGen.m_pSignatureField;
 
   PoDoFo::SignDocument(*document, *device, signer, *signature);
 #endif
@@ -2273,12 +2273,12 @@ int get_file_type(char* szFileName) {
 }
 
 #if PODOFO_VERSION_MINOR >= 10
-void CIEPdfSigner::ComputeSignature(charbuff &buffer, bool dryrun) {
+void CIEPdfSigner::ComputeSignature(charbuff& buffer, bool dryrun) {
   if (dryrun) {
     buffer.resize(SIGNATURE_SIZE * 2);
   } else {
     long nRes;
-    UUCByteArray toSign((BYTE *)m_buffer.data(), m_buffer.size());
+    UUCByteArray toSign((BYTE*)m_buffer.data(), m_buffer.size());
     UUCByteArray signedData;
 
     m_pContext->pSignatureGenerator->SetData(toSign);
@@ -2289,7 +2289,7 @@ void CIEPdfSigner::ComputeSignature(charbuff &buffer, bool dryrun) {
     }
 
     buffer.resize(signedData.getLength());
-    std::memcpy(buffer.data(), (char *)signedData.getContent(),
+    std::memcpy(buffer.data(), (char*)signedData.getContent(),
                 signedData.getLength());
   }
 }

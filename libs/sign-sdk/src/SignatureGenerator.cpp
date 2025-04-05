@@ -1,6 +1,8 @@
 
 #include "SignatureGenerator.h"
 
+#include <openssl/evp.h>
+#include <openssl/sha.h>
 #include <time.h>
 
 #include <cstddef>
@@ -13,10 +15,9 @@
 #include "ASN1/Certificate.h"
 #include "ASN1/DigestInfo.h"
 #include "CertStore.h"
-#include "RSA/sha1.h"
-#include "RSA/sha2.h"
 #include "Sign/definitions.h"
 #include "UUCLogger.h"
+
 USE_LOG;
 
 using namespace std;
@@ -157,7 +158,11 @@ long CSignatureGenerator::Generate(UUCByteArray& pkcs7SignedData,
 
   LOG_DBG((0, "CSignatureGenerator::Generate", "HASH"));
 
-  sha2(certval.getContent(), certval.getLength(), certHash, 0);
+  EVP_MD_CTX* sha256_ctx = EVP_MD_CTX_new();
+  EVP_DigestInit(sha256_ctx, EVP_sha256());
+  EVP_DigestUpdate(sha256_ctx, certval.getContent(), certval.getLength());
+  EVP_DigestFinal(sha256_ctx, certHash, 0);
+  EVP_MD_CTX_free(sha256_ctx);
   LOG_DBG((0, "CSignatureGenerator::Generate", "setSigningCertificate"));
 
   m_signerInfoGenerator.setSigningCertificate(
@@ -187,14 +192,26 @@ long CSignatureGenerator::Generate(UUCByteArray& pkcs7SignedData,
 
       hash = new BYTE[32];
       hashlen = 32;
-      sha2((BYTE*)m_data.getContent(), m_data.getLength(), hash, 0);
+      // sha2((BYTE*)m_data.getContent(), m_data.getLength(), hash, 0);
+      EVP_MD_CTX* sha256_ctx = EVP_MD_CTX_new();
+      EVP_DigestInit(sha256_ctx, EVP_sha256());
+      EVP_DigestUpdate(sha256_ctx, (BYTE*)m_data.getContent(),
+                       m_data.getLength());
+      EVP_DigestFinal(sha256_ctx, hash, 0);
+      EVP_MD_CTX_free(sha256_ctx);
       m_signerInfoGenerator.setContentHash(hash, hashlen);
 
       UUCByteArray signedAttributes;
       m_signerInfoGenerator.getSignedAttributes(signedAttributes, false,
                                                 !bDetached);
-      sha2(signedAttributes.getContent(), signedAttributes.getLength(), hash,
-           0);
+      EVP_MD_CTX* sha256_1_ctx = EVP_MD_CTX_new();
+      EVP_DigestInit(sha256_1_ctx, EVP_sha256());
+      EVP_DigestUpdate(sha256_1_ctx, signedAttributes.getContent(),
+                       signedAttributes.getLength());
+      EVP_DigestFinal(sha256_1_ctx, hash, 0);
+      EVP_MD_CTX_free(sha256_1_ctx);
+      // sha2(signedAttributes.getContent(), signedAttributes.getLength(), hash,
+      //      0);
     } break;
 
     case CKM_SHA1_RSA_PKCS: {
@@ -206,15 +223,19 @@ long CSignatureGenerator::Generate(UUCByteArray& pkcs7SignedData,
 
       char szAux[50];
 
-      // calcola l'hash SHA1
-      SHA1Context sha;
-      SHA1Reset(&sha);
-      SHA1Input(&sha, (BYTE*)m_data.getContent(), m_data.getLength());
-      SHA1Result(&sha);
+      EVP_MD_CTX* sha1_ctx = EVP_MD_CTX_new();
+      EVP_DigestInit(sha1_ctx, EVP_sha1());
+      EVP_DigestUpdate(sha1_ctx, (BYTE*)m_data.getContent(),
+                       m_data.getLength());
+      EVP_DigestFinal(sha1_ctx, hash, NULL);
+      EVP_MD_CTX_free(sha1_ctx);
 
-      sprintf(szAux, "%08X%08X%08X%08X%08X ", sha.Message_Digest[0],
-              sha.Message_Digest[1], sha.Message_Digest[2],
-              sha.Message_Digest[3], sha.Message_Digest[4]);
+      // Reinterpret the hash as five unsigned 32-bit words.
+      unsigned* word = reinterpret_cast<unsigned*>(hash);
+
+      sprintf(szAux, "%08X%08X%08X%08X%08X ", __builtin_bswap32(word[0]),
+              __builtin_bswap32(word[1]), __builtin_bswap32(word[2]),
+              __builtin_bswap32(word[3]), __builtin_bswap32(word[4]));
 
       UUCByteArray hashaux(szAux);
 
@@ -227,14 +248,16 @@ long CSignatureGenerator::Generate(UUCByteArray& pkcs7SignedData,
                                                 !bDetached);
 
       // compute total digest
-      SHA1Reset(&sha);
-      SHA1Input(&sha, signedAttributes.getContent(),
-                signedAttributes.getLength());
-      SHA1Result(&sha);
+      EVP_MD_CTX* sha1_1_ctx = EVP_MD_CTX_new();
+      EVP_DigestInit(sha1_1_ctx, EVP_sha1());
+      EVP_DigestUpdate(sha1_1_ctx, signedAttributes.getContent(),
+                       signedAttributes.getLength());
+      EVP_DigestFinal(sha1_1_ctx, hash, NULL);
+      EVP_MD_CTX_free(sha1_1_ctx);
 
-      sprintf(szAux, "%08X%08X%08X%08X%08X ", sha.Message_Digest[0],
-              sha.Message_Digest[1], sha.Message_Digest[2],
-              sha.Message_Digest[3], sha.Message_Digest[4]);
+      sprintf(szAux, "%08X%08X%08X%08X%08X ", __builtin_bswap32(word[0]),
+              __builtin_bswap32(word[1]), __builtin_bswap32(word[2]),
+              __builtin_bswap32(word[3]), __builtin_bswap32(word[4]));
 
       UUCByteArray hashaux1(szAux);
 
@@ -290,7 +313,13 @@ long CSignatureGenerator::Generate(UUCByteArray& pkcs7SignedData,
     hash = new BYTE[32];
     hashlen = 32;
 
-    sha2((BYTE*)content.getContent(), content.getLength(), hash, 0);
+    // sha2((BYTE*)content.getContent(), content.getLength(), hash, 0);
+    EVP_MD_CTX* sha256_1_ctx = EVP_MD_CTX_new();
+    EVP_DigestInit(sha256_1_ctx, EVP_sha256());
+    EVP_DigestUpdate(sha256_1_ctx, (BYTE*)content.getContent(),
+                     content.getLength());
+    EVP_DigestFinal(sha256_1_ctx, hash, 0);
+    EVP_MD_CTX_free(sha256_1_ctx);
 
     UUCByteArray hashaux(hash, hashlen);
 
