@@ -73,8 +73,8 @@ The following libraries are required:
 - curl
 - fontconfig
 - freetype2
-- java (>= 11)
-- jdk (>= 11) (make)
+- java (>= 17)
+- jdk (>= 17) (make)
 - libpng
 - libxml2
 - meson (make)
