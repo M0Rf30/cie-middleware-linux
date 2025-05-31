@@ -11,8 +11,8 @@
 #define _PDFVERIFIER_H_
 
 #include <podofo/podofo.h>
-#if PODOFO_VERSION_MAJOR < 1
-#if PODOFO_VERSION_MINOR < 10
+#if PODOFO_VERSION_MAJOR < 2
+#if PODOFO_VERSION_MINOR < 10 && PODOFO_VERSION_MAJOR < 1
 #include <podofo/doc/PdfSignOutputDevice.h>
 #include <podofo/doc/PdfSignatureField.h>
 #endif

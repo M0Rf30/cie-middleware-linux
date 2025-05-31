@@ -34,7 +34,7 @@ int PDFVerifier::Load(const char *pdf, int len) {
 
   try {
     m_pPdfMemDocument = new PdfMemDocument();
-#if PODOFO_VERSION_MINOR < 10
+#if PODOFO_VERSION_MINOR < 10 && PODOFO_VERSION_MAJOR < 1
     m_pPdfMemDocument->LoadFromBuffer(pdf, len, true);
 #else
     m_pPdfMemDocument->LoadFromBuffer(bufferview(pdf, len));
@@ -55,7 +55,7 @@ int PDFVerifier::Load(const char *szFilePath) {
 
   try {
     m_pPdfMemDocument = new PdfMemDocument();
-#if PODOFO_VERSION_MINOR < 10
+#if PODOFO_VERSION_MINOR < 10 && PODOFO_VERSION_MAJOR < 1
     m_pPdfMemDocument->Load(szFilePath, false);
 #else
     m_pPdfMemDocument->Load(szFilePath);
@@ -94,7 +94,7 @@ int PDFVerifier::GetNumberOfSignatures(const char *szFilePath) {
   PdfMemDocument doc;
 
   try {
-#if PODOFO_VERSION_MINOR < 10
+#if PODOFO_VERSION_MINOR < 10 && PODOFO_VERSION_MAJOR < 1
     doc.Load(szFilePath, false);
 #else
     doc.Load(szFilePath);
@@ -112,7 +112,7 @@ int PDFVerifier::GetNumberOfSignatures(const char *szFilePath) {
 
 int PDFVerifier::GetNumberOfSignatures(PdfMemDocument *pPdfDocument) {
   /// Find the document catalog dictionary
-#if PODOFO_VERSION_MINOR < 10
+#if PODOFO_VERSION_MINOR < 10 && PODOFO_VERSION_MAJOR < 1
   const PdfObject *const trailer = pPdfDocument->GetTrailer();
   if (!trailer->IsDictionary()) return -1;
 
@@ -188,7 +188,7 @@ int PDFVerifier::VerifySignature(size_t index, const char *szDate,
   if (!m_pPdfMemDocument) return -1;
 
   /// Find the document catalog dictionary
-#if PODOFO_VERSION_MINOR < 10
+#if PODOFO_VERSION_MINOR < 10 && PODOFO_VERSION_MAJOR < 1
   const PdfObject *const trailer = m_pPdfMemDocument->GetTrailer();
   if (!trailer->IsDictionary()) return -1;
 
@@ -264,7 +264,7 @@ int PDFVerifier::VerifySignature(const PdfMemDocument *pDoc,
       pObj->GetDictionary().GetKey(PdfName("FT"));
   if (keyFTValue == 0) return -2;
 
-#if PODOFO_VERSION_MINOR < 10
+#if PODOFO_VERSION_MINOR < 10 && PODOFO_VERSION_MAJOR < 1
   string value;
   keyFTValue->ToString(value);
   if (value != "/Sig") return -3;
@@ -295,7 +295,7 @@ int PDFVerifier::VerifySignature(const PdfMemDocument *pDoc,
         signature->GetDictionary().GetKey(PdfName("SubFilter"));
     keySubFilter->ToString(subfilter);
 
-#if PODOFO_VERSION_MINOR >= 10
+#if PODOFO_VERSION_MINOR >= 10 || PODOFO_VERSION_MAJOR >= 1
     // Podofo 0.10.x adds an invisible trailing character that makes comparison
     // fail
     if (!subfilter.empty()) subfilter.pop_back();
@@ -362,7 +362,7 @@ bool PDFVerifier::IsSignatureField(const PdfMemDocument *pDoc,
       pObj->GetDictionary().GetKey(PdfName("FT"));
   if (keyFTValue == 0) return false;
 
-#if PODOFO_VERSION_MINOR < 10
+#if PODOFO_VERSION_MINOR < 10 && PODOFO_VERSION_MAJOR < 1
   string value;
   keyFTValue->ToString(value);
   if (value != "/Sig") return false;
@@ -385,7 +385,7 @@ int PDFVerifier::GetSignature(size_t index, UUCByteArray &signedDocument,
   if (!m_pPdfMemDocument) return -1;
 
   /// Find the document catalog dictionary
-#if PODOFO_VERSION_MINOR < 10
+#if PODOFO_VERSION_MINOR < 10 && PODOFO_VERSION_MAJOR < 1
   const PdfObject *const trailer = m_pPdfMemDocument->GetTrailer();
   if (!trailer->IsDictionary()) return -1;
 
@@ -464,7 +464,7 @@ int PDFVerifier::GetSignature(const PdfMemDocument *pDoc,
       pObj->GetDictionary().GetKey(PdfName("FT"));
   if (keyFTValue == 0) return -2;
 
-#if PODOFO_VERSION_MINOR < 10
+#if PODOFO_VERSION_MINOR < 10 && PODOFO_VERSION_MAJOR < 1
   string value;
   keyFTValue->ToString(value);
   if (value != "/Sig") return -3;
@@ -483,7 +483,7 @@ int PDFVerifier::GetSignature(const PdfMemDocument *pDoc,
   }
 
   PdfArray rectArray = keyRect->GetArray();
-#if PODOFO_VERSION_MINOR < 10
+#if PODOFO_VERSION_MINOR < 10 && PODOFO_VERSION_MAJOR < 1
   PdfRect rect;
 #else
   Rect rect;
@@ -492,7 +492,7 @@ int PDFVerifier::GetSignature(const PdfMemDocument *pDoc,
 
   appearanceInfo.left = rect.GetLeft();
   appearanceInfo.bottom = rect.GetBottom();
-#if PODOFO_VERSION_MINOR < 10
+#if PODOFO_VERSION_MINOR < 10 && PODOFO_VERSION_MAJOR < 1
   appearanceInfo.width = rect.GetWidth();
   appearanceInfo.heigth = rect.GetHeight();
 #else

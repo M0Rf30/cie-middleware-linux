@@ -11,13 +11,9 @@
 #define _PDFSIGNATUREGENERATOR_H_
 
 #include <podofo/podofo.h>
-#if PODOFO_VERSION_MAJOR < 1
-#if PODOFO_VERSION_MINOR < 10
+#if PODOFO_VERSION_MINOR < 10 && PODOFO_VERSION_MAJOR < 1
 #include <podofo/doc/PdfSignOutputDevice.h>
 #include <podofo/doc/PdfSignatureField.h>
-#endif
-#else
-#error PoDoFo version not supported (yet)
 #endif
 #include "Util/UUCByteArray.h"
 
@@ -56,7 +52,7 @@ class PdfSignatureGenerator {
                      const char* szDescription, const char* szGraphometricData,
                      const char* szVersion);
 
-#if PODOFO_VERSION_MINOR < 10
+#if PODOFO_VERSION_MINOR < 10 && PODOFO_VERSION_MAJOR < 1
   void GetBufferForSignature(UUCByteArray& toSign);
 
   void SetSignature(const char* signature, int len);
@@ -68,13 +64,13 @@ class PdfSignatureGenerator {
 
   const double getHeight(int pageIndex);
 
-#if PODOFO_VERSION_MINOR < 10
+#if PODOFO_VERSION_MINOR < 10 && PODOFO_VERSION_MAJOR < 1
  private:
 #endif
 
   PdfMemDocument* m_pPdfDocument;
 
-#if PODOFO_VERSION_MINOR < 10
+#if PODOFO_VERSION_MINOR < 10 && PODOFO_VERSION_MAJOR < 1
  private:
   PdfSignatureField* m_pSignatureField;
 

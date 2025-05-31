@@ -63,7 +63,7 @@ typedef struct _DISIGON_SIGN_CONTEXT {
 
 } DISIGON_SIGN_CONTEXT;
 
-#if PODOFO_VERSION_MINOR >= 10
+#if PODOFO_VERSION_MINOR >= 10 || PODOFO_VERSION_MAJOR >= 1
 class CIEPdfSigner : public PdfSigner {
  public:
   CIEPdfSigner(DISIGON_SIGN_CONTEXT* pContext) : m_pContext(pContext) {}
@@ -1714,7 +1714,7 @@ long sign_pdf(DISIGON_SIGN_CONTEXT* pContext, UUCByteArray& data) {
 
   pContext->pSignatureGenerator->SetHashAlgo(pContext->nHashAlgo);
 
-#if PODOFO_VERSION_MINOR < 10
+#if PODOFO_VERSION_MINOR < 10 && PODOFO_VERSION_MAJOR < 1
   UUCByteArray buffer;
   sigGen.GetBufferForSignature(buffer);
 
@@ -2272,7 +2272,7 @@ int get_file_type(char* szFileName) {
   return DISIGON_FILETYPE_PLAINTEXT;
 }
 
-#if PODOFO_VERSION_MINOR >= 10
+#if PODOFO_VERSION_MINOR >= 10 || PODOFO_VERSION_MAJOR >= 1
 void CIEPdfSigner::ComputeSignature(charbuff& buffer, bool dryrun) {
   if (dryrun) {
     buffer.resize(SIGNATURE_SIZE * 2);
