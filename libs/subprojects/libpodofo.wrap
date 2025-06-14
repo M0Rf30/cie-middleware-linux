@@ -1,0 +1,14 @@
+[wrap-file]
+source_url = https://github.com/podofo/podofo/archive/refs/tags/1.0.0.tar.gz
+source_filename = podofo-1.0.0.tar.gz
+source_hash = e44276d927838034b51c4c79001e7ae5c3fef90b6844824004c77f160c1a22ea
+directory = podofo-1.0.0
+method = cmake
+
+[provide]
+libpodofo = podofo_shared_dep
+
+[cmake]
+# CMake options for podofo build
+PODOFO_BUILD_LIB_ONLY=TRUE
+CMAKE_BUILD_TYPE=Release

@@ -31,12 +31,6 @@ modules:
       - type: archive
         url: https://github.com/weidai11/cryptopp/archive/refs/tags/CRYPTOPP_8_9_0.tar.gz
         sha256: ab5174b9b5c6236588e15a1aa1aaecb6658cdbe09501c7981ac8db276a24d9ab
-  - name: libpodofo
-    buildsystem: cmake-ninja
-    sources:
-      - type: archive
-        url: https://github.com/podofo/podofo/archive/refs/tags/0.10.4.tar.gz
-        sha256: 6b1b13cdfb2ba5e8bbc549df507023dd4873bc946211bc6942183b8496986904
   - name: cie-middleware-lib
     buildsystem: simple
     build-commands:
@@ -45,6 +39,7 @@ modules:
       - meson compile -C builddir
       - meson install -C builddir
       - mv /app/lib64/libcie-pkcs11.so /app/lib
+      - mv /app/lib64/libpodofo_shared.so /app/lib
       - install -Dm755 CIEID-standalone.jar /app/share/cieid/cieid.jar
       - install -Dm644 data/app.m0rf30.cieid.metainfo.xml /app/share/metainfo/app.m0rf30.cieid.metainfo.xml
       - install -Dm644 data/app.m0rf30.cieid.desktop /app/share/applications/app.m0rf30.cieid.desktop
