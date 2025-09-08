@@ -36,7 +36,7 @@ jobs:
           libssl-dev libssl3 libxml2 libxml2-dev
           pcscd pkg-config python3-pip unzip
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.x"
       - run: pip install meson ninja
