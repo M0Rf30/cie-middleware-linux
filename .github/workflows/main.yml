@@ -46,7 +46,7 @@ jobs:
       - run: meson configure -Dprefix=/usr builddir
       - run: meson compile -C builddir
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         if: failure()
         with:
           name: Linux_Meson_Testlog
