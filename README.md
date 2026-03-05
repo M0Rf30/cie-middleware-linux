@@ -24,7 +24,7 @@ autenticazione e della relativa chiave privata memorizzati sul chip della CIE.
 
 ## Componenti
 
-La [libreria](libcie-pkcs11) è sviluppata in C++ e supporta OS GNU/Linux.
+La [libreria](https://github.com/M0Rf30/opencie-pkcs11) è sviluppata in C++ e supporta OS GNU/Linux.
 
 La parte di [interfaccia grafica](cie-java) è sviluppata in Java.
 
@@ -72,37 +72,45 @@ flatpak run --user app.m0rf30.cieid
 
 Sono necessarie le seguenti librerie:
 
-- crypto++
-- curl
-- fontconfig
-- freetype2
+- libopencie-pkcs11 (la nuova libreria PKCS#11 per CIE)
 - java (>= 17)
 - jdk (>= 17) (make)
-- libpng
-- libxml2
 - meson (make)
 - ninja (make)
-- openssl
-- pcsclite
 - pkgconf (make)
-- podofo (<= 0.10.4)
 
 ### Istruzioni
 
-Da terminale, spostarsi nella root del presente repo e digitare:
+Prima installa la libreria opencie-pkcs11:
+
+```sh
+# Da sistema (se disponibile)
+sudo apt install libopencie-pkcs11-dev
+
+# Oppure compila dal sorgente
+git clone https://github.com/M0Rf30/opencie-pkcs11.git
+cd opencie-pkcs11
+meson setup builddir
+meson compile -C builddir
+sudo meson install -C builddir
+```
+
+Poi compila il middleware Java:
 
 ```sh
 cie-java/gradlew -b cie-java/build.gradle standalone
 
+# Opzionale: verifica la dipendenza opencie-pkcs11
 meson setup builddir libs
-meson configure -Dprefix=/usr builddir
 meson compile -C builddir
 ```
 
-alla fine della build saranno presenti i file:
+alla fine della build sarà presente il file:
 
-- builddir/libcie-pkcs11.so
 - cie-java/build/libs/CIEID-standalone.jar
+
+La libreria libopencie-pkcs11.so deve essere installata nel sistema
+per consentire al middleware Java di caricarla tramite JNA.
 
 ## Uso nel browser
 
@@ -126,7 +134,7 @@ sul pulsante `Tutorial`.
 Aprire un terminale e digitare:
 
 ```sh
-modutil -dbdir sql:$HOME/.pki/nssdb -add CIE -libfile /usr/lib/libcie-pkcs11.so
+modutil -dbdir sql:$HOME/.pki/nssdb -add CIE -libfile /usr/lib/libopencie-pkcs11.so
 
 # Verifica della libreria aggiunta
 modutil -dbdir sql:$HOME/.pki/nssdb -list

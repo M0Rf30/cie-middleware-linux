@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface Middleware extends Library {
-    Middleware INSTANCE = Native.load("cie-pkcs11", Middleware.class);
-    int MAX_LEN = 256;
+    Middleware INSTANCE = Native.load("opencie-pkcs11", Middleware.class);
+    int MAX_LEN = 512; // Updated to match OPENCIE_MAX_LEN
     int MAX_INFO = 20;
 
     interface ProgressCallBack extends Callback {
@@ -91,16 +91,19 @@ public interface Middleware extends Library {
         }
     }
 
-    int AbilitaCIE(
+    // Updated function name: AbilitaCIE -> cie_enable
+    int cie_enable(
             String szPAN,
             String szPIN,
             int[] attempts,
             ProgressCallBack progressCallBack,
             CompletedCallBack completedCallBack);
 
-    int VerificaCIEAbilitata(String szPAN);
+    // Updated function name: VerificaCIEAbilitata -> cie_is_enabled
+    int cie_is_enabled(String szPAN);
 
-    int firmaConCIE(
+    // Updated function name: firmaConCIE -> cie_sign
+    int cie_sign(
             String inFilePath,
             String type,
             String pin,
@@ -115,18 +118,26 @@ public interface Middleware extends Library {
             ProgressCallBack progressCallBack,
             SignCompletedCallBack completedCallBack);
 
-    int DisabilitaCIE(String szPAN);
+    // Updated function name: DisabilitaCIE -> cie_disable
+    int cie_disable(String szPAN);
 
-    int CambioPIN(
+    // Updated function name: CambioPIN -> cie_change_pin
+    int cie_change_pin(
             String currentPIN, String nuovoPIN, int[] attempts, ProgressCallBack progressCallBack);
 
-    int SbloccoPIN(String puk, String nuovoPIN, int[] attempts, ProgressCallBack progressCallBack);
+    // Updated function name: SbloccoPIN -> cie_unblock_pin
+    int cie_unblock_pin(
+            String puk, String nuovoPIN, int[] attempts, ProgressCallBack progressCallBack);
 
-    int verificaConCIE(String inFilePath, String proxyAddress, int proxyPort, String usrPass);
+    // Updated function name: verificaConCIE -> cie_verify
+    int cie_verify(String inFilePath, String proxyAddress, int proxyPort, String usrPass);
 
-    int getNumberOfSign();
+    // Updated function name: getNumberOfSign -> cie_get_sign_count
+    int cie_get_sign_count();
 
-    int getVerifyInfo(long index, verifyInfo vInfo);
+    // Updated function name: getVerifyInfo -> cie_get_verify_info
+    int cie_get_verify_info(int index, verifyInfo vInfo);
 
-    int estraiP7m(String inFilePath, String outFilePath);
+    // Updated function name: estraiP7m -> cie_extract_p7m
+    int cie_extract_p7m(String inFilePath, String outFilePath);
 }

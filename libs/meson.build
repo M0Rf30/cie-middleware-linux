@@ -1,223 +1,38 @@
-project('libcie-pkcs11', 'cpp', 'c', version: '1.5.9', license: 'MIT')
+project('cie-middleware', 'cpp', 'c', version: '2.0.0', license: 'GPL-2.0-or-later')
 
-add_project_arguments('-fPIC', language: 'cpp')
+# This project now depends on the modern opencie-pkcs11 library
+# instead of building an embedded copy of the old libcie-pkcs11
 
-cpp = meson.get_compiler('cpp')
-libdir = meson.current_source_dir() + '/lib'
+# OpenCIE PKCS#11 dependency
+# This can be:
+# 1. A system-installed package (pkg-config)
+# 2. A local build path specified via PKG_CONFIG_PATH
+# 3. Users can manually install the library system-wide
 
-crypto_dep = dependency('libcrypto')
-cryptop_dep = dependency('libcrypto++', required: false)
-cryptopp_dep = dependency('libcryptopp', required: false)
-cryptoppp_dep = dependency('cryptopp', required: false)
-pcsclite_dep = dependency('libpcsclite')
-thread_dep = dependency('threads')
+opencie_dep = dependency('opencie-pkcs11', required: false)
 
-curl_dep = dependency('libcurl')
-fontconfig_dep = dependency('fontconfig')
-freetype_dep = dependency('freetype2')
-png_dep = dependency('libpng')
-podofo_dep = dependency('libpodofo')
-libxml2_dep = dependency('libxml-2.0', required: false)
-xml2_dep = dependency('xml2', required: false)
-zlib_dep = dependency('zlib')
+if not opencie_dep.found()
+  # Try alternative names
+  opencie_dep = dependency('libopencie-pkcs11', required: false)
+endif
 
-inc_so = include_directories('pkcs11/src/.', 'shared/src/')
+if not opencie_dep.found()
+  # Don't fail the build - the Java UI can still work if the library is installed
+  message('opencie-pkcs11 not found as pkg-config dependency')
+  message('')
+  message('To use this middleware:')
+  message('1. Install opencie-pkcs11 system-wide:')
+  message('   git clone https://github.com/M0Rf30/opencie-pkcs11.git')
+  message('   cd opencie-pkcs11 && meson setup builddir && meson install -C builddir')
+  message('')
+  message('2. Or set PKG_CONFIG_PATH to point to a built opencie-pkcs11:')
+  message('   PKG_CONFIG_PATH=/path/to/opencie-pkcs11/builddir meson setup builddir libs')
+  message('')
+  message('3. The Java UI can load libopencie-pkcs11.so directly if installed system-wide')
+  
+  warning('opencie-pkcs11 not found as build dependency, but Java UI may still work if libopencie-pkcs11.so is available')
+endif
 
-inc_a = include_directories(
-    'sign-sdk/include',
-    'sign-sdk/src',
-    'shared/src/',
-)
-cie_pkcs11_sources = [
-    'shared/src/Util/log.cpp',
-    'shared/src/Util/funccallinfo.cpp',
-    'shared/src/Util/UUCTextFileReader.cpp',
-    'shared/src/Util/UUCStringTable.cpp',
-    'shared/src/Util/UUCProperties.cpp',
-    'shared/src/Util/UUCByteArray.cpp',
-    'shared/src/Util/TLV.cpp',
-    'shared/src/Util/SyncroMutex.cpp',
-    'shared/src/Util/SyncroEvent.cpp',
-    'shared/src/Util/ModuleInfo.cpp',
-    'shared/src/Util/IniSettings.cpp',
-    'shared/src/Util/CryptoppUtils.cpp',
-    'shared/src/Util/CacheLib.cpp',
-    'shared/src/Util/Array.cpp',
-    'shared/src/PCSC/Token.cpp',
-    'shared/src/PCSC/PCSC.cpp',
-    'shared/src/PCSC/CardLocker.cpp',
-    'shared/src/PCSC/APDU.cpp',
-    'shared/src/Crypto/SHA512.cpp',
-    'shared/src/Crypto/SHA256.cpp',
-    'shared/src/Crypto/SHA1.cpp',
-    'shared/src/Crypto/RSA.cpp',
-    'shared/src/Crypto/MD5.cpp',
-    'shared/src/Crypto/MAC.cpp',
-    'shared/src/Crypto/DES3.cpp',
-    'shared/src/Crypto/Base64.cpp',
-    'shared/src/Crypto/ASNParser.cpp',
-    'shared/src/Crypto/AES.cpp',
-    'shared/src/CSP/ATR.cpp',
-    'shared/src/CSP/ExtAuthKey.cpp',
-    'pkcs11/src/Util/util.cpp',
-    'pkcs11/src/Util/UtilException.cpp',
-    'pkcs11/src/Sign/CIEVerify.cpp',
-    'pkcs11/src/Sign/CIESign.cpp',
-    'pkcs11/src/PKCS11/session.cpp',
-    'pkcs11/src/PKCS11/Slot.cpp',
-    'pkcs11/src/PKCS11/PKCS11Functions.cpp',
-    'pkcs11/src/PKCS11/P11Object.cpp',
-    'pkcs11/src/PKCS11/Mechanism.cpp',
-    'pkcs11/src/PKCS11/CardTemplate.cpp',
-    'pkcs11/src/PKCS11/CardContext.cpp',
-    'pkcs11/src/PKCS11/CIEP11Template.cpp',
-    'pkcs11/src/LOGGER/Logger.cpp',
-    'pkcs11/src/CSP/VerificaConCIE.cpp',
-    'pkcs11/src/CSP/PINManager.cpp',
-    'pkcs11/src/CSP/IAS.cpp',
-    'pkcs11/src/CSP/FirmaConCIE.cpp',
-    'pkcs11/src/CSP/AbilitaCIE.cpp',
-]
-
-cie_sign_sdk_sources = [
-    'sign-sdk/src/disigonsdk.cpp',
-    'sign-sdk/src/definitions.cpp',
-    'sign-sdk/src/XAdESVerifier.cpp',
-    'sign-sdk/src/XAdESGenerator.cpp',
-    'sign-sdk/src/Util/util.cpp',
-    'sign-sdk/src/UUCTextFileWriter.cpp',
-    'sign-sdk/src/UUCTextFileReader.cpp',
-    'sign-sdk/src/UUCStringTable.cpp',
-    'sign-sdk/src/UUCProperties.cpp',
-    'sign-sdk/src/UUCLogger.cpp',
-    'sign-sdk/src/TSAClient.cpp',
-    'sign-sdk/src/SignerInfoGenerator.cpp',
-    'sign-sdk/src/SignedDocument.cpp',
-    'sign-sdk/src/SignedDataGeneratorEx.cpp',
-    'sign-sdk/src/SignatureGenerator.cpp',
-    'sign-sdk/src/PdfVerifier.cpp',
-    'sign-sdk/src/PdfSignatureGenerator.cpp',
-    'sign-sdk/src/M7MParser.cpp',
-    'sign-sdk/src/CounterSignatureGenerator.cpp',
-    'sign-sdk/src/CertStore.cpp',
-    'sign-sdk/src/CSP/IAS.cpp',
-    'sign-sdk/src/CIESigner.cpp',
-    'sign-sdk/src/CIEEngineHelper.c',
-    'sign-sdk/src/CIEEngine.c',
-    'sign-sdk/src/BigUnsignedInABase.cpp',
-    'sign-sdk/src/BigUnsigned.cpp',
-    'sign-sdk/src/BigIntegerUtils.cpp',
-    'sign-sdk/src/BigIntegerAlgorithms.cpp',
-    'sign-sdk/src/BigInteger.cpp',
-    'sign-sdk/src/Base64.cpp',
-    'sign-sdk/src/ASN1/UUCBufferedReader.cpp',
-    'sign-sdk/src/ASN1/TimeStampToken.cpp',
-    'sign-sdk/src/ASN1/TimeStampResponse.cpp',
-    'sign-sdk/src/ASN1/TimeStampRequest.cpp',
-    'sign-sdk/src/ASN1/TimeStampData.cpp',
-    'sign-sdk/src/ASN1/TSTInfo.cpp',
-    'sign-sdk/src/ASN1/SubjectPublicKeyInfo.cpp',
-    'sign-sdk/src/ASN1/SignerInfo.cpp',
-    'sign-sdk/src/ASN1/SignedData.cpp',
-    'sign-sdk/src/ASN1/RelativeDistinguishedName.cpp',
-    'sign-sdk/src/ASN1/RSAPublicKey.cpp',
-    'sign-sdk/src/ASN1/RSAPrivateKey.cpp',
-    'sign-sdk/src/ASN1/PKIStatusInfo.cpp',
-    'sign-sdk/src/ASN1/OCSPRequest.cpp',
-    'sign-sdk/src/ASN1/Name.cpp',
-    'sign-sdk/src/ASN1/IssuerAndSerialNumber.cpp',
-    'sign-sdk/src/ASN1/DigestInfo.cpp',
-    'sign-sdk/src/ASN1/Crl.cpp',
-    'sign-sdk/src/ASN1/ContentType.cpp',
-    'sign-sdk/src/ASN1/ContentInfo.cpp',
-    'sign-sdk/src/ASN1/CertificateInfo.cpp',
-    'sign-sdk/src/ASN1/Certificate.cpp',
-    'sign-sdk/src/ASN1/AlgorithmIdentifier.cpp',
-    'sign-sdk/src/ASN1/ASN1UTCTime.cpp',
-    'sign-sdk/src/ASN1/ASN1Setof.cpp',
-    'sign-sdk/src/ASN1/ASN1Sequence.cpp',
-    'sign-sdk/src/ASN1/ASN1OptionalField.cpp',
-    'sign-sdk/src/ASN1/ASN1Octetstring.cpp',
-    'sign-sdk/src/ASN1/ASN1ObjectIdentifier.cpp',
-    'sign-sdk/src/ASN1/ASN1Object.cpp',
-    'sign-sdk/src/ASN1/ASN1Null.cpp',
-    'sign-sdk/src/ASN1/ASN1Integer.cpp',
-    'sign-sdk/src/ASN1/ASN1GenericSequence.cpp',
-    'sign-sdk/src/ASN1/ASN1Boolean.cpp',
-    'sign-sdk/src/ASN1/ASN1BitString.cpp',
-    'sign-sdk//src/Util/UtilException.cpp',
-    'shared/src/Util/log.cpp',
-    'shared/src/Util/funccallinfo.cpp',
-    'shared/src/Util/UUCTextFileReader.cpp',
-    'shared/src/Util/UUCStringTable.cpp',
-    'shared/src/Util/UUCProperties.cpp',
-    'shared/src/Util/UUCByteArray.cpp',
-    'shared/src/Util/TLV.cpp',
-    'shared/src/Util/SyncroMutex.cpp',
-    'shared/src/Util/ModuleInfo.cpp',
-    'shared/src/Util/IniSettings.cpp',
-    'shared/src/Util/CryptoppUtils.cpp',
-    'shared/src/Util/CacheLib.cpp',
-    'shared/src/Util/Array.cpp',
-    'shared/src/PCSC/Token.cpp',
-    'shared/src/PCSC/PCSC.cpp',
-    'shared/src/PCSC/CardLocker.cpp',
-    'shared/src/PCSC/APDU.cpp',
-    'shared/src/Crypto/SHA512.cpp',
-    'shared/src/Crypto/SHA256.cpp',
-    'shared/src/Crypto/SHA1.cpp',
-    'shared/src/Crypto/RSA.cpp',
-    'shared/src/Crypto/MD5.cpp',
-    'shared/src/Crypto/MAC.cpp',
-    'shared/src/Crypto/DES3.cpp',
-    'shared/src/Crypto/Base64.cpp',
-    'shared/src/Crypto/ASNParser.cpp',
-    'shared/src/Crypto/AES.cpp',
-    'shared/src/CSP/ATR.cpp',
-    'shared/src/CSP/ExtAuthKey.cpp',
-]
-
-libcie_sign_sdk = static_library(
-    'cie-sign-sdk',
-    cie_sign_sdk_sources,
-    include_directories: inc_a,
-    dependencies: [
-        crypto_dep,
-        cryptop_dep,
-        cryptopp_dep,
-        cryptoppp_dep,
-        libxml2_dep,
-        pcsclite_dep,
-        thread_dep,
-        curl_dep,
-        fontconfig_dep,
-        freetype_dep,
-        png_dep,
-        podofo_dep,
-        xml2_dep,
-        zlib_dep,
-    ],
-    install: false,
-)
-
-libcie_pkcs11 = library(
-    'cie-pkcs11',
-    cie_pkcs11_sources,
-    include_directories: inc_so,
-    dependencies: [
-        crypto_dep,
-        cryptop_dep,
-        cryptopp_dep,
-        cryptoppp_dep,
-        libxml2_dep,
-        pcsclite_dep,
-        png_dep,
-        thread_dep,
-        curl_dep,
-        fontconfig_dep,
-        freetype_dep,
-        xml2_dep,
-    ],
-    link_with: libcie_sign_sdk,
-    install: true,
-)
+# Just export the dependency for now
+# The Java UI will load libopencie-pkcs11.so directly via JNA
+summary('opencie-pkcs11', opencie_dep.found() ? 'found' : 'not found (Java UI may still work)')

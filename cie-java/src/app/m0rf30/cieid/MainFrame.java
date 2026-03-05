@@ -1671,7 +1671,7 @@ public class MainFrame extends JFrame {
                                                 "Verifica con CIE - Url: %s, Port: %s, credentials: %s",
                                                 proxyAddress, proxyPort, proxyCredentials);
                                         final int ret =
-                                                Middleware.INSTANCE.verificaConCIE(
+                                                Middleware.INSTANCE.cie_verify(
                                                         filePath,
                                                         proxyAddress,
                                                         proxyPort,
@@ -1683,7 +1683,8 @@ public class MainFrame extends JFrame {
                                             verifyInfo[] vInfos = (verifyInfo[]) vInfo.toArray(ret);
 
                                             for (int i = 0; i < ret; i++) {
-                                                Middleware.INSTANCE.getVerifyInfo(i, vInfos[i]);
+                                                Middleware.INSTANCE.cie_get_verify_info(
+                                                        i, vInfos[i]);
                                                 vInfos[i].printVerifyInfo();
                                                 vTable.addDataToModel(verifyScrollPane, vInfos[i]);
                                             }
@@ -2848,7 +2849,7 @@ public class MainFrame extends JFrame {
                         if (returnVal == JFileChooser.APPROVE_OPTION) {
                             outfilePath = fileChooser.getSelectedFile().getPath();
 
-                            long ret = Middleware.INSTANCE.estraiP7m(filePath, outfilePath);
+                            long ret = Middleware.INSTANCE.cie_extract_p7m(filePath, outfilePath);
 
                             if (ret != 0) {
                                 logger.Error("Impossibile estrarre il file");
@@ -3798,7 +3799,7 @@ public class MainFrame extends JFrame {
                     };
 
             final int ret =
-                    Middleware.INSTANCE.AbilitaCIE(
+                    Middleware.INSTANCE.cie_enable(
                             null, pinfin, attempts, progressCallBack, completedCallback);
 
             if (ret == CARD_ALREADY_ENABLED) {
@@ -3930,7 +3931,7 @@ public class MainFrame extends JFrame {
                     int pageNumber = preview.getSelectedPage();
                     String pan = selectedCIE.getPan();
                     ret =
-                            Middleware.INSTANCE.firmaConCIE(
+                            Middleware.INSTANCE.cie_sign(
                                     filePath,
                                     "pdf",
                                     pinfin,
@@ -3946,7 +3947,7 @@ public class MainFrame extends JFrame {
                                     signCompletedCallBack);
                 } else {
                     ret =
-                            Middleware.INSTANCE.firmaConCIE(
+                            Middleware.INSTANCE.cie_sign(
                                     filePath,
                                     "pdf",
                                     pinfin,
@@ -3963,7 +3964,7 @@ public class MainFrame extends JFrame {
                 }
             } else {
                 ret =
-                        Middleware.INSTANCE.firmaConCIE(
+                        Middleware.INSTANCE.cie_sign(
                                 filePath,
                                 "p7m",
                                 pinfin,
@@ -4221,7 +4222,7 @@ public class MainFrame extends JFrame {
                         }
                     };
             final int ret =
-                    Middleware.INSTANCE.AbilitaCIE(
+                    Middleware.INSTANCE.cie_enable(
                             null, PIN, attempts, progressCallBack, completedCallBack);
             EventQueue.invokeLater(
                     new Runnable() {
@@ -4468,7 +4469,7 @@ public class MainFrame extends JFrame {
                     @Override
                     public void run() {
                         final int ret =
-                                Middleware.INSTANCE.CambioPIN(
+                                Middleware.INSTANCE.cie_change_pin(
                                         pin, pin1, attempts, progressCallBack);
 
                         EventQueue.invokeLater(
@@ -4701,7 +4702,7 @@ public class MainFrame extends JFrame {
                     @Override
                     public void run() {
                         final int ret =
-                                Middleware.INSTANCE.SbloccoPIN(
+                                Middleware.INSTANCE.cie_unblock_pin(
                                         puk, pin1, attempts, progressCallBack);
                         EventQueue.invokeLater(
                                 new Runnable() {
@@ -4797,7 +4798,7 @@ public class MainFrame extends JFrame {
             }
         }
 
-        int ret = Middleware.INSTANCE.DisabilitaCIE(pan);
+        int ret = Middleware.INSTANCE.cie_disable(pan);
 
         switch (ret) {
             case CKR_OK:
@@ -4865,7 +4866,7 @@ public class MainFrame extends JFrame {
         }
 
         for (int i = 0; i < cieList.size(); i++) {
-            int ret = Middleware.INSTANCE.DisabilitaCIE(cieList.get(i).getPan());
+            int ret = Middleware.INSTANCE.cie_disable(cieList.get(i).getPan());
 
             switch (ret) {
                 case CKR_OK:
