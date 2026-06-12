@@ -16,6 +16,14 @@
     </p>
 </div>
 
+> [!IMPORTANT]
+> **Questo progetto è stato sostituito.** Lo sviluppo prosegue in due nuovi repository:
+>
+> - **[OpenCIE](https://github.com/M0Rf30/opencie)** — applicazione multipiattaforma (Android, Linux, macOS, Windows) per firma digitale, verifica e gestione della CIE, che sostituisce l'interfaccia grafica Java
+> - **[opencie-pkcs11](https://github.com/M0Rf30/opencie-pkcs11)** — la libreria middleware PKCS#11 nativa, successore di `libcie-pkcs11`
+>
+> `cie-middleware-linux` è in sola manutenzione: le nuove funzionalità vengono sviluppate nei progetti indicati sopra.
+
 ## Descrizione
 
 Questa libreria software (middleware) implementa le interfacce crittografiche

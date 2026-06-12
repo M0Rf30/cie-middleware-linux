@@ -16,6 +16,14 @@
     </p>
 </div>
 
+> [!IMPORTANT]
+> **This project has been superseded.** Development continues in two new repositories:
+>
+> - **[OpenCIE](https://github.com/M0Rf30/opencie)** — cross-platform (Android, Linux, macOS, Windows) application for digital signatures, verification, and CIE management, replacing the Java GUI
+> - **[opencie-pkcs11](https://github.com/M0Rf30/opencie-pkcs11)** — the native PKCS#11 middleware library, successor of `libcie-pkcs11`
+>
+> `cie-middleware-linux` is in maintenance mode: new features are developed in the projects above.
+
 ## Description
 
 This software library (middleware) implements the standard cryptographic interfaces **PKCS#11** and **CSP**, allowing the use of the authentication certificate and its associated private key stored on the CIE chip.
